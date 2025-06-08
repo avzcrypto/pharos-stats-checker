@@ -1,19 +1,16 @@
-#!/usr/bin/env python3
 """
 Vercel API для Pharos Stats Checker
 """
 
-from flask import Flask, request, jsonify
-from flask_cors import CORS
 import requests
+from flask import Flask, request, jsonify
 
+# Создаем Flask app
 app = Flask(__name__)
-CORS(app)
 
 class PharosStatsAPI:
     def __init__(self):
         self.api_base = "https://api.pharosnetwork.xyz"
-        # Фиксированный Bearer токен
         self.bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3ODA5MTQ3NjEsImlhdCI6MTc0OTM3ODc2MSwic3ViIjoiMHgyNkIxMzVBQjFkNjg3Mjk2N0I1YjJjNTcwOWNhMkI1RERiREUxMDZGIn0.k1JtNw2w67q7lw1kFHmSXxapUS4GpBwXdZH3ByVMFfg"
         self.headers = {
             'Accept': 'application/json, text/plain, */*',
@@ -104,8 +101,7 @@ class PharosStatsAPI:
             return 10
 
     def calculate_points_for_level(self, level):
-        levels = {1: 0, 2: 1000, 3: 3000, 4: 6000, 5: 10000, 6: 15000, 7: 25000, 8: 40000, 9: 60000, 10: 90000,
-                  11: 150000}
+        levels = {1: 0, 2: 1000, 3: 3000, 4: 6000, 5: 10000, 6: 15000, 7: 25000, 8: 40000, 9: 60000, 10: 90000, 11: 150000}
         return levels.get(level, 150000)
 
 def check_wallet_stats_api(wallet_address):
@@ -144,40 +140,60 @@ def check_wallet_stats_api(wallet_address):
     except Exception as e:
         return {"error": str(e)}
 
-@app.route('/api/check-wallet', methods=['POST'])
+# Flask routes
+@app.route('/api/check-wallet', methods=['POST', 'OPTIONS'])
 def check_wallet():
-    """API endpoint для проверки статистики кошелька"""
+    # Handle CORS preflight
+    if request.method == 'OPTIONS':
+        response = jsonify({'status': 'ok'})
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+        response.headers.add('Access-Control-Allow-Methods', 'POST, OPTIONS')
+        return response
+    
     try:
+        # Add CORS headers
+        def add_cors_headers(response):
+            response.headers.add('Access-Control-Allow-Origin', '*')
+            response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+            response.headers.add('Access-Control-Allow-Methods', 'POST, OPTIONS')
+            return response
+
         data = request.get_json()
 
         if not data or 'wallet_address' not in data:
-            return jsonify({
+            response = jsonify({
                 'success': False,
                 'error': 'wallet_address is required'
-            }), 400
+            })
+            return add_cors_headers(response), 400
 
         wallet_address = data['wallet_address']
         result = check_wallet_stats_api(wallet_address)
 
         if 'error' in result:
-            return jsonify({
+            response = jsonify({
                 'success': False,
                 'error': result['error']
-            }), 400
+            })
+            return add_cors_headers(response), 400
 
-        return jsonify(result)
+        response = jsonify(result)
+        return add_cors_headers(response)
 
     except Exception as e:
-        return jsonify({
+        response = jsonify({
             'success': False,
             'error': 'Internal server error'
-        }), 500
+        })
+        return add_cors_headers(response), 500
 
-@app.route('/api/health')
+@app.route('/api/health', methods=['GET'])
 def health():
-    """Health check endpoint"""
-    return jsonify({'status': 'ok', 'message': 'Pharos Stats API is running'})
+    response = jsonify({'status': 'ok', 'message': 'Pharos Stats API is running'})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 # Vercel handler
-def handler(request, response):
-    return app(request, response)
+def handler(environ, start_response):
+    return app(environ, start_response)
