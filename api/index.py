@@ -29,9 +29,16 @@ def check_wallet():
         return '', 200
     
     try:
+        # Debug: print request info
+        print(f"Request method: {request.method}")
+        print(f"Request headers: {dict(request.headers)}")
+        print(f"Request data: {request.data}")
+        
         data = request.get_json(force=True)
+        print(f"Parsed JSON: {data}")
         
         if not data or 'wallet_address' not in data:
+            print("Missing wallet_address in request")
             return jsonify({
                 'success': False,
                 'error': 'wallet_address is required'
