@@ -1,219 +1,151 @@
-from flask import Flask, request, jsonify
-import requests
 import json
+import requests
 
-app = Flask(__name__)
-
-# Pharos API configuration
-API_BASE = "https://api.pharosnetwork.xyz"
-BEARER_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3ODA5MTQ3NjEsImlhdCI6MTc0OTM3ODc2MSwic3ViIjoiMHgyNkIxMzVBQjFkNjg3Mjk2N0I1YjJjNTcwOWNhMkI1RERiREUxMDZGIn0.k1JtNw2w67q7lw1kFHmSXxapUS4GpBwXdZH3ByVMFfg"
-
-def add_cors_headers(response):
-    """Add CORS headers to response"""
-    response.headers['Access-Control-Allow-Origin'] = '*'
-    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
-    response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
-    return response
-
-@app.after_request
-def after_request(response):
-    return add_cors_headers(response)
-
-@app.route('/api/health', methods=['GET'])
-def health():
-    return jsonify({'status': 'ok', 'message': 'Pharos Stats API is running'})
-
-@app.route('/api/check-wallet', methods=['POST', 'OPTIONS'])
-def check_wallet():
-    if request.method == 'OPTIONS':
-        return '', 200
+def handler(request):
+    """Простая Vercel функция без Flask"""
     
-    try:
-        # Debug: print request info
-        print(f"Request method: {request.method}")
-        print(f"Request headers: {dict(request.headers)}")
-        print(f"Request data: {request.data}")
-        
-        # Try different ways to parse JSON
+    print(f"=== SIMPLE HANDLER START ===")
+    print(f"Method: {request.method}")
+    print(f"URL: {request.url}")
+    
+    # CORS headers
+    headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Content-Type': 'application/json'
+    }
+    
+    # Handle OPTIONS
+    if request.method == 'OPTIONS':
+        return {
+            'statusCode': 200,
+            'headers': headers,
+            'body': json.dumps({'status': 'ok'})
+        }
+    
+    # Handle health
+    if 'health' in str(request.url):
+        return {
+            'statusCode': 200,
+            'headers': headers,
+            'body': json.dumps({'status': 'ok', 'message': 'Simple API running'})
+        }
+    
+    # Handle check-wallet
+    if request.method == 'POST':
         try:
-            data = request.get_json()
-            if not data:
-                data = request.get_json(force=True)
-        except Exception as json_error:
-            print(f"JSON parsing error: {json_error}")
-            try:
-                import json
-                data = json.loads(request.data.decode('utf-8'))
-            except Exception as fallback_error:
-                print(f"Fallback JSON parsing error: {fallback_error}")
-                return jsonify({
-                    'success': False,
-                    'error': 'Invalid JSON data'
-                }), 400
-        
-        print(f"Parsed JSON: {data}")
-        
-        if not data or 'wallet_address' not in data:
-            print("Missing wallet_address in request")
-            return jsonify({
-                'success': False,
-                'error': 'wallet_address is required'
-            }), 400
-        
-        wallet_address = data['wallet_address'].strip()
-        
-        # Validate address
-        if not validate_address(wallet_address):
-            return jsonify({
-                'success': False,
-                'error': 'Invalid wallet address format'
-            }), 400
-        
-        # Get data from Pharos API
-        result = get_pharos_data(wallet_address)
-        
-        if result.get('success'):
-            return jsonify(result)
-        else:
-            return jsonify(result), 400
+            print("Parsing request body...")
             
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': f'Internal server error: {str(e)}'
-        }), 500
+            # Parse body
+            body = request.body
+            if isinstance(body, bytes):
+                body = body.decode('utf-8')
+            
+            print(f"Body: {body}")
+            data = json.loads(body)
+            print(f"Parsed data: {data}")
+            
+            wallet_address = data.get('wallet_address', '').strip()
+            
+            # Simple validation
+            if not wallet_address.startswith('0x') or len(wallet_address) != 42:
+                return {
+                    'statusCode': 400,
+                    'headers': headers,
+                    'body': json.dumps({
+                        'success': False,
+                        'error': 'Invalid wallet address'
+                    })
+                }
+            
+            print("Calling Pharos API...")
+            result = call_pharos_api(wallet_address)
+            print(f"API result: {result}")
+            
+            return {
+                'statusCode': 200,
+                'headers': headers,
+                'body': json.dumps(result)
+            }
+            
+        except Exception as e:
+            print(f"Exception: {e}")
+            return {
+                'statusCode': 500,
+                'headers': headers,
+                'body': json.dumps({
+                    'success': False,
+                    'error': f'Server error: {str(e)}'
+                })
+            }
+    
+    return {
+        'statusCode': 404,
+        'headers': headers,
+        'body': json.dumps({'error': 'Not found'})
+    }
 
-def validate_address(address):
-    """Validate Ethereum address"""
-    if not address or len(address) != 42 or not address.startswith('0x'):
-        return False
+def call_pharos_api(wallet_address):
+    """Call Pharos API"""
     try:
-        int(address[2:], 16)
-        return True
-    except:
-        return False
-
-def get_pharos_data(wallet_address):
-    """Get data from Pharos API"""
-    try:
+        api_base = "https://api.pharosnetwork.xyz"
+        bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3ODA5MTQ3NjEsImlhdCI6MTc0OTM3ODc2MSwic3ViIjoiMHgyNkIxMzVBQjFkNjg3Mjk2N0I1YjJjNTcwOWNhMkI1RERiREUxMDZGIn0.k1JtNw2w67q7lw1kFHmSXxapUS4GpBwXdZH3ByVMFfg"
+        
         headers = {
-            'Accept': 'application/json, text/plain, */*',
-            'Authorization': f'Bearer {BEARER_TOKEN}',
+            'Accept': 'application/json',
+            'Authorization': f'Bearer {bearer_token}',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
         }
         
-        # Get profile data
+        print("Getting profile...")
         profile_response = requests.get(
-            f"{API_BASE}/user/profile",
+            f"{api_base}/user/profile",
             params={'address': wallet_address},
             headers=headers,
-            timeout=15
+            timeout=10
         )
         
-        # Get tasks data
+        print("Getting tasks...")
         tasks_response = requests.get(
-            f"{API_BASE}/user/tasks",
+            f"{api_base}/user/tasks", 
             params={'address': wallet_address},
             headers=headers,
-            timeout=15
+            timeout=10
         )
         
         if profile_response.status_code != 200:
-            return {'success': False, 'error': 'Failed to fetch profile data'}
-        
+            return {'success': False, 'error': 'Profile API failed'}
+            
         if tasks_response.status_code != 200:
-            return {'success': False, 'error': 'Failed to fetch tasks data'}
+            return {'success': False, 'error': 'Tasks API failed'}
         
         profile_data = profile_response.json()
         tasks_data = tasks_response.json()
         
-        if profile_data.get('code') != 0:
-            return {'success': False, 'error': 'Invalid profile response'}
+        # Process data
+        total_points = profile_data.get('data', {}).get('user_info', {}).get('TotalPoints', 0)
         
-        if tasks_data.get('code') != 0:
-            return {'success': False, 'error': 'Invalid tasks response'}
-        
-        # Parse data
-        user_info = profile_data.get('data', {}).get('user_info', {})
-        total_points = user_info.get('TotalPoints', 0)
-        
-        user_tasks = tasks_data.get('data', {}).get('user_tasks', [])
-        stats = parse_tasks(user_tasks)
-        
-        # Calculate level
-        current_level = calculate_level(total_points)
-        next_level = current_level + 1
-        points_for_next = calculate_points_for_level(next_level)
-        points_needed = max(0, points_for_next - total_points)
+        # Simple level calculation
+        if total_points < 1000:
+            level = 1
+        elif total_points < 3000:
+            level = 2
+        else:
+            level = 3
         
         return {
             'success': True,
             'address': wallet_address.lower(),
             'total_points': total_points,
-            'current_level': current_level,
-            'next_level': next_level,
-            'points_needed': points_needed,
-            'send_count': stats['send_count'],
-            'swap_count': stats['swap_count'],
-            'lp_count': stats['lp_count'],
-            'social_tasks': stats['social_tasks']
+            'current_level': level,
+            'next_level': level + 1,
+            'points_needed': 1000,
+            'send_count': 0,
+            'swap_count': 0,
+            'lp_count': 0,
+            'social_tasks': 0
         }
         
     except Exception as e:
-        return {'success': False, 'error': f'Error: {str(e)}'}
-
-def parse_tasks(user_tasks):
-    """Parse tasks data"""
-    stats = {'send_count': 0, 'swap_count': 0, 'lp_count': 0, 'social_tasks': 0}
-    
-    for task in user_tasks:
-        task_id = task.get('TaskId', 0)
-        complete_times = task.get('CompleteTimes', 0)
-        
-        if task_id == 103:
-            stats['send_count'] = complete_times
-        elif task_id == 101:
-            stats['swap_count'] = complete_times
-        elif task_id == 102:
-            stats['lp_count'] = complete_times
-        elif task_id in [201, 202, 203, 204]:
-            stats['social_tasks'] += 1
-    
-    return stats
-
-def calculate_level(points):
-    """Calculate level based on points"""
-    if points < 1000:
-        return 1
-    elif points < 3000:
-        return 2
-    elif points < 6000:
-        return 3
-    elif points < 10000:
-        return 4
-    elif points < 15000:
-        return 5
-    elif points < 25000:
-        return 6
-    elif points < 40000:
-        return 7
-    elif points < 60000:
-        return 8
-    elif points < 90000:
-        return 9
-    else:
-        return 10
-
-def calculate_points_for_level(level):
-    """Calculate points needed for level"""
-    levels = {
-        1: 0, 2: 1000, 3: 3000, 4: 6000, 5: 10000,
-        6: 15000, 7: 25000, 8: 40000, 9: 60000, 10: 90000, 11: 150000
-    }
-    return levels.get(level, 150000)
-
-# Vercel entry point
-if __name__ != '__main__':
-    # For Vercel
-    from werkzeug.middleware.proxy_fix import ProxyFix
-    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
+        return {'success': False, 'error': f'API error: {str(e)}'}
