@@ -34,7 +34,23 @@ def check_wallet():
         print(f"Request headers: {dict(request.headers)}")
         print(f"Request data: {request.data}")
         
-        data = request.get_json(force=True)
+        # Try different ways to parse JSON
+        try:
+            data = request.get_json()
+            if not data:
+                data = request.get_json(force=True)
+        except Exception as json_error:
+            print(f"JSON parsing error: {json_error}")
+            try:
+                import json
+                data = json.loads(request.data.decode('utf-8'))
+            except Exception as fallback_error:
+                print(f"Fallback JSON parsing error: {fallback_error}")
+                return jsonify({
+                    'success': False,
+                    'error': 'Invalid JSON data'
+                }), 400
+        
         print(f"Parsed JSON: {data}")
         
         if not data or 'wallet_address' not in data:
