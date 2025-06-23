@@ -124,6 +124,11 @@
             color: #dc2626;
         }
 
+        .member-since {
+            font-size: 0.85em;
+            color: #6b7280;
+        }
+
         .loading {
             text-align: center;
             padding: 40px;
@@ -163,8 +168,6 @@
             animation: spin 1s linear infinite;
             margin: 0 auto 20px;
         }
-
-
 
         @keyframes spin {
             0% { transform: rotate(0deg); }
@@ -220,8 +223,7 @@
                             <th>Swaps</th>
                             <th>LP</th>
                             <th>Social</th>
-                            <th>Checks</th>
-                            <th>Last Check</th>
+                            <th>Member Since</th>
                         </tr>
                     </thead>
                     <tbody id="leaderboardBody">
@@ -277,6 +279,20 @@
             return `${start}...${end}`;
         }
 
+        function formatMemberSince(dateString) {
+            if (!dateString || dateString === '0001-01-01T00:00:00Z') return 'N/A';
+            try {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                });
+            } catch {
+                return 'N/A';
+            }
+        }
+
         function displayStats(data) {
             // Update overview stats
             const statsOverview = document.getElementById('statsOverview');
@@ -311,8 +327,7 @@
                     <td>${user.swap_count}</td>
                     <td>${user.lp_count}</td>
                     <td>${user.social_tasks}/4</td>
-                    <td>${user.total_checks}</td>
-                    <td>${formatDate(user.last_check)}</td>
+                    <td class="member-since">${formatMemberSince(user.member_since)}</td>
                 </tr>
             `).join('');
 
