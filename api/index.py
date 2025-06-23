@@ -2,6 +2,19 @@ from http.server import BaseHTTPRequestHandler
 import json
 import requests
 import urllib.parse
+import os
+from datetime import datetime
+
+# Попробуем подключить Redis для Vercel KV
+try:
+    import redis
+    kv = redis.Redis.from_url(os.environ.get('KV_URL', ''))
+    STATS_ENABLED = True
+    print("Stats collection enabled")
+except:
+    kv = None
+    STATS_ENABLED = False
+    print("Stats collection disabled")
 
 class handler(BaseHTTPRequestHandler):
     def do_OPTIONS(self):
@@ -20,6 +33,19 @@ class handler(BaseHTTPRequestHandler):
             
             response = json.dumps({'status': 'ok', 'message': 'API is running'})
             self.wfile.write(response.encode())
+            
+        elif self.path == '/api/admin/stats':
+            # Админский эндпоинт для просмотра статистики
+            try:
+                if not STATS_ENABLED:
+                    self.send_error_response({'success': False, 'error': 'Stats not available'}, 503)
+                    return
+                    
+                stats_data = self.get_admin_stats()
+                self.send_success_response(stats_data)
+            except Exception as e:
+                print(f"Admin stats error: {e}")
+                self.send_error_response({'success': False, 'error': 'Failed to fetch stats'}, 500)
         else:
             self.send_response(404)
             self.end_headers()
@@ -52,6 +78,15 @@ class handler(BaseHTTPRequestHandler):
                 print(f"API result: {result}")
                 
                 if result.get('success'):
+                    # Сохраняем статистику пользователя (тихо, без прерывания работы)
+                    if STATS_ENABLED:
+                        try:
+                            self.save_user_stats(result)
+                            print(f"Stats saved for {wallet_address}")
+                        except Exception as e:
+                            print(f"Failed to save stats: {e}")
+                            # Не прерываем выполнение
+                    
                     self.send_success_response(result)
                 else:
                     self.send_error_response(result, 400)
@@ -67,6 +102,93 @@ class handler(BaseHTTPRequestHandler):
         else:
             self.send_response(404)
             self.end_headers()
+
+    def save_user_stats(self, user_data):
+        """Сохраняем статистику пользователя в Redis"""
+        try:
+            address = user_data['address'].lower()
+            timestamp = datetime.now().isoformat()
+            
+            # Данные для сохранения
+            stats = {
+                'address': address,
+                'total_points': user_data['total_points'],
+                'current_level': user_data['current_level'],
+                'send_count': user_data['send_count'],
+                'swap_count': user_data['swap_count'],
+                'lp_count': user_data['lp_count'],
+                'social_tasks': user_data['social_tasks'],
+                'last_check': timestamp,
+                'total_checks': 1
+            }
+            
+            # Проверяем, есть ли уже данные пользователя
+            existing_data = kv.hget('pharos:users', address)
+            if existing_data:
+                existing_stats = json.loads(existing_data)
+                stats['total_checks'] = existing_stats.get('total_checks', 0) + 1
+                stats['first_check'] = existing_stats.get('first_check', timestamp)
+            else:
+                stats['first_check'] = timestamp
+            
+            # Сохраняем в hash table пользователей
+            kv.hset('pharos:users', address, json.dumps(stats))
+            
+            # Обновляем sorted set для лидерборда (сортировка по поинтам)
+            kv.zadd('pharos:leaderboard', {address: user_data['total_points']})
+            
+            # Обновляем счетчик общих проверок
+            kv.incr('pharos:total_checks')
+            
+        except Exception as e:
+            print(f"Error saving stats: {e}")
+            raise
+
+    def get_admin_stats(self):
+        """Получаем статистику для админа"""
+        try:
+            # Получаем топ пользователей по поинтам
+            top_addresses = kv.zrevrange('pharos:leaderboard', 0, 99, withscores=True)
+            
+            leaderboard = []
+            for i, (address, points) in enumerate(top_addresses):
+                address_str = address.decode('utf-8')
+                user_data = kv.hget('pharos:users', address_str)
+                
+                if user_data:
+                    stats = json.loads(user_data)
+                    leaderboard.append({
+                        'rank': i + 1,
+                        'address': address_str,
+                        'total_points': int(points),
+                        'current_level': stats.get('current_level', 1),
+                        'send_count': stats.get('send_count', 0),
+                        'swap_count': stats.get('swap_count', 0),
+                        'lp_count': stats.get('lp_count', 0),
+                        'social_tasks': stats.get('social_tasks', 0),
+                        'last_check': stats.get('last_check'),
+                        'total_checks': stats.get('total_checks', 1),
+                        'first_check': stats.get('first_check')
+                    })
+            
+            # Общая статистика
+            total_users = kv.zcard('pharos:leaderboard')
+            total_checks = kv.get('pharos:total_checks')
+            
+            return {
+                'success': True,
+                'total_users': total_users,
+                'total_checks': int(total_checks) if total_checks else 0,
+                'leaderboard': leaderboard,
+                'last_updated': datetime.now().isoformat()
+            }
+            
+        except Exception as e:
+            print(f"Error getting admin stats: {e}")
+            return {
+                'success': False,
+                'error': str(e)
+            }
 
     def send_success_response(self, data):
         self.send_response(200)
