@@ -8,7 +8,7 @@ from datetime import datetime
 # Попробуем подключить Redis для Vercel KV
 try:
     import redis
-    kv = redis.Redis.from_url(os.environ.get('KV_URL', ''))
+    kv = redis.Redis.from_url(os.environ.get('REDIS_URL', ''))
     STATS_ENABLED = True
     print("Stats collection enabled")
 except:
