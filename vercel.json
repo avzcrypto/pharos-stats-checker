@@ -24,8 +24,8 @@
       "dest": "/index.html"
     },
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "src": "/(.*\\.html)",
+      "dest": "/$1"
     }
   ]
 }
