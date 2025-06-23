@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pharos Stats Admin</title>
+    <title>Pharos Stats Leaderboard</title>
     <style>
         * {
             margin: 0;
@@ -164,6 +164,8 @@
             margin: 0 auto 20px;
         }
 
+
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -183,8 +185,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📊 Pharos Stats Dashboard</h1>
-            <p>Admin view of user statistics</p>
+            <h1>📊 Pharos Testnet Leaderboard</h1>
+            <p>Top performing addresses on Pharos Network</p>
         </div>
 
         <div class="stats-overview" id="statsOverview">
@@ -193,7 +195,7 @@
 
         <div class="leaderboard-container">
             <div class="leaderboard-header">
-                <h2>User Leaderboard</h2>
+                <h2>Top Users</h2>
                 <button class="refresh-btn" id="refreshBtn" onclick="loadStats()">
                     🔄 Refresh
                 </button>
@@ -201,7 +203,7 @@
 
             <div id="loading" class="loading">
                 <div class="spinner"></div>
-                Loading statistics...
+                Loading leaderboard...
             </div>
 
             <div id="error" class="error" style="display: none;"></div>
@@ -266,6 +268,15 @@
             }
         }
 
+        function maskAddress(address) {
+            if (!address || address.length < 10) return address;
+            
+            const start = address.slice(0, 8);  // 0x + 6 символов
+            const end = address.slice(-6);      // последние 6 символов
+            
+            return `${start}...${end}`;
+        }
+
         function displayStats(data) {
             // Update overview stats
             const statsOverview = document.getElementById('statsOverview');
@@ -288,12 +299,12 @@
                 </div>
             `;
 
-            // Update leaderboard
+            // Update leaderboard with masked addresses
             const leaderboardBody = document.getElementById('leaderboardBody');
             leaderboardBody.innerHTML = data.leaderboard.map(user => `
                 <tr>
                     <td class="rank">#${user.rank}</td>
-                    <td class="address">${user.address}</td>
+                    <td class="address">${maskAddress(user.address)}</td>
                     <td class="points">${user.total_points.toLocaleString()}</td>
                     <td><span class="level-badge">L${user.current_level}</span></td>
                     <td>${user.send_count}</td>
