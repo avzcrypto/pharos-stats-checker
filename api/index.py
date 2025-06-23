@@ -118,6 +118,7 @@ class handler(BaseHTTPRequestHandler):
                 'swap_count': user_data['swap_count'],
                 'lp_count': user_data['lp_count'],
                 'social_tasks': user_data['social_tasks'],
+                'member_since': user_data.get('member_since'),
                 'last_check': timestamp,
                 'total_checks': 1
             }
@@ -128,6 +129,9 @@ class handler(BaseHTTPRequestHandler):
                 existing_stats = json.loads(existing_data)
                 stats['total_checks'] = existing_stats.get('total_checks', 0) + 1
                 stats['first_check'] = existing_stats.get('first_check', timestamp)
+                # Сохраняем существующий member_since, если он есть
+                if existing_stats.get('member_since'):
+                    stats['member_since'] = existing_stats.get('member_since')
             else:
                 stats['first_check'] = timestamp
             
@@ -166,6 +170,7 @@ class handler(BaseHTTPRequestHandler):
                         'swap_count': stats.get('swap_count', 0),
                         'lp_count': stats.get('lp_count', 0),
                         'social_tasks': stats.get('social_tasks', 0),
+                        'member_since': stats.get('member_since'),
                         'last_check': stats.get('last_check'),
                         'total_checks': stats.get('total_checks', 1),
                         'first_check': stats.get('first_check')
@@ -319,7 +324,8 @@ class handler(BaseHTTPRequestHandler):
                 'send_count': send_count,
                 'swap_count': swap_count,
                 'lp_count': lp_count,
-                'social_tasks': social_tasks
+                'social_tasks': social_tasks,
+                'member_since': user_info.get('CreateTime')
             }
             
         except Exception as e:
