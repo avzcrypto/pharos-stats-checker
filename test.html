@@ -3,19 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pharos Stats Checker</title>
+    <title>Pharos Stats Checker - Official Design</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* ОФИЦИАЛЬНЫЕ СТИЛИ PHAROS + ANIMATE.CSS */
+        /* ОФИЦИАЛЬНЫЕ СТИЛИ PHAROS NETWORK */
         
         /* Reset и базовые стили */
         a,body,footer,h1,header,html,img,li,nav,ol,span,ul{margin:0;padding:0}
         *{-webkit-tap-highlight-color:transparent;box-sizing:border-box}
-        body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;background-color:#ececec;margin:0;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;}
+        body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;background-color:#ececec;margin:0;font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;}
         
-        /* React Loading Skeleton */
+        /* React Loading Skeleton - ОФИЦИАЛЬНЫЙ */
         @keyframes react-loading-skeleton{to{transform:translateX(100%)}}.react-loading-skeleton{--base-color:#ebebeb;--highlight-color:#f5f5f5;--animation-duration:1.5s;--animation-direction:normal;--pseudo-element-display:block;background-color:var(--base-color);border-radius:.25rem;display:inline-flex;line-height:1;overflow:hidden;position:relative;-webkit-user-select:none;user-select:none;width:100%}.react-loading-skeleton:after{animation-direction:var(--animation-direction);animation-duration:var(--animation-duration);animation-iteration-count:infinite;animation-name:react-loading-skeleton;animation-timing-function:ease-in-out;background-image:linear-gradient(90deg,var(--base-color),var(--highlight-color),var(--base-color));background-repeat:no-repeat;content:" ";display:var(--pseudo-element-display);height:100%;left:0;position:absolute;right:0;top:0;transform:translateX(-100%)}@media (prefers-reduced-motion){.react-loading-skeleton{--pseudo-element-display:none}}
 
-        /* Animate.css базовые классы */
+        /* Animate.css базовые классы - ОФИЦИАЛЬНЫЕ */
         :root{--animate-duration:1s;--animate-delay:1s;--animate-repeat:1}.animate__animated{-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-duration:var(--animate-duration);animation-duration:var(--animate-duration);-webkit-animation-fill-mode:both;animation-fill-mode:both}
 
         /* Ключевые анимации */
@@ -25,49 +28,30 @@
 
         @keyframes pulse{0%{-webkit-transform:scaleX(1);transform:scaleX(1)}50%{-webkit-transform:scale3d(1.05,1.05,1.05);transform:scale3d(1.05,1.05,1.05)}to{-webkit-transform:scaleX(1);transform:scaleX(1)}}.animate__pulse{-webkit-animation-name:pulse;animation-name:pulse;-webkit-animation-timing-function:ease-in-out;animation-timing-function:ease-in-out}
 
-        @keyframes bounce{0%,20%,53%,to{-webkit-animation-timing-function:cubic-bezier(.215,.61,.355,1);animation-timing-function:cubic-bezier(.215,.61,.355,1);-webkit-transform:translateZ(0);transform:translateZ(0)}40%,43%{-webkit-animation-timing-function:cubic-bezier(.755,.05,.855,.06);animation-timing-function:cubic-bezier(.755,.05,.855,.06);-webkit-transform:translate3d(0,-30px,0) scaleY(1.1);transform:translate3d(0,-30px,0) scaleY(1.1)}70%{-webkit-animation-timing-function:cubic-bezier(.755,.05,.855,.06);animation-timing-function:cubic-bezier(.755,.05,.855,.06);-webkit-transform:translate3d(0,-15px,0) scaleY(1.05);transform:translate3d(0,-15px,0) scaleY(1.05)}80%{-webkit-transform:translateZ(0) scaleY(.95);transform:translateZ(0) scaleY(.95);-webkit-transition-timing-function:cubic-bezier(.215,.61,.355,1);transition-timing-function:cubic-bezier(.215,.61,.355,1)}90%{-webkit-transform:translate3d(0,-4px,0) scaleY(1.02);transform:translate3d(0,-4px,0) scaleY(1.02)}}.animate__bounce{-webkit-animation-name:bounce;animation-name:bounce;-webkit-transform-origin:center bottom;transform-origin:center bottom}
+        /* Официальная цветовая палитра Pharos */
+        :root {
+            --pharos-blue-500: #3b82f6;
+            --pharos-blue-600: #2563eb;
+            --pharos-blue-700: #1d4ed8;
+            --pharos-blue-800: #1e3a8a;
+            --pharos-blue-900: #1e40af;
+            --pharos-orange-500: #f97316;
+            --pharos-orange-600: #fb923c;
+            --pharos-green-500: #22c55e;
+            --pharos-green-600: #16a34a;
+            --pharos-purple-500: #a855f7;
+            --pharos-purple-600: #9333ea;
+            --pharos-gray-500: #64748b;
+            --pharos-gray-900: #1f2937;
+        }
 
-        /* Pharos официальный фон с background.webp */
+        /* Pharos официальный фон */
         body {
-            background: url('background.webp');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background: linear-gradient(135deg, var(--pharos-blue-800) 0%, var(--pharos-blue-500) 50%, var(--pharos-blue-900) 100%);
             background-attachment: fixed;
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
-        }
-
-        /* Fallback если WebP не поддерживается */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
-            background-image:
-                radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 2px, transparent 2px),
-                radial-gradient(circle at 80% 70%, rgba(255,255,255,0.1) 1px, transparent 1px);
-            z-index: -1;
-            opacity: 0; /* Показываем только если картинка не загрузилась */
-        }
-
-        /* Показываем fallback если картинка не загрузилась */
-        body:not([style*="background-image"])::before {
-            opacity: 1;
-        }
-
-        /* Background Image - удаляем тестовые стили */
-        .background-image {
-            display: none; /* Убираем дублирующий элемент */
-        }
-
-        /* Fallback background if image fails to load */
-        .fallback-bg {
-            display: none; /* Убираем дублирующий элемент */
         }
 
         /* Main container */
@@ -91,7 +75,7 @@
                 0 20px 40px rgba(0, 0, 0, 0.1),
                 0 10px 20px rgba(0, 0, 0, 0.05),
                 inset 0 1px 0 rgba(255, 255, 255, 0.5);
-            max-width: 600px;
+            max-width: 1000px;
             width: 100%;
             text-align: center;
             position: relative;
@@ -101,11 +85,11 @@
         }
 
         .title {
-            font-size: 28px;
-            font-weight: 700;
-            color: #1f2937;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--pharos-gray-900);
             margin-bottom: 8px;
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            background: linear-gradient(135deg, var(--pharos-blue-800), var(--pharos-blue-500));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -113,14 +97,21 @@
             align-items: center;
             justify-content: center;
             gap: 12px;
+            letter-spacing: -0.025em;
         }
 
         .title-icon {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+            background: linear-gradient(135deg, var(--pharos-blue-500), var(--pharos-blue-700));
+            box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
             transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
         }
 
         .title-icon:hover {
@@ -128,10 +119,11 @@
         }
 
         .subtitle {
-            color: #6b7280;
-            font-size: 15px;
+            color: var(--pharos-gray-500);
+            font-size: 16px;
             margin-bottom: 32px;
-            font-weight: 500;
+            font-weight: 600;
+            letter-spacing: 0.025em;
         }
 
         /* Input section */
@@ -142,10 +134,11 @@
         .input-label {
             display: block;
             text-align: left;
-            font-size: 14px;
-            font-weight: 600;
-            color: #374151;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--pharos-gray-900);
             margin-bottom: 8px;
+            letter-spacing: 0.025em;
         }
 
         .input-group {
@@ -154,12 +147,12 @@
             border-radius: 16px;
             overflow: hidden;
             background: white;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
 
         .input-group:focus-within {
-            border-color: #3b82f6;
+            border-color: var(--pharos-blue-500);
             box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
             transform: translateY(-1px);
         }
@@ -169,35 +162,38 @@
             padding: 18px;
             border: none;
             outline: none;
-            font-size: 14px;
-            font-family: 'SF Mono', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            color: #374151;
+            font-size: 15px;
+            font-family: 'Inter', 'SF Mono', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            color: var(--pharos-gray-900);
             width: 100%;
             background: transparent;
+            font-weight: 500;
         }
 
         .wallet-input::placeholder {
-            color: #9ca3af;
+            color: var(--pharos-gray-500);
+            font-weight: 400;
         }
 
         /* Check button с официальным стилем */
         .check-button {
             width: 100%;
             padding: 18px;
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            background: linear-gradient(135deg, var(--pharos-blue-500), var(--pharos-blue-700));
             color: white;
             border: none;
             border-radius: 16px;
             font-size: 16px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             margin-bottom: 20px;
             box-shadow: 
                 0 8px 16px rgba(59, 130, 246, 0.3),
                 0 4px 8px rgba(59, 130, 246, 0.2);
             position: relative;
             overflow: hidden;
+            letter-spacing: 0.025em;
         }
 
         .check-button::before {
@@ -234,385 +230,357 @@
         }
 
         /* Официальные карточки статистики */
-        .stats-grid-new {
+        .top-stats {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 24px;
+            gap: 24px;
+            margin-bottom: 32px;
         }
 
-        .stat-card-new {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+        .stat-card {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(30, 64, 175, 0.04));
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 24px;
+            padding: 32px;
+            text-align: center;
             border: 1px solid rgba(59, 130, 246, 0.2);
-            transition: all 0.4s ease;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(59, 130, 246, 0.15);
+        }
+
+        .stat-value {
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--pharos-blue-800);
+            margin-bottom: 8px;
+            font-family: 'Inter', 'SF Mono', monospace;
+            letter-spacing: -1.5px;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: var(--pharos-gray-500);
+            font-weight: 600;
+            letter-spacing: 0.025em;
+        }
+
+        .level-progress {
+            width: 100%;
+            height: 8px;
+            background: rgba(203, 213, 225, 0.3);
+            border-radius: 4px;
+            margin-top: 12px;
+            overflow: hidden;
+        }
+
+        .level-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--pharos-blue-500), var(--pharos-blue-800));
+            border-radius: 4px;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Заголовки секций */
+        .section-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--pharos-gray-900);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            letter-spacing: -0.025em;
+        }
+
+        .protocol-icon {
+            width: 36px;
+            height: 36px;
+            margin-right: 12px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .zenith-icon {
+            background: linear-gradient(135deg, var(--pharos-blue-500), var(--pharos-blue-700));
+        }
+
+        .faroswap-icon {
+            background: linear-gradient(135deg, var(--pharos-green-500), var(--pharos-green-600));
+        }
+
+        .nft-icon {
+            background: linear-gradient(135deg, var(--pharos-purple-500), var(--pharos-purple-600));
+        }
+
+        /* Send section */
+        .send-section {
+            margin-bottom: 28px;
+        }
+
+        .task-card-original {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.85));
+            backdrop-filter: blur(16px);
+            border-radius: 24px;
+            padding: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid rgba(249, 115, 22, 0.15);
+            box-shadow: 
+                0 10px 20px rgba(0, 0, 0, 0.08),
+                0 4px 8px rgba(249, 115, 22, 0.1);
+            min-height: 120px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
 
-        .stat-card-new::before {
+        .task-card-original::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            border-radius: 20px 20px 0 0;
+            background: linear-gradient(135deg, var(--pharos-orange-500), var(--pharos-orange-600));
+            border-radius: 24px 24px 0 0;
         }
 
-        .stat-card-new:hover {
-            transform: translateY(-4px) scale(1.02);
+        .task-card-original:hover {
+            transform: translateY(-4px) scale(1.01);
             box-shadow: 
-                0 20px 40px rgba(59, 130, 246, 0.2),
-                0 10px 20px rgba(59, 130, 246, 0.1);
-        }
-
-        .stat-header-new {
-            display: flex;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .stat-icon-new {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            margin-right: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            background: transparent;
-        }
-
-        .stat-title-new {
-            font-size: 15px;
-            font-weight: 700;
-            color: #1e3a8a;
-        }
-
-        .stat-value-new {
-            font-size: 32px;
-            font-weight: 800;
-            color: #1e3a8a;
-            margin-bottom: 6px;
-            font-family: 'SF Mono', 'Monaco', monospace;
-        }
-
-        .stat-subtitle-new {
-            font-size: 13px;
-            color: #64748b;
-            font-weight: 500;
-        }
-
-        .level-progress-new {
-            width: 100%;
-            height: 8px;
-            background: rgba(203, 213, 225, 0.4);
-            border-radius: 4px;
-            margin-top: 8px;
-            overflow: hidden;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .level-progress-bar-new {
-            height: 100%;
-            background: linear-gradient(90deg, #3b82f6, #1e3a8a);
-            border-radius: 4px;
-            transition: width 2s ease-out;
-            box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
-        }
-
-        /* Официальные секции задач */
-        .tasks-section {
-            margin-bottom: 24px;
-        }
-
-        .section-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #1f2937;
-            text-align: left;
-            margin-bottom: 12px;
-            padding-left: 4px;
-            display: flex;
-            align-items: center;
-        }
-
-        .section-subtitle {
-            font-size: 14px;
-            color: #6b7280;
-            text-align: left;
-            margin-bottom: 16px;
-            padding-left: 4px;
-            font-weight: 500;
-        }
-
-        /* Официальные карточки задач с анимациями */
-        .task-card-official {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.8));
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 24px;
-            margin-bottom: 16px;
-            box-shadow: 
-                0 8px 16px rgba(0, 0, 0, 0.08),
-                0 4px 8px rgba(0, 0, 0, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .task-card-official::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--category-color, linear-gradient(135deg, #3b82f6, #1d4ed8));
-            border-radius: 20px 20px 0 0;
-        }
-
-        .task-card-official:hover {
-            transform: translateY(-3px) scale(1.01);
-            box-shadow: 
-                0 16px 32px rgba(0, 0, 0, 0.12),
-                0 8px 16px rgba(0, 0, 0, 0.08);
-        }
-
-        /* Цветовые схемы категорий */
-        .category-onchain .task-card-official {
-            --category-color: linear-gradient(135deg, #f97316, #fb923c);
-            background: linear-gradient(135deg, rgba(249, 115, 22, 0.05), rgba(255, 255, 255, 0.95));
-            border-color: rgba(249, 115, 22, 0.2);
-        }
-
-        .category-zenith .task-card-official {
-            --category-color: linear-gradient(135deg, #3b82f6, #60a5fa);
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(255, 255, 255, 0.95));
-            border-color: rgba(59, 130, 246, 0.2);
-        }
-
-        .category-faroswap .task-card-official {
-            --category-color: linear-gradient(135deg, #22c55e, #4ade80);
-            background: linear-gradient(135deg, rgba(34, 197, 94, 0.05), rgba(255, 255, 255, 0.95));
-            border-color: rgba(34, 197, 94, 0.2);
-        }
-
-        .category-nft .task-card-official {
-            --category-color: linear-gradient(135deg, #a855f7, #c4b5fd);
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.05), rgba(255, 255, 255, 0.95));
-            border-color: rgba(168, 85, 247, 0.2);
+                0 20px 40px rgba(0, 0, 0, 0.12),
+                0 8px 16px rgba(249, 115, 22, 0.2);
         }
 
         .task-left {
             display: flex;
             align-items: center;
-            flex: 1;
         }
 
-        .task-icon-official {
-            width: 56px;
-            height: 56px;
-            border-radius: 16px;
+        .task-icon-original {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, var(--pharos-orange-500), var(--pharos-orange-600));
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            margin-right: 20px;
-            flex-shrink: 0;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-            transition: transform 0.3s ease;
-        }
-
-        .task-card-official:hover .task-icon-official {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        .protocol-icon {
-            border-radius: 12px !important;
-        }
-
-        .task-info {
-            flex: 1;
-        }
-
-        .task-name {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 4px;
-        }
-
-        .task-right {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        /* Обновленные счетчики с официальным стилем */
-        .task-count {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9));
+            font-size: 32px;
+            margin-right: 24px;
             color: white;
-            padding: 16px 24px;
-            border-radius: 16px;
-            font-size: 24px;
-            font-weight: 800;
+            box-shadow: 0 8px 16px rgba(249, 115, 22, 0.3);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .task-card-original:hover .task-icon-original {
+            transform: scale(1.05) rotate(-2deg);
+        }
+
+        .task-name-original {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--pharos-gray-900);
+            letter-spacing: -0.025em;
+        }
+
+        .task-count-original {
+            background: linear-gradient(135deg, var(--pharos-orange-500), var(--pharos-orange-600));
+            color: white;
+            padding: 18px 28px;
+            border-radius: 18px;
+            font-size: 32px;
+            font-weight: 900;
             min-width: 90px;
             text-align: center;
-            font-family: 'SF Mono', 'Monaco', 'Menlo', monospace;
-            letter-spacing: -0.5px;
-            box-shadow: 
-                0 8px 16px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
+            font-family: 'Inter', 'SF Mono', monospace;
+            box-shadow: 0 8px 16px rgba(249, 115, 22, 0.4);
+            letter-spacing: -1px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .task-card-official:hover .task-count {
+        .task-card-original:hover .task-count-original {
             transform: scale(1.05);
         }
 
-        /* Цветные счетчики по категориям */
-        .category-onchain .task-count {
-            background: linear-gradient(135deg, #f97316, #fb923c);
-            box-shadow: 0 8px 16px rgba(249, 115, 22, 0.4);
+        /* Protocol sections */
+        .protocol-section {
+            margin-bottom: 32px;
         }
 
-        .category-zenith .task-count {
-            background: linear-gradient(135deg, #3b82f6, #60a5fa);
-            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.4);
+        .protocol-blocks {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
         }
 
-        .category-faroswap .task-count {
-            background: linear-gradient(135deg, #22c55e, #4ade80);
-            box-shadow: 0 8px 16px rgba(34, 197, 94, 0.4);
+        /* Официальные блоки протоколов */
+        .task-block {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.88));
+            backdrop-filter: blur(16px);
+            border-radius: 24px;
+            padding: 32px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            box-shadow: 
+                0 8px 16px rgba(0, 0, 0, 0.06),
+                0 4px 8px rgba(0, 0, 0, 0.04);
         }
 
-        .category-nft .task-count {
-            background: linear-gradient(135deg, #a855f7, #c4b5fd);
-            box-shadow: 0 8px 16px rgba(168, 85, 247, 0.4);
+        .task-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--block-color, var(--pharos-blue-500));
+            border-radius: 24px 24px 0 0;
         }
 
-        /* Иконки с реальными изображениями */
-        .icon-send { 
-            background: linear-gradient(135deg, rgba(249, 115, 22, 0.9), rgba(251, 146, 60, 0.8)), url('./send.png');
-            background-size: auto, 60%;
-            background-position: center, center;
-            background-repeat: no-repeat, no-repeat;
-            border-radius: 16px;
-        }
-        
-        .icon-zenith-swap { 
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(96, 165, 250, 0.8)), url('./swap.png');
-            background-size: auto, 60%;
-            background-position: center, center;
-            background-repeat: no-repeat, no-repeat;
-            border-radius: 12px;
-        }
-        .icon-zenith-lp { 
-            background: linear-gradient(135deg, rgba(30, 58, 138, 0.9), rgba(37, 99, 235, 0.8)), url('./lp.png');
-            background-size: auto, 60%;
-            background-position: center, center;
-            background-repeat: no-repeat, no-repeat;
-            border-radius: 12px;
-        }
-        
-        .icon-faroswap-swap { 
-            background: linear-gradient(135deg, rgba(21, 128, 61, 0.9), rgba(34, 197, 94, 0.8)), url('./swap.png');
-            background-size: auto, 60%;
-            background-position: center, center;
-            background-repeat: no-repeat, no-repeat;
-            border-radius: 12px;
-        }
-        .icon-faroswap-lp { 
-            background: linear-gradient(135deg, rgba(22, 101, 52, 0.9), rgba(22, 163, 74, 0.8)), url('./lp.png');
-            background-size: auto, 60%;
-            background-position: center, center;
-            background-repeat: no-repeat, no-repeat;
-            border-radius: 12px;
-        }
-        
-        .icon-domain { 
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.9), rgba(168, 85, 247, 0.8)), url('./domain.png');
-            background-size: auto, 60%;
-            background-position: center, center;
-            background-repeat: no-repeat, no-repeat;
-            border-radius: 12px;
-        }
-        .icon-nft { 
-            background: linear-gradient(135deg, rgba(147, 51, 234, 0.9), rgba(192, 132, 252, 0.8)), url('./nft.jpg');
-            background-size: auto, 60%;
-            background-position: center, center;
-            background-repeat: no-repeat, no-repeat;
-            border-radius: 12px;
+        .task-block:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.1),
+                0 8px 16px rgba(0, 0, 0, 0.08);
         }
 
-        /* Иконки для заголовков */
-        .protocol-header-icon {
+        .task-icon-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--block-color, var(--pharos-blue-500));
+            color: white;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .task-block:hover .task-icon-large {
+            transform: scale(1.1) rotate(-3deg);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+        }
+
+        .main-symbol {
+            font-size: 32px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .protocol-badge {
+            position: absolute;
+            bottom: -4px;
+            right: -4px;
             width: 28px;
             height: 28px;
-            display: inline-block;
-            margin-right: 12px;
-            vertical-align: middle;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
+            background: rgba(255, 255, 255, 0.98);
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border: 2px solid var(--block-color, var(--pharos-blue-500));
         }
 
-        .zenith-protocol-icon {
-            background-image: url('./zenith.png');
+        .task-content {
+            flex: 1;
+            text-align: left;
         }
 
-        .faroswap-protocol-icon {
-            background-image: url('./faroswap.png');
+        .task-count-large {
+            font-size: 44px;
+            font-weight: 900;
+            color: var(--pharos-gray-900);
+            margin-bottom: 6px;
+            font-family: 'Inter', 'SF Mono', monospace;
+            line-height: 0.9;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            letter-spacing: -1.5px;
         }
 
-        /* Social card с официальным стилем */
-        .social-card-new {
-            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05));
+        .task-name-large {
+            font-size: 18px;
+            color: var(--block-color, var(--pharos-blue-500));
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.025em;
+        }
+
+        /* Цветовые темы */
+        .block-zenith { --block-color: var(--pharos-blue-500); }
+        .block-faroswap { --block-color: var(--pharos-green-500); }
+        .block-nft { --block-color: var(--pharos-purple-500); }
+
+        /* Protocol Badge Icons */
+        .zenith-badge::before {
+            content: '⚡';
+            color: var(--pharos-blue-500);
+        }
+
+        .faroswap-badge::before {
+            content: '🌱';
+            color: var(--pharos-green-500);
+        }
+
+        .nft-badge::before {
+            content: '💎';
+            color: var(--pharos-purple-500);
+        }
+
+        /* Social section */
+        .social-section {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), rgba(22, 163, 74, 0.04));
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 20px;
+            padding: 24px;
             text-align: center;
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            box-shadow: 0 8px 16px rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            box-shadow: 0 8px 16px rgba(34, 197, 94, 0.08);
+            margin-bottom: 24px;
         }
 
-        .social-badge-new {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
+        .social-badge {
+            background: linear-gradient(135deg, var(--pharos-green-500), var(--pharos-green-600));
             color: white;
-            padding: 12px 20px;
-            border-radius: 30px;
-            font-size: 16px;
+            padding: 16px 32px;
+            border-radius: 24px;
+            font-size: 18px;
             font-weight: 700;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            box-shadow: 0 6px 12px rgba(34, 197, 94, 0.3);
+            gap: 12px;
+            letter-spacing: -0.025em;
+            box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Results section */
-        .results {
-            margin-top: 20px;
-            display: none;
+        .social-badge:hover {
+            transform: translateY(-2px) scale(1.02);
         }
 
-        .results.show {
-            display: block;
-        }
-
-        /* Официальные loading состояния */
+        /* Loading и Error состояния */
         .loading {
             display: none;
             text-align: center;
@@ -627,7 +595,7 @@
             width: 50px;
             height: 50px;
             border: 4px solid rgba(59, 130, 246, 0.2);
-            border-top: 4px solid #3b82f6;
+            border-top: 4px solid var(--pharos-blue-500);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin: 0 auto 20px;
@@ -640,12 +608,11 @@
         }
 
         .loading-text {
-            color: #6b7280;
+            color: var(--pharos-gray-500);
             font-size: 16px;
             font-weight: 600;
         }
 
-        /* Error states */
         .error {
             background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(248, 113, 113, 0.05));
             color: #dc2626;
@@ -661,6 +628,15 @@
             display: block;
         }
 
+        .results {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
         /* Author footer */
         .author-footer {
             margin-top: 32px;
@@ -670,7 +646,7 @@
         }
 
         .author-link {
-            color: #3b82f6;
+            color: var(--pharos-blue-500);
             text-decoration: none;
             font-size: 14px;
             font-weight: 600;
@@ -681,12 +657,63 @@
         }
 
         .author-link:hover {
-            color: #1d4ed8;
+            color: var(--pharos-blue-700);
             background: rgba(59, 130, 246, 0.1);
             transform: translateY(-1px);
         }
 
-        /* Loading skeleton стили */
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .stats-card {
+                padding: 24px;
+                margin: 16px;
+                max-height: 95vh;
+                border-radius: 20px;
+            }
+
+            .title {
+                font-size: 26px;
+            }
+
+            .top-stats {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .protocol-blocks {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .task-block {
+                padding: 24px;
+                min-height: 100px;
+                gap: 20px;
+            }
+
+            .task-icon-large {
+                width: 64px;
+                height: 64px;
+            }
+
+            .main-symbol {
+                font-size: 26px;
+            }
+
+            .task-count-large {
+                font-size: 36px;
+            }
+
+            .stat-value {
+                font-size: 40px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+        }
+
+        /* Skeleton loading */
         .skeleton-card {
             background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
             background-size: 200% 100%;
@@ -699,45 +726,6 @@
         @keyframes loading {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
-        }
-
-        /* Mobile responsiveness */
-        @media (max-width: 768px) {
-            .stats-card {
-                padding: 24px;
-                margin: 16px;
-                max-height: 95vh;
-                border-radius: 20px;
-            }
-
-            .title {
-                font-size: 24px;
-            }
-
-            .task-count {
-                font-size: 20px;
-                min-width: 70px;
-                padding: 12px 18px;
-            }
-
-            .task-icon-official {
-                width: 48px;
-                height: 48px;
-                font-size: 20px;
-            }
-
-            .stats-grid-new {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-
-            .stat-value-new {
-                font-size: 28px;
-            }
-
-            .background-image {
-                background-attachment: scroll; /* Better performance on mobile */
-            }
         }
 
         /* Анимации появления */
@@ -767,7 +755,8 @@
     <div class="container">
         <div class="stats-card animate__animated animate__fadeIn">
             <h1 class="title">
-                <img src="./logo.png" alt="Pharos" class="title-icon"> Pharos Stats Checker
+                <div class="title-icon">⚡</div>
+                Pharos Stats Checker
             </h1>
             <p class="subtitle">Check your Pharos testnet statistics and progress</p>
 
@@ -788,278 +777,234 @@
                 Check Statistics
             </button>
 
-            <!-- Loading State with Official Style -->
+            <!-- Loading State -->
             <div class="loading" id="loading">
                 <div class="spinner animate__animated animate__pulse"></div>
                 <p class="loading-text">Fetching wallet statistics...</p>
             </div>
 
-            <!-- Error Message -->
+            <!-- Error State -->
             <div class="error" id="error"></div>
 
-            <!-- Results -->
-            <div class="results" id="results"></div>
+            <!-- Results Section -->
+            <div class="results" id="results">
+                <!-- Top Stats -->
+                <div class="top-stats animate__animated animate__fadeInUp animate-on-show">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalPoints">0</div>
+                        <div class="stat-label">Total Points</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="currentLevel">1</div>
+                        <div class="stat-label">Current Level</div>
+                        <div class="level-progress">
+                            <div class="level-progress-bar" id="levelProgress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
 
-            <!-- Author Footer -->
+                <!-- Send Section -->
+                <div class="send-section animate__animated animate__fadeInUp animate-on-show">
+                    <div class="task-card-original">
+                        <div class="task-left">
+                            <div class="task-icon-original">📤</div>
+                            <div class="task-name-original">Send PHRS</div>
+                        </div>
+                        <div class="task-count-original" id="sendCount">0</div>
+                    </div>
+                </div>
+
+                <!-- Zenith Protocol Section -->
+                <div class="protocol-section animate__animated animate__fadeInUp animate-on-show">
+                    <h3 class="section-title">
+                        <div class="protocol-icon zenith-icon"></div>
+                        Zenith Protocol
+                    </h3>
+                    <div class="protocol-blocks">
+                        <div class="task-block block-zenith">
+                            <div class="task-icon-large">
+                                <div class="main-symbol">🔄</div>
+                                <div class="protocol-badge zenith-badge"></div>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-count-large" id="zenithSwaps">0</div>
+                                <div class="task-name-large">Zenith Swaps</div>
+                            </div>
+                        </div>
+                        <div class="task-block block-zenith">
+                            <div class="task-icon-large">
+                                <div class="main-symbol">💧</div>
+                                <div class="protocol-badge zenith-badge"></div>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-count-large" id="zenithLP">0</div>
+                                <div class="task-name-large">Zenith LP</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Faroswap Protocol Section -->
+                <div class="protocol-section animate__animated animate__fadeInUp animate-on-show">
+                    <h3 class="section-title">
+                        <div class="protocol-icon faroswap-icon"></div>
+                        Faroswap Protocol
+                    </h3>
+                    <div class="protocol-blocks">
+                        <div class="task-block block-faroswap">
+                            <div class="task-icon-large">
+                                <div class="main-symbol">🔄</div>
+                                <div class="protocol-badge faroswap-badge"></div>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-count-large" id="faroswapSwaps">0</div>
+                                <div class="task-name-large">Faroswap Swaps</div>
+                            </div>
+                        </div>
+                        <div class="task-block block-faroswap">
+                            <div class="task-icon-large">
+                                <div class="main-symbol">💧</div>
+                                <div class="protocol-badge faroswap-badge"></div>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-count-large" id="faroswapLP">0</div>
+                                <div class="task-name-large">Faroswap LP</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NFT & Domain Section -->
+                <div class="protocol-section animate__animated animate__fadeInUp animate-on-show">
+                    <h3 class="section-title">
+                        <div class="protocol-icon nft-icon"></div>
+                        NFT & Domains
+                    </h3>
+                    <div class="protocol-blocks">
+                        <div class="task-block block-nft">
+                            <div class="task-icon-large">
+                                <div class="main-symbol">🌐</div>
+                                <div class="protocol-badge nft-badge"></div>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-count-large" id="mintDomain">0</div>
+                                <div class="task-name-large">Mint Domain</div>
+                            </div>
+                        </div>
+                        <div class="task-block block-nft">
+                            <div class="task-icon-large">
+                                <div class="main-symbol">🎨</div>
+                                <div class="protocol-badge nft-badge"></div>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-count-large" id="mintNFT">0</div>
+                                <div class="task-name-large">Mint NFT</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Tasks Section -->
+                <div class="social-section animate__animated animate__fadeInUp animate-on-show">
+                    <div class="social-badge">
+                        <span>🐦</span>
+                        <span id="socialTasksText">Social Tasks: 0/4</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
             <div class="author-footer">
-                <a href="https://x.com/avzcrypto" target="_blank" class="author-link">
-                    Made by @avzcrypto
+                <a href="https://t.me/bladeofgod" target="_blank" class="author-link">
+                    Created by @bladeofgod
                 </a>
             </div>
         </div>
     </div>
 
     <script>
-        // Main functionality
+        // API Configuration
+        const API_BASE = 'https://pharos-stats-api.vercel.app';
+
+        // DOM Elements
         const walletInput = document.getElementById('walletAddress');
         const checkButton = document.getElementById('checkButton');
         const loading = document.getElementById('loading');
         const error = document.getElementById('error');
         const results = document.getElementById('results');
 
-        // Validate Ethereum address
+        // Result Elements
+        const totalPoints = document.getElementById('totalPoints');
+        const currentLevel = document.getElementById('currentLevel');
+        const levelProgress = document.getElementById('levelProgress');
+        const sendCount = document.getElementById('sendCount');
+        const zenithSwaps = document.getElementById('zenithSwaps');
+        const zenithLP = document.getElementById('zenithLP');
+        const faroswapSwaps = document.getElementById('faroswapSwaps');
+        const faroswapLP = document.getElementById('faroswapLP');
+        const mintDomain = document.getElementById('mintDomain');
+        const mintNFT = document.getElementById('mintNFT');
+        const socialTasksText = document.getElementById('socialTasksText');
+
+        // Utility Functions
         function isValidAddress(address) {
             return /^0x[a-fA-F0-9]{40}$/.test(address);
         }
 
-        // Show error message
+        function formatNumber(num) {
+            return new Intl.NumberFormat('en-US').format(num);
+        }
+
         function showError(message) {
             error.textContent = message;
             error.classList.add('show');
-            error.classList.add('animate__animated', 'animate__fadeIn');
-            results.classList.remove('show');
             loading.classList.remove('show');
+            results.classList.remove('show');
         }
 
-        // Hide error message
         function hideError() {
             error.classList.remove('show');
-            error.classList.remove('animate__animated', 'animate__fadeIn');
         }
 
-        // Show loading state
         function showLoading() {
             loading.classList.add('show');
-            loading.classList.add('animate__animated', 'animate__fadeIn');
             results.classList.remove('show');
             hideError();
             checkButton.disabled = true;
             checkButton.textContent = 'Checking...';
         }
 
-        // Hide loading state
         function hideLoading() {
             loading.classList.remove('show');
-            loading.classList.remove('animate__animated', 'animate__fadeIn');
             checkButton.disabled = false;
             checkButton.textContent = 'Check Statistics';
         }
 
-        // Show skeleton loading for cards
-        function showSkeletonLoading() {
-            results.innerHTML = `
-                <div class="skeleton-card animate__animated animate__pulse"></div>
-                <div class="skeleton-card animate__animated animate__pulse" style="animation-delay: 0.1s;"></div>
-                <div class="skeleton-card animate__animated animate__pulse" style="animation-delay: 0.2s;"></div>
-                <div class="skeleton-card animate__animated animate__pulse" style="animation-delay: 0.3s;"></div>
-            `;
-            results.classList.add('show');
+        function updateLevelProgress(current, total) {
+            const percentage = total > 0 ? (current / total) * 100 : 0;
+            levelProgress.style.width = `${Math.min(percentage, 100)}%`;
         }
 
-        // Display results with official Pharos animations
-        function displayResults(data) {
-            const resultsContainer = document.getElementById('results');
+        function animateValue(element, start, end, duration = 1000) {
+            const startTime = performance.now();
+            const range = end - start;
 
-            // Calculate progress percentage
-            const progressPercent = Math.max(0, Math.min(100,
-                ((data.total_points - calculatePointsForLevel(data.current_level)) /
-                (data.points_needed + (data.total_points - calculatePointsForLevel(data.current_level)))) * 100
-            ));
-
-            resultsContainer.innerHTML = `
-                <div class="stats-grid-new">
-                    <div class="stat-card-new animate__animated animate__fadeInUp animate-on-show">
-                        <div class="stat-header-new">
-                            <div class="stat-icon-new">💰</div>
-                            <div>
-                                <div class="stat-title-new">Total Points</div>
-                            </div>
-                        </div>
-                        <div class="stat-value-new">${data.total_points.toLocaleString()}</div>
-                        <div class="stat-subtitle-new">Keep earning more points!</div>
-                    </div>
-
-                    <div class="stat-card-new animate__animated animate__fadeInUp animate-on-show">
-                        <div class="stat-header-new">
-                            <div class="stat-icon-new">📊</div>
-                            <div>
-                                <div class="stat-title-new">Current Level</div>
-                            </div>
-                        </div>
-                        <div class="stat-value-new">Level ${data.current_level}</div>
-                        <div class="stat-subtitle-new">${data.points_needed.toLocaleString()} points to Level ${data.next_level}</div>
-                        <div class="level-progress-new">
-                            <div class="level-progress-bar-new" style="width: ${progressPercent}%"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tasks-section category-onchain">
-                    <div class="section-title">🚀 Onchain Tasks</div>
-                    <div class="section-subtitle">Complete onchain tasks and experience Pharos firsthand.</div>
-                    
-                    <div class="task-card-official animate__animated animate__fadeInUp animate-on-show">
-                        <div class="task-left">
-                            <div class="task-icon-official icon-send"></div>
-                            <div class="task-info">
-                                <div class="task-name">Send To Friends</div>
-                            </div>
-                        </div>
-                        <div class="task-right">
-                            <div class="task-count">${data.send_count}</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tasks-section category-zenith">
-                    <div class="section-title">
-                        <span class="protocol-header-icon zenith-protocol-icon"></span>Zenith Protocol
-                    </div>
-                    
-                    <div class="task-card-official animate__animated animate__fadeInUp animate-on-show">
-                        <div class="task-left">
-                            <div class="task-icon-official icon-zenith-swap protocol-icon"></div>
-                            <div class="task-info">
-                                <div class="task-name">Zenith Swaps</div>
-                            </div>
-                        </div>
-                        <div class="task-right">
-                            <div class="task-count">${data.zenith_swaps || data.swap_count || 0}</div>
-                        </div>
-                    </div>
-
-                    <div class="task-card-official animate__animated animate__fadeInUp animate-on-show">
-                        <div class="task-left">
-                            <div class="task-icon-official icon-zenith-lp protocol-icon"></div>
-                            <div class="task-info">
-                                <div class="task-name">Zenith LP</div>
-                            </div>
-                        </div>
-                        <div class="task-right">
-                            <div class="task-count">${data.zenith_lp || data.lp_count || 0}</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tasks-section category-faroswap">
-                    <div class="section-title">
-                        <span class="protocol-header-icon faroswap-protocol-icon"></span>Faroswap Protocol
-                    </div>
-                    
-                    <div class="task-card-official animate__animated animate__fadeInUp animate-on-show">
-                        <div class="task-left">
-                            <div class="task-icon-official icon-faroswap-swap protocol-icon"></div>
-                            <div class="task-info">
-                                <div class="task-name">Faroswap Swaps</div>
-                            </div>
-                        </div>
-                        <div class="task-right">
-                            <div class="task-count">${data.faroswap_swaps || 0}</div>
-                        </div>
-                    </div>
-
-                    <div class="task-card-official animate__animated animate__fadeInUp animate-on-show">
-                        <div class="task-left">
-                            <div class="task-icon-official icon-faroswap-lp protocol-icon"></div>
-                            <div class="task-info">
-                                <div class="task-name">Faroswap LP</div>
-                            </div>
-                        </div>
-                        <div class="task-right">
-                            <div class="task-count">${data.faroswap_lp || 0}</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tasks-section category-nft">
-                    <div class="section-title">🎨 NFT & Domains</div>
-                    
-                    <div class="task-card-official animate__animated animate__fadeInUp animate-on-show">
-                        <div class="task-left">
-                            <div class="task-icon-official icon-domain protocol-icon"></div>
-                            <div class="task-info">
-                                <div class="task-name">Mint Domains</div>
-                            </div>
-                        </div>
-                        <div class="task-right">
-                            <div class="task-count">${data.mint_domain || 0}</div>
-                        </div>
-                    </div>
-
-                    <div class="task-card-official animate__animated animate__fadeInUp animate-on-show">
-                        <div class="task-left">
-                            <div class="task-icon-official icon-nft protocol-icon"></div>
-                            <div class="task-info">
-                                <div class="task-name">Collect NFTs</div>
-                            </div>
-                        </div>
-                        <div class="task-right">
-                            <div class="task-count">${data.mint_nft || 0}</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="social-card-new animate__animated animate__fadeInUp animate-on-show">
-                    <div class="social-badge-new">
-                        ${data.social_tasks === 4 ? '🎉' : '🐦'} Social Tasks: ${data.social_tasks}/4
-                        ${data.social_tasks === 4 ? ' - Complete!' : ''}
-                    </div>
-                </div>
-            `;
-
-            results.classList.add('show');
-            hideLoading();
-        }
-
-        // Helper function for level points calculation
-        function calculatePointsForLevel(level) {
-            const levels = {1: 0, 2: 1000, 3: 3000, 4: 6000, 5: 10000, 6: 15000, 7: 25000, 8: 40000, 9: 60000, 10: 90000};
-            return levels[level] || 0;
-        }
-
-        // API call to Python backend
-        async function checkWalletStats(address) {
-            try {
-                console.log('Sending request for address:', address);
-
-                const response = await fetch('/api/check-wallet', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        wallet_address: address.trim()
-                    })
-                });
-
-                console.log('Response status:', response.status);
-
-                const data = await response.json();
-                console.log('Response data:', data);
-
-                if (!response.ok) {
-                    throw new Error(data.error || `HTTP error! status: ${response.status}`);
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                const current = start + (range * progress);
+                element.textContent = formatNumber(Math.floor(current));
+                
+                if (progress < 1) {
+                    requestAnimationFrame(update);
                 }
-
-                return data;
-            } catch (error) {
-                console.error('API Error:', error);
-                throw error;
             }
+            
+            requestAnimationFrame(update);
         }
 
-        // Handle check button click with enhanced animations
-        checkButton.addEventListener('click', async () => {
+        async function checkWalletStats() {
             const address = walletInput.value.trim();
 
             if (!address) {
@@ -1068,57 +1013,102 @@
             }
 
             if (!isValidAddress(address)) {
-                showError('Invalid wallet address format');
+                showError('Please enter a valid Ethereum address');
                 return;
             }
 
             showLoading();
-            
-            // Show skeleton loading after 500ms if still loading
-            const skeletonTimeout = setTimeout(() => {
-                if (loading.classList.contains('show')) {
-                    showSkeletonLoading();
-                    hideLoading();
-                }
-            }, 500);
 
             try {
-                const data = await checkWalletStats(address);
-                clearTimeout(skeletonTimeout);
+                const response = await fetch(`${API_BASE}/api/check-wallet`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        wallet_address: address
+                    })
+                });
 
-                if (data.success) {
-                    // Small delay to show smooth transition
-                    setTimeout(() => {
-                        displayResults(data);
-                    }, 200);
-                } else {
-                    showError(data.error || 'Unable to fetch wallet data');
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || `HTTP error! status: ${response.status}`);
                 }
+
+                if (!data.success) {
+                    throw new Error(data.error || 'Failed to fetch wallet statistics');
+                }
+
+                // Update UI with data
+                displayResults(data);
+
             } catch (err) {
-                clearTimeout(skeletonTimeout);
-                showError('Network error. Please try again.');
+                console.error('Error:', err);
+                showError(err.message || 'Failed to fetch wallet statistics. Please try again.');
+            } finally {
                 hideLoading();
             }
-        });
+        }
 
-        // Handle Enter key in input
+        function displayResults(data) {
+            hideError();
+
+            // Animate numbers
+            animateValue(totalPoints, 0, data.total_points);
+            animateValue(currentLevel, 1, data.current_level);
+            animateValue(sendCount, 0, data.send_count);
+            animateValue(zenithSwaps, 0, data.zenith_swaps);
+            animateValue(zenithLP, 0, data.zenith_lp);
+            animateValue(faroswapSwaps, 0, data.faroswap_swaps);
+            animateValue(faroswapLP, 0, data.faroswap_lp);
+            animateValue(mintDomain, 0, data.mint_domain);
+            animateValue(mintNFT, 0, data.mint_nft);
+
+            // Update social tasks
+            socialTasksText.textContent = `Social Tasks: ${data.social_tasks}/4`;
+
+            // Calculate level progress
+            const levels = {
+                1: 0, 2: 1000, 3: 3000, 4: 6000, 5: 10000,
+                6: 15000, 7: 25000, 8: 40000, 9: 60000, 10: 90000, 11: 150000
+            };
+            
+            const currentLevelPoints = levels[data.current_level] || 0;
+            const nextLevelPoints = levels[data.next_level] || 150000;
+            const progressInLevel = data.total_points - currentLevelPoints;
+            const pointsForLevel = nextLevelPoints - currentLevelPoints;
+            
+            setTimeout(() => {
+                updateLevelProgress(progressInLevel, pointsForLevel);
+            }, 500);
+
+            // Show results with animation
+            results.classList.add('show');
+            
+            // Trigger animations for result cards
+            const animatedElements = results.querySelectorAll('.animate-on-show');
+            animatedElements.forEach((el, index) => {
+                el.style.animationDelay = `${(index + 1) * 0.1}s`;
+                el.classList.add('animate__fadeInUp');
+            });
+        }
+
+        // Event Listeners
+        checkButton.addEventListener('click', checkWalletStats);
+
         walletInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
-                checkButton.click();
+                checkWalletStats();
             }
         });
 
-        // Clear error when typing
-        walletInput.addEventListener('input', hideError);
-
-        // Add focus animations
-        walletInput.addEventListener('focus', () => {
-            walletInput.parentElement.style.transform = 'translateY(-1px)';
+        walletInput.addEventListener('input', () => {
+            hideError();
         });
 
-        walletInput.addEventListener('blur', () => {
-            walletInput.parentElement.style.transform = 'translateY(0)';
-        });
+        // Auto-focus input
+        walletInput.focus();
     </script>
 </body>
 </html>
