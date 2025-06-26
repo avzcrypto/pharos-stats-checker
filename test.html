@@ -1,4 +1,12 @@
-<!DOCTYPE html>
+.task-icon-original {
+                width: 64px;
+            }            .task-left {
+                gap: 20px;
+            }
+
+            .task-block {
+                gap: 20px;
+            }<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -174,19 +182,19 @@
         .check-button {
             width: 100%;
             padding: 18px;
-            background: linear-gradient(135deg, var(--pharos-blue-500), var(--pharos-blue-700));
+            background: rgb(0, 7, 185);
             color: white;
             border: none;
             border-radius: 16px;
-            font-size: 15px;
+            font-size: 24px;
             font-weight: 600;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             margin-bottom: 20px;
             box-shadow: 
-                0 8px 16px rgba(59, 130, 246, 0.3),
-                0 4px 8px rgba(59, 130, 246, 0.2);
+                0 8px 16px rgba(0, 7, 185, 0.3),
+                0 4px 8px rgba(0, 7, 185, 0.2);
             position: relative;
             overflow: hidden;
             letter-spacing: 0.025em;
@@ -206,8 +214,8 @@
         .check-button:hover {
             transform: translateY(-2px);
             box-shadow: 
-                0 12px 24px rgba(59, 130, 246, 0.4),
-                0 6px 12px rgba(59, 130, 246, 0.3);
+                0 12px 24px rgba(0, 7, 185, 0.4),
+                0 6px 12px rgba(0, 7, 185, 0.3);
         }
 
         .check-button:hover::before {
@@ -299,8 +307,8 @@
         }
 
         .task-icon-img {
-            width: 64px;
-            height: 64px;
+            width: 80px;
+            height: 80px;
             object-fit: cover;
         }
 
@@ -376,10 +384,12 @@
         .task-left {
             display: flex;
             align-items: center;
+            gap: 32px;
         }
 
         .task-icon-original {
-            margin-right: 24px;
+            width: 80px;
+            flex-shrink: 0;
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -438,7 +448,7 @@
             min-height: 120px;
             display: flex;
             align-items: center;
-            gap: 24px;
+            gap: 32px;
             box-shadow: 
                 0 8px 16px rgba(0, 0, 0, 0.06),
                 0 4px 8px rgba(0, 0, 0, 0.04);
@@ -463,9 +473,9 @@
         }
 
         .task-icon-large {
-            margin-right: 24px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 80px;
             flex-shrink: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .task-block:hover .task-icon-large {
@@ -674,7 +684,7 @@
             }
 
             .task-icon-large {
-                margin-right: 20px;
+                width: 64px;
             }
 
             .task-icon-large-img {
@@ -704,8 +714,8 @@
             }
 
             .task-icon-img {
-                width: 48px;
-                height: 48px;
+                width: 64px;
+                height: 64px;
             }
         }
 
