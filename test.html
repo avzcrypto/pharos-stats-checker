@@ -915,8 +915,8 @@
 
             <!-- Footer -->
             <div class="author-footer">
-                <a href="https://t.me/bladeofgod" target="_blank" class="author-link">
-                    Created by @bladeofgod
+                <a href="https://x.com/avzcrypto" target="_blank" class="author-link">
+                    Created by @avzcrypto
                 </a>
             </div>
         </div>
@@ -924,7 +924,7 @@
 
     <script>
         // API Configuration
-        const API_BASE = 'https://pharos-stats-api.vercel.app';
+        const API_BASE = ''; // Исправлено: относительный путь как в рабочем UI
 
         // DOM Elements
         const walletInput = document.getElementById('walletAddress');
@@ -1020,7 +1020,7 @@
             showLoading();
 
             try {
-                const response = await fetch(`${API_BASE}/api/check-wallet`, {
+                const response = await fetch(`/api/check-wallet`, { // ИСПРАВЛЕНО: убран API_BASE
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1054,16 +1054,16 @@
         function displayResults(data) {
             hideError();
 
-            // Animate numbers
+            // Animate numbers - ИСПРАВЛЕНО: используем правильные поля API
             animateValue(totalPoints, 0, data.total_points);
             animateValue(currentLevel, 1, data.current_level);
             animateValue(sendCount, 0, data.send_count);
-            animateValue(zenithSwaps, 0, data.zenith_swaps);
-            animateValue(zenithLP, 0, data.zenith_lp);
-            animateValue(faroswapSwaps, 0, data.faroswap_swaps);
-            animateValue(faroswapLP, 0, data.faroswap_lp);
-            animateValue(mintDomain, 0, data.mint_domain);
-            animateValue(mintNFT, 0, data.mint_nft);
+            animateValue(zenithSwaps, 0, data.zenith_swaps || data.swap_count || 0); // fallback на старое поле
+            animateValue(zenithLP, 0, data.zenith_lp || data.lp_count || 0); // fallback на старое поле
+            animateValue(faroswapSwaps, 0, data.faroswap_swaps || 0);
+            animateValue(faroswapLP, 0, data.faroswap_lp || 0);
+            animateValue(mintDomain, 0, data.mint_domain || 0);
+            animateValue(mintNFT, 0, data.mint_nft || 0);
 
             // Update social tasks
             socialTasksText.textContent = `Social Tasks: ${data.social_tasks}/4`;
