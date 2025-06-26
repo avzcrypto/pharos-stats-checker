@@ -100,21 +100,16 @@
             letter-spacing: -0.025em;
         }
 
-        .title-icon {
+        .title-icon-img {
             width: 40px;
             height: 40px;
             border-radius: 12px;
-            background: linear-gradient(135deg, var(--pharos-blue-500), var(--pharos-blue-700));
             box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
             transition: transform 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 20px;
+            object-fit: contain;
         }
 
-        .title-icon:hover {
+        .title-icon-img:hover {
             transform: scale(1.1) rotate(5deg);
         }
 
@@ -302,12 +297,26 @@
             letter-spacing: -0.025em;
         }
 
-        .protocol-icon {
+        .task-icon-img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        .protocol-icon-img {
             width: 36px;
             height: 36px;
-            margin-right: 12px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            margin-right: 12px;
+            object-fit: contain;
+        }
+
+        .task-icon-large-img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            z-index: 2;
+            position: relative;
         }
 
         .zenith-icon {
@@ -755,7 +764,7 @@
     <div class="container">
         <div class="stats-card animate__animated animate__fadeIn">
             <h1 class="title">
-                <div class="title-icon">⚡</div>
+                <img src="./logo.png" alt="Pharos" class="title-icon-img">
                 Pharos Stats Checker
             </h1>
             <p class="subtitle">Check your Pharos testnet statistics and progress</p>
@@ -807,8 +816,10 @@
                 <div class="send-section animate__animated animate__fadeInUp animate-on-show">
                     <div class="task-card-original">
                         <div class="task-left">
-                            <div class="task-icon-original">📤</div>
-                            <div class="task-name-original">Send PHRS</div>
+                            <div class="task-icon-original">
+                                <img src="./send.png" alt="Send" class="task-icon-img">
+                            </div>
+                            <div class="task-name-original">Token Transfers</div>
                         </div>
                         <div class="task-count-original" id="sendCount">0</div>
                     </div>
@@ -817,13 +828,13 @@
                 <!-- Zenith Protocol Section -->
                 <div class="protocol-section animate__animated animate__fadeInUp animate-on-show">
                     <h3 class="section-title">
-                        <div class="protocol-icon zenith-icon"></div>
+                        <img src="./zenith.png" alt="Zenith" class="protocol-icon-img">
                         Zenith Protocol
                     </h3>
                     <div class="protocol-blocks">
                         <div class="task-block block-zenith">
                             <div class="task-icon-large">
-                                <div class="main-symbol">🔄</div>
+                                <img src="./swap.png" alt="Swap" class="task-icon-large-img">
                                 <div class="protocol-badge zenith-badge"></div>
                             </div>
                             <div class="task-content">
@@ -833,7 +844,7 @@
                         </div>
                         <div class="task-block block-zenith">
                             <div class="task-icon-large">
-                                <div class="main-symbol">💧</div>
+                                <img src="./lp.png" alt="LP" class="task-icon-large-img">
                                 <div class="protocol-badge zenith-badge"></div>
                             </div>
                             <div class="task-content">
@@ -847,13 +858,13 @@
                 <!-- Faroswap Protocol Section -->
                 <div class="protocol-section animate__animated animate__fadeInUp animate-on-show">
                     <h3 class="section-title">
-                        <div class="protocol-icon faroswap-icon"></div>
+                        <img src="./faroswap.png" alt="Faroswap" class="protocol-icon-img">
                         Faroswap Protocol
                     </h3>
                     <div class="protocol-blocks">
                         <div class="task-block block-faroswap">
                             <div class="task-icon-large">
-                                <div class="main-symbol">🔄</div>
+                                <img src="./swap.png" alt="Swap" class="task-icon-large-img">
                                 <div class="protocol-badge faroswap-badge"></div>
                             </div>
                             <div class="task-content">
@@ -863,7 +874,7 @@
                         </div>
                         <div class="task-block block-faroswap">
                             <div class="task-icon-large">
-                                <div class="main-symbol">💧</div>
+                                <img src="./lp.png" alt="LP" class="task-icon-large-img">
                                 <div class="protocol-badge faroswap-badge"></div>
                             </div>
                             <div class="task-content">
@@ -877,13 +888,13 @@
                 <!-- NFT & Domain Section -->
                 <div class="protocol-section animate__animated animate__fadeInUp animate-on-show">
                     <h3 class="section-title">
-                        <div class="protocol-icon nft-icon"></div>
+                        <img src="./nft.jpg" alt="NFT" class="protocol-icon-img">
                         NFT & Domains
                     </h3>
                     <div class="protocol-blocks">
                         <div class="task-block block-nft">
                             <div class="task-icon-large">
-                                <div class="main-symbol">🌐</div>
+                                <img src="./domain.png" alt="Domain" class="task-icon-large-img">
                                 <div class="protocol-badge nft-badge"></div>
                             </div>
                             <div class="task-content">
@@ -893,7 +904,7 @@
                         </div>
                         <div class="task-block block-nft">
                             <div class="task-icon-large">
-                                <div class="main-symbol">🎨</div>
+                                <img src="./nft.jpg" alt="NFT" class="task-icon-large-img">
                                 <div class="protocol-badge nft-badge"></div>
                             </div>
                             <div class="task-content">
