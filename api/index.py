@@ -104,31 +104,29 @@ class handler(BaseHTTPRequestHandler):
             self.end_headers()
 
     def save_user_stats(self, user_data):
-        """Сохраняем статистику пользователя в Redis (ОБНОВЛЕНО для всех новых задач)"""
+        """Сохраняем статистику пользователя в Redis (ДОБАВЛЕНЫ новые поля)"""
         try:
             address = user_data['address'].lower()
             timestamp = datetime.now().isoformat()
             
-            # ОБНОВЛЕНО: Данные для сохранения со всеми новыми полями
+            # Данные для сохранения (ДОБАВЛЕНЫ новые поля)
             stats = {
                 'address': address,
                 'total_points': user_data['total_points'],
                 'current_level': user_data['current_level'],
                 'send_count': user_data['send_count'],
-                'zenith_swaps': user_data['zenith_swaps'],
-                'zenith_lp': user_data['zenith_lp'],
-                'mint_domain': user_data['mint_domain'],
-                'mint_nft': user_data['mint_nft'],
-                'faroswap_lp': user_data['faroswap_lp'],
-                'faroswap_swaps': user_data['faroswap_swaps'],
+                'swap_count': user_data['swap_count'],
+                'lp_count': user_data['lp_count'],
                 'social_tasks': user_data['social_tasks'],
                 'member_since': user_data.get('member_since'),
                 'last_check': timestamp,
                 'total_checks': 1,
                 
-                # Для обратной совместимости со старыми системами
-                'swap_count': user_data['zenith_swaps'],  # Алиас
-                'lp_count': user_data['zenith_lp']        # Алиас
+                # НОВЫЕ поля
+                'mint_domain': user_data.get('mint_domain', 0),
+                'mint_nft': user_data.get('mint_nft', 0),
+                'faroswap_lp': user_data.get('faroswap_lp', 0),
+                'faroswap_swaps': user_data.get('faroswap_swaps', 0)
             }
             
             # Проверяем, есть ли уже данные пользователя
@@ -157,7 +155,7 @@ class handler(BaseHTTPRequestHandler):
             raise
 
     def get_admin_stats(self):
-        """Получаем статистику для админа (ОБНОВЛЕНО для всех задач)"""
+        """Получаем статистику для админа (ДОБАВЛЕНЫ новые поля)"""
         try:
             # Получаем топ пользователей по поинтам
             top_addresses = kv.zrevrange('pharos:leaderboard', 0, 99, withscores=True)
@@ -175,24 +173,19 @@ class handler(BaseHTTPRequestHandler):
                         'total_points': int(points),
                         'current_level': stats.get('current_level', 1),
                         'send_count': stats.get('send_count', 0),
-                        
-                        # ОБНОВЛЕНО: Новые поля
-                        'zenith_swaps': stats.get('zenith_swaps', 0),
-                        'zenith_lp': stats.get('zenith_lp', 0),
-                        'mint_domain': stats.get('mint_domain', 0),
-                        'mint_nft': stats.get('mint_nft', 0),
-                        'faroswap_lp': stats.get('faroswap_lp', 0),
-                        'faroswap_swaps': stats.get('faroswap_swaps', 0),
+                        'swap_count': stats.get('swap_count', 0),
+                        'lp_count': stats.get('lp_count', 0),
                         'social_tasks': stats.get('social_tasks', 0),
-                        
-                        # Обратная совместимость
-                        'swap_count': stats.get('zenith_swaps', stats.get('swap_count', 0)),
-                        'lp_count': stats.get('zenith_lp', stats.get('lp_count', 0)),
-                        
                         'member_since': stats.get('member_since'),
                         'last_check': stats.get('last_check'),
                         'total_checks': stats.get('total_checks', 1),
-                        'first_check': stats.get('first_check')
+                        'first_check': stats.get('first_check'),
+                        
+                        # НОВЫЕ поля
+                        'mint_domain': stats.get('mint_domain', 0),
+                        'mint_nft': stats.get('mint_nft', 0),
+                        'faroswap_lp': stats.get('faroswap_lp', 0),
+                        'faroswap_swaps': stats.get('faroswap_swaps', 0)
                     })
             
             # Общая статистика
@@ -233,7 +226,7 @@ class handler(BaseHTTPRequestHandler):
         self.wfile.write(response.encode())
 
     def call_pharos_api(self, wallet_address):
-        """Call Pharos API (ПОЛНОСТЬЮ ОБНОВЛЕНО для всех новых задач)"""
+        """Call Pharos API (ДОБАВЛЕНЫ новые задачи к рабочей базе)"""
         try:
             api_base = "https://api.pharosnetwork.xyz"
             bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3ODA5MTQ3NjEsImlhdCI6MTc0OTM3ODc2MSwic3ViIjoiMHgyNkIxMzVBQjFkNjg3Mjk2N0I1YjJjNTcwOWNhMkI1RERiREUxMDZGIn0.k1JtNw2w67q7lw1kFHmSXxapUS4GpBwXdZH3ByVMFfg"
@@ -287,46 +280,42 @@ class handler(BaseHTTPRequestHandler):
             
             user_tasks = tasks_data.get('data', {}).get('user_tasks', [])
             
-            # ОБНОВЛЕНО: Инициализация всех счетчиков задач
+            # Инициализация счетчиков (ДОБАВЛЕНЫ новые поля)
             send_count = 0
-            zenith_swaps = 0        # 101 - переименован из swap_count
-            zenith_lp = 0           # 102 - переименован из lp_count
-            mint_domain = 0         # 104 - новый
-            mint_nft = 0            # 105 - новый
-            faroswap_lp = 0         # 106 - новый
-            faroswap_swaps = 0      # 107 - новый
+            swap_count = 0
+            lp_count = 0
+            mint_domain = 0         # НОВОЕ
+            mint_nft = 0            # НОВОЕ
+            faroswap_lp = 0         # НОВОЕ
+            faroswap_swaps = 0      # НОВОЕ
             social_tasks = 0
             
-            # ОБНОВЛЕНО: Обработка всех типов задач
+            # Обработка задач (ДОБАВЛЕНЫ новые Task ID)
             for task in user_tasks:
                 task_id = task.get('TaskId', 0)
                 complete_times = task.get('CompleteTimes', 0)
                 
-                # DeFi операции (основные)
-                if task_id == 103:      # Send PHRS
+                # Существующие задачи (без изменений)
+                if task_id == 103:
                     send_count = complete_times
-                elif task_id == 101:    # Zenith Swaps (переименован)
-                    zenith_swaps = complete_times
-                elif task_id == 102:    # Zenith LP (переименован)
-                    zenith_lp = complete_times
+                elif task_id == 101:
+                    swap_count = complete_times
+                elif task_id == 102:
+                    lp_count = complete_times
+                elif task_id in [201, 202, 203, 204]:
+                    social_tasks += 1
                 
-                # NFT/Домены
+                # НОВЫЕ задачи (добавлены)
                 elif task_id == 104:    # Mint Domain
                     mint_domain = complete_times
                 elif task_id == 105:    # Mint NFT
                     mint_nft = complete_times
-                
-                # Faroswap операции
                 elif task_id == 106:    # Faroswap LP
                     faroswap_lp = complete_times
                 elif task_id == 107:    # Faroswap Swaps
                     faroswap_swaps = complete_times
-                
-                # Социальные задачи
-                elif task_id in [201, 202, 203, 204]:
-                    social_tasks += 1
             
-            # Calculate level
+            # Calculate level (без изменений)
             if total_points < 1000:
                 current_level = 1
             elif total_points < 3000:
@@ -350,12 +339,12 @@ class handler(BaseHTTPRequestHandler):
             
             next_level = current_level + 1
             
-            # Calculate points needed
+            # Calculate points needed (без изменений)
             levels = {1: 0, 2: 1000, 3: 3000, 4: 6000, 5: 10000, 6: 15000, 7: 25000, 8: 40000, 9: 60000, 10: 90000, 11: 150000}
             points_for_next = levels.get(next_level, 150000)
             points_needed = max(0, points_for_next - total_points)
             
-            # ОБНОВЛЕНО: Возвращаем все новые поля
+            # ОБНОВЛЕННЫЙ return (добавлены новые поля)
             return {
                 'success': True,
                 'address': wallet_address.lower(),
@@ -364,18 +353,20 @@ class handler(BaseHTTPRequestHandler):
                 'next_level': next_level,
                 'points_needed': points_needed,
                 'send_count': send_count,
-                'zenith_swaps': zenith_swaps,        # Новое поле
-                'zenith_lp': zenith_lp,              # Новое поле
-                'mint_domain': mint_domain,          # Новое поле
-                'mint_nft': mint_nft,                # Новое поле
-                'faroswap_lp': faroswap_lp,          # Новое поле
-                'faroswap_swaps': faroswap_swaps,    # Новое поле
+                'swap_count': swap_count,
+                'lp_count': lp_count,
                 'social_tasks': social_tasks,
                 'member_since': user_info.get('CreateTime'),
                 
-                # Для обратной совместимости со старым фронтендом
-                'swap_count': zenith_swaps,  # Алиас для старых систем
-                'lp_count': zenith_lp        # Алиас для старых систем
+                # НОВЫЕ поля для UI
+                'mint_domain': mint_domain,
+                'mint_nft': mint_nft,
+                'faroswap_lp': faroswap_lp,
+                'faroswap_swaps': faroswap_swaps,
+                
+                # Алиасы для нового UI
+                'zenith_swaps': swap_count,
+                'zenith_lp': lp_count
             }
             
         except Exception as e:
