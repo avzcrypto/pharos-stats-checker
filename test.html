@@ -378,17 +378,7 @@
         }
 
         .task-icon-original {
-            width: 72px;
-            height: 72px;
-            background: transparent;
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
             margin-right: 24px;
-            color: white;
-            box-shadow: none;
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -472,30 +462,18 @@
         }
 
         .task-icon-large {
-            width: 80px;
-            height: 80px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--block-color, var(--pharos-blue-500));
-            color: white;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            margin-right: 24px;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
             flex-shrink: 0;
         }
 
         .task-block:hover .task-icon-large {
             transform: scale(1.1) rotate(-3deg);
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
         }
 
+        /* Убираем неиспользуемые стили */
         .main-symbol {
-            font-size: 32px;
-            position: relative;
-            z-index: 2;
+            display: none;
         }
 
         .protocol-badge {
@@ -695,8 +673,7 @@
             }
 
             .task-icon-large {
-                width: 64px;
-                height: 64px;
+                margin-right: 20px;
             }
 
             .task-icon-large-img {
@@ -825,9 +802,7 @@
                 <div class="send-section animate__animated animate__fadeInUp animate-on-show">
                     <div class="task-card-original">
                         <div class="task-left">
-                            <div class="task-icon-original">
-                                <img src="./send.png" alt="Send" class="task-icon-img">
-                            </div>
+                            <img src="./send.png" alt="Send" class="task-icon-original task-icon-img">
                             <div class="task-name-original">Token Transfers</div>
                         </div>
                         <div class="task-count-original" id="sendCount">156</div>
@@ -842,20 +817,14 @@
                     </h3>
                     <div class="protocol-blocks">
                         <div class="task-block block-zenith">
-                            <div class="task-icon-large">
-                                <img src="./swap.png" alt="Swap" class="task-icon-large-img">
-                                <div class="protocol-badge zenith-badge"></div>
-                            </div>
+                            <img src="./swap.png" alt="Swap" class="task-icon-large task-icon-large-img">
                             <div class="task-content">
                                 <div class="task-count-large" id="zenithSwaps">43</div>
                                 <div class="task-name-large">Zenith Swaps</div>
                             </div>
                         </div>
                         <div class="task-block block-zenith">
-                            <div class="task-icon-large">
-                                <img src="./lp.png" alt="LP" class="task-icon-large-img">
-                                <div class="protocol-badge zenith-badge"></div>
-                            </div>
+                            <img src="./lp.png" alt="LP" class="task-icon-large task-icon-large-img">
                             <div class="task-content">
                                 <div class="task-count-large" id="zenithLP">28</div>
                                 <div class="task-name-large">Zenith LP</div>
@@ -872,20 +841,14 @@
                     </h3>
                     <div class="protocol-blocks">
                         <div class="task-block block-faroswap">
-                            <div class="task-icon-large">
-                                <img src="./swap.png" alt="Swap" class="task-icon-large-img">
-                                <div class="protocol-badge faroswap-badge"></div>
-                            </div>
+                            <img src="./swap.png" alt="Swap" class="task-icon-large task-icon-large-img">
                             <div class="task-content">
                                 <div class="task-count-large" id="faroswapSwaps">15</div>
                                 <div class="task-name-large">Faroswap Swaps</div>
                             </div>
                         </div>
                         <div class="task-block block-faroswap">
-                            <div class="task-icon-large">
-                                <img src="./lp.png" alt="LP" class="task-icon-large-img">
-                                <div class="protocol-badge faroswap-badge"></div>
-                            </div>
+                            <img src="./lp.png" alt="LP" class="task-icon-large task-icon-large-img">
                             <div class="task-content">
                                 <div class="task-count-large" id="faroswapLP">9</div>
                                 <div class="task-name-large">Faroswap LP</div>
@@ -902,20 +865,14 @@
                     </h3>
                     <div class="protocol-blocks">
                         <div class="task-block block-nft">
-                            <div class="task-icon-large">
-                                <img src="./domain.png" alt="Domain" class="task-icon-large-img">
-                                <div class="protocol-badge nft-badge"></div>
-                            </div>
+                            <img src="./domain.png" alt="Domain" class="task-icon-large task-icon-large-img">
                             <div class="task-content">
                                 <div class="task-count-large" id="mintDomain">2</div>
                                 <div class="task-name-large">Mint Domain</div>
                             </div>
                         </div>
                         <div class="task-block block-nft">
-                            <div class="task-icon-large">
-                                <img src="./nft.jpg" alt="NFT" class="task-icon-large-img">
-                                <div class="protocol-badge nft-badge"></div>
-                            </div>
+                            <img src="./nft.jpg" alt="NFT" class="task-icon-large task-icon-large-img">
                             <div class="task-content">
                                 <div class="task-count-large" id="mintNFT">1</div>
                                 <div class="task-name-large">Mint NFT</div>
