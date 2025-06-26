@@ -798,16 +798,19 @@
         function displayResults(data) {
             hideError();
 
-            // Calculate level progress and points needed
+            // Calculate level progress and points needed - МАКСИМУМ 4 УРОВЕНЬ
             const levels = {
-                1: 0, 2: 1000, 3: 3000, 4: 6000, 5: 10000,
-                6: 15000, 7: 25000, 8: 40000, 9: 60000, 10: 90000, 11: 150000
+                1: 0, 2: 1000, 3: 3000, 4: 6000
             };
             
             const currentLevelPoints = levels[data.current_level] || 0;
-            const nextLevel = data.current_level + 1;
-            const nextLevelPoints = levels[nextLevel] || 150000;
-            const pointsNeeded = nextLevelPoints - data.total_points;
+            const maxLevel = 4;
+            const nextLevel = Math.min(data.current_level + 1, maxLevel);
+            const nextLevelPoints = levels[nextLevel] || 6000;
+            
+            // Если уже 4 уровень - показываем MAX LVL
+            const isMaxLevel = data.current_level >= maxLevel;
+            const pointsNeeded = isMaxLevel ? 0 : nextLevelPoints - data.total_points;
             const progressInLevel = data.total_points - currentLevelPoints;
             const pointsForLevel = nextLevelPoints - currentLevelPoints;
 
@@ -824,7 +827,7 @@
 
             // Update level progress and points needed info
             setTimeout(() => {
-                const percentage = pointsForLevel > 0 ? (progressInLevel / pointsForLevel) * 100 : 100;
+                const percentage = isMaxLevel ? 100 : (pointsForLevel > 0 ? (progressInLevel / pointsForLevel) * 100 : 100);
                 levelProgress.style.width = `${Math.min(percentage, 100)}%`;
                 
                 // Add points needed text under current level
@@ -840,10 +843,14 @@
                     levelCard.appendChild(pointsNeededText);
                 }
                 
-                if (nextLevel <= 11) {
-                    pointsNeededText.textContent = `${pointsNeeded.toLocaleString()} points to Level ${nextLevel}`;
+                if (isMaxLevel) {
+                    pointsNeededText.innerHTML = 'MAX LVL. Congrats! 🎉';
+                    pointsNeededText.style.color = 'var(--pharos-green-500)';
+                    pointsNeededText.style.fontWeight = '600';
                 } else {
-                    pointsNeededText.textContent = 'Max level reached!';
+                    pointsNeededText.textContent = `${pointsNeeded.toLocaleString()} points to Level ${nextLevel}`;
+                    pointsNeededText.style.color = 'var(--pharos-gray-500)';
+                    pointsNeededText.style.fontWeight = '500';
                 }
             }, 500);
 
