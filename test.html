@@ -61,7 +61,6 @@
             gap: 40px;
         }
 
-        /* ИСПРАВЛЕННАЯ СТРУКТУРА ЛЕВОЙ ЧАСТИ */
         .header-left {
             flex: 1;
             display: flex;
@@ -69,7 +68,6 @@
             justify-content: center;
         }
 
-        /* ВЕРХ: Логотип + Заголовок в ряд */
         .top-row {
             display: flex;
             align-items: flex-start;
@@ -93,7 +91,6 @@
             margin: 0;
         }
 
-        /* НИЗ: Подзаголовок на всю ширину */
         .main-subtitle {
             color: var(--pharos-gray-500);
             font-size: 17px;
@@ -529,15 +526,12 @@
 </head>
 <body>
     <div class="container">
-        <!-- Header Section -->
         <div class="header-section">
             <div class="header-left">
-                <!-- ВЕРХ: ЛОГОТИП + ЗАГОЛОВОК -->
                 <div class="top-row">
                     <img src="./logo.webp" alt="Pharos Logo" class="logo-img">
                     <h1 class="main-title">Pharos<br>Stats<br>Checker</h1>
                 </div>
-                <!-- НИЗ: ПОДЗАГОЛОВОК НА ВСЮ ШИРИНУ -->
                 <p class="main-subtitle">Check stats and track your Pharos testnet progress</p>
             </div>
             
@@ -560,20 +554,16 @@
                     Check Statistics
                 </button>
 
-                <!-- Error State -->
                 <div class="error" id="error"></div>
             </div>
         </div>
 
-        <!-- Loading State - ВЫНЕСЕН ИЗ HEADER -->
         <div class="loading" id="loading">
             <img src="./loading.webp" alt="Loading" class="loading-emoji">
             <p class="loading-text">Loading...</p>
         </div>
 
-        <!-- Results Section -->
         <div class="results-section" id="results">
-            <!-- Top Stats -->
             <div class="top-stats animate__fadeInUp animate-delay-1">
                 <div class="stat-card">
                     <div class="stat-value" id="totalPoints">15,647</div>
@@ -588,7 +578,6 @@
                 </div>
             </div>
 
-            <!-- Send Section -->
             <div class="tasks-section animate__fadeInUp animate-delay-2">
                 <div class="task-card">
                     <div class="task-left">
@@ -599,7 +588,6 @@
                 </div>
             </div>
 
-            <!-- Zenith Protocol Section -->
             <div class="tasks-section animate__fadeInUp animate-delay-3">
                 <h3 class="section-title">
                     <img src="./zenith.png" alt="Zenith" class="protocol-icon-img">
@@ -623,7 +611,6 @@
                 </div>
             </div>
 
-            <!-- Faroswap Protocol Section -->
             <div class="tasks-section animate__fadeInUp animate-delay-4">
                 <h3 class="section-title">
                     <img src="./faroswap.png" alt="Faroswap" class="protocol-icon-img">
@@ -647,7 +634,6 @@
                 </div>
             </div>
 
-            <!-- NFT & Domain Section -->
             <div class="tasks-section animate__fadeInUp animate-delay-5">
                 <h3 class="section-title">
                     <img src="./nft.jpg" alt="NFT" class="protocol-icon-img">
@@ -672,7 +658,6 @@
             </div>
         </div>
 
-        <!-- Footer -->
         <div class="author-footer">
             <a href="https://x.com/avzcrypto" target="_blank" class="author-link">
                 Created by @avzcrypto
