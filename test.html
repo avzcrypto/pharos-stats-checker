@@ -814,9 +814,9 @@
             const progressInLevel = data.total_points - currentLevelPoints;
             const pointsForLevel = nextLevelPoints - currentLevelPoints;
 
-            // Animate numbers
+            // Animate numbers - ОГРАНИЧИВАЕМ УРОВЕНЬ ДО 4
             animateValue(totalPoints, 0, data.total_points);
-            animateValue(currentLevel, 1, data.current_level);
+            animateValue(currentLevel, 1, Math.min(data.current_level, maxLevel)); // Показываем максимум 4 уровень
             animateValue(sendCount, 0, data.send_count);
             animateValue(zenithSwaps, 0, data.zenith_swaps || data.swap_count || 0);
             animateValue(zenithLP, 0, data.zenith_lp || data.lp_count || 0);
