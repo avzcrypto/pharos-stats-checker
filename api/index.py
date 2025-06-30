@@ -4,6 +4,35 @@ import requests
 import urllib.parse
 import os
 from datetime import datetime
+import time
+
+# НОВОЕ: Простой in-memory кэш
+cache = {}
+CACHE_TTL = 30  # 30 секунд кэширования
+
+def get_from_cache(wallet_address):
+    """Получить из кэша если актуально"""
+    cache_key = wallet_address.lower()
+    if cache_key in cache:
+        cached_data, timestamp = cache[cache_key]
+        if time.time() - timestamp < CACHE_TTL:
+            return cached_data
+        else:
+            # Удаляем устаревший кэш
+            del cache[cache_key]
+    return None
+
+def save_to_cache(wallet_address, data):
+    """Сохранить в кэш"""
+    cache_key = wallet_address.lower()
+    cache[cache_key] = (data, time.time())
+    
+    # Очистка старого кэша (простая защита от переполнения)
+    if len(cache) > 1000:
+        # Удаляем самые старые записи
+        sorted_cache = sorted(cache.items(), key=lambda x: x[1][1])
+        for key, _ in sorted_cache[:200]:  # Удаляем 200 старых записей
+            del cache[key]
 
 # Попробуем подключить Redis для Vercel KV
 try:
@@ -35,7 +64,6 @@ class handler(BaseHTTPRequestHandler):
             self.wfile.write(response.encode())
             
         elif self.path == '/api/admin/stats':
-            # Админский эндпоинт для просмотра статистики
             try:
                 if not STATS_ENABLED:
                     self.send_error_response({'success': False, 'error': 'Stats not available'}, 503)
@@ -73,11 +101,21 @@ class handler(BaseHTTPRequestHandler):
                     self.send_error_response({'success': False, 'error': 'Invalid wallet address'}, 400)
                     return
                 
-                print("Calling Pharos API...")
+                # НОВОЕ: Проверяем кэш
+                cached_result = get_from_cache(wallet_address)
+                if cached_result:
+                    print(f"Cache HIT for {wallet_address}")
+                    self.send_success_response(cached_result)
+                    return
+                
+                print("Cache MISS - calling Pharos API...")
                 result = self.call_pharos_api(wallet_address)
                 print(f"API result: {result}")
                 
                 if result.get('success'):
+                    # НОВОЕ: Сохраняем в кэш
+                    save_to_cache(wallet_address, result)
+                    
                     # Сохраняем статистику пользователя (тихо, без прерывания работы)
                     if STATS_ENABLED:
                         try:
@@ -85,7 +123,6 @@ class handler(BaseHTTPRequestHandler):
                             print(f"Stats saved for {wallet_address}")
                         except Exception as e:
                             print(f"Failed to save stats: {e}")
-                            # Не прерываем выполнение
                     
                     self.send_success_response(result)
                 else:
@@ -103,13 +140,13 @@ class handler(BaseHTTPRequestHandler):
             self.send_response(404)
             self.end_headers()
 
+    # Остальные методы остаются без изменений...
     def save_user_stats(self, user_data):
         """Сохраняем статистику пользователя в Redis (ДОБАВЛЕНЫ новые поля)"""
         try:
             address = user_data['address'].lower()
             timestamp = datetime.now().isoformat()
             
-            # Данные для сохранения (ДОБАВЛЕНЫ новые поля)
             stats = {
                 'address': address,
                 'total_points': user_data['total_points'],
@@ -121,33 +158,24 @@ class handler(BaseHTTPRequestHandler):
                 'member_since': user_data.get('member_since'),
                 'last_check': timestamp,
                 'total_checks': 1,
-                
-                # НОВЫЕ поля
                 'mint_domain': user_data.get('mint_domain', 0),
                 'mint_nft': user_data.get('mint_nft', 0),
                 'faroswap_lp': user_data.get('faroswap_lp', 0),
                 'faroswap_swaps': user_data.get('faroswap_swaps', 0)
             }
             
-            # Проверяем, есть ли уже данные пользователя
             existing_data = kv.hget('pharos:users', address)
             if existing_data:
                 existing_stats = json.loads(existing_data)
                 stats['total_checks'] = existing_stats.get('total_checks', 0) + 1
                 stats['first_check'] = existing_stats.get('first_check', timestamp)
-                # Сохраняем существующий member_since, если он есть
                 if existing_stats.get('member_since'):
                     stats['member_since'] = existing_stats.get('member_since')
             else:
                 stats['first_check'] = timestamp
             
-            # Сохраняем в hash table пользователей
             kv.hset('pharos:users', address, json.dumps(stats))
-            
-            # Обновляем sorted set для лидерборда (сортировка по поинтам)
             kv.zadd('pharos:leaderboard', {address: user_data['total_points']})
-            
-            # Обновляем счетчик общих проверок
             kv.incr('pharos:total_checks')
             
         except Exception as e:
@@ -155,9 +183,8 @@ class handler(BaseHTTPRequestHandler):
             raise
 
     def get_admin_stats(self):
-        """Получаем статистику для админа (ДОБАВЛЕНЫ новые поля)"""
+        """Получаем статистику для админа"""
         try:
-            # Получаем топ пользователей по поинтам
             top_addresses = kv.zrevrange('pharos:leaderboard', 0, 99, withscores=True)
             
             leaderboard = []
@@ -180,15 +207,12 @@ class handler(BaseHTTPRequestHandler):
                         'last_check': stats.get('last_check'),
                         'total_checks': stats.get('total_checks', 1),
                         'first_check': stats.get('first_check'),
-                        
-                        # НОВЫЕ поля
                         'mint_domain': stats.get('mint_domain', 0),
                         'mint_nft': stats.get('mint_nft', 0),
                         'faroswap_lp': stats.get('faroswap_lp', 0),
                         'faroswap_swaps': stats.get('faroswap_swaps', 0)
                     })
             
-            # Общая статистика
             total_users = kv.zcard('pharos:leaderboard')
             total_checks = kv.get('pharos:total_checks')
             
@@ -202,10 +226,7 @@ class handler(BaseHTTPRequestHandler):
             
         except Exception as e:
             print(f"Error getting admin stats: {e}")
-            return {
-                'success': False,
-                'error': str(e)
-            }
+            return {'success': False, 'error': str(e)}
 
     def send_success_response(self, data):
         self.send_response(200)
@@ -226,7 +247,7 @@ class handler(BaseHTTPRequestHandler):
         self.wfile.write(response.encode())
 
     def call_pharos_api(self, wallet_address):
-        """Call Pharos API (ДОБАВЛЕНЫ новые задачи к рабочей базе)"""
+        """Call Pharos API - БЕЗ ИЗМЕНЕНИЙ"""
         try:
             api_base = "https://api.pharosnetwork.xyz"
             bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3ODA5MTQ3NjEsImlhdCI6MTc0OTM3ODc2MSwic3ViIjoiMHgyNkIxMzVBQjFkNjg3Mjk2N0I1YjJjNTcwOWNhMkI1RERiREUxMDZGIn0.k1JtNw2w67q7lw1kFHmSXxapUS4GpBwXdZH3ByVMFfg"
@@ -265,37 +286,31 @@ class handler(BaseHTTPRequestHandler):
             profile_data = profile_response.json()
             tasks_data = tasks_response.json()
             
-            print(f"Profile response: {profile_data}")
-            print(f"Tasks response: {tasks_data}")
-            
             if profile_data.get('code') != 0:
                 return {'success': False, 'error': 'Invalid profile response'}
                 
             if tasks_data.get('code') != 0:
                 return {'success': False, 'error': 'Invalid tasks response'}
             
-            # Process data
+            # Process data - остается без изменений
             user_info = profile_data.get('data', {}).get('user_info', {})
             total_points = user_info.get('TotalPoints', 0)
             
             user_tasks = tasks_data.get('data', {}).get('user_tasks', [])
             
-            # Инициализация счетчиков (ДОБАВЛЕНЫ новые поля)
             send_count = 0
             swap_count = 0
             lp_count = 0
-            mint_domain = 0         # НОВОЕ
-            mint_nft = 0            # НОВОЕ
-            faroswap_lp = 0         # НОВОЕ
-            faroswap_swaps = 0      # НОВОЕ
+            mint_domain = 0
+            mint_nft = 0
+            faroswap_lp = 0
+            faroswap_swaps = 0
             social_tasks = 0
             
-            # Обработка задач (ДОБАВЛЕНЫ новые Task ID)
             for task in user_tasks:
                 task_id = task.get('TaskId', 0)
                 complete_times = task.get('CompleteTimes', 0)
                 
-                # Существующие задачи (без изменений)
                 if task_id == 103:
                     send_count = complete_times
                 elif task_id == 101:
@@ -304,18 +319,16 @@ class handler(BaseHTTPRequestHandler):
                     lp_count = complete_times
                 elif task_id in [201, 202, 203, 204]:
                     social_tasks += 1
-                
-                # НОВЫЕ задачи (добавлены)
-                elif task_id == 104:    # Mint Domain
+                elif task_id == 104:
                     mint_domain = complete_times
-                elif task_id == 105:    # Mint NFT
+                elif task_id == 105:
                     mint_nft = complete_times
-                elif task_id == 106:    # Faroswap LP
+                elif task_id == 106:
                     faroswap_lp = complete_times
-                elif task_id == 107:    # Faroswap Swaps
+                elif task_id == 107:
                     faroswap_swaps = complete_times
             
-            # Calculate level (без изменений)
+            # Calculate level
             if total_points < 1000:
                 current_level = 1
             elif total_points < 3000:
@@ -338,13 +351,10 @@ class handler(BaseHTTPRequestHandler):
                 current_level = 10
             
             next_level = current_level + 1
-            
-            # Calculate points needed (без изменений)
             levels = {1: 0, 2: 1000, 3: 3000, 4: 6000, 5: 10000, 6: 15000, 7: 25000, 8: 40000, 9: 60000, 10: 90000, 11: 150000}
             points_for_next = levels.get(next_level, 150000)
             points_needed = max(0, points_for_next - total_points)
             
-            # ОБНОВЛЕННЫЙ return (добавлены новые поля)
             return {
                 'success': True,
                 'address': wallet_address.lower(),
@@ -357,20 +367,14 @@ class handler(BaseHTTPRequestHandler):
                 'lp_count': lp_count,
                 'social_tasks': social_tasks,
                 'member_since': user_info.get('CreateTime'),
-                
-                # НОВЫЕ поля для UI
                 'mint_domain': mint_domain,
                 'mint_nft': mint_nft,
                 'faroswap_lp': faroswap_lp,
                 'faroswap_swaps': faroswap_swaps,
-                
-                # Алиасы для нового UI
                 'zenith_swaps': swap_count,
                 'zenith_lp': lp_count
             }
             
         except Exception as e:
             print(f"API call error: {e}")
-            import traceback
-            traceback.print_exc()
             return {'success': False, 'error': f'API error: {str(e)}'}
