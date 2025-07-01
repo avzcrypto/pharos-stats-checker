@@ -423,29 +423,37 @@
             display: block;
         }
 
-        /* Author footer - УВЕЛИЧЕН НА 20% */
+        /* ОБНОВЛЕННЫЙ Author footer */
         .author-footer {
             margin-top: 32px;
             text-align: center;
         }
 
         .author-link {
-            color: var(--pharos-blue-500);
+            color: white;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 15.4px;
             font-weight: 600;
             transition: all 0.3s ease;
-            padding: 10px 19px;
-            border-radius: 14px;
+            padding: 12px 20px;
+            border-radius: 16px;
             display: inline-block;
-            background: rgba(255, 255, 255, 0.5);
+            background: var(--pharos-green-500);
             backdrop-filter: blur(10px);
+            text-align: center;
+            line-height: 1.4;
+            box-shadow: 
+                0 8px 16px rgba(34, 197, 94, 0.3),
+                0 4px 8px rgba(34, 197, 94, 0.2);
         }
 
         .author-link:hover {
-            color: var(--pharos-blue-700);
-            background: rgba(255, 255, 255, 0.8);
+            color: white;
+            background: var(--pharos-green-600);
             transform: translateY(-2px);
+            box-shadow: 
+                0 12px 24px rgba(34, 197, 94, 0.4),
+                0 6px 12px rgba(34, 197, 94, 0.3);
         }
 
         /* Адаптивность */
@@ -513,9 +521,9 @@
             }
 
             .author-link {
-                font-size: 12px;
-                padding: 7px 15px;
-                border-radius: 12px;
+                font-size: 13.2px;
+                padding: 10px 16px;
+                border-radius: 14px;
             }
         }
 
@@ -547,7 +555,7 @@
         <div class="header-section">
             <div class="header-left">
                 <div class="top-row">
-                    <img src="./logo.webp" alt="Pharos Logo" class="logo-img">
+                    <img src="https://i.imgur.com/placeholder.png" alt="Pharos Logo" class="logo-img">
                     <h1 class="main-title">Pharos<br>Stats<br>Checker</h1>
                 </div>
                 <p class="main-subtitle">Check stats and track your Pharos testnet progress</p>
@@ -577,7 +585,7 @@
         </div>
 
         <div class="loading" id="loading">
-            <img src="./loading.webp" alt="Loading" class="loading-emoji">
+            <img src="https://i.imgur.com/placeholder.png" alt="Loading" class="loading-emoji">
             <p class="loading-text">Loading...</p>
         </div>
 
@@ -599,7 +607,7 @@
             <div class="tasks-section animate__fadeInUp animate-delay-2">
                 <div class="task-card">
                     <div class="task-left">
-                        <img src="./send.png" alt="Send" class="task-icon">
+                        <img src="https://i.imgur.com/placeholder.png" alt="Send" class="task-icon">
                         <div class="task-name">Token Transfers</div>
                     </div>
                     <div class="task-count" id="sendCount">156</div>
@@ -608,20 +616,20 @@
 
             <div class="tasks-section animate__fadeInUp animate-delay-3">
                 <h3 class="section-title">
-                    <img src="./zenith.png" alt="Zenith" class="protocol-icon-img">
+                    <img src="https://i.imgur.com/placeholder.png" alt="Zenith" class="protocol-icon-img">
                     Zenith Protocol
                 </h3>
                 <div class="protocol-grid">
                     <div class="task-card">
                         <div class="task-left">
-                            <img src="./swap.png" alt="Swap" class="task-icon">
+                            <img src="https://i.imgur.com/placeholder.png" alt="Swap" class="task-icon">
                             <div class="task-name">Swaps</div>
                         </div>
                         <div class="task-count" id="zenithSwaps">43</div>
                     </div>
                     <div class="task-card">
                         <div class="task-left">
-                            <img src="./lp.png" alt="LP" class="task-icon">
+                            <img src="https://i.imgur.com/placeholder.png" alt="LP" class="task-icon">
                             <div class="task-name">Provide Liquidity</div>
                         </div>
                         <div class="task-count" id="zenithLP">28</div>
@@ -631,20 +639,20 @@
 
             <div class="tasks-section animate__fadeInUp animate-delay-4">
                 <h3 class="section-title">
-                    <img src="./faroswap.png" alt="Faroswap" class="protocol-icon-img">
+                    <img src="https://i.imgur.com/placeholder.png" alt="Faroswap" class="protocol-icon-img">
                     Faroswap Protocol
                 </h3>
                 <div class="protocol-grid">
                     <div class="task-card">
                         <div class="task-left">
-                            <img src="./swap.png" alt="Swap" class="task-icon">
+                            <img src="https://i.imgur.com/placeholder.png" alt="Swap" class="task-icon">
                             <div class="task-name">Swaps</div>
                         </div>
                         <div class="task-count" id="faroswapSwaps">15</div>
                     </div>
                     <div class="task-card">
                         <div class="task-left">
-                            <img src="./lp.png" alt="LP" class="task-icon">
+                            <img src="https://i.imgur.com/placeholder.png" alt="LP" class="task-icon">
                             <div class="task-name">Provide Liquidity</div>
                         </div>
                         <div class="task-count" id="faroswapLP">9</div>
@@ -654,20 +662,20 @@
 
             <div class="tasks-section animate__fadeInUp animate-delay-5">
                 <h3 class="section-title">
-                    <img src="./nft.jpg" alt="NFT" class="protocol-icon-img">
+                    <img src="https://i.imgur.com/placeholder.png" alt="NFT" class="protocol-icon-img">
                     NFT & Domains
                 </h3>
                 <div class="protocol-grid">
                     <div class="task-card">
                         <div class="task-left">
-                            <img src="./domain.png" alt="Domain" class="task-icon">
+                            <img src="https://i.imgur.com/placeholder.png" alt="Domain" class="task-icon">
                             <div class="task-name">Domain</div>
                         </div>
                         <div class="task-count" id="mintDomain">2</div>
                     </div>
                     <div class="task-card">
                         <div class="task-left">
-                            <img src="./nft.jpg" alt="NFT" class="task-icon">
+                            <img src="https://i.imgur.com/placeholder.png" alt="NFT" class="task-icon">
                             <div class="task-name">Collect NFTs</div>
                         </div>
                         <div class="task-count" id="mintNFT">1</div>
@@ -678,7 +686,8 @@
 
         <div class="author-footer">
             <a href="https://x.com/avzcrypto" target="_blank" class="author-link">
-                Created by @avzcrypto
+                Click for early access to premium features🚀<br>
+                Made with ❤️ by @avzcrypto
             </a>
         </div>
     </div>
@@ -803,14 +812,10 @@
                     throw new Error(data.error || 'Failed to fetch wallet statistics');
                 }
 
-
-
                 displayResults(data);
 
             } catch (err) {
                 console.error('Error:', err);
-
-                
                 showError(err.message || 'Failed to fetch wallet statistics. Please try again.');
             } finally {
                 hideLoading();
