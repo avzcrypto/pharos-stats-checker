@@ -297,45 +297,75 @@ class handler(BaseHTTPRequestHandler):
         self.wfile.write(response.encode())
 
     def call_pharos_api(self, wallet_address):
-        """Call Pharos API с ротацией прокси"""
+        """Call Pharos API с ротацией прокси и fallback"""
+        api_base = "https://api.pharosnetwork.xyz"
+        bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3ODA5MTQ3NjEsImlhdCI6MTc0OTM3ODc2MSwic3ViIjoiMHgyNkIxMzVBQjFkNjg3Mjk2N0I1YjJjNTcwOWNhMkI1RERiREUxMDZGIn0.k1JtNw2w67q7lw1kFHmSXxapUS4GpBwXdZH3ByVMFfg"
+        
+        headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Authorization': f'Bearer {bearer_token}',
+            'Origin': 'https://testnet.pharosnetwork.xyz',
+            'Referer': 'https://testnet.pharosnetwork.xyz/',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
+        
+        # Пробуем 2 варианта: с прокси и без прокси
+        for attempt in range(2):
+            try:
+                if attempt == 0 and PROXY_LIST:
+                    # Попытка 1: с случайным прокси
+                    proxy_url = get_random_proxy()
+                    proxies = {'http': proxy_url, 'https': proxy_url}
+                    timeout = 20
+                    print(f"🌐 Попытка {attempt + 1}: с прокси {proxy_url.split('@')[1] if '@' in proxy_url else 'unknown'}")
+                else:
+                    # Попытка 2: без прокси (fallback)
+                    proxies = None
+                    timeout = 15
+                    print(f"🔄 Попытка {attempt + 1}: без прокси (fallback)")
+                
+                print("Getting profile...")
+                profile_response = requests.get(
+                    f"{api_base}/user/profile",
+                    params={'address': wallet_address},
+                    headers=headers,
+                    proxies=proxies,
+                    timeout=timeout
+                )
+                
+                print("Getting tasks...")
+                tasks_response = requests.get(
+                    f"{api_base}/user/tasks", 
+                    params={'address': wallet_address},
+                    headers=headers,
+                    proxies=proxies,
+                    timeout=timeout
+                )
+                
+                # Если дошли до сюда - запросы успешны, выходим из цикла
+                break
+                
+            except (requests.exceptions.ProxyError, 
+                    requests.exceptions.ConnectTimeout,
+                    requests.exceptions.ConnectionError) as proxy_error:
+                print(f"❌ Попытка {attempt + 1} failed: {type(proxy_error).__name__}: {str(proxy_error)[:100]}...")
+                if attempt == 0:
+                    print("🔄 Переходим на fallback без прокси...")
+                    continue  # Пробуем следующую попытку
+                else:
+                    # Если и fallback не сработал
+                    return {'success': False, 'error': f'Connection failed: {str(proxy_error)[:200]}'}
+            except Exception as e:
+                # Другие ошибки - не связанные с прокси
+                print(f"❌ Unexpected error on attempt {attempt + 1}: {e}")
+                if attempt == 0:
+                    continue
+                else:
+                    return {'success': False, 'error': f'API error: {str(e)}'}
+        
+        # Проверяем ответы API
         try:
-            api_base = "https://api.pharosnetwork.xyz"
-            bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3ODA5MTQ3NjEsImlhdCI6MTc0OTM3ODc2MSwic3ViIjoiMHgyNkIxMzVBQjFkNjg3Mjk2N0I1YjJjNTcwOWNhMkI1RERiREUxMDZGIn0.k1JtNw2w67q7lw1kFHmSXxapUS4GpBwXdZH3ByVMFfg"
-            
-            headers = {
-                'Accept': 'application/json, text/plain, */*',
-                'Accept-Language': 'en-US,en;q=0.9',
-                'Authorization': f'Bearer {bearer_token}',
-                'Origin': 'https://testnet.pharosnetwork.xyz',
-                'Referer': 'https://testnet.pharosnetwork.xyz/',
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-            }
-            
-            # НОВОЕ: Получаем случайный прокси
-            proxy_url = get_random_proxy()
-            proxies = {
-                'http': proxy_url,
-                'https': proxy_url
-            } if proxy_url else None
-            
-            print("Getting profile...")
-            profile_response = requests.get(
-                f"{api_base}/user/profile",
-                params={'address': wallet_address},
-                headers=headers,
-                proxies=proxies,  # ← Используем прокси
-                timeout=15
-            )
-            
-            print("Getting tasks...")
-            tasks_response = requests.get(
-                f"{api_base}/user/tasks", 
-                params={'address': wallet_address},
-                headers=headers,
-                proxies=proxies,  # ← Используем тот же прокси
-                timeout=15
-            )
-            
             if profile_response.status_code != 200:
                 return {'success': False, 'error': f'Profile API failed: {profile_response.status_code}'}
                 
@@ -414,6 +444,10 @@ class handler(BaseHTTPRequestHandler):
             points_for_next = levels.get(next_level, 150000)
             points_needed = max(0, points_for_next - total_points)
             
+            # Успешный результат
+            success_message = "с прокси" if proxies else "без прокси (fallback)"
+            print(f"✅ API успешно вызван {success_message}")
+            
             return {
                 'success': True,
                 'address': wallet_address.lower(),
@@ -435,5 +469,5 @@ class handler(BaseHTTPRequestHandler):
             }
             
         except Exception as e:
-            print(f"API call error: {e}")
-            return {'success': False, 'error': f'API error: {str(e)}'}
+            print(f"❌ Error processing API response: {e}")
+            return {'success': False, 'error': f'Response processing error: {str(e)}'}
