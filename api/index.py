@@ -5,10 +5,56 @@ import urllib.parse
 import os
 from datetime import datetime
 import time
+import random
 
 # НОВОЕ: Простой in-memory кэш
 cache = {}
 CACHE_TTL = 30  # 30 секунд кэширования
+
+# НОВОЕ: Загрузка прокси из Environment Variable
+def load_proxies():
+    """Загружает прокси из переменной окружения PROXY_LIST"""
+    try:
+        proxy_data = os.environ.get('PROXY_LIST', '')
+        if not proxy_data:
+            print("❌ PROXY_LIST environment variable не найдена, работаем без прокси")
+            return []
+            
+        proxies = []
+        lines = proxy_data.replace('\\n', '\n').split('\n')  # Поддержка \n в Vercel
+        
+        for line_num, line in enumerate(lines, 1):
+            line = line.strip()
+            if line and not line.startswith('#'):
+                # Формат: premium.proxywing.com:12345:lq2mx3mzoc:uynp34mrvb_session-ojCEgHe4
+                parts = line.split(':')
+                if len(parts) >= 4:
+                    host = parts[0]
+                    port = parts[1] 
+                    username = parts[2]
+                    password = ':'.join(parts[3:])  # На случай если в пароле есть ':'
+                    
+                    proxy_url = f"http://{username}:{password}@{host}:{port}"
+                    proxies.append(proxy_url)
+                else:
+                    print(f"⚠️ Неверный формат прокси в строке {line_num}: {line}")
+        
+        print(f"✅ Загружено {len(proxies)} прокси из Environment Variable")
+        return proxies
+    except Exception as e:
+        print(f"❌ Ошибка загрузки прокси: {e}")
+        return []
+
+# Загружаем прокси при старте
+PROXY_LIST = load_proxies()
+
+def get_random_proxy():
+    """Получить случайный прокси из списка"""
+    if PROXY_LIST:
+        proxy_url = random.choice(PROXY_LIST)
+        print(f"🌐 Используем прокси: {proxy_url.split('@')[1] if '@' in proxy_url else 'unknown'}")
+        return proxy_url
+    return None
 
 def get_from_cache(wallet_address):
     """Получить из кэша если актуально"""
@@ -60,7 +106,12 @@ class handler(BaseHTTPRequestHandler):
             self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
             
-            response = json.dumps({'status': 'ok', 'message': 'API is running'})
+            response = json.dumps({
+                'status': 'ok', 
+                'message': 'API is running',
+                'proxies_loaded': len(PROXY_LIST),
+                'cache_size': len(cache)
+            })
             self.wfile.write(response.encode())
             
         elif self.path == '/api/admin/stats':
@@ -140,9 +191,8 @@ class handler(BaseHTTPRequestHandler):
             self.send_response(404)
             self.end_headers()
 
-    # Остальные методы остаются без изменений...
     def save_user_stats(self, user_data):
-        """Сохраняем статистику пользователя в Redis (ДОБАВЛЕНЫ новые поля)"""
+        """Сохраняем статистику пользователя в Redis"""
         try:
             address = user_data['address'].lower()
             timestamp = datetime.now().isoformat()
@@ -247,7 +297,7 @@ class handler(BaseHTTPRequestHandler):
         self.wfile.write(response.encode())
 
     def call_pharos_api(self, wallet_address):
-        """Call Pharos API - БЕЗ ИЗМЕНЕНИЙ"""
+        """Call Pharos API с ротацией прокси"""
         try:
             api_base = "https://api.pharosnetwork.xyz"
             bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3ODA5MTQ3NjEsImlhdCI6MTc0OTM3ODc2MSwic3ViIjoiMHgyNkIxMzVBQjFkNjg3Mjk2N0I1YjJjNTcwOWNhMkI1RERiREUxMDZGIn0.k1JtNw2w67q7lw1kFHmSXxapUS4GpBwXdZH3ByVMFfg"
@@ -261,11 +311,19 @@ class handler(BaseHTTPRequestHandler):
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
             }
             
+            # НОВОЕ: Получаем случайный прокси
+            proxy_url = get_random_proxy()
+            proxies = {
+                'http': proxy_url,
+                'https': proxy_url
+            } if proxy_url else None
+            
             print("Getting profile...")
             profile_response = requests.get(
                 f"{api_base}/user/profile",
                 params={'address': wallet_address},
                 headers=headers,
+                proxies=proxies,  # ← Используем прокси
                 timeout=15
             )
             
@@ -274,6 +332,7 @@ class handler(BaseHTTPRequestHandler):
                 f"{api_base}/user/tasks", 
                 params={'address': wallet_address},
                 headers=headers,
+                proxies=proxies,  # ← Используем тот же прокси
                 timeout=15
             )
             
