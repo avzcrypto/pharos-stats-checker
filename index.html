@@ -423,29 +423,37 @@
             display: block;
         }
 
-        /* Author footer - УВЕЛИЧЕН НА 20% */
+        /* ОБНОВЛЕННЫЙ Author footer */
         .author-footer {
             margin-top: 32px;
             text-align: center;
         }
 
         .author-link {
-            color: var(--pharos-blue-500);
+            color: white;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 15.4px;
             font-weight: 600;
             transition: all 0.3s ease;
-            padding: 10px 19px;
-            border-radius: 14px;
+            padding: 12px 20px;
+            border-radius: 16px;
             display: inline-block;
-            background: rgba(255, 255, 255, 0.5);
+            background: var(--pharos-green-500);
             backdrop-filter: blur(10px);
+            text-align: center;
+            line-height: 1.4;
+            box-shadow: 
+                0 8px 16px rgba(34, 197, 94, 0.3),
+                0 4px 8px rgba(34, 197, 94, 0.2);
         }
 
         .author-link:hover {
-            color: var(--pharos-blue-700);
-            background: rgba(255, 255, 255, 0.8);
+            color: white;
+            background: var(--pharos-green-600);
             transform: translateY(-2px);
+            box-shadow: 
+                0 12px 24px rgba(34, 197, 94, 0.4),
+                0 6px 12px rgba(34, 197, 94, 0.3);
         }
 
         /* Адаптивность */
@@ -513,9 +521,9 @@
             }
 
             .author-link {
-                font-size: 12px;
-                padding: 7px 15px;
-                border-radius: 12px;
+                font-size: 13.2px;
+                padding: 10px 16px;
+                border-radius: 14px;
             }
         }
 
@@ -678,7 +686,8 @@
 
         <div class="author-footer">
             <a href="https://x.com/avzcrypto" target="_blank" class="author-link">
-                Created by @avzcrypto
+                Click for early access to premium features🚀<br>
+                Made with ❤️ by @avzcrypto
             </a>
         </div>
     </div>
@@ -803,14 +812,10 @@
                     throw new Error(data.error || 'Failed to fetch wallet statistics');
                 }
 
-
-
                 displayResults(data);
 
             } catch (err) {
                 console.error('Error:', err);
-
-                
                 showError(err.message || 'Failed to fetch wallet statistics. Please try again.');
             } finally {
                 hideLoading();
