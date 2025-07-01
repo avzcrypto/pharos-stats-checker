@@ -423,20 +423,20 @@
             display: block;
         }
 
-        /* Author footer */
+        /* Author footer - УВЕЛИЧЕН НА 20% */
         .author-footer {
-            margin-top: 40px;
+            margin-top: 32px;
             text-align: center;
         }
 
         .author-link {
             color: var(--pharos-blue-500);
             text-decoration: none;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 600;
             transition: all 0.3s ease;
-            padding: 8px 16px;
-            border-radius: 12px;
+            padding: 10px 19px;
+            border-radius: 14px;
             display: inline-block;
             background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(10px);
@@ -505,6 +505,17 @@
 
             .stat-value {
                 font-size: 28px;
+            }
+
+            /* Author footer - мобильная адаптация */
+            .author-footer {
+                margin-top: 24px;
+            }
+
+            .author-link {
+                font-size: 12px;
+                padding: 7px 15px;
+                border-radius: 12px;
             }
         }
 
@@ -792,28 +803,13 @@
                     throw new Error(data.error || 'Failed to fetch wallet statistics');
                 }
 
-                // НОВОЕ: Отслеживание успешных проверок через Vercel Analytics
-                if (window.va) {
-                    window.va('track', 'wallet_checked', {
-                        level: data.current_level,
-                        points: data.total_points,
-                        send_count: data.send_count,
-                        swap_count: data.swap_count || 0,
-                        lp_count: data.lp_count || 0
-                    });
-                }
+
 
                 displayResults(data);
 
             } catch (err) {
                 console.error('Error:', err);
-                
-                // НОВОЕ: Отслеживание ошибок через Vercel Analytics
-                if (window.va) {
-                    window.va('track', 'wallet_check_error', {
-                        error: err.message
-                    });
-                }
+
                 
                 showError(err.message || 'Failed to fetch wallet statistics. Please try again.');
             } finally {
@@ -905,13 +901,6 @@
 
         // Auto-focus input
         walletInput.focus();
-
-        // НОВОЕ: Отслеживание загрузки страницы через Vercel Analytics
-        window.addEventListener('load', () => {
-            if (window.va) {
-                window.va('track', 'page_loaded');
-            }
-        });
     </script>
 </body>
 </html>
