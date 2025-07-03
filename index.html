@@ -275,6 +275,85 @@
             transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        /* НОВЫЙ БЛОК CTA */
+        .boost-cta {
+            grid-column: span 2;
+            background: url('./form_background.webp') center/cover;
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .boost-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 20px;
+            z-index: 1;
+        }
+
+        .boost-cta-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        .boost-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 12px 24px rgba(13, 120, 232, 0.3),
+                0 6px 12px rgba(13, 120, 232, 0.2);
+        }
+
+        .boost-cta-text {
+            font-size: 19.4px;
+            font-weight: 900;
+            letter-spacing: 0.025em;
+            line-height: 1.4;
+            margin: 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .boost-cta-line1 {
+            background-image: linear-gradient(91deg, rgb(255, 255, 255) 23%, rgb(166, 224, 255) 98%);
+            font-family: 'Inter28pt-Bold', 'Inter', sans-serif;
+            font-weight: 900;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(rgb(253, 255, 208) 0px 2px 40px);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .boost-cta-line2 {
+            background-image: linear-gradient(128deg, rgb(255, 215, 0) 13%, rgba(255, 223, 0, 0.9) 95%);
+            font-family: 'Inter28pt-Bold', 'Inter', sans-serif;
+            font-weight: 900;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(rgb(253, 255, 208) 0px 2px 10px);
+            display: inline;
+        }
+
+        .boost-cta-emoji {
+            color: white;
+            font-size: 19.4px;
+            margin-left: 4px;
+            display: inline;
+        }
+
         /* Tasks sections */
         .tasks-section {
             margin-bottom: 24px;
@@ -487,6 +566,14 @@
                 gap: 16px;
             }
 
+            .boost-cta {
+                grid-column: span 1;
+            }
+
+            .boost-cta-text {
+                font-size: 14px;
+            }
+
             .protocol-grid {
                 grid-template-columns: 1fr;
                 gap: 12px;
@@ -548,6 +635,7 @@
         .animate-delay-3 { animation-delay: 0.3s; }
         .animate-delay-4 { animation-delay: 0.4s; }
         .animate-delay-5 { animation-delay: 0.5s; }
+        .animate-delay-6 { animation-delay: 0.6s; }
     </style>
 </head>
 <body>
@@ -604,7 +692,15 @@
                 </div>
             </div>
 
-            <div class="tasks-section animate__fadeInUp animate-delay-2">
+            <!-- НОВЫЙ БЛОК CTA -->
+            <a href="https://x.com/avzcrypto/status/1940798987709395362" target="_blank" class="boost-cta animate__fadeInUp animate-delay-2">
+                <div class="boost-cta-text">
+                    <span class="boost-cta-line1">WANT TO BOOST YOUR LVL?</span>
+                    <span class="boost-cta-line2">CLICK AND GET THE ULTIMATE GUIDE</span><span class="boost-cta-emoji">🚀</span>
+                </div>
+            </a>
+
+            <div class="tasks-section animate__fadeInUp animate-delay-3">
                 <div class="task-card">
                     <div class="task-left">
                         <img src="./send.png" alt="Send" class="task-icon">
@@ -614,7 +710,7 @@
                 </div>
             </div>
 
-            <div class="tasks-section animate__fadeInUp animate-delay-3">
+            <div class="tasks-section animate__fadeInUp animate-delay-4">
                 <h3 class="section-title">
                     <img src="./zenith.png" alt="Zenith" class="protocol-icon-img">
                     Zenith Protocol
@@ -637,7 +733,7 @@
                 </div>
             </div>
 
-            <div class="tasks-section animate__fadeInUp animate-delay-4">
+            <div class="tasks-section animate__fadeInUp animate-delay-5">
                 <h3 class="section-title">
                     <img src="./faroswap.png" alt="Faroswap" class="protocol-icon-img">
                     Faroswap Protocol
@@ -660,7 +756,7 @@
                 </div>
             </div>
 
-            <div class="tasks-section animate__fadeInUp animate-delay-5">
+            <div class="tasks-section animate__fadeInUp animate-delay-6">
                 <h3 class="section-title">
                     <img src="./nft.jpg" alt="NFT" class="protocol-icon-img">
                     NFT & Domains
