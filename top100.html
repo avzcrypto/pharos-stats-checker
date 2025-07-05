@@ -916,7 +916,7 @@
         <!-- Disclaimer -->
         <div class="disclaimer-section">
             <div class="disclaimer-content">
-                ⚠️ <strong>Disclaimer:</strong> This leaderboard only displays users who have checked their Pharos Testnet stats on (<a href="https://pharoshub.xyz" target="_blank" class="disclaimer-link">pharoshub.xyz</a>).
+                ⚠️ <strong>Disclaimer:</strong> This leaderboard only displays users who have checked their Pharos Testnet stats on our platform (<a href="https://pharoshub.xyz" target="_blank" class="disclaimer-link">pharoshub.xyz</a>).
             </div>
         </div>
 
@@ -1397,7 +1397,10 @@
                 { name: '8,000 - 8,999 Points', min: 8000, max: 8999, color: '#eab308' },
                 { name: '7,000 - 7,999 Points', min: 7000, max: 7999, color: '#22c55e' },
                 { name: '6,000 - 6,999 Points', min: 6000, max: 6999, color: '#06b6d4' },
-                { name: 'Below 6,000 Points', min: 0, max: 5999, color: '#64748b' }
+                { name: '5,000 - 5,999 Points', min: 5000, max: 5999, color: '#3b82f6' },
+                { name: '4,000 - 4,999 Points', min: 4000, max: 4999, color: '#8b5cf6' },
+                { name: '3,000 - 3,999 Points', min: 3000, max: 3999, color: '#a855f7' },
+                { name: 'Below 3,000 Points', min: 0, max: 2999, color: '#64748b' }
             ];
 
             // Используем статистику всех пользователей, а не только топ 100
@@ -1421,19 +1424,25 @@
                     // Реалистичная экстраполяция для каждого тира
                     if (tier.name === '10,000+ Points') {
                         // Высокие баллы - только в топе
-                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.001);
+                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.0005);
                     } else if (tier.name === '9,000 - 9,999 Points') {
-                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.005);
+                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.002);
                     } else if (tier.name === '8,000 - 8,999 Points') {
-                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.015);
+                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.008);
                     } else if (tier.name === '7,000 - 7,999 Points') {
-                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.03);
+                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.020);
                     } else if (tier.name === '6,000 - 6,999 Points') {
-                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.05);
-                    } else if (tier.name === 'Below 6,000 Points') {
+                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.035);
+                    } else if (tier.name === '5,000 - 5,999 Points') {
+                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.055);
+                    } else if (tier.name === '4,000 - 4,999 Points') {
+                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.080);
+                    } else if (tier.name === '3,000 - 3,999 Points') {
+                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.120);
+                    } else if (tier.name === 'Below 3,000 Points') {
                         // Большинство пользователей с низкими баллами
                         const usedCount = tiers.slice(0, -1).reduce((sum, t, index) => {
-                            const rates = [0.001, 0.005, 0.015, 0.03, 0.05];
+                            const rates = [0.0005, 0.002, 0.008, 0.020, 0.035, 0.055, 0.080, 0.120];
                             const tierTopCount = data.leaderboard.filter(user => {
                                 const points = user.total_points;
                                 if (t.max) {
