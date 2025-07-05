@@ -1556,7 +1556,16 @@
                 const item = document.createElement('div');
                 item.className = 'legend-item';
                 
-                // Убираем gradient background, используем только hover эффект
+                // Правильный расчет заполнения background по проценту
+                const fillPercentage = parseFloat(tier.percentage);
+                
+                // Устанавливаем background gradient с правильным заполнением
+                item.style.background = `linear-gradient(to right, 
+                    ${tier.color}25 0%, 
+                    ${tier.color}25 ${fillPercentage}%, 
+                    rgba(255, 255, 255, 0.8) ${fillPercentage}%, 
+                    rgba(255, 255, 255, 0.8) 100%)`;
+                
                 item.innerHTML = `
                     <div class="legend-color" style="background: ${tier.color};"></div>
                     <div class="legend-text">${tier.name}</div>
