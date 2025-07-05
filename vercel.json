@@ -20,6 +20,10 @@
       "dest": "/$1"
     },
     {
+      "src": "/top",
+      "dest": "/top.html"
+    },
+    {
       "src": "/",
       "dest": "/index.html"
     },
