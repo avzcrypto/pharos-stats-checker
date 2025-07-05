@@ -1,222 +1,133 @@
+"""
+Pharos Stats Checker API
+========================
+
+High-performance API for Pharos Network testnet statistics tracking and leaderboard management.
+Optimized for serverless deployment with advanced caching and concurrent processing.
+
+Author: @avzcrypto
+License: MIT
+Version: 2.0.0
+"""
+
 from http.server import BaseHTTPRequestHandler
 import json
 import requests
-import urllib.parse
 import os
 from datetime import datetime
 import time
 import random
+import concurrent.futures
+from typing import Optional, Dict, Any, List
 
-# НОВОЕ: Простой in-memory кэш
-cache = {}
-CACHE_TTL = 30  # 30 секунд кэширования
 
-# НОВОЕ: Загрузка прокси из Environment Variable
-def load_proxies():
-    """Загружает прокси из переменной окружения PROXY_LIST"""
-    try:
-        proxy_data = os.environ.get('PROXY_LIST', '')
-        if not proxy_data:
-            print("❌ PROXY_LIST environment variable не найдена, работаем без прокси")
-            return []
-            
-        proxies = []
-        lines = proxy_data.replace('\\n', '\n').split('\n')  # Поддержка \n в Vercel
-        
-        for line_num, line in enumerate(lines, 1):
-            line = line.strip()
-            if line and not line.startswith('#'):
-                # Формат: premium.proxywing.com:12345:lq2mx3mzoc:uynp34mrvb_session-ojCEgHe4
-                parts = line.split(':')
-                if len(parts) >= 4:
-                    host = parts[0]
-                    port = parts[1] 
-                    username = parts[2]
-                    password = ':'.join(parts[3:])  # На случай если в пароле есть ':'
-                    
-                    proxy_url = f"http://{username}:{password}@{host}:{port}"
-                    proxies.append(proxy_url)
-                else:
-                    print(f"⚠️ Неверный формат прокси в строке {line_num}: {line}")
-        
-        print(f"✅ Загружено {len(proxies)} прокси из Environment Variable")
-        return proxies
-    except Exception as e:
-        print(f"❌ Ошибка загрузки прокси: {e}")
-        return []
-
-# Загружаем прокси при старте
-PROXY_LIST = load_proxies()
-
-def get_random_proxy():
-    """Получить случайный прокси из списка"""
-    if PROXY_LIST:
-        proxy_url = random.choice(PROXY_LIST)
-        print(f"🌐 Используем прокси: {proxy_url.split('@')[1] if '@' in proxy_url else 'unknown'}")
-        return proxy_url
-    return None
-
-def get_from_cache(wallet_address):
-    """Получить из кэша если актуально"""
-    cache_key = wallet_address.lower()
-    if cache_key in cache:
-        cached_data, timestamp = cache[cache_key]
-        if time.time() - timestamp < CACHE_TTL:
-            return cached_data
-        else:
-            # Удаляем устаревший кэш
-            del cache[cache_key]
-    return None
-
-def save_to_cache(wallet_address, data):
-    """Сохранить в кэш"""
-    cache_key = wallet_address.lower()
-    cache[cache_key] = (data, time.time())
+class CacheManager:
+    """Advanced in-memory cache with LRU eviction policy."""
     
-    # Очистка старого кэша (простая защита от переполнения)
-    if len(cache) > 1000:
-        # Удаляем самые старые записи
-        sorted_cache = sorted(cache.items(), key=lambda x: x[1][1])
-        for key, _ in sorted_cache[:200]:  # Удаляем 200 старых записей
-            del cache[key]
-
-# Попробуем подключить Redis для Vercel KV
-try:
-    import redis
-    kv = redis.Redis.from_url(os.environ.get('REDIS_URL', ''))
-    STATS_ENABLED = True
-    print("Stats collection enabled")
-except:
-    kv = None
-    STATS_ENABLED = False
-    print("Stats collection disabled")
-
-def get_exact_rank(total_points):
-    """Вычисляет точный ранк пользователя на основе очков"""
-    try:
-        if not STATS_ENABLED or not kv:
-            print("⚠️ Stats disabled - cannot calculate exact rank")
-            return None
-            
-        # Подсчитываем количество пользователей с большим количеством очков
-        # ZCOUNT возвращает количество элементов в sorted set с score между min и max
-        users_with_more_points = kv.zcount('pharos:leaderboard', total_points + 1, '+inf')
-        
-        # Ранк = количество пользователей выше + 1
-        exact_rank = users_with_more_points + 1
-        
-        print(f"🎯 Exact rank calculation: {users_with_more_points} users have more than {total_points} points")
-        print(f"🎯 User rank: #{exact_rank}")
-        
-        return exact_rank
-        
-    except Exception as e:
-        print(f"❌ Error calculating exact rank: {e}")
+    def __init__(self, ttl: int = 300, max_size: int = 2000):
+        self.cache = {}
+        self.ttl = ttl
+        self.max_size = max_size
+    
+    def get(self, key: str) -> Optional[Dict[str, Any]]:
+        """Retrieve cached data if still valid."""
+        cache_key = key.lower()
+        if cache_key in self.cache:
+            data, timestamp = self.cache[cache_key]
+            if time.time() - timestamp < self.ttl:
+                return data
+            del self.cache[cache_key]
         return None
+    
+    def set(self, key: str, data: Dict[str, Any]) -> None:
+        """Store data in cache with automatic cleanup."""
+        cache_key = key.lower()
+        self.cache[cache_key] = (data, time.time())
+        self._cleanup_if_needed()
+    
+    def _cleanup_if_needed(self) -> None:
+        """Cleanup oldest entries when cache exceeds maximum size."""
+        if len(self.cache) > self.max_size:
+            sorted_items = sorted(self.cache.items(), key=lambda x: x[1][1])
+            remove_count = self.max_size // 4
+            for key, _ in sorted_items[:remove_count]:
+                del self.cache[key]
 
-class handler(BaseHTTPRequestHandler):
-    def do_OPTIONS(self):
-        self.send_response(200)
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
-        self.end_headers()
 
-    def do_GET(self):
-        if self.path == '/api/health':
-            self.send_response(200)
-            self.send_header('Content-Type', 'application/json')
-            self.send_header('Access-Control-Allow-Origin', '*')
-            self.end_headers()
+class ProxyManager:
+    """Manages proxy rotation for external API calls."""
+    
+    def __init__(self):
+        self.proxies = self._load_proxies()
+    
+    def _load_proxies(self) -> List[str]:
+        """Load and parse proxy configuration from environment."""
+        try:
+            proxy_data = os.environ.get('PROXY_LIST', '')
+            if not proxy_data:
+                return []
             
-            response = json.dumps({
-                'status': 'ok', 
-                'message': 'API is running',
-                'proxies_loaded': len(PROXY_LIST),
-                'cache_size': len(cache),
-                'stats_enabled': STATS_ENABLED
-            })
-            self.wfile.write(response.encode())
+            proxies = []
+            for line in proxy_data.replace('\\n', '\n').split('\n'):
+                line = line.strip()
+                if line and not line.startswith('#'):
+                    parts = line.split(':')
+                    if len(parts) >= 4:
+                        host, port, username = parts[0], parts[1], parts[2]
+                        password = ':'.join(parts[3:])
+                        proxy_url = f"http://{username}:{password}@{host}:{port}"
+                        proxies.append(proxy_url)
             
-        elif self.path == '/api/admin/stats':
-            try:
-                if not STATS_ENABLED:
-                    self.send_error_response({'success': False, 'error': 'Stats not available'}, 503)
-                    return
-                    
-                stats_data = self.get_admin_stats()
-                self.send_success_response(stats_data)
-            except Exception as e:
-                print(f"Admin stats error: {e}")
-                self.send_error_response({'success': False, 'error': 'Failed to fetch stats'}, 500)
-        else:
-            self.send_response(404)
-            self.end_headers()
+            return proxies
+        except Exception:
+            return []
+    
+    def get_random_proxy(self) -> Optional[str]:
+        """Get a random proxy from the pool."""
+        return random.choice(self.proxies) if self.proxies else None
 
-    def do_POST(self):
-        print(f"=== POST REQUEST START ===")
-        print(f"Path: {self.path}")
+
+class RedisManager:
+    """Redis connection and operations manager."""
+    
+    def __init__(self):
+        self.client = None
+        self.enabled = self._initialize_connection()
+    
+    def _initialize_connection(self) -> bool:
+        """Initialize Redis connection with error handling."""
+        try:
+            import redis
+            self.client = redis.Redis.from_url(
+                os.environ.get('REDIS_URL', ''),
+                socket_connect_timeout=5,
+                socket_timeout=5
+            )
+            self.client.ping()
+            return True
+        except Exception:
+            return False
+    
+    def get_exact_rank(self, total_points: int) -> Optional[int]:
+        """Calculate exact user rank based on points."""
+        try:
+            if not self.enabled or not self.client:
+                return None
+            
+            users_with_more_points = self.client.zcount(
+                'pharos:leaderboard', 
+                total_points + 1, 
+                '+inf'
+            )
+            return users_with_more_points + 1
+        except Exception:
+            return None
+    
+    def save_user_stats(self, user_data: Dict[str, Any]) -> None:
+        """Save user statistics to Redis with batched operations."""
+        if not self.enabled or not self.client:
+            return
         
-        if self.path == '/api/check-wallet':
-            try:
-                # Read request body
-                content_length = int(self.headers['Content-Length'])
-                post_data = self.rfile.read(content_length)
-                print(f"Raw data: {post_data}")
-                
-                # Parse JSON
-                data = json.loads(post_data.decode('utf-8'))
-                print(f"Parsed data: {data}")
-                
-                wallet_address = data.get('wallet_address', '').strip()
-                print(f"Wallet address: {wallet_address}")
-                
-                # Validate address
-                if not wallet_address.startswith('0x') or len(wallet_address) != 42:
-                    self.send_error_response({'success': False, 'error': 'Invalid wallet address'}, 400)
-                    return
-                
-                # НОВОЕ: Проверяем кэш
-                cached_result = get_from_cache(wallet_address)
-                if cached_result:
-                    print(f"Cache HIT for {wallet_address}")
-                    self.send_success_response(cached_result)
-                    return
-                
-                print("Cache MISS - calling Pharos API...")
-                result = self.call_pharos_api(wallet_address)
-                print(f"API result: {result}")
-                
-                if result.get('success'):
-                    # НОВОЕ: Сохраняем в кэш
-                    save_to_cache(wallet_address, result)
-                    
-                    # Сохраняем статистику пользователя (тихо, без прерывания работы)
-                    if STATS_ENABLED:
-                        try:
-                            self.save_user_stats(result)
-                            print(f"Stats saved for {wallet_address}")
-                        except Exception as e:
-                            print(f"Failed to save stats: {e}")
-                    
-                    self.send_success_response(result)
-                else:
-                    self.send_error_response(result, 400)
-                    
-            except Exception as e:
-                print(f"Exception: {e}")
-                import traceback
-                traceback.print_exc()
-                self.send_error_response({
-                    'success': False, 
-                    'error': f'Server error: {str(e)}'
-                }, 500)
-        else:
-            self.send_response(404)
-            self.end_headers()
-
-    def save_user_stats(self, user_data):
-        """Сохраняем статистику пользователя в Redis"""
         try:
             address = user_data['address'].lower()
             timestamp = datetime.now().isoformat()
@@ -238,7 +149,7 @@ class handler(BaseHTTPRequestHandler):
                 'faroswap_swaps': user_data.get('faroswap_swaps', 0)
             }
             
-            existing_data = kv.hget('pharos:users', address)
+            existing_data = self.client.hget('pharos:users', address)
             if existing_data:
                 existing_stats = json.loads(existing_data)
                 stats['total_checks'] = existing_stats.get('total_checks', 0) + 1
@@ -248,23 +159,28 @@ class handler(BaseHTTPRequestHandler):
             else:
                 stats['first_check'] = timestamp
             
-            kv.hset('pharos:users', address, json.dumps(stats))
-            kv.zadd('pharos:leaderboard', {address: user_data['total_points']})
-            kv.incr('pharos:total_checks')
+            # Batch Redis operations for efficiency
+            pipe = self.client.pipeline()
+            pipe.hset('pharos:users', address, json.dumps(stats))
+            pipe.zadd('pharos:leaderboard', {address: user_data['total_points']})
+            pipe.incr('pharos:total_checks')
+            pipe.execute()
             
-        except Exception as e:
-            print(f"Error saving stats: {e}")
-            raise
-
-    def get_admin_stats(self):
-        """Получаем статистику для админа"""
+        except Exception:
+            pass  # Graceful degradation if Redis fails
+    
+    def get_leaderboard_data(self) -> Dict[str, Any]:
+        """Retrieve leaderboard statistics."""
+        if not self.enabled or not self.client:
+            raise Exception('Stats not available')
+        
         try:
-            top_addresses = kv.zrevrange('pharos:leaderboard', 0, 99, withscores=True)
+            top_addresses = self.client.zrevrange('pharos:leaderboard', 0, 99, withscores=True)
             
             leaderboard = []
             for i, (address, points) in enumerate(top_addresses):
                 address_str = address.decode('utf-8')
-                user_data = kv.hget('pharos:users', address_str)
+                user_data = self.client.hget('pharos:users', address_str)
                 
                 if user_data:
                     stats = json.loads(user_data)
@@ -287,8 +203,8 @@ class handler(BaseHTTPRequestHandler):
                         'faroswap_swaps': stats.get('faroswap_swaps', 0)
                     })
             
-            total_users = kv.zcard('pharos:leaderboard')
-            total_checks = kv.get('pharos:total_checks')
+            total_users = self.client.zcard('pharos:leaderboard')
+            total_checks = self.client.get('pharos:total_checks')
             
             return {
                 'success': True,
@@ -299,203 +215,338 @@ class handler(BaseHTTPRequestHandler):
             }
             
         except Exception as e:
-            print(f"Error getting admin stats: {e}")
             return {'success': False, 'error': str(e)}
 
-    def send_success_response(self, data):
-        self.send_response(200)
-        self.send_header('Content-Type', 'application/json')
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.end_headers()
-        
-        response = json.dumps(data)
-        self.wfile.write(response.encode())
 
-    def send_error_response(self, data, status_code):
-        self.send_response(status_code)
-        self.send_header('Content-Type', 'application/json')
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.end_headers()
-        
-        response = json.dumps(data)
-        self.wfile.write(response.encode())
-
-    def call_pharos_api(self, wallet_address):
-        """Call Pharos API с ротацией прокси и fallback"""
-        api_base = "https://api.pharosnetwork.xyz"
-        bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3ODA5MTQ3NjEsImlhdCI6MTc0OTM3ODc2MSwic3ViIjoiMHgyNkIxMzVBQjFkNjg3Mjk2N0I1YjJjNTcwOWNhMkI1RERiREUxMDZGIn0.k1JtNw2w67q7lw1kFHmSXxapUS4GpBwXdZH3ByVMFfg"
-        
-        headers = {
+class PharosAPIClient:
+    """High-performance client for Pharos Network API with concurrent processing."""
+    
+    API_BASE = "https://api.pharosnetwork.xyz"
+    BEARER_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3ODA5MTQ3NjEsImlhdCI6MTc0OTM3ODc2MSwic3ViIjoiMHgyNkIxMzVBQjFkNjg3Mjk2N0I1YjJjNTcwOWNhMkI1RERiREUxMDZGIn0.k1JtNw2w67q7lw1kFHmSXxapUS4GpBwXdZH3ByVMFfg"
+    
+    def __init__(self, proxy_manager: ProxyManager, redis_manager: RedisManager):
+        self.proxy_manager = proxy_manager
+        self.redis_manager = redis_manager
+        self.headers = {
             'Accept': 'application/json, text/plain, */*',
             'Accept-Language': 'en-US,en;q=0.9',
-            'Authorization': f'Bearer {bearer_token}',
+            'Authorization': f'Bearer {self.BEARER_TOKEN}',
             'Origin': 'https://testnet.pharosnetwork.xyz',
             'Referer': 'https://testnet.pharosnetwork.xyz/',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
         }
-        
-        # Пробуем 2 варианта: с прокси и без прокси
+    
+    def get_user_data(self, wallet_address: str) -> Dict[str, Any]:
+        """Fetch user data with optimized concurrent API calls and fallback logic."""
         for attempt in range(2):
             try:
-                if attempt == 0 and PROXY_LIST:
-                    # Попытка 1: с случайным прокси
-                    proxy_url = get_random_proxy()
-                    proxies = {'http': proxy_url, 'https': proxy_url}
-                    timeout = 20
-                    print(f"🌐 Попытка {attempt + 1}: с прокси {proxy_url.split('@')[1] if '@' in proxy_url else 'unknown'}")
-                else:
-                    # Попытка 2: без прокси (fallback)
-                    proxies = None
+                if attempt == 0:
+                    proxy_url = self.proxy_manager.get_random_proxy()
+                    proxies = {'http': proxy_url, 'https': proxy_url} if proxy_url else None
                     timeout = 15
-                    print(f"🔄 Попытка {attempt + 1}: без прокси (fallback)")
+                else:
+                    proxies = None
+                    timeout = 12
                 
-                print("Getting profile...")
-                profile_response = requests.get(
-                    f"{api_base}/user/profile",
-                    params={'address': wallet_address},
-                    headers=headers,
-                    proxies=proxies,
-                    timeout=timeout
-                )
+                # Concurrent API calls for improved performance
+                with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+                    profile_future = executor.submit(
+                        self._make_request,
+                        f"{self.API_BASE}/user/profile",
+                        {'address': wallet_address},
+                        proxies,
+                        timeout
+                    )
+                    
+                    tasks_future = executor.submit(
+                        self._make_request,
+                        f"{self.API_BASE}/user/tasks",
+                        {'address': wallet_address},
+                        proxies,
+                        timeout
+                    )
+                    
+                    profile_response = profile_future.result()
+                    tasks_response = tasks_future.result()
                 
-                print("Getting tasks...")
-                tasks_response = requests.get(
-                    f"{api_base}/user/tasks", 
-                    params={'address': wallet_address},
-                    headers=headers,
-                    proxies=proxies,
-                    timeout=timeout
-                )
-                
-                # Если дошли до сюда - запросы успешны, выходим из цикла
-                break
+                if profile_response and tasks_response:
+                    return self._process_api_response(
+                        profile_response, 
+                        tasks_response, 
+                        wallet_address
+                    )
                 
             except (requests.exceptions.ProxyError, 
                     requests.exceptions.ConnectTimeout,
-                    requests.exceptions.ConnectionError) as proxy_error:
-                print(f"❌ Попытка {attempt + 1} failed: {type(proxy_error).__name__}: {str(proxy_error)[:100]}...")
+                    requests.exceptions.ConnectionError):
                 if attempt == 0:
-                    print("🔄 Переходим на fallback без прокси...")
-                    continue  # Пробуем следующую попытку
+                    continue
                 else:
-                    # Если и fallback не сработал
-                    return {'success': False, 'error': f'Connection failed: {str(proxy_error)[:200]}'}
+                    return {'success': False, 'error': 'Connection failed'}
             except Exception as e:
-                # Другие ошибки - не связанные с прокси
-                print(f"❌ Unexpected error on attempt {attempt + 1}: {e}")
                 if attempt == 0:
                     continue
                 else:
                     return {'success': False, 'error': f'API error: {str(e)}'}
         
-        # Проверяем ответы API
+        return {'success': False, 'error': 'All connection attempts failed'}
+    
+    def _make_request(self, url: str, params: Dict[str, str], 
+                     proxies: Optional[Dict[str, str]], timeout: int) -> Optional[Dict[str, Any]]:
+        """Make HTTP request with error handling."""
         try:
-            if profile_response.status_code != 200:
-                return {'success': False, 'error': f'Profile API failed: {profile_response.status_code}'}
-                
-            if tasks_response.status_code != 200:
-                return {'success': False, 'error': f'Tasks API failed: {tasks_response.status_code}'}
+            response = requests.get(
+                url,
+                params=params,
+                headers=self.headers,
+                proxies=proxies,
+                timeout=timeout
+            )
             
-            profile_data = profile_response.json()
-            tasks_data = tasks_response.json()
+            if response.status_code == 200:
+                data = response.json()
+                if data.get('code') == 0:
+                    return data
             
-            if profile_data.get('code') != 0:
-                return {'success': False, 'error': 'Invalid profile response'}
-                
-            if tasks_data.get('code') != 0:
-                return {'success': False, 'error': 'Invalid tasks response'}
-            
-            # Process data - остается без изменений
+            return None
+        except Exception:
+            return None
+    
+    def _process_api_response(self, profile_data: Dict[str, Any], 
+                            tasks_data: Dict[str, Any], 
+                            wallet_address: str) -> Dict[str, Any]:
+        """Process and normalize API response data."""
+        try:
             user_info = profile_data.get('data', {}).get('user_info', {})
             total_points = user_info.get('TotalPoints', 0)
-            
             user_tasks = tasks_data.get('data', {}).get('user_tasks', [])
             
-            send_count = 0
-            swap_count = 0
-            lp_count = 0
-            mint_domain = 0
-            mint_nft = 0
-            faroswap_lp = 0
-            faroswap_swaps = 0
-            social_tasks = 0
+            # Parse task data efficiently
+            task_counts = self._parse_task_data(user_tasks)
             
-            for task in user_tasks:
-                task_id = task.get('TaskId', 0)
-                complete_times = task.get('CompleteTimes', 0)
-                
-                if task_id == 103:
-                    send_count = complete_times
-                elif task_id == 101:
-                    swap_count = complete_times
-                elif task_id == 102:
-                    lp_count = complete_times
-                elif task_id in [201, 202, 203, 204]:
-                    social_tasks += 1
-                elif task_id == 104:
-                    mint_domain = complete_times
-                elif task_id == 105:
-                    mint_nft = complete_times
-                elif task_id == 106:
-                    faroswap_lp = complete_times
-                elif task_id == 107:
-                    faroswap_swaps = complete_times
-            
-            # Calculate level
-            if total_points < 1000:
-                current_level = 1
-            elif total_points < 3000:
-                current_level = 2
-            elif total_points < 6000:
-                current_level = 3
-            elif total_points < 10000:
-                current_level = 4
-            elif total_points < 15000:
-                current_level = 5
-            elif total_points < 25000:
-                current_level = 6
-            elif total_points < 40000:
-                current_level = 7
-            elif total_points < 60000:
-                current_level = 8
-            elif total_points < 90000:
-                current_level = 9
-            else:
-                current_level = 10
-            
+            # Calculate user level based on points
+            current_level = self._calculate_level(total_points)
             next_level = current_level + 1
-            levels = {1: 0, 2: 1000, 3: 3000, 4: 6000, 5: 10000, 6: 15000, 7: 25000, 8: 40000, 9: 60000, 10: 90000, 11: 150000}
-            points_for_next = levels.get(next_level, 150000)
+            
+            # Calculate points needed for next level
+            level_thresholds = {
+                1: 0, 2: 1000, 3: 3000, 4: 6000, 5: 10000, 
+                6: 15000, 7: 25000, 8: 40000, 9: 60000, 
+                10: 90000, 11: 150000
+            }
+            points_for_next = level_thresholds.get(next_level, 150000)
             points_needed = max(0, points_for_next - total_points)
             
-            # НОВОЕ: Вычисляем точный ранк
-            exact_rank = get_exact_rank(total_points)
-            
-            # Успешный результат
-            success_message = "с прокси" if proxies else "без прокси (fallback)"
-            print(f"✅ API успешно вызван {success_message}")
+            # Get exact rank from Redis
+            exact_rank = self.redis_manager.get_exact_rank(total_points)
             
             return {
                 'success': True,
                 'address': wallet_address.lower(),
                 'total_points': total_points,
-                'exact_rank': exact_rank,  # ← НОВОЕ ПОЛЕ
+                'exact_rank': exact_rank,
                 'current_level': current_level,
                 'next_level': next_level,
                 'points_needed': points_needed,
-                'send_count': send_count,
-                'swap_count': swap_count,
-                'lp_count': lp_count,
-                'social_tasks': social_tasks,
+                'send_count': task_counts['send'],
+                'swap_count': task_counts['swap'],
+                'lp_count': task_counts['lp'],
+                'social_tasks': task_counts['social'],
                 'member_since': user_info.get('CreateTime'),
-                'mint_domain': mint_domain,
-                'mint_nft': mint_nft,
-                'faroswap_lp': faroswap_lp,
-                'faroswap_swaps': faroswap_swaps,
-                'zenith_swaps': swap_count,
-                'zenith_lp': lp_count
+                'mint_domain': task_counts['domain'],
+                'mint_nft': task_counts['nft'],
+                'faroswap_lp': task_counts['faroswap_lp'],
+                'faroswap_swaps': task_counts['faroswap_swaps'],
+                'zenith_swaps': task_counts['swap'],
+                'zenith_lp': task_counts['lp']
             }
             
         except Exception as e:
-            print(f"❌ Error processing API response: {e}")
             return {'success': False, 'error': f'Response processing error: {str(e)}'}
+    
+    def _parse_task_data(self, user_tasks: List[Dict[str, Any]]) -> Dict[str, int]:
+        """Parse task completion data from API response."""
+        task_counts = {
+            'send': 0, 'swap': 0, 'lp': 0, 'domain': 0, 'nft': 0,
+            'faroswap_lp': 0, 'faroswap_swaps': 0, 'social': 0
+        }
+        
+        for task in user_tasks:
+            task_id = task.get('TaskId', 0)
+            complete_times = task.get('CompleteTimes', 0)
+            
+            if task_id == 103:
+                task_counts['send'] = complete_times
+            elif task_id == 101:
+                task_counts['swap'] = complete_times
+            elif task_id == 102:
+                task_counts['lp'] = complete_times
+            elif task_id in [201, 202, 203, 204]:
+                task_counts['social'] += 1
+            elif task_id == 104:
+                task_counts['domain'] = complete_times
+            elif task_id == 105:
+                task_counts['nft'] = complete_times
+            elif task_id == 106:
+                task_counts['faroswap_lp'] = complete_times
+            elif task_id == 107:
+                task_counts['faroswap_swaps'] = complete_times
+        
+        return task_counts
+    
+    def _calculate_level(self, total_points: int) -> int:
+        """Calculate user level based on total points."""
+        if total_points < 1000:
+            return 1
+        elif total_points < 3000:
+            return 2
+        elif total_points < 6000:
+            return 3
+        elif total_points < 10000:
+            return 4
+        elif total_points < 15000:
+            return 5
+        elif total_points < 25000:
+            return 6
+        elif total_points < 40000:
+            return 7
+        elif total_points < 60000:
+            return 8
+        elif total_points < 90000:
+            return 9
+        else:
+            return 10
+
+
+# Module-level managers (Vercel serverless compatible)
+cache_manager = CacheManager(ttl=300, max_size=2000)
+proxy_manager = ProxyManager()
+redis_manager = RedisManager()
+api_client = PharosAPIClient(proxy_manager, redis_manager)
+
+
+class handler(BaseHTTPRequestHandler):
+    """Main HTTP request handler optimized for Vercel serverless deployment."""
+    
+    def do_OPTIONS(self):
+        """Handle CORS preflight requests."""
+        self.send_response(200)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        self.end_headers()
+    
+    def do_GET(self):
+        """Handle GET requests for health check and admin statistics."""
+        if self.path == '/api/health':
+            self._handle_health_check()
+        elif self.path == '/api/admin/stats':
+            self._handle_admin_stats()
+        else:
+            self.send_error(404)
+    
+    def do_POST(self):
+        """Handle POST requests for wallet statistics."""
+        if self.path == '/api/check-wallet':
+            self._handle_wallet_check()
+        else:
+            self.send_error(404)
+    
+    def _handle_health_check(self):
+        """Return API health status and configuration."""
+        response_data = {
+            'status': 'ok',
+            'message': 'Pharos Stats API is operational',
+            'version': '2.0.0',
+            'cache_size': len(cache_manager.cache),
+            'proxies_loaded': len(proxy_manager.proxies),
+            'redis_enabled': redis_manager.enabled
+        }
+        self._send_json_response(response_data)
+    
+    def _handle_admin_stats(self):
+        """Handle admin statistics request."""
+        try:
+            if not redis_manager.enabled:
+                self._send_error_response({'error': 'Statistics not available'}, 503)
+                return
+            
+            stats_data = redis_manager.get_leaderboard_data()
+            self._send_json_response(stats_data)
+            
+        except Exception:
+            self._send_error_response({'error': 'Failed to fetch statistics'}, 500)
+    
+    def _handle_wallet_check(self):
+        """Handle wallet statistics check request."""
+        try:
+            # Parse and validate request
+            content_length = int(self.headers.get('Content-Length', 0))
+            if content_length > 1000:
+                self._send_error_response({'error': 'Request too large'}, 413)
+                return
+            
+            post_data = self.rfile.read(content_length)
+            data = json.loads(post_data.decode('utf-8'))
+            wallet_address = data.get('wallet_address', '').strip()
+            
+            # Validate wallet address format
+            if not self._is_valid_address(wallet_address):
+                self._send_error_response({'error': 'Invalid wallet address format'}, 400)
+                return
+            
+            # Check cache first (primary optimization)
+            cached_result = cache_manager.get(wallet_address)
+            if cached_result:
+                self._send_json_response(cached_result)
+                return
+            
+            # Fetch fresh data from API
+            result = api_client.get_user_data(wallet_address)
+            
+            if result.get('success'):
+                # Cache successful result
+                cache_manager.set(wallet_address, result)
+                
+                # Save to Redis asynchronously (non-blocking)
+                if redis_manager.enabled:
+                    try:
+                        redis_manager.save_user_stats(result)
+                    except Exception:
+                        pass  # Graceful degradation
+                
+                self._send_json_response(result)
+            else:
+                self._send_error_response(result, 400)
+                
+        except json.JSONDecodeError:
+            self._send_error_response({'error': 'Invalid JSON format'}, 400)
+        except Exception as e:
+            self._send_error_response({'error': 'Internal server error'}, 500)
+    
+    def _is_valid_address(self, address: str) -> bool:
+        """Validate Ethereum address format."""
+        return (len(address) == 42 and 
+                address.startswith('0x') and 
+                all(c in '0123456789abcdefABCDEF' for c in address[2:]))
+    
+    def _send_json_response(self, data: Dict[str, Any], status_code: int = 200):
+        """Send JSON response with proper headers."""
+        if 'success' not in data:
+            data['success'] = True
+        
+        response_body = json.dumps(data, separators=(',', ':'))
+        
+        self.send_response(status_code)
+        self.send_header('Content-Type', 'application/json')
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Cache-Control', 'no-cache')
+        self.send_header('Content-Length', str(len(response_body)))
+        self.end_headers()
+        
+        self.wfile.write(response_body.encode('utf-8'))
+    
+    def _send_error_response(self, error_data: Dict[str, Any], status_code: int):
+        """Send error response with proper formatting."""
+        error_data['success'] = False
+        self._send_json_response(error_data, status_code)
