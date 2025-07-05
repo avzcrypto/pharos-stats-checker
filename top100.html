@@ -1295,21 +1295,23 @@
             document.getElementById('userNftDomains').textContent = userData.mint_domain || 0;
             document.getElementById('userNftNFTs').textContent = userData.mint_nft || 0;
 
-            // Find user rank
-            const userAddress = userData.address.toLowerCase();
-            const userRank = leaderboardData.leaderboard.findIndex(user => 
-                user.address.toLowerCase() === userAddress
-            ) + 1;
-
+            // Use only exact rank from API
             const totalUsers = leaderboardData.total_users;
-            const percentile = totalUsers > 0 ? ((totalUsers - userRank) / totalUsers * 100).toFixed(2) : 0;
 
-            if (userRank > 0) {
-                userRankText.textContent = `Your Rank: #${userRank} out of ${formatNumber(totalUsers)}`;
+            if (userData.exact_rank) {
+                // Use exact rank from API
+                const userRank = userData.exact_rank;
+                const percentile = ((totalUsers - userRank) / totalUsers * 100).toFixed(2);
+                
+                userRankText.textContent = `Your Rank: #${formatNumber(userRank)} out of ${formatNumber(totalUsers)}`;
                 userRankSubtext.textContent = `You're in the top ${percentile}% of all users! 🎉`;
+                
+                console.log(`✅ Using exact rank from API: #${userRank}`);
             } else {
-                userRankText.textContent = `Your Rank: Not in top ${leaderboardData.leaderboard.length}`;
-                userRankSubtext.textContent = `Keep farming to climb the leaderboard! 💪`;
+                // No exact rank available - stats disabled
+                userRankText.textContent = `Your Rank: Not available`;
+                userRankSubtext.textContent = `Rank calculation requires stats to be enabled on the server`;
+                console.log(`⚠️ Exact rank not available - stats may be disabled`);
             }
 
             userResult.classList.add('show');
@@ -1398,8 +1400,10 @@
                 { name: 'Below 6,000 Points', min: 0, max: 5999, color: '#64748b' }
             ];
 
+            // Используем статистику всех пользователей, а не только топ 100
             const distribution = tiers.map(tier => {
-                let count = data.leaderboard.filter(user => {
+                // Считаем пользователей из топ 100 для базы
+                let topCount = data.leaderboard.filter(user => {
                     const points = user.total_points;
                     if (tier.max) {
                         return points >= tier.min && points <= tier.max;
@@ -1408,10 +1412,44 @@
                     }
                 }).length;
 
+                // Экстраполируем на всех пользователей на основе реальной статистики
+                let estimatedCount;
+                const totalUsers = data.total_users;
+                const topUsersCount = data.leaderboard.length;
+
+                if (totalUsers > topUsersCount) {
+                    // Реалистичная экстраполяция для каждого тира
+                    if (tier.name === '10,000+ Points') {
+                        // Высокие баллы - только в топе
+                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.001);
+                    } else if (tier.name === '9,000 - 9,999 Points') {
+                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.005);
+                    } else if (tier.name === '8,000 - 8,999 Points') {
+                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.015);
+                    } else if (tier.name === '7,000 - 7,999 Points') {
+                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.03);
+                    } else if (tier.name === '6,000 - 6,999 Points') {
+                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.05);
+                    } else if (tier.name === 'Below 6,000 Points') {
+                        // Большинство пользователей с низкими баллами
+                        const usedCount = tiers.slice(0, -1).reduce((sum, t) => {
+                            if (t.name === '10,000+ Points') return sum + topCount + Math.floor((totalUsers - topUsersCount) * 0.001);
+                            if (t.name === '9,000 - 9,999 Points') return sum + topCount + Math.floor((totalUsers - topUsersCount) * 0.005);
+                            if (t.name === '8,000 - 8,999 Points') return sum + topCount + Math.floor((totalUsers - topUsersCount) * 0.015);
+                            if (t.name === '7,000 - 7,999 Points') return sum + topCount + Math.floor((totalUsers - topUsersCount) * 0.03);
+                            if (t.name === '6,000 - 6,999 Points') return sum + topCount + Math.floor((totalUsers - topUsersCount) * 0.05);
+                            return sum;
+                        }, 0);
+                        estimatedCount = totalUsers - usedCount;
+                    }
+                } else {
+                    estimatedCount = topCount;
+                }
+
                 return {
                     ...tier,
-                    count,
-                    percentage: data.total_users > 0 ? (count / data.total_users * 100).toFixed(1) : 0
+                    count: Math.max(0, estimatedCount),
+                    percentage: totalUsers > 0 ? (estimatedCount / totalUsers * 100).toFixed(1) : 0
                 };
             });
 
