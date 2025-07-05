@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pharos Stats Leaderboard</title>
-    <link rel="icon" type="image/webp" href="./logo.webp">
+    <link rel="icon" type="image/webp" href="./leaderboard_logo.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -1473,47 +1473,33 @@
             distribution.forEach((tier, index) => {
                 if (tier.count > 0) {
                     const percentage = tier.count / totalUsers;
-                    const angle = percentage * 2 * Math.PI; // Угол в радианах
-                    
-                    // Создаем path для сектора вместо stroke-dasharray для лучшего отображения
-                    const startAngle = currentAngle;
-                    const endAngle = currentAngle + angle;
-                    
-                    const x1 = 140 + radius * Math.cos(startAngle);
-                    const y1 = 140 + radius * Math.sin(startAngle);
-                    const x2 = 140 + radius * Math.cos(endAngle);
-                    const y2 = 140 + radius * Math.sin(endAngle);
-                    
-                    const largeArcFlag = angle > Math.PI ? 1 : 0;
-                    
-                    const pathData = [
-                        `M 140 140`, // Перемещение в центр
-                        `L ${x1} ${y1}`, // Линия к началу дуги
-                        `A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2}`, // Дуга
-                        `Z` // Закрытие пути
-                    ].join(' ');
+                    const strokeDasharray = `${percentage * circumference} ${circumference}`;
+                    const strokeDashoffset = -currentAngle * circumference;
 
-                    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                    path.setAttribute('d', pathData);
-                    path.setAttribute('fill', tier.color);
-                    path.setAttribute('stroke', 'white');
-                    path.setAttribute('stroke-width', '2');
-                    path.style.cursor = 'pointer';
-                    path.style.transition = 'opacity 0.3s ease';
+                    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    circle.setAttribute('cx', '140');
+                    circle.setAttribute('cy', '140');
+                    circle.setAttribute('r', radius);
+                    circle.setAttribute('fill', 'none');
+                    circle.setAttribute('stroke', tier.color);
+                    circle.setAttribute('stroke-width', '30');
+                    circle.setAttribute('stroke-dasharray', strokeDasharray);
+                    circle.setAttribute('stroke-dashoffset', strokeDashoffset);
+                    circle.style.cursor = 'pointer';
+                    circle.style.transition = 'stroke-width 0.3s ease';
                     
-                    // Add tooltip
-                    path.addEventListener('mouseenter', function() {
-                        this.style.opacity = '0.8';
+                    circle.addEventListener('mouseenter', function() {
+                        this.setAttribute('stroke-width', '35');
                         showTooltip(tier, event);
                     });
                     
-                    path.addEventListener('mouseleave', function() {
-                        this.style.opacity = '1';
+                    circle.addEventListener('mouseleave', function() {
+                        this.setAttribute('stroke-width', '30');
                         hideTooltip();
                     });
 
-                    pieChart.appendChild(path);
-                    currentAngle = endAngle;
+                    pieChart.appendChild(circle);
+                    currentAngle += percentage;
                 }
             });
         }
