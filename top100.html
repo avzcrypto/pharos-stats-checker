@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pharos Testnet Leaderboard</title>
+    <title>Pharos Stats Leaderboard</title>
     <link rel="icon" type="image/webp" href="./logo.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
+        /* Reset */
         * {
             margin: 0;
             padding: 0;
@@ -17,14 +18,16 @@
             -webkit-tap-highlight-color: transparent;
         }
         
+        /* Base styles */
         body {
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             margin: 0;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #f2f0ef 0%, #ddeffc 100%);
+            background: linear-gradient(135deg, #f5f2ed 0%, #e8eaf6 30%, #e3f2fd 60%, #bbdefb 100%);
             min-height: 100vh;
             overflow-x: hidden;
+            padding: 40px 20px;
         }
 
         :root {
@@ -41,9 +44,9 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px;
         }
 
+        /* Header */
         .header-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -127,14 +130,15 @@
             left: 25px;
         }
 
+        /* Disclaimer Section */
         .disclaimer-section {
             background: rgba(255, 248, 220, 0.8);
             backdrop-filter: blur(20px);
-            border-radius: 20px;
+            border-radius: 12px;
             padding: 16px 20px;
             margin-bottom: 20px;
             border: 1px solid rgba(245, 158, 11, 0.2);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         }
 
         .disclaimer-content {
@@ -146,17 +150,18 @@
         }
 
         .disclaimer-link {
-            color: var(--pharos-blue-700);
+            color: #1d4ed8;
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s ease;
         }
 
         .disclaimer-link:hover {
-            color: var(--pharos-blue-800);
+            color: #1e40af;
             text-decoration: underline;
         }
 
+        /* Search Section */
         .rank-search-section {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
@@ -177,11 +182,11 @@
             flex: 1;
             display: flex;
             border: 2px solid rgba(59, 130, 246, 0.2);
-            border-radius: 20px;
+            border-radius: 12px;
             overflow: hidden;
             background: white;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
 
         .input-group:focus-within {
@@ -209,36 +214,37 @@
 
         .search-button {
             padding: 12px 36px;
-            background: var(--pharos-blue-700);
+            background: rgb(0, 7, 185);
             color: white;
             border: none;
-            border-radius: 20px;
+            border-radius: 12px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 20px 40px rgba(29, 78, 216, 0.3);
+            box-shadow: 0 8px 16px rgba(0, 7, 185, 0.3);
             white-space: nowrap;
             min-width: 270px;
         }
 
         .search-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 25px 50px rgba(29, 78, 216, 0.4);
+            box-shadow: 0 12px 24px rgba(0, 7, 185, 0.4);
         }
 
         .search-button:disabled {
-            background: var(--pharos-gray-500);
+            background: #9ca3af;
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
         }
 
+        /* Error and Success Messages */
         .error {
             background: rgba(255, 255, 255, 0.9);
             color: #dc2626;
             padding: 16px;
-            border-radius: 20px;
+            border-radius: 16px;
             margin-top: 16px;
             display: none;
             border: 1px solid rgba(239, 68, 68, 0.2);
@@ -250,14 +256,15 @@
             display: block;
         }
 
+        /* User Search Result */
         .user-search-result {
             background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
+            border-radius: 16px;
             padding: 20px;
             margin-top: 16px;
             border: 1px solid rgba(34, 197, 94, 0.2);
             backdrop-filter: blur(20px);
-            box-shadow: 0 20px 40px rgba(34, 197, 94, 0.1);
+            box-shadow: 0 8px 16px rgba(34, 197, 94, 0.1);
             display: none;
         }
 
@@ -275,7 +282,7 @@
 
         .result-stat-block {
             background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
+            border-radius: 12px;
             padding: 16px 20px;
             text-align: center;
             border: 1px solid rgba(0, 0, 0, 0.1);
@@ -299,7 +306,6 @@
         .result-level-block {
             background: var(--pharos-green-500);
             color: white;
-            min-width: 100px;
         }
 
         .result-level-block .result-stat-label {
@@ -315,7 +321,7 @@
 
         .result-activity {
             background: rgba(248, 250, 252, 0.8);
-            border-radius: 20px;
+            border-radius: 8px;
             padding: 8px 6px;
             text-align: center;
             min-width: 75px;
@@ -386,7 +392,7 @@
             background: rgba(34, 197, 94, 0.1);
             border: 2px solid var(--pharos-green-500);
             padding: 20px;
-            border-radius: 20px;
+            border-radius: 16px;
             text-align: center;
         }
 
@@ -398,6 +404,7 @@
             color: var(--pharos-green-600);
         }
 
+        /* Boost CTA Block */
         .boost-cta {
             background: url('./form_background.webp') center/cover;
             border-radius: 20px;
@@ -475,6 +482,7 @@
             display: inline;
         }
 
+        /* Analytics Section */
         .analytics-section {
             background: rgba(255, 255, 255, 0.9);
             border-radius: 20px;
@@ -510,6 +518,7 @@
             align-items: center;
         }
 
+        /* Pie Chart */
         .pie-container {
             position: relative;
             width: 280px;
@@ -543,6 +552,7 @@
             font-weight: 600;
         }
 
+        /* Legend */
         .pie-legend {
             display: flex;
             flex-direction: column;
@@ -556,7 +566,7 @@
             align-items: center;
             padding: 12px 16px;
             background: rgba(255, 255, 255, 0.8);
-            border-radius: 20px;
+            border-radius: 12px;
             border: 1px solid rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
             position: relative;
@@ -571,7 +581,7 @@
         .legend-color {
             width: 20px;
             height: 20px;
-            border-radius: 20px;
+            border-radius: 6px;
             flex-shrink: 0;
         }
 
@@ -596,6 +606,7 @@
             text-align: right;
         }
 
+        /* Leaderboard */
         .leaderboard-section {
             background: rgba(255, 255, 255, 0.9);
             border-radius: 20px;
@@ -645,6 +656,7 @@
             padding-right: 0px;
         }
 
+        /* Vertical separators */
         .leaderboard-table th:nth-child(2)::after,
         .leaderboard-table td:nth-child(2)::after,
         .leaderboard-table th:nth-child(3)::after,
@@ -676,6 +688,7 @@
             border-radius: 12px 12px 0 0;
         }
 
+        /* Leaderboard alternating row background */
         .leaderboard-table tbody tr {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -689,6 +702,7 @@
             transform: translateX(4px);
         }
 
+        /* Rank styling */
         .rank {
             font-weight: 800;
             font-size: 14px;
@@ -697,13 +711,13 @@
         .rank-tier-1 { color: #ef4444; }
         .rank-tier-2 { color: #f97316; }
         .rank-tier-3 { color: #eab308; }
-        .rank-tier-4 { color: var(--pharos-green-500); }
+        .rank-tier-4 { color: #22c55e; }
         .rank-tier-5 { color: #06b6d4; }
-        .rank-tier-6 { color: var(--pharos-blue-500); }
+        .rank-tier-6 { color: #3b82f6; }
         .rank-tier-7 { color: #8b5cf6; }
         .rank-tier-8 { color: #a855f7; }
         .rank-tier-9 { color: #ec4899; }
-        .rank-tier-10 { color: var(--pharos-gray-500); }
+        .rank-tier-10 { color: #64748b; }
 
         .address {
             font-family: 'Inter', 'SF Mono', monospace;
@@ -715,7 +729,7 @@
         .points-level-wrapper {
             background: rgba(255, 255, 255, 0.9);
             border: 2px solid rgba(0, 0, 0, 0.1);
-            border-radius: 20px;
+            border-radius: 12px;
             padding: 6px 8px;
             display: flex;
             align-items: center;
@@ -736,7 +750,7 @@
             background: var(--pharos-green-500);
             color: white;
             padding: 4px 8px;
-            border-radius: 20px;
+            border-radius: 8px;
             font-size: 14px;
             font-weight: 900;
             letter-spacing: -1px;
@@ -752,6 +766,14 @@
             font-size: 14px;
             color: var(--pharos-gray-500);
             font-weight: 500;
+        }
+
+        /* Protocol blocks */
+        .protocol-block {
+            background: rgba(248, 250, 252, 0.6);
+            border-radius: 8px;
+            padding: 4px;
+            margin: 2px;
         }
 
         .zenith-block {
@@ -770,6 +792,7 @@
             background: rgba(59, 130, 246, 0.08);
         }
 
+        /* Loading */
         .loading {
             display: none;
             text-align: center;
@@ -786,6 +809,7 @@
             font-weight: 600;
         }
 
+        /* Responsive */
         @media (max-width: 1024px) {
             .header-section {
                 grid-template-columns: 1fr;
@@ -817,7 +841,7 @@
         }
 
         @media (max-width: 768px) {
-            .container {
+            body {
                 padding: 20px 16px;
             }
 
@@ -862,6 +886,7 @@
 </head>
 <body>
     <div class="container">
+        <!-- Header -->
         <div class="header-section">
             <div class="header-left">
                 <img src="./leaderboard_logo.webp" alt="Pharos Leaderboard Logo" class="logo-img">
@@ -888,17 +913,631 @@
             </div>
         </div>
 
+        <!-- Disclaimer -->
         <div class="disclaimer-section">
             <div class="disclaimer-content">
                 ⚠️ <strong>Disclaimer:</strong> This leaderboard only displays users who have checked their Pharos Testnet stats on our platform (<a href="https://pharoshub.xyz" target="_blank" class="disclaimer-link">pharoshub.xyz</a>).
             </div>
         </div>
 
+        <!-- Search Section -->
         <div class="rank-search-section">
             <div class="search-form">
                 <div class="input-group">
-                    <input type="text" class="wallet-input" id="walletAddress" placeholder="Enter your wallet address (0x...)" spellcheck="false">
+                    <input
+                        type="text"
+                        class="wallet-input"
+                        id="walletAddress"
+                        placeholder="Enter your wallet address (0x...)"
+                        spellcheck="false"
+                    >
                 </div>
-                <button class="search-button" id="searchButton">Check My Rank</button>
+                <button class="search-button" id="searchButton">
+                    Check My Rank
+                </button>
             </div>
-            <div class="
+            <div class="error" id="error"></div>
+            
+            <!-- User Search Result -->
+            <div class="user-search-result" id="userResult">
+                <!-- Compact top row with Points, Level, and Activities -->
+                <div class="result-compact-row">
+                    <!-- Points -->
+                    <div class="result-stat-block">
+                        <div class="result-stat-value" style="color: var(--pharos-gray-900);" id="userPoints">0</div>
+                        <div class="result-stat-label">Total Points</div>
+                    </div>
+                    
+                    <!-- Level -->
+                    <div class="result-stat-block result-level-block">
+                        <div class="result-stat-value" id="userLevel">L1</div>
+                        <div class="result-stat-label">Level</div>
+                    </div>
+
+                    <!-- Activities -->
+                    <div class="result-activities">
+                        <!-- Send TX -->
+                        <div class="result-activity send">
+                            <div class="result-activity-header">SEND TX</div>
+                            <div class="result-activity-single">
+                                <div class="result-activity-value" id="userSendTx">0</div>
+                                <div class="result-activity-sublabel">📤 Transfers</div>
+                            </div>
+                        </div>
+
+                        <!-- Zenith -->
+                        <div class="result-activity zenith">
+                            <div class="result-activity-header">Zenith</div>
+                            <div class="result-activity-grid">
+                                <div class="result-activity-item">
+                                    <div class="result-activity-value" id="userZenithSwaps">0</div>
+                                    <div class="result-activity-sublabel">🔄 Swaps</div>
+                                </div>
+                                <div class="result-activity-item">
+                                    <div class="result-activity-value" id="userZenithLP">0</div>
+                                    <div class="result-activity-sublabel">💧 LP</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Faroswap -->
+                        <div class="result-activity faroswap">
+                            <div class="result-activity-header">Faroswap</div>
+                            <div class="result-activity-grid">
+                                <div class="result-activity-item">
+                                    <div class="result-activity-value" id="userFaroswapSwaps">0</div>
+                                    <div class="result-activity-sublabel">🔄 Swaps</div>
+                                </div>
+                                <div class="result-activity-item">
+                                    <div class="result-activity-value" id="userFaroswapLP">0</div>
+                                    <div class="result-activity-sublabel">💧 LP</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- NFT & Domains -->
+                        <div class="result-activity nft">
+                            <div class="result-activity-header">NFT & Domains</div>
+                            <div class="result-activity-grid">
+                                <div class="result-activity-item">
+                                    <div class="result-activity-value" id="userNftDomains">0</div>
+                                    <div class="result-activity-sublabel">🌐 Domains</div>
+                                </div>
+                                <div class="result-activity-item">
+                                    <div class="result-activity-value" id="userNftNFTs">0</div>
+                                    <div class="result-activity-sublabel">🖼️ NFTs</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Full Width Rank -->
+                <div class="rank-info">
+                    <div class="rank-text" id="userRankText">Your Rank: #0 out of 0</div>
+                    <div class="rank-subtext" id="userRankSubtext">Loading...</div>
+                </div>
+
+                <!-- Boost CTA Block -->
+                <a href="https://x.com/avzcrypto/status/1940798987709395362" target="_blank" class="boost-cta">
+                    <div class="boost-cta-content">
+                        <div class="boost-cta-text">
+                            <span class="boost-cta-line1">WANT TO BOOST YOUR RANK?</span>
+                            <span class="boost-cta-line2">CLICK AND GET THE ULTIMATE GUIDE</span><span class="boost-cta-emoji">🚀</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Analytics Section -->
+        <div class="analytics-section">
+            <div class="analytics-header">
+                <div>
+                    <h3 class="analytics-title">📈 User Distribution by Points</h3>
+                    <p class="analytics-subtitle">See how users are distributed across different point tiers</p>
+                </div>
+            </div>
+            
+            <div class="analytics-content">
+                <div class="pie-container">
+                    <svg class="pie-chart" viewBox="0 0 280 280" id="pieChart">
+                        <!-- Pie slices will be generated by JavaScript -->
+                    </svg>
+                    <div class="pie-center-info">
+                        <div class="total-users" id="pieChartTotal">0</div>
+                        <div class="total-label">Total Users</div>
+                    </div>
+                </div>
+
+                <div class="pie-legend" id="pieLegend">
+                    <!-- Legend items will be generated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div class="loading" id="loading">
+            <div class="loading-text">Loading leaderboard...</div>
+        </div>
+
+        <!-- Leaderboard -->
+        <div class="leaderboard-section" id="leaderboardSection">
+            <div class="leaderboard-header">
+                <h3 class="leaderboard-title">🏆 Top 100 Users</h3>
+            </div>
+            
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Address</th>
+                        <th>Points & Level</th>
+                        <th style="background: rgba(59, 130, 246, 0.08);">Send TX</th>
+                        <th style="background: rgba(249, 115, 22, 0.08);">
+                            <div style="text-align: center;">
+                                <div style="font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--pharos-gray-900); margin-bottom: 8px;">ZENITH</div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px; color: var(--pharos-gray-500);">
+                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+                                        <div style="font-size: 12px;">🔄</div>
+                                        <div>Swaps</div>
+                                    </div>
+                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+                                        <div style="font-size: 12px;">💧</div>
+                                        <div>LP</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </th>
+                        <th style="background: rgba(168, 85, 247, 0.08);">
+                            <div style="text-align: center;">
+                                <div style="font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--pharos-gray-900); margin-bottom: 8px;">FAROSWAP</div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px; color: var(--pharos-gray-500);">
+                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+                                        <div style="font-size: 12px;">🔄</div>
+                                        <div>Swaps</div>
+                                    </div>
+                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+                                        <div style="font-size: 12px;">💧</div>
+                                        <div>LP</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </th>
+                        <th style="background: rgba(34, 197, 94, 0.08);">
+                            <div style="text-align: center;">
+                                <div style="font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--pharos-gray-900); margin-bottom: 8px;">NFT & DOMAINS</div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px; color: var(--pharos-gray-500);">
+                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+                                        <div style="font-size: 12px;">🌐</div>
+                                        <div>Domains</div>
+                                    </div>
+                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+                                        <div style="font-size: 12px;">🖼️</div>
+                                        <div>NFTs</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </th>
+                        <th>Member Since</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboardBody">
+                    <!-- Data will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const walletInput = document.getElementById('walletAddress');
+        const searchButton = document.getElementById('searchButton');
+        const error = document.getElementById('error');
+        const userResult = document.getElementById('userResult');
+        const loading = document.getElementById('loading');
+        const leaderboardSection = document.getElementById('leaderboardSection');
+        const leaderboardBody = document.getElementById('leaderboardBody');
+
+        // Header stats
+        const totalUsersElement = document.getElementById('totalUsers');
+        const topPointsElement = document.getElementById('topPoints');
+
+        // User result elements
+        const userPoints = document.getElementById('userPoints');
+        const userLevel = document.getElementById('userLevel');
+        const userSendTx = document.getElementById('userSendTx');
+        const userRankText = document.getElementById('userRankText');
+        const userRankSubtext = document.getElementById('userRankSubtext');
+
+        // Analytics elements
+        const pieChart = document.getElementById('pieChart');
+        const pieLegend = document.getElementById('pieLegend');
+        const pieChartTotal = document.getElementById('pieChartTotal');
+
+        // Utility Functions
+        function isValidAddress(address) {
+            return /^0x[a-fA-F0-9]{40}$/.test(address);
+        }
+
+        function formatNumber(num) {
+            return new Intl.NumberFormat('en-US').format(num);
+        }
+
+        function showError(message) {
+            error.textContent = message;
+            error.classList.add('show');
+            userResult.classList.remove('show');
+        }
+
+        function hideError() {
+            error.classList.remove('show');
+        }
+
+        function showLoading() {
+            loading.classList.add('show');
+            leaderboardSection.style.display = 'none';
+            searchButton.disabled = true;
+            searchButton.textContent = 'Checking...';
+        }
+
+        function hideLoading() {
+            loading.classList.remove('show');
+            leaderboardSection.style.display = 'block';
+            searchButton.disabled = false;
+            searchButton.textContent = 'Check My Rank';
+        }
+
+        function getRankTier(points) {
+            if (points >= 10000) return 'rank-tier-1';
+            if (points >= 9000) return 'rank-tier-2';
+            if (points >= 8000) return 'rank-tier-3';
+            if (points >= 7000) return 'rank-tier-4';
+            if (points >= 6000) return 'rank-tier-5';
+            if (points >= 5000) return 'rank-tier-6';
+            if (points >= 4000) return 'rank-tier-7';
+            if (points >= 3000) return 'rank-tier-8';
+            if (points >= 2000) return 'rank-tier-9';
+            return 'rank-tier-10';
+        }
+
+        function calculateLevel(points) {
+            if (points < 1000) return 1;
+            if (points < 3000) return 2;
+            if (points < 6000) return 3;
+            return Math.min(4, Math.floor(points / 1000)); // Max level 4
+        }
+
+        function formatAddress(address) {
+            return `${address.slice(0, 4)}...${address.slice(-4)}`;
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'Unknown';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        }
+
+        // API Functions
+        async function searchUserRank() {
+            const address = walletInput.value.trim();
+
+            if (!address) {
+                showError('Please enter a wallet address');
+                return;
+            }
+
+            if (!isValidAddress(address)) {
+                showError('Please enter a valid Ethereum address');
+                return;
+            }
+
+            hideError();
+            showLoading();
+
+            try {
+                // Get user data
+                const userResponse = await fetch('/api/check-wallet', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        wallet_address: address
+                    })
+                });
+
+                if (!userResponse.ok) {
+                    throw new Error(`User API failed: ${userResponse.status}`);
+                }
+
+                const userData = await userResponse.json();
+                if (!userData.success) {
+                    throw new Error(userData.error || 'Failed to fetch user data');
+                }
+
+                // Get leaderboard data
+                const leaderboardResponse = await fetch('/api/admin/stats');
+                if (!leaderboardResponse.ok) {
+                    throw new Error(`Leaderboard API failed: ${leaderboardResponse.status}`);
+                }
+
+                const leaderboardData = await leaderboardResponse.json();
+                if (!leaderboardData.success) {
+                    throw new Error(leaderboardData.error || 'Failed to fetch leaderboard data');
+                }
+
+                displayUserResult(userData, leaderboardData);
+                
+            } catch (err) {
+                console.error('Error:', err);
+                showError(err.message || 'Failed to fetch data. Please try again.');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        function displayUserResult(userData, leaderboardData) {
+            // Update user stats
+            userPoints.textContent = formatNumber(userData.total_points);
+            userLevel.textContent = `L${calculateLevel(userData.total_points)}`;
+            userSendTx.textContent = userData.send_count || 0;
+            
+            // Update individual activity values
+            document.getElementById('userZenithSwaps').textContent = userData.zenith_swaps || 0;
+            document.getElementById('userZenithLP').textContent = userData.zenith_lp || 0;
+            document.getElementById('userFaroswapSwaps').textContent = userData.faroswap_swaps || 0;
+            document.getElementById('userFaroswapLP').textContent = userData.faroswap_lp || 0;
+            document.getElementById('userNftDomains').textContent = userData.mint_domain || 0;
+            document.getElementById('userNftNFTs').textContent = userData.mint_nft || 0;
+
+            // Find user rank
+            const userAddress = userData.address.toLowerCase();
+            const userRank = leaderboardData.leaderboard.findIndex(user => 
+                user.address.toLowerCase() === userAddress
+            ) + 1;
+
+            const totalUsers = leaderboardData.total_users;
+            const percentile = totalUsers > 0 ? ((totalUsers - userRank) / totalUsers * 100).toFixed(2) : 0;
+
+            if (userRank > 0) {
+                userRankText.textContent = `Your Rank: #${userRank} out of ${formatNumber(totalUsers)}`;
+                userRankSubtext.textContent = `You're in the top ${percentile}% of all users! 🎉`;
+            } else {
+                userRankText.textContent = `Your Rank: Not in top ${leaderboardData.leaderboard.length}`;
+                userRankSubtext.textContent = `Keep farming to climb the leaderboard! 💪`;
+            }
+
+            userResult.classList.add('show');
+        }
+
+        async function loadLeaderboard() {
+            try {
+                showLoading();
+                
+                const response = await fetch('/api/admin/stats');
+                
+                if (!response.ok) {
+                    throw new Error(`API failed: ${response.status}`);
+                }
+
+                const data = await response.json();
+                if (!data.success) {
+                    throw new Error(data.error || 'Failed to fetch leaderboard');
+                }
+
+                displayLeaderboard(data);
+                updateAnalytics(data);
+                updateHeaderStats(data);
+
+            } catch (err) {
+                console.error('Error loading leaderboard:', err);
+                showError(`Failed to load leaderboard: ${err.message}`);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        function displayLeaderboard(data) {
+            const tbody = leaderboardBody;
+            tbody.innerHTML = '';
+
+            data.leaderboard.slice(0, 100).forEach((user, index) => {
+                const row = document.createElement('tr');
+                const rankClass = getRankTier(user.total_points);
+                const level = calculateLevel(user.total_points);
+
+                row.innerHTML = `
+                    <td><span class="rank ${rankClass}">#${user.rank}</span></td>
+                    <td class="address">${formatAddress(user.address)}</td>
+                    <td><div class="points-level-wrapper"><span class="points">${formatNumber(user.total_points)}</span><span class="level-badge">L${level}</span></div></td>
+                    <td><div class="send-block" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: center; padding: 4px; border-radius: 8px;"><div class="activity-count">${user.send_count || 0}</div><div class="activity-count" style="opacity: 0;"></div></div></td>
+                    <td>
+                        <div class="zenith-block" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: center; padding: 4px; border-radius: 8px;">
+                            <div class="activity-count">${user.swap_count || 0}</div>
+                            <div class="activity-count">${user.lp_count || 0}</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="faroswap-block" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: center; padding: 4px; border-radius: 8px;">
+                            <div class="activity-count">${user.faroswap_swaps || 0}</div>
+                            <div class="activity-count">${user.faroswap_lp || 0}</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="nft-block" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: center; padding: 4px; border-radius: 8px;">
+                            <div class="activity-count">${user.mint_domain || 0}</div>
+                            <div class="activity-count">${user.mint_nft || 0}</div>
+                        </div>
+                    </td>
+                    <td class="member-since">${formatDate(user.member_since)}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function updateHeaderStats(data) {
+            totalUsersElement.textContent = formatNumber(data.total_users);
+            
+            if (data.leaderboard && data.leaderboard.length > 0) {
+                topPointsElement.textContent = formatNumber(data.leaderboard[0].total_points);
+            }
+        }
+
+        function updateAnalytics(data) {
+            const tiers = [
+                { name: '10,000+ Points', min: 10000, color: '#ef4444' },
+                { name: '9,000 - 9,999 Points', min: 9000, max: 9999, color: '#f97316' },
+                { name: '8,000 - 8,999 Points', min: 8000, max: 8999, color: '#eab308' },
+                { name: '7,000 - 7,999 Points', min: 7000, max: 7999, color: '#22c55e' },
+                { name: '6,000 - 6,999 Points', min: 6000, max: 6999, color: '#06b6d4' },
+                { name: 'Below 6,000 Points', min: 0, max: 5999, color: '#64748b' }
+            ];
+
+            const distribution = tiers.map(tier => {
+                let count = data.leaderboard.filter(user => {
+                    const points = user.total_points;
+                    if (tier.max) {
+                        return points >= tier.min && points <= tier.max;
+                    } else {
+                        return points >= tier.min;
+                    }
+                }).length;
+
+                return {
+                    ...tier,
+                    count,
+                    percentage: data.total_users > 0 ? (count / data.total_users * 100).toFixed(1) : 0
+                };
+            });
+
+            renderPieChart(distribution, data.total_users);
+            renderLegend(distribution);
+        }
+
+        function renderPieChart(distribution, totalUsers) {
+            pieChartTotal.textContent = formatNumber(totalUsers);
+            
+            let currentAngle = 0;
+            const radius = 110;
+            const circumference = 2 * Math.PI * radius;
+            
+            pieChart.innerHTML = '';
+
+            distribution.forEach((tier, index) => {
+                if (tier.count > 0) {
+                    const percentage = tier.count / totalUsers;
+                    const strokeDasharray = `${percentage * circumference} ${circumference}`;
+                    const strokeDashoffset = -currentAngle * circumference;
+
+                    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    circle.setAttribute('cx', '140');
+                    circle.setAttribute('cy', '140');
+                    circle.setAttribute('r', radius);
+                    circle.setAttribute('fill', 'none');
+                    circle.setAttribute('stroke', tier.color);
+                    circle.setAttribute('stroke-width', '30');
+                    circle.setAttribute('stroke-dasharray', strokeDasharray);
+                    circle.setAttribute('stroke-dashoffset', strokeDashoffset);
+                    circle.style.cursor = 'pointer';
+                    circle.style.transition = 'stroke-width 0.3s ease';
+                    
+                    circle.addEventListener('mouseenter', function() {
+                        this.setAttribute('stroke-width', '35');
+                        showTooltip(tier, event);
+                    });
+                    
+                    circle.addEventListener('mouseleave', function() {
+                        this.setAttribute('stroke-width', '30');
+                        hideTooltip();
+                    });
+
+                    pieChart.appendChild(circle);
+                    currentAngle += percentage;
+                }
+            });
+        }
+
+        function showTooltip(tier, event) {
+            const tooltip = document.createElement('div');
+            tooltip.id = 'pie-tooltip';
+            tooltip.style.cssText = `
+                position: fixed;
+                background: rgba(0, 0, 0, 0.9);
+                color: white;
+                padding: 8px 12px;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: 600;
+                z-index: 1000;
+                pointer-events: none;
+                white-space: nowrap;
+                left: ${event.clientX + 10}px;
+                top: ${event.clientY - 10}px;
+            `;
+            tooltip.innerHTML = `
+                <div style="color: ${tier.color}; font-weight: 700;">${tier.name}</div>
+                <div>${formatNumber(tier.count)} users (${tier.percentage}%)</div>
+            `;
+            document.body.appendChild(tooltip);
+        }
+
+        function hideTooltip() {
+            const tooltip = document.getElementById('pie-tooltip');
+            if (tooltip) {
+                tooltip.remove();
+            }
+        }
+
+        function renderLegend(distribution) {
+            pieLegend.innerHTML = '';
+
+            distribution.forEach(tier => {
+                const item = document.createElement('div');
+                item.className = 'legend-item';
+                
+                const fillPercentage = parseFloat(tier.percentage);
+                const fillWidth = Math.max(fillPercentage * 1.5, 5);
+                
+                item.style.background = `linear-gradient(to right, 
+                    ${tier.color}20 0%, 
+                    ${tier.color}15 ${fillWidth}%, 
+                    rgba(255, 255, 255, 0.8) ${fillWidth}%, 
+                    rgba(255, 255, 255, 0.8) 100%)`;
+                
+                item.innerHTML = `
+                    <div class="legend-color" style="background: ${tier.color};"></div>
+                    <div class="legend-text">${tier.name}</div>
+                    <div class="legend-count">${formatNumber(tier.count)}</div>
+                    <div class="legend-percentage">${tier.percentage}%</div>
+                `;
+                
+                pieLegend.appendChild(item);
+            });
+        }
+
+        // Event Listeners
+        searchButton.addEventListener('click', searchUserRank);
+
+        walletInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchUserRank();
+            }
+        });
+
+        walletInput.addEventListener('input', () => {
+            hideError();
+            userResult.classList.remove('show');
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadLeaderboard();
+        });
+    </script>
+</body>
+</html>
