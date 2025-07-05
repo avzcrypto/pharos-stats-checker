@@ -91,6 +91,29 @@ except:
     STATS_ENABLED = False
     print("Stats collection disabled")
 
+def get_exact_rank(total_points):
+    """Вычисляет точный ранк пользователя на основе очков"""
+    try:
+        if not STATS_ENABLED or not kv:
+            print("⚠️ Stats disabled - cannot calculate exact rank")
+            return None
+            
+        # Подсчитываем количество пользователей с большим количеством очков
+        # ZCOUNT возвращает количество элементов в sorted set с score между min и max
+        users_with_more_points = kv.zcount('pharos:leaderboard', total_points + 1, '+inf')
+        
+        # Ранк = количество пользователей выше + 1
+        exact_rank = users_with_more_points + 1
+        
+        print(f"🎯 Exact rank calculation: {users_with_more_points} users have more than {total_points} points")
+        print(f"🎯 User rank: #{exact_rank}")
+        
+        return exact_rank
+        
+    except Exception as e:
+        print(f"❌ Error calculating exact rank: {e}")
+        return None
+
 class handler(BaseHTTPRequestHandler):
     def do_OPTIONS(self):
         self.send_response(200)
@@ -110,7 +133,8 @@ class handler(BaseHTTPRequestHandler):
                 'status': 'ok', 
                 'message': 'API is running',
                 'proxies_loaded': len(PROXY_LIST),
-                'cache_size': len(cache)
+                'cache_size': len(cache),
+                'stats_enabled': STATS_ENABLED
             })
             self.wfile.write(response.encode())
             
@@ -444,6 +468,9 @@ class handler(BaseHTTPRequestHandler):
             points_for_next = levels.get(next_level, 150000)
             points_needed = max(0, points_for_next - total_points)
             
+            # НОВОЕ: Вычисляем точный ранк
+            exact_rank = get_exact_rank(total_points)
+            
             # Успешный результат
             success_message = "с прокси" if proxies else "без прокси (fallback)"
             print(f"✅ API успешно вызван {success_message}")
@@ -452,6 +479,7 @@ class handler(BaseHTTPRequestHandler):
                 'success': True,
                 'address': wallet_address.lower(),
                 'total_points': total_points,
+                'exact_rank': exact_rank,  # ← НОВОЕ ПОЛЕ
                 'current_level': current_level,
                 'next_level': next_level,
                 'points_needed': points_needed,
