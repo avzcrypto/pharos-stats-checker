@@ -1432,13 +1432,17 @@
                         estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.05);
                     } else if (tier.name === 'Below 6,000 Points') {
                         // Большинство пользователей с низкими баллами
-                        const usedCount = tiers.slice(0, -1).reduce((sum, t) => {
-                            if (t.name === '10,000+ Points') return sum + topCount + Math.floor((totalUsers - topUsersCount) * 0.001);
-                            if (t.name === '9,000 - 9,999 Points') return sum + topCount + Math.floor((totalUsers - topUsersCount) * 0.005);
-                            if (t.name === '8,000 - 8,999 Points') return sum + topCount + Math.floor((totalUsers - topUsersCount) * 0.015);
-                            if (t.name === '7,000 - 7,999 Points') return sum + topCount + Math.floor((totalUsers - topUsersCount) * 0.03);
-                            if (t.name === '6,000 - 6,999 Points') return sum + topCount + Math.floor((totalUsers - topUsersCount) * 0.05);
-                            return sum;
+                        const usedCount = tiers.slice(0, -1).reduce((sum, t, index) => {
+                            const rates = [0.001, 0.005, 0.015, 0.03, 0.05];
+                            const tierTopCount = data.leaderboard.filter(user => {
+                                const points = user.total_points;
+                                if (t.max) {
+                                    return points >= t.min && points <= t.max;
+                                } else {
+                                    return points >= t.min;
+                                }
+                            }).length;
+                            return sum + tierTopCount + Math.floor((totalUsers - topUsersCount) * rates[index]);
                         }, 0);
                         estimatedCount = totalUsers - usedCount;
                     }
@@ -1469,33 +1473,47 @@
             distribution.forEach((tier, index) => {
                 if (tier.count > 0) {
                     const percentage = tier.count / totalUsers;
-                    const strokeDasharray = `${percentage * circumference} ${circumference}`;
-                    const strokeDashoffset = -currentAngle * circumference;
-
-                    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                    circle.setAttribute('cx', '140');
-                    circle.setAttribute('cy', '140');
-                    circle.setAttribute('r', radius);
-                    circle.setAttribute('fill', 'none');
-                    circle.setAttribute('stroke', tier.color);
-                    circle.setAttribute('stroke-width', '30');
-                    circle.setAttribute('stroke-dasharray', strokeDasharray);
-                    circle.setAttribute('stroke-dashoffset', strokeDashoffset);
-                    circle.style.cursor = 'pointer';
-                    circle.style.transition = 'stroke-width 0.3s ease';
+                    const angle = percentage * 2 * Math.PI; // Угол в радианах
                     
-                    circle.addEventListener('mouseenter', function() {
-                        this.setAttribute('stroke-width', '35');
+                    // Создаем path для сектора вместо stroke-dasharray для лучшего отображения
+                    const startAngle = currentAngle;
+                    const endAngle = currentAngle + angle;
+                    
+                    const x1 = 140 + radius * Math.cos(startAngle);
+                    const y1 = 140 + radius * Math.sin(startAngle);
+                    const x2 = 140 + radius * Math.cos(endAngle);
+                    const y2 = 140 + radius * Math.sin(endAngle);
+                    
+                    const largeArcFlag = angle > Math.PI ? 1 : 0;
+                    
+                    const pathData = [
+                        `M 140 140`, // Перемещение в центр
+                        `L ${x1} ${y1}`, // Линия к началу дуги
+                        `A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2}`, // Дуга
+                        `Z` // Закрытие пути
+                    ].join(' ');
+
+                    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    path.setAttribute('d', pathData);
+                    path.setAttribute('fill', tier.color);
+                    path.setAttribute('stroke', 'white');
+                    path.setAttribute('stroke-width', '2');
+                    path.style.cursor = 'pointer';
+                    path.style.transition = 'opacity 0.3s ease';
+                    
+                    // Add tooltip
+                    path.addEventListener('mouseenter', function() {
+                        this.style.opacity = '0.8';
                         showTooltip(tier, event);
                     });
                     
-                    circle.addEventListener('mouseleave', function() {
-                        this.setAttribute('stroke-width', '30');
+                    path.addEventListener('mouseleave', function() {
+                        this.style.opacity = '1';
                         hideTooltip();
                     });
 
-                    pieChart.appendChild(circle);
-                    currentAngle += percentage;
+                    pieChart.appendChild(path);
+                    currentAngle = endAngle;
                 }
             });
         }
@@ -1538,15 +1556,7 @@
                 const item = document.createElement('div');
                 item.className = 'legend-item';
                 
-                const fillPercentage = parseFloat(tier.percentage);
-                const fillWidth = Math.max(fillPercentage * 1.5, 5);
-                
-                item.style.background = `linear-gradient(to right, 
-                    ${tier.color}20 0%, 
-                    ${tier.color}15 ${fillWidth}%, 
-                    rgba(255, 255, 255, 0.8) ${fillWidth}%, 
-                    rgba(255, 255, 255, 0.8) 100%)`;
-                
+                // Убираем gradient background, используем только hover эффект
                 item.innerHTML = `
                     <div class="legend-color" style="background: ${tier.color};"></div>
                     <div class="legend-text">${tier.name}</div>
