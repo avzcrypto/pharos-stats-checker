@@ -870,3 +870,215 @@
                 error_message: errorMessage
             });
         }
+
+        // Utility Functions
+        function isValidAddress(address) {
+            return /^0x[a-fA-F0-9]{40}$/.test(address);
+        }
+
+        function formatNumber(num) {
+            return new Intl.NumberFormat('en-US').format(num);
+        }
+
+        function showError(message) {
+            error.textContent = message;
+            error.classList.add('show');
+            loading.classList.remove('show');
+            results.classList.remove('show');
+            
+            // Track error
+            trackError(message);
+        }
+
+        function hideError() {
+            error.classList.remove('show');
+        }
+
+        function showLoading() {
+            loading.classList.add('show');
+            results.classList.remove('show');
+            hideError();
+            checkButton.disabled = true;
+            checkButton.textContent = 'Checking...';
+            
+            // Скрываем header section при загрузке
+            document.querySelector('.header-section').style.display = 'none';
+        }
+
+        function hideLoading() {
+            loading.classList.remove('show');
+            checkButton.disabled = false;
+            checkButton.textContent = 'Check Statistics';
+            
+            // Показываем header section обратно
+            document.querySelector('.header-section').style.display = 'flex';
+        }
+
+        function updateLevelProgress(current, total) {
+            const percentage = total > 0 ? (current / total) * 100 : 0;
+            levelProgress.style.width = `${Math.min(percentage, 100)}%`;
+        }
+
+        function animateValue(element, start, end, duration = 1000) {
+            const startTime = performance.now();
+            const range = end - start;
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                const current = start + (range * progress);
+                element.textContent = formatNumber(Math.floor(current));
+                
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            
+            requestAnimationFrame(update);
+        }
+
+        async function checkWalletStats() {
+            const address = walletInput.value.trim();
+
+            if (!address) {
+                showError('Please enter a wallet address');
+                return;
+            }
+
+            if (!isValidAddress(address)) {
+                showError('Please enter a valid Ethereum address');
+                return;
+            }
+
+            // Track wallet search attempt
+            trackWalletSearch(address);
+
+            showLoading();
+
+            try {
+                const response = await fetch(`/api/check-wallet`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        wallet_address: address
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || `HTTP error! status: ${response.status}`);
+                }
+
+                if (!data.success) {
+                    throw new Error(data.error || 'Failed to fetch wallet statistics');
+                }
+
+                // Track successful stats loading
+                trackStatsLoaded(data);
+                
+                displayResults(data);
+
+            } catch (err) {
+                console.error('Error:', err);
+                showError(err.message || 'Failed to fetch wallet statistics. Please try again.');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        function displayResults(data) {
+            hideError();
+
+            // Calculate level progress and points needed - МАКСИМУМ 4 УРОВЕНЬ
+            const levels = {
+                1: 0, 2: 1000, 3: 3000, 4: 6000
+            };
+            
+            const currentLevelPoints = levels[data.current_level] || 0;
+            const maxLevel = 4;
+            const nextLevel = Math.min(data.current_level + 1, maxLevel);
+            const nextLevelPoints = levels[nextLevel] || 6000;
+            
+            // Если уже 4 уровень - показываем MAX LVL
+            const isMaxLevel = data.current_level >= maxLevel;
+            const pointsNeeded = isMaxLevel ? 0 : nextLevelPoints - data.total_points;
+            const progressInLevel = data.total_points - currentLevelPoints;
+            const pointsForLevel = nextLevelPoints - currentLevelPoints;
+
+            // Animate numbers - ОГРАНИЧИВАЕМ УРОВЕНЬ ДО 4
+            animateValue(totalPoints, 0, data.total_points);
+            animateValue(currentLevel, 1, Math.min(data.current_level, maxLevel)); // Показываем максимум 4 уровень
+            animateValue(sendCount, 0, data.send_count);
+            animateValue(zenithSwaps, 0, data.zenith_swaps || data.swap_count || 0);
+            animateValue(zenithLP, 0, data.zenith_lp || data.lp_count || 0);
+            animateValue(faroswapSwaps, 0, data.faroswap_swaps || 0);
+            animateValue(faroswapLP, 0, data.faroswap_lp || 0);
+            animateValue(mintDomain, 0, data.mint_domain || 0);
+            animateValue(mintNFT, 0, data.mint_nft || 0);
+
+            // Update level progress and points needed info
+            setTimeout(() => {
+                const percentage = isMaxLevel ? 100 : (pointsForLevel > 0 ? (progressInLevel / pointsForLevel) * 100 : 100);
+                levelProgress.style.width = `${Math.min(percentage, 100)}%`;
+                
+                // Add points needed text under current level
+                const levelCard = currentLevel.closest('.stat-card');
+                let pointsNeededText = levelCard.querySelector('.points-needed');
+                
+                if (!pointsNeededText) {
+                    pointsNeededText = document.createElement('div');
+                    pointsNeededText.className = 'points-needed';
+                    pointsNeededText.style.fontSize = '12px';
+                    pointsNeededText.style.color = 'var(--pharos-gray-500)';
+                    pointsNeededText.style.marginTop = '4px';
+                    levelCard.appendChild(pointsNeededText);
+                }
+                
+                if (isMaxLevel) {
+                    pointsNeededText.innerHTML = 'MAX LVL. Congrats! 🎉';
+                    pointsNeededText.style.color = 'var(--pharos-green-500)';
+                    pointsNeededText.style.fontWeight = '600';
+                } else {
+                    pointsNeededText.textContent = `${pointsNeeded.toLocaleString()} points to Level ${nextLevel}`;
+                    pointsNeededText.style.color = 'var(--pharos-gray-500)';
+                    pointsNeededText.style.fontWeight = '500';
+                }
+            }, 500);
+
+            // Show results with animation
+            results.classList.add('show');
+            
+            // Trigger animations for result sections
+            const animatedElements = results.querySelectorAll('.animate__fadeInUp');
+            animatedElements.forEach((el, index) => {
+                el.style.animationDelay = `${(index + 1) * 0.1}s`;
+            });
+        }
+
+        // Event Listeners
+        checkButton.addEventListener('click', checkWalletStats);
+
+        walletInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                checkWalletStats();
+            }
+        });
+
+        walletInput.addEventListener('input', () => {
+            hideError();
+        });
+
+        // Track CTA clicks
+        document.getElementById('boostGuideLink').addEventListener('click', trackBoostGuideClick);
+        document.getElementById('authorLink').addEventListener('click', trackAuthorClick);
+
+        // Auto-focus input and track page view
+        walletInput.focus();
+        trackPageView();
+    </script>
+</body>
+</html>
