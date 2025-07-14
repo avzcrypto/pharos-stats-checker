@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pharos Stats Checker</title>
+    <title>Pharos Testnet Stats Checker</title>
     <link rel="icon" type="image/webp" href="./logo.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Vercel Analytics -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9R37J7CL3J"></script>
     <script>
-      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-9R37J7CL3J');
     </script>
-    <script defer src="/_vercel/insights/script.js"></script>
     
     <style>
         /* Reset и базовые стили */
@@ -699,7 +702,7 @@
             </div>
 
             <!-- НОВЫЙ БЛОК CTA -->
-            <a href="https://x.com/avzcrypto/status/1940798987709395362" target="_blank" class="boost-cta animate__fadeInUp animate-delay-2">
+            <a href="https://x.com/avzcrypto/status/1940798987709395362" target="_blank" class="boost-cta animate__fadeInUp animate-delay-2" id="boostGuideLink">
                 <div class="boost-cta-text">
                     <span class="boost-cta-line1">WANT TO BOOST YOUR LVL?</span>
                     <span class="boost-cta-line2">CLICK AND GET THE ULTIMATE GUIDE</span><span class="boost-cta-emoji">🚀</span>
@@ -710,7 +713,7 @@
                 <div class="task-card">
                     <div class="task-left">
                         <img src="./send.png" alt="Send" class="task-icon">
-                        <div class="task-name">Token Transfers</div>
+                        <div class="task-name">Send To Friends</div>
                     </div>
                     <div class="task-count" id="sendCount">156</div>
                 </div>
@@ -771,7 +774,7 @@
                     <div class="task-card">
                         <div class="task-left">
                             <img src="./domain.png" alt="Domain" class="task-icon">
-                            <div class="task-name">Domain</div>
+                            <div class="task-name">Domains</div>
                         </div>
                         <div class="task-count" id="mintDomain">2</div>
                     </div>
@@ -787,7 +790,7 @@
         </div>
 
         <div class="author-footer">
-            <a href="https://x.com/avzcrypto" target="_blank" class="author-link">
+            <a href="https://x.com/avzcrypto" target="_blank" class="author-link" id="authorLink">
                 Made with ❤️ by @avzcrypto<br>
                 ➡️Click to Follow for Alpha Updates & Insights 🚀
             </a>
@@ -814,200 +817,56 @@
         const mintDomain = document.getElementById('mintDomain');
         const mintNFT = document.getElementById('mintNFT');
 
-        // Utility Functions
-        function isValidAddress(address) {
-            return /^0x[a-fA-F0-9]{40}$/.test(address);
-        }
-
-        function formatNumber(num) {
-            return new Intl.NumberFormat('en-US').format(num);
-        }
-
-        function showError(message) {
-            error.textContent = message;
-            error.classList.add('show');
-            loading.classList.remove('show');
-            results.classList.remove('show');
-        }
-
-        function hideError() {
-            error.classList.remove('show');
-        }
-
-        function showLoading() {
-            loading.classList.add('show');
-            results.classList.remove('show');
-            hideError();
-            checkButton.disabled = true;
-            checkButton.textContent = 'Checking...';
-            
-            // Скрываем header section при загрузке
-            document.querySelector('.header-section').style.display = 'none';
-        }
-
-        function hideLoading() {
-            loading.classList.remove('show');
-            checkButton.disabled = false;
-            checkButton.textContent = 'Check Statistics';
-            
-            // Показываем header section обратно
-            document.querySelector('.header-section').style.display = 'flex';
-        }
-
-        function updateLevelProgress(current, total) {
-            const percentage = total > 0 ? (current / total) * 100 : 0;
-            levelProgress.style.width = `${Math.min(percentage, 100)}%`;
-        }
-
-        function animateValue(element, start, end, duration = 1000) {
-            const startTime = performance.now();
-            const range = end - start;
-
-            function update(currentTime) {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                
-                const current = start + (range * progress);
-                element.textContent = formatNumber(Math.floor(current));
-                
-                if (progress < 1) {
-                    requestAnimationFrame(update);
-                }
-            }
-            
-            requestAnimationFrame(update);
-        }
-
-        async function checkWalletStats() {
-            const address = walletInput.value.trim();
-
-            if (!address) {
-                showError('Please enter a wallet address');
-                return;
-            }
-
-            if (!isValidAddress(address)) {
-                showError('Please enter a valid Ethereum address');
-                return;
-            }
-
-            showLoading();
-
-            try {
-                const response = await fetch(`/api/check-wallet`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        wallet_address: address
-                    })
-                });
-
-                const data = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(data.error || `HTTP error! status: ${response.status}`);
-                }
-
-                if (!data.success) {
-                    throw new Error(data.error || 'Failed to fetch wallet statistics');
-                }
-
-                displayResults(data);
-
-            } catch (err) {
-                console.error('Error:', err);
-                showError(err.message || 'Failed to fetch wallet statistics. Please try again.');
-            } finally {
-                hideLoading();
-            }
-        }
-
-        function displayResults(data) {
-            hideError();
-
-            // Calculate level progress and points needed - МАКСИМУМ 4 УРОВЕНЬ
-            const levels = {
-                1: 0, 2: 1000, 3: 3000, 4: 6000
-            };
-            
-            const currentLevelPoints = levels[data.current_level] || 0;
-            const maxLevel = 4;
-            const nextLevel = Math.min(data.current_level + 1, maxLevel);
-            const nextLevelPoints = levels[nextLevel] || 6000;
-            
-            // Если уже 4 уровень - показываем MAX LVL
-            const isMaxLevel = data.current_level >= maxLevel;
-            const pointsNeeded = isMaxLevel ? 0 : nextLevelPoints - data.total_points;
-            const progressInLevel = data.total_points - currentLevelPoints;
-            const pointsForLevel = nextLevelPoints - currentLevelPoints;
-
-            // Animate numbers - ОГРАНИЧИВАЕМ УРОВЕНЬ ДО 4
-            animateValue(totalPoints, 0, data.total_points);
-            animateValue(currentLevel, 1, Math.min(data.current_level, maxLevel)); // Показываем максимум 4 уровень
-            animateValue(sendCount, 0, data.send_count);
-            animateValue(zenithSwaps, 0, data.zenith_swaps || data.swap_count || 0);
-            animateValue(zenithLP, 0, data.zenith_lp || data.lp_count || 0);
-            animateValue(faroswapSwaps, 0, data.faroswap_swaps || 0);
-            animateValue(faroswapLP, 0, data.faroswap_lp || 0);
-            animateValue(mintDomain, 0, data.mint_domain || 0);
-            animateValue(mintNFT, 0, data.mint_nft || 0);
-
-            // Update level progress and points needed info
-            setTimeout(() => {
-                const percentage = isMaxLevel ? 100 : (pointsForLevel > 0 ? (progressInLevel / pointsForLevel) * 100 : 100);
-                levelProgress.style.width = `${Math.min(percentage, 100)}%`;
-                
-                // Add points needed text under current level
-                const levelCard = currentLevel.closest('.stat-card');
-                let pointsNeededText = levelCard.querySelector('.points-needed');
-                
-                if (!pointsNeededText) {
-                    pointsNeededText = document.createElement('div');
-                    pointsNeededText.className = 'points-needed';
-                    pointsNeededText.style.fontSize = '12px';
-                    pointsNeededText.style.color = 'var(--pharos-gray-500)';
-                    pointsNeededText.style.marginTop = '4px';
-                    levelCard.appendChild(pointsNeededText);
-                }
-                
-                if (isMaxLevel) {
-                    pointsNeededText.innerHTML = 'MAX LVL. Congrats! 🎉';
-                    pointsNeededText.style.color = 'var(--pharos-green-500)';
-                    pointsNeededText.style.fontWeight = '600';
-                } else {
-                    pointsNeededText.textContent = `${pointsNeeded.toLocaleString()} points to Level ${nextLevel}`;
-                    pointsNeededText.style.color = 'var(--pharos-gray-500)';
-                    pointsNeededText.style.fontWeight = '500';
-                }
-            }, 500);
-
-            // Show results with animation
-            results.classList.add('show');
-            
-            // Trigger animations for result sections
-            const animatedElements = results.querySelectorAll('.animate__fadeInUp');
-            animatedElements.forEach((el, index) => {
-                el.style.animationDelay = `${(index + 1) * 0.1}s`;
+        // Analytics Tracking Functions
+        function trackPageView() {
+            gtag('event', 'page_view', {
+                page_title: 'Pharos Stats Checker',
+                page_location: window.location.href
             });
         }
 
-        // Event Listeners
-        checkButton.addEventListener('click', checkWalletStats);
+        function trackWalletSearch(address) {
+            gtag('event', 'wallet_search', {
+                event_category: 'engagement',
+                event_label: 'wallet_check',
+                wallet_address: address.substring(0, 6) + '...' + address.substring(address.length - 4)
+            });
+        }
 
-        walletInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                checkWalletStats();
-            }
-        });
+        function trackStatsLoaded(data) {
+            gtag('event', 'stats_loaded', {
+                event_category: 'engagement',
+                event_label: 'successful_check',
+                total_points: data.total_points,
+                user_level: data.current_level,
+                custom_parameters: {
+                    send_count: data.send_count,
+                    zenith_swaps: data.zenith_swaps || data.swap_count || 0,
+                    faroswap_swaps: data.faroswap_swaps || 0
+                }
+            });
+        }
 
-        walletInput.addEventListener('input', () => {
-            hideError();
-        });
+        function trackBoostGuideClick() {
+            gtag('event', 'boost_guide_click', {
+                event_category: 'engagement',
+                event_label: 'cta_click',
+                link_url: 'https://x.com/avzcrypto/status/1940798987709395362'
+            });
+        }
 
-        // Auto-focus input
-        walletInput.focus();
-    </script>
-</body>
-</html>
+        function trackAuthorClick() {
+            gtag('event', 'author_follow_click', {
+                event_category: 'engagement',
+                event_label: 'social_link',
+                link_url: 'https://x.com/avzcrypto'
+            });
+        }
+
+        function trackError(errorMessage) {
+            gtag('event', 'error_occurred', {
+                event_category: 'error',
+                event_label: 'wallet_check_failed',
+                error_message: errorMessage
+            });
+        }
