@@ -387,10 +387,11 @@
         
         .result-compact-row {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 2fr 1fr;
             gap: 16px;
             align-items: flex-start;
             margin-bottom: 16px;
+            max-width: 100%;
         }
         
         .result-stat-block {
@@ -401,6 +402,7 @@
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.5);
             min-height: 100px;
+            max-width: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -452,6 +454,7 @@
             grid-template-columns: 1fr 1fr;
             gap: 12px;
             margin-bottom: 16px;
+            max-width: 100%;
         }
         
         .result-activity {
@@ -465,10 +468,12 @@
                 0 8px 16px rgba(0, 0, 0, 0.06),
                 0 4px 8px rgba(0, 0, 0, 0.04);
             min-height: 120px;
+            max-width: 100%;
             transition: var(--transition-base);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            overflow: hidden;
         }
         
         .result-activity:hover {
@@ -1185,11 +1190,13 @@
             .result-compact-row {
                 grid-template-columns: 1fr 1fr;
                 gap: 12px;
+                max-width: 100%;
             }
             
             .result-stat-block {
                 padding: 16px 12px;
                 min-height: 80px;
+                max-width: 100%;
             }
             
             .result-stat-value {
@@ -1203,11 +1210,13 @@
             .result-activities {
                 grid-template-columns: 1fr 1fr;
                 gap: 10px;
+                max-width: 100%;
             }
             
             .result-activity {
                 padding: 12px 8px;
                 min-height: 100px;
+                max-width: 100%;
             }
             
             .result-activity-value {
