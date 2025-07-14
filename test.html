@@ -387,8 +387,8 @@
         
         .result-compact-row {
             display: grid;
-            grid-template-columns: auto auto;
-            gap: 20px;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
             align-items: flex-start;
             margin-bottom: 16px;
         }
@@ -397,10 +397,10 @@
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
             border-radius: 20px;
-            padding: 24px;
+            padding: 20px 16px;
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.5);
-            min-height: 120px;
+            min-height: 100px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -418,16 +418,16 @@
         }
         
         .result-stat-value {
-            font-size: 36px;
+            font-size: 32px;
             font-weight: 900;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-family: 'Inter', 'SF Mono', monospace;
-            letter-spacing: -1.5px;
+            letter-spacing: -1.2px;
             line-height: 1;
         }
         
         .result-stat-label {
-            font-size: 14px;
+            font-size: 12px;
             color: var(--pharos-gray-500);
             font-weight: 600;
             text-transform: uppercase;
@@ -450,7 +450,7 @@
         .result-activities {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 16px;
+            gap: 12px;
             margin-bottom: 16px;
         }
         
@@ -458,14 +458,17 @@
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
             border-radius: 16px;
-            padding: 20px;
+            padding: 16px 12px;
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.5);
             box-shadow: 
                 0 8px 16px rgba(0, 0, 0, 0.06),
                 0 4px 8px rgba(0, 0, 0, 0.04);
-            min-height: 80px;
+            min-height: 120px;
             transition: var(--transition-base);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         
         .result-activity:hover {
@@ -496,18 +499,18 @@
         }
         
         .result-activity-header {
-            font-size: 13px;
+            font-size: 11px;
             color: var(--pharos-gray-500);
             font-weight: 700;
             text-transform: uppercase;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             letter-spacing: 0.5px;
         }
         
         .result-activity-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4px;
+            gap: 8px;
             margin-bottom: 4px;
         }
         
@@ -523,16 +526,16 @@
         }
         
         .result-activity-value {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 900;
             color: var(--pharos-gray-900);
             margin-bottom: 2px;
             font-family: 'Inter', 'SF Mono', monospace;
-            letter-spacing: -1px;
+            letter-spacing: -0.5px;
         }
         
         .result-activity-sublabel {
-            font-size: 12px;
+            font-size: 10px;
             color: var(--pharos-gray-500);
             font-weight: 600;
             text-transform: uppercase;
@@ -1181,12 +1184,42 @@
             
             .result-compact-row {
                 grid-template-columns: 1fr 1fr;
-                gap: 16px;
+                gap: 12px;
+            }
+            
+            .result-stat-block {
+                padding: 16px 12px;
+                min-height: 80px;
+            }
+            
+            .result-stat-value {
+                font-size: 24px;
+            }
+            
+            .result-stat-label {
+                font-size: 11px;
             }
             
             .result-activities {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            
+            .result-activity {
+                padding: 12px 8px;
+                min-height: 100px;
+            }
+            
+            .result-activity-value {
+                font-size: 16px;
+            }
+            
+            .result-activity-header {
+                font-size: 10px;
+            }
+            
+            .result-activity-sublabel {
+                font-size: 9px;
             }
             
             .leaderboard-table {
