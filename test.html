@@ -97,6 +97,7 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
+            box-sizing: border-box;
         }
         
         /* Screen Reader Only */
@@ -147,6 +148,7 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            width: 100%;
         }
         
         /* Header Section */
@@ -333,7 +335,7 @@
             transition: var(--transition-base);
             box-shadow: 0 8px 16px rgba(0, 7, 185, 0.3);
             white-space: nowrap;
-            min-width: 270px;
+            min-width: 200px;
             will-change: transform;
         }
         
@@ -1058,7 +1060,23 @@
         
         @media (max-width: 768px) {
             body {
-                padding: 20px 16px;
+                padding: 20px 12px;
+            }
+            
+            .container {
+                max-width: 100%;
+                padding: 0;
+            }
+            
+            .header-section {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .header-right {
+                grid-template-columns: 1fr;
+                gap: 16px;
+                height: auto;
             }
             
             .header-left {
@@ -1066,6 +1084,7 @@
                 align-items: center;
                 text-align: center;
                 gap: 16px;
+                min-height: auto;
             }
             
             .main-title {
@@ -1077,8 +1096,36 @@
                 gap: 12px;
             }
             
+            .input-group {
+                width: 100%;
+            }
+            
             .search-button {
                 width: 100%;
+            }
+            
+            .analytics-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .pie-container {
+                margin: 0 auto;
+            }
+            
+            .result-compact-row {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            .result-activities {
+                grid-template-columns: repeat(2, 1fr);
+                order: 2;
+            }
+            
+            .result-stat-block {
+                order: 1;
             }
             
             .leaderboard-table {
@@ -1090,16 +1137,13 @@
                 padding: 8px 4px;
             }
             
-            .result-activities {
-                order: 2;
-            }
-            
-            .result-stat-block {
-                order: 1;
-            }
-            
             .table-container {
                 max-height: 400px;
+                overflow-x: auto;
+            }
+            
+            .boost-cta-text {
+                font-size: 16px;
             }
         }
         
@@ -1316,7 +1360,7 @@
         <!-- Leaderboard -->
         <main class="leaderboard-section" id="leaderboardSection" role="main">
             <div class="leaderboard-header">
-                <h2 class="leaderboard-title">🏆 Top Users Leaderboard</h2>
+                <h2 class="leaderboard-title">🏆 Top 100 Users</h2>
             </div>
             
             <div class="table-container">
@@ -1397,7 +1441,7 @@
             currentUser: null,
             leaderboardData: null,
             currentPage: 1,
-            itemsPerPage: 25,
+            itemsPerPage: 20,
             error: null,
             cache: new Map(),
             tooltipElement: null,
@@ -2116,13 +2160,14 @@
             ];
             
             const totalUsers = Math.max(0, parseInt(data.total_users) || 0);
+            const topUsersCount = data.leaderboard ? data.leaderboard.length : 0;
             
-            // Calculate distribution based on available leaderboard data
+            // Calculate distribution using ORIGINAL logic with realistic coefficients
             const distribution = tiers.map(tier => {
-                let count = 0;
-                
+                // Count users from leaderboard data
+                let topCount = 0;
                 if (data.leaderboard && Array.isArray(data.leaderboard)) {
-                    count = data.leaderboard.filter(user => {
+                    topCount = data.leaderboard.filter(user => {
                         const points = Math.max(0, parseInt(user.total_points) || 0);
                         if (tier.max !== undefined) {
                             return points >= tier.min && points <= tier.max;
@@ -2130,18 +2175,52 @@
                             return points >= tier.min;
                         }
                     }).length;
-                    
-                    // Simple extrapolation for full user base
-                    if (totalUsers > data.leaderboard.length && data.leaderboard.length > 0) {
-                        const ratio = totalUsers / data.leaderboard.length;
-                        count = Math.floor(count * ratio * 0.8); // Conservative estimate
+                }
+                
+                // Realistic extrapolation for full user base (ORIGINAL LOGIC RESTORED)
+                let estimatedCount;
+                if (totalUsers > topUsersCount && topUsersCount > 0) {
+                    if (tier.name === '10,000+ Points') {
+                        // High scores - only in top users, very rare outside
+                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.0005);
+                    } else if (tier.name === '9,000 - 9,999 Points') {
+                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.002);
+                    } else if (tier.name === '8,000 - 8,999 Points') {
+                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.008);
+                    } else if (tier.name === '7,000 - 7,999 Points') {
+                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.020);
+                    } else if (tier.name === '6,000 - 6,999 Points') {
+                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.035);
+                    } else if (tier.name === '5,000 - 5,999 Points') {
+                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.055);
+                    } else if (tier.name === '4,000 - 4,999 Points') {
+                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.080);
+                    } else if (tier.name === '3,000 - 3,999 Points') {
+                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.120);
+                    } else if (tier.name === 'Below 3,000 Points') {
+                        // Most users have low scores - calculate remaining
+                        const usedCount = tiers.slice(0, -1).reduce((sum, t, index) => {
+                            const rates = [0.0005, 0.002, 0.008, 0.020, 0.035, 0.055, 0.080, 0.120];
+                            const tierTopCount = data.leaderboard.filter(user => {
+                                const points = Math.max(0, parseInt(user.total_points) || 0);
+                                if (t.max !== undefined) {
+                                    return points >= t.min && points <= t.max;
+                                } else {
+                                    return points >= t.min;
+                                }
+                            }).length;
+                            return sum + tierTopCount + Math.floor((totalUsers - topUsersCount) * rates[index]);
+                        }, 0);
+                        estimatedCount = Math.max(0, totalUsers - usedCount);
                     }
+                } else {
+                    estimatedCount = topCount;
                 }
                 
                 return {
                     ...tier,
-                    count: Math.max(0, count),
-                    percentage: totalUsers > 0 ? ((count / totalUsers) * 100).toFixed(1) : '0.0'
+                    count: Math.max(0, estimatedCount),
+                    percentage: totalUsers > 0 ? ((estimatedCount / totalUsers) * 100).toFixed(1) : '0.0'
                 };
             });
             
