@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pharos Stats Checker - Track Testnet Points & Leaderboard Rank</title>
+    <script async src="./prebid10.2.0.js"></script>
     <meta name="description" content="🚀 Check your Pharos testnet rank instantly! Track points, level progress & compete on leaderboard. Free tool to maximize your airdrop potential.">
     <meta name="author" content="avzcrypto">
     <link rel="canonical" href="https://pharoshub.xyz/">
@@ -11,9 +12,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Prebid.js -->
-    <script async src="./prebid.js"></script>
     
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9R37J7CL3J"></script>
@@ -29,6 +27,7 @@
         a,body,footer,h1,header,html,img,li,nav,ol,span,ul{margin:0;padding:0}
         *{-webkit-tap-highlight-color:transparent;box-sizing:border-box}
         
+        /* Новый фон */
         body {
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
@@ -39,6 +38,7 @@
             overflow-x: hidden;
         }
 
+        /* палитра Pharos */
         :root {
             --pharos-blue-500: #3b82f6;
             --pharos-blue-600: #2563eb;
@@ -55,6 +55,7 @@
             --pharos-gray-900: #1f2937;
         }
 
+        /* Main container */
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -65,6 +66,7 @@
             justify-content: center;
         }
 
+        /* Header section */
         .header-section {
             display: flex;
             justify-content: space-between;
@@ -132,6 +134,7 @@
             text-align: center;
         }
 
+        /* Input section */
         .input-section {
             margin-bottom: 16px;
         }
@@ -170,6 +173,7 @@
             font-weight: 400;
         }
 
+        /* Check button */
         .check-button {
             width: 100%;
             padding: 12px;
@@ -204,6 +208,7 @@
             box-shadow: none;
         }
 
+        /* Results section */
         .results-section {
             display: none;
         }
@@ -212,6 +217,7 @@
             display: block;
         }
 
+        /* Top Stats */
         .top-stats {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -276,6 +282,86 @@
             transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        /* НОВЫЙ БЛОК CTA */
+        .boost-cta {
+            grid-column: span 2;
+            background: url('./form_background.webp') center/cover;
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .boost-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 20px;
+            z-index: 1;
+        }
+
+        .boost-cta-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        .boost-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 12px 24px rgba(13, 120, 232, 0.3),
+                0 6px 12px rgba(13, 120, 232, 0.2);
+        }
+
+        .boost-cta-text {
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 0.025em;
+            line-height: 1.4;
+            margin: 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .boost-cta-line1 {
+            background-image: linear-gradient(91deg, rgb(255, 255, 255) 23%, rgb(166, 224, 255) 98%);
+            font-family: 'Inter28pt-Bold', 'Inter', sans-serif;
+            font-weight: 900;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(rgb(253, 255, 208) 0px 2px 40px);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .boost-cta-line2 {
+            background-image: linear-gradient(128deg, rgb(255, 215, 0) 13%, rgba(255, 223, 0, 0.9) 95%);
+            font-family: 'Inter28pt-Bold', 'Inter', sans-serif;
+            font-weight: 900;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(rgb(253, 255, 208) 0px 2px 10px);
+            display: inline;
+        }
+
+        .boost-cta-emoji {
+            color: white;
+            font-size: 22px;
+            margin-left: 4px;
+            display: inline;
+        }
+
+        /* Tasks sections */
         .tasks-section {
             margin-bottom: 24px;
         }
@@ -298,6 +384,7 @@
             object-fit: cover;
         }
 
+        /* Task cards */
         .task-card {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
@@ -366,12 +453,14 @@
             transform: scale(1.05);
         }
 
+        /* Protocol grids */
         .protocol-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 16px;
         }
 
+        /* Loading и Error состояния */
         .loading {
             display: none;
             text-align: center;
@@ -420,6 +509,7 @@
             display: block;
         }
 
+        /* ОБНОВЛЕННЫЙ Author footer */
         .author-footer {
             margin-top: 32px;
             text-align: center;
@@ -452,6 +542,7 @@
                 0 6px 12px rgba(34, 197, 94, 0.3);
         }
 
+        /* Адаптивность */
         @media (max-width: 1024px) {
             .header-section {
                 flex-direction: column;
@@ -488,6 +579,14 @@
                 gap: 16px;
             }
 
+            .boost-cta {
+                grid-column: span 1;
+            }
+
+            .boost-cta-text {
+                font-size: 16px;
+            }
+
             .protocol-grid {
                 grid-template-columns: 1fr;
                 gap: 12px;
@@ -516,6 +615,7 @@
                 font-size: 28px;
             }
 
+            /* Author footer - мобильная адаптация */
             .author-footer {
                 margin-top: 24px;
             }
@@ -527,6 +627,7 @@
             }
         }
 
+        /* Анимации */
         @keyframes fadeInUp {
             0% {
                 opacity: 0;
@@ -584,11 +685,6 @@
             </div>
         </div>
 
-        <!-- Рекламный блок на главной странице -->
-        <div id="classname-container-placement" style="min-height: 100px; text-align: center; margin: 30px 0;">
-            <!-- Здесь будет реклама -->
-        </div>
-
         <div class="loading" id="loading">
             <img src="./loading.webp" alt="Loading" class="loading-emoji">
             <p class="loading-text">Loading...</p>
@@ -609,10 +705,8 @@
                 </div>
             </div>
 
-            <!-- Рекламный блок на странице результатов (заменяет CTA) -->
-            <div id="classname-container-placement-results" style="min-height: 100px; text-align: center; margin: 30px 0;">
-                <!-- Здесь будет реклама на странице результатов -->
-            </div>
+            <!-- НОВЫЙ БЛОК CTA -->
+            <ins class="6877a710aea7e0fcac48381c" style="display:inline-block;width:1px;height:1px;"></ins><script>!function(e,n,c,t,o,r,d){!function e(n,c,t,o,r,m,d,s,a){s=c.getElementsByTagName(t)[0],(a=c.createElement(t)).async=!0,a.src="https://"+r[m]+"/js/"+o+".js?v="+d,a.onerror=function(){a.remove(),(m+=1)>=r.length||e(n,c,t,o,r,m)},s.parentNode.insertBefore(a,s)}(window,document,"script","6877a710aea7e0fcac48381c",["cdn.bmcdn6.com"], 0, new Date().getTime())}();</script>
 
             <div class="tasks-section animate__fadeInUp animate-delay-3">
                 <div class="task-card">
@@ -703,80 +797,6 @@
     </div>
 
     <script>
-        var adUnits = [
-            {
-                code: 'classname-container-placement',
-                mediaTypes: {
-                    banner: {
-                        sizes: [
-                            [320, 50], [300, 100], [728, 90], [320, 100]
-                        ]
-                    }
-                },
-                bids: [
-                    {
-                        bidder: 'bitmedia',
-                        params: {
-                            adUnitID: '68779968aea7e0fcac480599',
-                            currency: 'USD'
-                        },
-                    },
-                ]
-            },
-            {
-                code: 'classname-container-placement-results',
-                mediaTypes: {
-                    banner: {
-                        sizes: [
-                            [320, 50], [300, 100], [728, 90], [320, 100]
-                        ]
-                    }
-                },
-                bids: [
-                    {
-                        bidder: 'bitmedia',
-                        params: {
-                            adUnitID: '68779968aea7e0fcac480599',
-                            currency: 'USD'
-                        },
-                    },
-                ]
-            },
-        ];
-
-        var pbjs = pbjs || {};
-        pbjs.que = pbjs.que || [];
-
-        // Настройки bidder
-        pbjs.que.push(function () {
-            pbjs.bidderSettings = {
-                bitmedia: {
-                    storageAllowed: true
-                }
-            };
-        });
-
-        // Основная инициализация и аукцион
-        pbjs.que.push(function() {
-            pbjs.addAdUnits(adUnits);
-            pbjs.requestBids({
-                timeout: 2000,
-                bidsBackHandler: function() {
-                    // Показываем рекламу на главной странице
-                    var winningBidMain = pbjs.getHighestCpmBids('classname-container-placement')[0];
-                    if (winningBidMain && winningBidMain.adId) {
-                        pbjs.renderAd(document.getElementById('classname-container-placement'), winningBidMain.adId);
-                    }
-                    
-                    // Показываем рекламу на странице результатов
-                    var winningBidResults = pbjs.getHighestCpmBids('classname-container-placement-results')[0];
-                    if (winningBidResults && winningBidResults.adId) {
-                        pbjs.renderAd(document.getElementById('classname-container-placement-results'), winningBidResults.adId);
-                    }
-                }
-            });
-        });
-
         // DOM Elements
         const walletInput = document.getElementById('walletAddress');
         const checkButton = document.getElementById('checkButton');
@@ -798,58 +818,56 @@
 
         // Analytics Tracking Functions
         function trackPageView() {
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'page_view', {
-                    page_title: 'Pharos Stats Checker',
-                    page_location: window.location.href
-                });
-            }
+            gtag('event', 'page_view', {
+                page_title: 'Pharos Stats Checker',
+                page_location: window.location.href
+            });
         }
 
         function trackWalletSearch(address) {
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'wallet_search', {
-                    event_category: 'engagement',
-                    event_label: 'wallet_check',
-                    wallet_address: address.substring(0, 6) + '...' + address.substring(address.length - 4)
-                });
-            }
+            gtag('event', 'wallet_search', {
+                event_category: 'engagement',
+                event_label: 'wallet_check',
+                wallet_address: address.substring(0, 6) + '...' + address.substring(address.length - 4)
+            });
         }
 
         function trackStatsLoaded(data) {
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'stats_loaded', {
-                    event_category: 'engagement',
-                    event_label: 'successful_check',
-                    total_points: data.total_points,
-                    user_level: data.current_level,
-                    custom_parameters: {
-                        send_count: data.send_count,
-                        zenith_swaps: data.zenith_swaps || data.swap_count || 0,
-                        faroswap_swaps: data.faroswap_swaps || 0
-                    }
-                });
-            }
+            gtag('event', 'stats_loaded', {
+                event_category: 'engagement',
+                event_label: 'successful_check',
+                total_points: data.total_points,
+                user_level: data.current_level,
+                custom_parameters: {
+                    send_count: data.send_count,
+                    zenith_swaps: data.zenith_swaps || data.swap_count || 0,
+                    faroswap_swaps: data.faroswap_swaps || 0
+                }
+            });
+        }
+
+        function trackBoostGuideClick() {
+            gtag('event', 'boost_guide_click', {
+                event_category: 'engagement',
+                event_label: 'cta_click',
+                link_url: 'https://x.com/avzcrypto/status/1940798987709395362'
+            });
         }
 
         function trackAuthorClick() {
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'author_follow_click', {
-                    event_category: 'engagement',
-                    event_label: 'social_link',
-                    link_url: 'https://x.com/avzcrypto'
-                });
-            }
+            gtag('event', 'author_follow_click', {
+                event_category: 'engagement',
+                event_label: 'social_link',
+                link_url: 'https://x.com/avzcrypto'
+            });
         }
 
         function trackError(errorMessage) {
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'error_occurred', {
-                    event_category: 'error',
-                    event_label: 'wallet_check_failed',
-                    error_message: errorMessage
-                });
-            }
+            gtag('event', 'error_occurred', {
+                event_category: 'error',
+                event_label: 'wallet_check_failed',
+                error_message: errorMessage
+            });
         }
 
         // Utility Functions
@@ -867,6 +885,7 @@
             loading.classList.remove('show');
             results.classList.remove('show');
             
+            // Track error
             trackError(message);
         }
 
@@ -881,6 +900,7 @@
             checkButton.disabled = true;
             checkButton.textContent = 'Checking...';
             
+            // Скрываем header section при загрузке
             document.querySelector('.header-section').style.display = 'none';
         }
 
@@ -889,6 +909,7 @@
             checkButton.disabled = false;
             checkButton.textContent = 'Check Statistics';
             
+            // Показываем header section обратно
             document.querySelector('.header-section').style.display = 'flex';
         }
 
@@ -929,7 +950,9 @@
                 return;
             }
 
+            // Track wallet search attempt
             trackWalletSearch(address);
+
             showLoading();
 
             try {
@@ -953,7 +976,9 @@
                     throw new Error(data.error || 'Failed to fetch wallet statistics');
                 }
 
+                // Track successful stats loading
                 trackStatsLoaded(data);
+                
                 displayResults(data);
 
             } catch (err) {
@@ -967,6 +992,7 @@
         function displayResults(data) {
             hideError();
 
+            // Calculate level progress and points needed - МАКСИМУМ 4 УРОВЕНЬ
             const levels = {
                 1: 0, 2: 1000, 3: 3000, 4: 6000
             };
@@ -976,13 +1002,15 @@
             const nextLevel = Math.min(data.current_level + 1, maxLevel);
             const nextLevelPoints = levels[nextLevel] || 6000;
             
+            // Если уже 4 уровень - показываем MAX LVL
             const isMaxLevel = data.current_level >= maxLevel;
             const pointsNeeded = isMaxLevel ? 0 : nextLevelPoints - data.total_points;
             const progressInLevel = data.total_points - currentLevelPoints;
             const pointsForLevel = nextLevelPoints - currentLevelPoints;
 
+            // Animate numbers - ОГРАНИЧИВАЕМ УРОВЕНЬ ДО 4
             animateValue(totalPoints, 0, data.total_points);
-            animateValue(currentLevel, 1, Math.min(data.current_level, maxLevel));
+            animateValue(currentLevel, 1, Math.min(data.current_level, maxLevel)); // Показываем максимум 4 уровень
             animateValue(sendCount, 0, data.send_count);
             animateValue(zenithSwaps, 0, data.zenith_swaps || data.swap_count || 0);
             animateValue(zenithLP, 0, data.zenith_lp || data.lp_count || 0);
@@ -991,10 +1019,12 @@
             animateValue(mintDomain, 0, data.mint_domain || 0);
             animateValue(mintNFT, 0, data.mint_nft || 0);
 
+            // Update level progress and points needed info
             setTimeout(() => {
                 const percentage = isMaxLevel ? 100 : (pointsForLevel > 0 ? (progressInLevel / pointsForLevel) * 100 : 100);
                 levelProgress.style.width = `${Math.min(percentage, 100)}%`;
                 
+                // Add points needed text under current level
                 const levelCard = currentLevel.closest('.stat-card');
                 let pointsNeededText = levelCard.querySelector('.points-needed');
                 
@@ -1018,8 +1048,10 @@
                 }
             }, 500);
 
+            // Show results with animation
             results.classList.add('show');
             
+            // Trigger animations for result sections
             const animatedElements = results.querySelectorAll('.animate__fadeInUp');
             animatedElements.forEach((el, index) => {
                 el.style.animationDelay = `${(index + 1) * 0.1}s`;
@@ -1039,14 +1071,13 @@
             hideError();
         });
 
-        // Track author clicks
+        // Track CTA clicks
+        document.getElementById('boostGuideLink').addEventListener('click', trackBoostGuideClick);
         document.getElementById('authorLink').addEventListener('click', trackAuthorClick);
 
-        // Page initialization
-        document.addEventListener('DOMContentLoaded', function() {
-            walletInput.focus();
-            trackPageView();
-        });
+        // Auto-focus input and track page view
+        walletInput.focus();
+        trackPageView();
     </script>
 </body>
 </html>
