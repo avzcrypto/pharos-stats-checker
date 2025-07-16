@@ -294,6 +294,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            max-width: 776px; /* Поддержка максимального размера 728x90 + padding */
+            min-height: 98px; /* Поддержка минимального размера 320x50 + padding */
+        }
+
+        .ad-block ins {
+            max-width: 100%; /* Гарантирует, что реклама не выходит за пределы контейнера */
         }
 
         /* Tasks sections */
@@ -516,6 +522,9 @@
 
             .ad-block {
                 grid-column: span 1;
+                padding: 12px; /* Уменьшенный padding для мобильных */
+                max-width: calc(100% - 32px); /* Учитываем padding контейнера (20px + 16px) */
+                min-height: 74px; /* Поддержка 320x50 + padding 12px */
             }
 
             .protocol-grid {
