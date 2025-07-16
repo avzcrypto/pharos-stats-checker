@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pharos Stats Checker - Track Testnet Points & Leaderboard Rank</title>
-    <script async src="./prebid10.2.0.js"></script>
     <meta name="description" content="🚀 Check your Pharos testnet rank instantly! Track points, level progress & compete on leaderboard. Free tool to maximize your airdrop potential.">
     <meta name="author" content="avzcrypto">
     <link rel="canonical" href="https://pharoshub.xyz/">
@@ -12,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <meta name="bitmedia-site-verification" content="d048432e826d67e6fe0326c4efb37602" />
+    
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9R37J7CL3J"></script>
     <script>
@@ -282,18 +281,83 @@
             transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* НОВЫЙ РЕКЛАМНЫЙ БЛОК */
-        .ad-block {
+        /* НОВЫЙ БЛОК CTA */
+        .boost-cta {
             grid-column: span 2;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
+            background: url('./form_background.webp') center/cover;
             border-radius: 20px;
             padding: 24px;
             text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            position: relative;
             margin-bottom: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        }
+
+        .boost-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 20px;
+            z-index: 1;
+        }
+
+        .boost-cta-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        .boost-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 12px 24px rgba(13, 120, 232, 0.3),
+                0 6px 12px rgba(13, 120, 232, 0.2);
+        }
+
+        .boost-cta-text {
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 0.025em;
+            line-height: 1.4;
+            margin: 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .boost-cta-line1 {
+            background-image: linear-gradient(91deg, rgb(255, 255, 255) 23%, rgb(166, 224, 255) 98%);
+            font-family: 'Inter28pt-Bold', 'Inter', sans-serif;
+            font-weight: 900;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(rgb(253, 255, 208) 0px 2px 40px);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .boost-cta-line2 {
+            background-image: linear-gradient(128deg, rgb(255, 215, 0) 13%, rgba(255, 223, 0, 0.9) 95%);
+            font-family: 'Inter28pt-Bold', 'Inter', sans-serif;
+            font-weight: 900;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(rgb(253, 255, 208) 0px 2px 10px);
+            display: inline;
+        }
+
+        .boost-cta-emoji {
+            color: white;
+            font-size: 22px;
+            margin-left: 4px;
+            display: inline;
         }
 
         /* Tasks sections */
@@ -514,8 +578,12 @@
                 gap: 16px;
             }
 
-            .ad-block {
+            .boost-cta {
                 grid-column: span 1;
+            }
+
+            .boost-cta-text {
+                font-size: 16px;
             }
 
             .protocol-grid {
@@ -636,10 +704,13 @@
                 </div>
             </div>
 
-            <!-- НОВЫЙ РЕКЛАМНЫЙ БЛОК -->
-            <div class="ad-block">
-                <ins class="6877bac5aea7e0fcac48a062" style="display:inline-block;width:1px;height:1px;"></ins><script>!function(e,n,c,t,o,r,d){!function e(n,c,t,o,r,m,d,s,a){s=c.getElementsByTagName(t)[0],(a=c.createElement(t)).async=!0,a.src="https://"+r[m]+"/js/"+o+".js?v="+d,a.onerror=function(){a.remove(),(m+=1)>=r.length||e(n,c,t,o,r,m)},s.parentNode.insertBefore(a,s)}(window,document,"script","6877bac5aea7e0fcac48a062",["cdn.bmcdn6.com"], 0, new Date().getTime())}();</script>
-            </div>
+            <!-- НОВЫЙ БЛОК CTA -->
+            <a href="https://x.com/avzcrypto/status/1940798987709395362" target="_blank" class="boost-cta animate__fadeInUp animate-delay-2" id="boostGuideLink">
+                <div class="boost-cta-text">
+                    <span class="boost-cta-line1">WANT TO BOOST YOUR LVL?</span>
+                    <span class="boost-cta-line2">CLICK AND GET THE ULTIMATE GUIDE</span><span class="boost-cta-emoji">🚀</span>
+                </div>
+            </a>
 
             <div class="tasks-section animate__fadeInUp animate-delay-3">
                 <div class="task-card">
@@ -776,6 +847,14 @@
                     zenith_swaps: data.zenith_swaps || data.swap_count || 0,
                     faroswap_swaps: data.faroswap_swaps || 0
                 }
+            });
+        }
+
+        function trackBoostGuideClick() {
+            gtag('event', 'boost_guide_click', {
+                event_category: 'engagement',
+                event_label: 'cta_click',
+                link_url: 'https://x.com/avzcrypto/status/1940798987709395362'
             });
         }
 
@@ -996,7 +1075,8 @@
             hideError();
         });
 
-        // Track author click
+        // Track CTA clicks
+        document.getElementById('boostGuideLink').addEventListener('click', trackBoostGuideClick);
         document.getElementById('authorLink').addEventListener('click', trackAuthorClick);
 
         // Auto-focus input and track page view
