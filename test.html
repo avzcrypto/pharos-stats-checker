@@ -791,7 +791,44 @@
                 </div>
             </div>
         </div>
+ <div id="classname-container-placement" style="text-align: center; margin: 30px 0;">
+           <script>
+    var adUnits = [
+        {
+            code: 'classname-container-placement',
+            mediaTypes: {
+                banner: {
+                    sizes: [
+                        [728, 90], [320, 100], [320, 50], [300, 100]
+                    ]
+                }
+            },
+            bids: [
+                {
+                    bidder: 'bitmedia',
+                    params: {
+                        adUnitID: '68779968aea7e0fcac480599',
+                        currency: 'USD'
+                    },
+                },
+            ]
+        },
+    ];
+    var pbjs = pbjs || {};
+    pbjs.que = pbjs.que || [];
+</script>
 
+<!-- Your prebid settings -->
+<script>
+    pbjs.que.push(function () {
+        pbjs.bidderSettings = {
+            bitmedia: {
+                storageAllowed: true // recommended
+            }
+        };
+    });
+</script>
+        </div>
         <div class="author-footer">
             <a href="https://x.com/avzcrypto" target="_blank" class="author-link" id="authorLink">
                 Made with ❤️ by @avzcrypto<br>
