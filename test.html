@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pharos Stats Checker - Track Testnet Points & Leaderboard Rank</title>
+    <script async src="./prebid10.2.0.js"></script>
     <meta name="description" content="🚀 Check your Pharos testnet rank instantly! Track points, level progress & compete on leaderboard. Free tool to maximize your airdrop potential.">
     <meta name="author" content="avzcrypto">
     <link rel="canonical" href="https://pharoshub.xyz/">
@@ -791,43 +792,9 @@
                 </div>
             </div>
         </div>
- <div id="classname-container-placement" style="text-align: center; margin: 30px 0;">
-           <script>
-    var adUnits = [
-        {
-            code: 'classname-container-placement',
-            mediaTypes: {
-                banner: {
-                    sizes: [
-                        [728, 90], [320, 100], [320, 50], [300, 100]
-                    ]
-                }
-            },
-            bids: [
-                {
-                    bidder: 'bitmedia',
-                    params: {
-                        adUnitID: '68779968aea7e0fcac480599',
-                        currency: 'USD'
-                    },
-                },
-            ]
-        },
-    ];
-    var pbjs = pbjs || {};
-    pbjs.que = pbjs.que || [];
-</script>
-
-<!-- Your prebid settings -->
-<script>
-    pbjs.que.push(function () {
-        pbjs.bidderSettings = {
-            bitmedia: {
-                storageAllowed: true // recommended
-            }
-        };
-    });
-</script>
+<!-- BitMedia рекламный блок -->
+        <div id="classname-container-placement" style="min-height: 100px; text-align: center; margin: 30px 0;">
+            <!-- Здесь будет реклама -->
         </div>
         <div class="author-footer">
             <a href="https://x.com/avzcrypto" target="_blank" class="author-link" id="authorLink">
@@ -1120,5 +1087,54 @@
         walletInput.focus();
         trackPageView();
     </script>
+    <script>
+    var adUnits = [
+        {
+            code: 'classname-container-placement',
+            mediaTypes: {
+                banner: {
+                    sizes: [
+                        [728, 90], [320, 100], [320, 50], [300, 100]
+                    ]
+                }
+            },
+            bids: [
+                {
+                    bidder: 'bitmedia',
+                    params: {
+                        adUnitID: '68779968aea7e0fcac480599',
+                        currency: 'USD'
+                    },
+                },
+            ]
+        },
+    ];
+
+    var pbjs = pbjs || {};
+    pbjs.que = pbjs.que || [];
+
+    pbjs.que.push(function () {
+        pbjs.bidderSettings = {
+            bitmedia: {
+                storageAllowed: true
+            }
+        };
+    });
+
+    // ДОБАВИТЬ ЭТО - запуск показа рекламы
+    pbjs.que.push(function() {
+        pbjs.addAdUnits(adUnits);
+        pbjs.requestBids({
+            timeout: 2000,
+            bidsBackHandler: function() {
+                var winningBid = pbjs.getHighestCpmBids('classname-container-placement')[0];
+                if (winningBid && winningBid.adId) {
+                    pbjs.renderAd(document.getElementById('classname-container-placement'), winningBid.adId);
+                }
+            }
+        });
+    });
+    </script>
+</body>
 </body>
 </html>
