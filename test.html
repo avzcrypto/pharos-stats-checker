@@ -10,10 +10,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --pharos-blue-500: #3b82f6;
+            --pharos-blue-600: #2563eb;
+            --pharos-blue-700: #1d4ed8;
+            --pharos-blue-800: #1e3a8a;
+            --pharos-blue-900: #1e40af;
+            --pharos-orange-500: #f97316;
+            --pharos-orange-600: #fb923c;
+            --pharos-green-500: #22c55e;
+            --pharos-green-600: #16a34a;
+            --pharos-purple-500: #a855f7;
+            --pharos-purple-600: #9333ea;
+            --pharos-gray-500: #64748b;
+            --pharos-gray-900: #1f2937;
         }
         
         body {
@@ -195,15 +205,16 @@
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--pharos-green-500);
             color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
+            border: none;
+            box-shadow: 0 8px 16px rgba(34, 197, 94, 0.3);
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: var(--pharos-green-600);
             transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(34, 197, 94, 0.4);
         }
 
         .eta-info {
@@ -280,10 +291,6 @@
                 transform: translate(2px, -2px);
             }
         }
-
-        .main-title:hover {
-            animation: glitch 0.5s;
-        }
     </style>
 </head>
 <body>
@@ -303,8 +310,11 @@
         
         <h1 class="main-title">Temporarily Unavailable</h1>
         
-        <p class="subtitle">The leaderboard is currently undergoing maintenance</p>
-        
+        <p class="description">
+            We're working hard to improve the accuracy of our ranking system and user statistics. 
+            During this time, the leaderboard will be temporarily unavailable.
+        </p>
+
         <div class="action-buttons">
             <a href="https://pharoshub.xyz/" class="btn btn-primary">
                 <span>📊</span>
