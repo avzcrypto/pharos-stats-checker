@@ -28,12 +28,12 @@
         
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+            background: linear-gradient(135deg, #f5f2ed 0%, #e8eaf6 30%, #e3f2fd 60%, #bbdefb 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--pharos-gray-900);
             overflow: hidden;
             position: relative;
         }
@@ -94,8 +94,8 @@
         }
 
         .maintenance-icon {
-            width: 200px;
-            height: 200px;
+            width: 260px;
+            height: 260px;
             margin: 0 auto 40px;
             display: block;
             animation: pulse 3s infinite ease-in-out;
@@ -145,17 +145,14 @@
             font-size: 48px;
             font-weight: 900;
             margin-bottom: 16px;
-            background: linear-gradient(135deg, #ffffff 0%, #93c5fd 50%, #c084fc 100%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--pharos-gray-900);
             line-height: 1.1;
             letter-spacing: -0.02em;
         }
 
         .subtitle {
             font-size: 20px;
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--pharos-gray-500);
             margin-bottom: 32px;
             font-weight: 500;
             line-height: 1.4;
@@ -163,7 +160,7 @@
 
         .description {
             font-size: 16px;
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--pharos-gray-500);
             margin-bottom: 40px;
             line-height: 1.6;
             max-width: 480px;
@@ -193,15 +190,15 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            background: rgb(0, 7, 185);
             color: white;
             border: none;
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 7, 185, 0.3);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 12px 35px rgba(0, 7, 185, 0.4);
         }
 
         .btn-secondary {
@@ -248,8 +245,8 @@
             }
             
             .maintenance-icon {
-                width: 150px;
-                height: 150px;
+                width: 195px;
+                height: 195px;
                 margin-bottom: 30px;
             }
             
