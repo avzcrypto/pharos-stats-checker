@@ -1388,36 +1388,52 @@
         // ✅ ИСПРАВЛЕННАЯ ФУНКЦИЯ updateAnalytics
         function updateAnalytics(data) {
             const tiers = [
-                { name: '10,000+ Points', min: 10000, color: '#dc2626' },
-                { name: '9,000 - 9,999 Points', min: 9000, max: 9999, color: '#ea580c' },
-                { name: '8,000 - 8,999 Points', min: 8000, max: 8999, color: '#d97706' },
-                { name: '7,000 - 7,999 Points', min: 7000, max: 7999, color: '#059669' },
-                { name: '6,000 - 6,999 Points', min: 6000, max: 6999, color: '#0891b2' },
-                { name: '5,000 - 5,999 Points', min: 5000, max: 5999, color: '#2563eb' },
-                { name: '4,000 - 4,999 Points', min: 4000, max: 4999, color: '#7c3aed' },
-                { name: '3,000 - 3,999 Points', min: 3000, max: 3999, color: '#c026d3' },
-                { name: 'Below 3,000 Points', min: 0, max: 2999, color: '#6b7280' }
+                { name: '10,000+ Points', min: 10000, color: '#dc2626', key: '10000+' },
+                { name: '9,000 - 9,999 Points', min: 9000, max: 9999, color: '#ea580c', key: '9000-9999' },
+                { name: '8,000 - 8,999 Points', min: 8000, max: 8999, color: '#d97706', key: '8000-8999' },
+                { name: '7,000 - 7,999 Points', min: 7000, max: 7999, color: '#059669', key: '7000-7999' },
+                { name: '6,000 - 6,999 Points', min: 6000, max: 6999, color: '#0891b2', key: '6000-6999' },
+                { name: '5,000 - 5,999 Points', min: 5000, max: 5999, color: '#2563eb', key: '5000-5999' },
+                { name: '4,000 - 4,999 Points', min: 4000, max: 4999, color: '#7c3aed', key: '4000-4999' },
+                { name: '3,000 - 3,999 Points', min: 3000, max: 3999, color: '#c026d3', key: '3000-3999' },
+                { name: 'Below 3,000 Points', min: 0, max: 2999, color: '#6b7280', key: 'below-3000' }
             ];
 
-            // ✅ ИСПРАВЛЕНО: Считаем только из leaderboard данных
-            const distribution = tiers.map(tier => {
-                const count = data.leaderboard.filter(user => {
-                    const points = user.total_points;
-                    if (tier.max) {
-                        return points >= tier.min && points <= tier.max;
-                    } else {
-                        return points >= tier.min;
-                    }
-                }).length;
+            let distribution;
 
-                const percentage = data.total_users > 0 ? (count / data.total_users * 100).toFixed(1) : 0;
-                
-                return {
-                    ...tier,
-                    count: count,
-                    percentage: percentage
-                };
-            });
+            // ✅ ИСПРАВЛЕНО: Используем point_distribution из API если доступно
+            if (data.point_distribution && Object.keys(data.point_distribution).length > 0) {
+                distribution = tiers.map(tier => {
+                    const count = data.point_distribution[tier.key] || 0;
+                    const percentage = data.total_users > 0 ? (count / data.total_users * 100).toFixed(1) : 0;
+                    
+                    return {
+                        ...tier,
+                        count: count,
+                        percentage: percentage
+                    };
+                });
+            } else {
+                // ✅ FALLBACK: Если нет point_distribution, считаем из топ-100
+                distribution = tiers.map(tier => {
+                    const count = data.leaderboard.filter(user => {
+                        const points = user.total_points;
+                        if (tier.max) {
+                            return points >= tier.min && points <= tier.max;
+                        } else {
+                            return points >= tier.min;
+                        }
+                    }).length;
+
+                    const percentage = data.leaderboard.length > 0 ? (count / data.leaderboard.length * 100).toFixed(1) : 0;
+                    
+                    return {
+                        ...tier,
+                        count: count,
+                        percentage: percentage
+                    };
+                });
+            }
 
             renderPieChart(distribution, data.total_users);
             renderLegend(distribution);
