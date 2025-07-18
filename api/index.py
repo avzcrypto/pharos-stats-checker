@@ -7,7 +7,7 @@ Optimized for serverless deployment with advanced caching and concurrent process
 
 Author: @avzcrypto
 License: MIT
-Version: 2.0.1 - Fixed ranking system
+Version: 2.0.0
 """
 
 from http.server import BaseHTTPRequestHandler
@@ -88,7 +88,7 @@ class ProxyManager:
 
 
 class RedisManager:
-    """Redis connection and operations manager with corrected ranking logic."""
+    """Redis connection and operations manager."""
     
     def __init__(self):
         self.client = None
@@ -108,29 +108,18 @@ class RedisManager:
         except Exception:
             return False
     
-    def get_exact_rank(self, address: str) -> Optional[int]:
-        """Calculate exact user rank using grouped ranking system."""
+    def get_exact_rank(self, total_points: int) -> Optional[int]:
+        """Calculate exact user rank based on points."""
         try:
             if not self.enabled or not self.client:
                 return None
             
-            address = address.lower()
-            
-            # Get user's points
-            user_points = self.client.zscore('pharos:leaderboard', address)
-            if user_points is None:
-                return None
-            
-            # Count how many users have MORE points (for grouped ranking)
             users_with_more_points = self.client.zcount(
                 'pharos:leaderboard', 
-                user_points + 0.1,  # Slightly higher to exclude equal scores
+                total_points + 1, 
                 '+inf'
             )
-            
-            # Grouped rank = number of users with more points + 1
             return users_with_more_points + 1
-            
         except Exception:
             return None
     
@@ -181,32 +170,23 @@ class RedisManager:
             pass  # Graceful degradation if Redis fails
     
     def get_leaderboard_data(self) -> Dict[str, Any]:
-        """Retrieve leaderboard statistics with proper grouped ranking."""
+        """Retrieve leaderboard statistics with point distribution."""
         if not self.enabled or not self.client:
             raise Exception('Stats not available')
         
         try:
-            # Get top 100 users by points
+            # Get top 100 for leaderboard display
             top_addresses = self.client.zrevrange('pharos:leaderboard', 0, 99, withscores=True)
             
             leaderboard = []
-            current_rank = 1
-            previous_points = None
-            position = 0
-            
-            for address, points in top_addresses:
-                position += 1
+            for i, (address, points) in enumerate(top_addresses):
                 address_str = address.decode('utf-8')
                 user_data = self.client.hget('pharos:users', address_str)
-                
-                # Calculate grouped rank - if points changed, update rank to current position
-                if previous_points is not None and points < previous_points:
-                    current_rank = position
                 
                 if user_data:
                     stats = json.loads(user_data)
                     leaderboard.append({
-                        'rank': current_rank,
+                        'rank': i + 1,
                         'address': address_str,
                         'total_points': int(points),
                         'current_level': stats.get('current_level', 1),
@@ -223,44 +203,58 @@ class RedisManager:
                         'faroswap_lp': stats.get('faroswap_lp', 0),
                         'faroswap_swaps': stats.get('faroswap_swaps', 0)
                     })
-                
-                previous_points = points
             
-            # Get statistics for diagram
+            # ✅ НОВОЕ: Получаем ВСЕ очки пользователей для аналитики
+            all_users_points = self.client.zrevrange('pharos:leaderboard', 0, -1, withscores=True)
+            
+            # ✅ НОВОЕ: Считаем распределение по тирам для ВСЕХ пользователей
+            point_distribution = {
+                '10000+': 0,
+                '9000-9999': 0,
+                '8000-8999': 0,
+                '7000-7999': 0,
+                '6000-6999': 0,
+                '5000-5999': 0,
+                '4000-4999': 0,
+                '3000-3999': 0,
+                'below-3000': 0
+            }
+            
+            for address, points in all_users_points:
+                points = int(points)
+                if points >= 10000:
+                    point_distribution['10000+'] += 1
+                elif points >= 9000:
+                    point_distribution['9000-9999'] += 1
+                elif points >= 8000:
+                    point_distribution['8000-8999'] += 1
+                elif points >= 7000:
+                    point_distribution['7000-7999'] += 1
+                elif points >= 6000:
+                    point_distribution['6000-6999'] += 1
+                elif points >= 5000:
+                    point_distribution['5000-5999'] += 1
+                elif points >= 4000:
+                    point_distribution['4000-4999'] += 1
+                elif points >= 3000:
+                    point_distribution['3000-3999'] += 1
+                else:
+                    point_distribution['below-3000'] += 1
+            
             total_users = self.client.zcard('pharos:leaderboard')
             total_checks = self.client.get('pharos:total_checks')
-            
-            # Calculate point distribution for diagram
-            point_ranges = self._calculate_point_distribution()
             
             return {
                 'success': True,
                 'total_users': total_users,
                 'total_checks': int(total_checks) if total_checks else 0,
                 'leaderboard': leaderboard,
-                'point_distribution': point_ranges,
+                'point_distribution': point_distribution,  # ✅ НОВОЕ: Добавляем распределение
                 'last_updated': datetime.now().isoformat()
             }
             
         except Exception as e:
             return {'success': False, 'error': str(e)}
-    
-    def _calculate_point_distribution(self) -> Dict[str, int]:
-        """Calculate accurate point distribution for diagram using ZCOUNT."""
-        try:
-            ranges = {
-                '50000+': self.client.zcount('pharos:leaderboard', 50000, '+inf'),
-                '25000-49999': self.client.zcount('pharos:leaderboard', 25000, 49999),
-                '15000-24999': self.client.zcount('pharos:leaderboard', 15000, 24999),
-                '10000-14999': self.client.zcount('pharos:leaderboard', 10000, 14999),
-                '6000-9999': self.client.zcount('pharos:leaderboard', 6000, 9999),
-                '3000-5999': self.client.zcount('pharos:leaderboard', 3000, 5999),
-                '1000-2999': self.client.zcount('pharos:leaderboard', 1000, 2999),
-                '0-999': self.client.zcount('pharos:leaderboard', 0, 999)
-            }
-            return ranges
-        except Exception:
-            return {}
 
 
 class PharosAPIClient:
@@ -382,8 +376,8 @@ class PharosAPIClient:
             points_for_next = level_thresholds.get(next_level, 150000)
             points_needed = max(0, points_for_next - total_points)
             
-            # Get exact rank from Redis using corrected method
-            exact_rank = self.redis_manager.get_exact_rank(wallet_address)
+            # Get exact rank from Redis
+            exact_rank = self.redis_manager.get_exact_rank(total_points)
             
             return {
                 'success': True,
@@ -502,7 +496,7 @@ class handler(BaseHTTPRequestHandler):
         response_data = {
             'status': 'ok',
             'message': 'Pharos Stats API is operational',
-            'version': '2.0.1',
+            'version': '2.0.0',
             'cache_size': len(cache_manager.cache),
             'proxies_loaded': len(proxy_manager.proxies),
             'redis_enabled': redis_manager.enabled
