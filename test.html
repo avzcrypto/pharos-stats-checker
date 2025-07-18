@@ -46,6 +46,25 @@
             margin: 0 auto;
         }
 
+        /* Disclaimer Section */
+        .disclaimer-section {
+            background: rgba(59, 130, 246, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .disclaimer-content {
+            font-size: 14px;
+            color: #1e40af;
+            font-weight: 500;
+            text-align: center;
+            line-height: 1.4;
+        }
+
         /* Header */
         .header-section {
             display: grid;
@@ -128,358 +147,6 @@
             text-align: center;
             position: relative;
             left: 25px;
-        }
-
-        /* Disclaimer Section */
-        .disclaimer-section {
-            background: rgba(255, 248, 220, 0.8);
-            backdrop-filter: blur(20px);
-            border-radius: 12px;
-            padding: 16px 20px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(245, 158, 11, 0.2);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        .disclaimer-content {
-            font-size: 14px;
-            color: #92400e;
-            font-weight: 500;
-            text-align: center;
-            line-height: 1.4;
-        }
-
-        .disclaimer-link {
-            color: #1d4ed8;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
-        }
-
-        .disclaimer-link:hover {
-            color: #1e40af;
-            text-decoration: underline;
-        }
-
-        /* Search Section */
-        .rank-search-section {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 24px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            margin-bottom: 30px;
-        }
-
-        .search-form {
-            display: flex;
-            gap: 16px;
-            align-items: center;
-        }
-
-        .input-group {
-            flex: 1;
-            display: flex;
-            border: 2px solid rgba(59, 130, 246, 0.2);
-            border-radius: 12px;
-            overflow: hidden;
-            background: white;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        }
-
-        .input-group:focus-within {
-            border-color: var(--pharos-blue-500);
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-            transform: translateY(-1px);
-        }
-
-        .wallet-input {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            outline: none;
-            font-size: 14px;
-            font-family: 'Inter', 'SF Mono', monospace;
-            color: var(--pharos-gray-900);
-            background: transparent;
-            font-weight: 500;
-        }
-
-        .wallet-input::placeholder {
-            color: var(--pharos-gray-500);
-            font-weight: 400;
-        }
-
-        .search-button {
-            padding: 12px 36px;
-            background: rgb(0, 7, 185);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 16px rgba(0, 7, 185, 0.3);
-            white-space: nowrap;
-            min-width: 270px;
-        }
-
-        .search-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 24px rgba(0, 7, 185, 0.4);
-        }
-
-        .search-button:disabled {
-            background: #9ca3af;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        /* Error and Success Messages */
-        .error {
-            background: rgba(255, 255, 255, 0.9);
-            color: #dc2626;
-            padding: 16px;
-            border-radius: 16px;
-            margin-top: 16px;
-            display: none;
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            font-weight: 600;
-            backdrop-filter: blur(20px);
-        }
-
-        .error.show {
-            display: block;
-        }
-
-        /* User Search Result */
-        .user-search-result {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 16px;
-            padding: 20px;
-            margin-top: 16px;
-            border: 1px solid rgba(34, 197, 94, 0.2);
-            backdrop-filter: blur(20px);
-            box-shadow: 0 8px 16px rgba(34, 197, 94, 0.1);
-            display: none;
-        }
-
-        .user-search-result.show {
-            display: block;
-        }
-
-        .result-compact-row {
-            display: grid;
-            grid-template-columns: auto auto 1fr;
-            gap: 20px;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .result-stat-block {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 12px;
-            padding: 16px 20px;
-            text-align: center;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            min-width: 150px;
-        }
-
-        .result-stat-value {
-            font-size: 15px;
-            font-weight: 800;
-            margin-bottom: 4px;
-            font-family: 'Inter', 'SF Mono', monospace;
-        }
-
-        .result-stat-label {
-            font-size: 12px;
-            color: var(--pharos-gray-500);
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .result-level-block {
-            background: var(--pharos-green-500);
-            color: white;
-        }
-
-        .result-level-block .result-stat-label {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .result-activities {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            flex: 1;
-        }
-
-        .result-activity {
-            background: rgba(248, 250, 252, 0.8);
-            border-radius: 8px;
-            padding: 8px 6px;
-            text-align: center;
-            min-width: 75px;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .result-activity.send { 
-            background: rgba(59, 130, 246, 0.08); 
-            border-color: rgba(59, 130, 246, 0.15);
-        }
-        .result-activity.zenith { 
-            background: rgba(249, 115, 22, 0.08); 
-            border-color: rgba(249, 115, 22, 0.15);
-        }
-        .result-activity.faroswap { 
-            background: rgba(168, 85, 247, 0.08); 
-            border-color: rgba(168, 85, 247, 0.15);
-        }
-        .result-activity.nft { 
-            background: rgba(34, 197, 94, 0.08); 
-            border-color: rgba(34, 197, 94, 0.15);
-        }
-
-        .result-activity-header {
-            font-size: 13px;
-            color: var(--pharos-gray-500);
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-            letter-spacing: 0.5px;
-        }
-
-        .result-activity-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4px;
-            margin-bottom: 4px;
-        }
-
-        .result-activity-single {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 4px;
-        }
-
-        .result-activity-item {
-            text-align: center;
-        }
-
-        .result-activity-value {
-            font-size: 15px;
-            font-weight: 800;
-            color: var(--pharos-gray-900);
-            margin-bottom: 2px;
-            font-family: 'Inter', 'SF Mono', monospace;
-        }
-
-        .result-activity-sublabel {
-            font-size: 12px;
-            color: var(--pharos-gray-500);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-
-        .rank-info {
-            background: rgba(34, 197, 94, 0.1);
-            border: 2px solid var(--pharos-green-500);
-            padding: 20px;
-            border-radius: 16px;
-            text-align: center;
-        }
-
-        .rank-text {
-            font-size: 24px;
-            font-weight: 800;
-            margin-bottom: 8px;
-            font-family: 'Inter', 'SF Mono', monospace;
-            color: var(--pharos-green-600);
-        }
-
-        /* Boost CTA Block */
-        .boost-cta {
-            background: url('./form_background.webp') center/cover;
-            border-radius: 20px;
-            padding: 24px;
-            text-align: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            text-decoration: none;
-            display: block;
-            position: relative;
-            margin-top: 16px;
-        }
-
-        .boost-cta::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.15);
-            border-radius: 20px;
-            z-index: 1;
-        }
-
-        .boost-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 
-                0 12px 24px rgba(13, 120, 232, 0.3),
-                0 6px 12px rgba(13, 120, 232, 0.2);
-        }
-
-        .boost-cta-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .boost-cta-text {
-            font-size: 22px;
-            font-weight: 900;
-            letter-spacing: 0.025em;
-            line-height: 1.4;
-            margin: 0;
-            position: relative;
-            z-index: 2;
-        }
-
-        .boost-cta-line1 {
-            background-image: linear-gradient(91deg, rgb(255, 255, 255) 23%, rgb(166, 224, 255) 98%);
-            font-family: 'Inter28pt-Bold', 'Inter', sans-serif;
-            font-weight: 900;
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(rgb(253, 255, 208) 0px 2px 40px);
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        .boost-cta-line2 {
-            background-image: linear-gradient(128deg, rgb(255, 215, 0) 13%, rgba(255, 223, 0, 0.9) 95%);
-            font-family: 'Inter28pt-Bold', 'Inter', sans-serif;
-            font-weight: 900;
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(rgb(253, 255, 208) 0px 2px 10px);
-            display: inline;
-        }
-
-        .boost-cta-emoji {
-            color: white;
-            font-size: 22px;
-            margin-left: 4px;
-            display: inline;
         }
 
         /* Analytics Section */
@@ -825,19 +492,6 @@
             .pie-container {
                 margin: 0 auto;
             }
-
-            .result-compact-row {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-
-            .result-activities {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .boost-cta-text {
-                font-size: 16px;
-            }
         }
 
         @media (max-width: 768px) {
@@ -856,15 +510,6 @@
                 font-size: 28px;
             }
 
-            .search-form {
-                flex-direction: column;
-                gap: 12px;
-            }
-
-            .search-button {
-                width: 100%;
-            }
-
             .leaderboard-table {
                 font-size: 12px;
             }
@@ -873,20 +518,24 @@
             .leaderboard-table td {
                 padding: 8px 4px;
             }
-
-            .result-activities {
-                order: 2;
-            }
-
-            .result-stat-block {
-                order: 1;
-            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
+        <!-- Disclaimer Section -->
+        <div class="disclaimer-section">
+            <div class="disclaimer-content">
+                ⏰ <strong>Update Schedule:</strong> Leaderboard data is refreshed once daily at 00:00 UTC to ensure optimal performance and reduce server load.
+            </div>
+        </div>
+
+        <!-- Update Schedule Notice -->
+        <div class="disclaimer-section">
+            <div class="disclaimer-content">
+                ⏰ <strong>Update Schedule:</strong> Loading update information...
+            </div>
+        </div>
         <div class="header-section">
             <div class="header-left">
                 <img src="./leaderboard_logo.webp" alt="Pharos Leaderboard Logo" class="logo-img">
@@ -910,123 +559,6 @@
                     </div>
                     <div class="stat-label-header">Top Score</div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Disclaimer -->
-        <div class="disclaimer-section">
-            <div class="disclaimer-content">
-                ⚠️ <strong>Disclaimer:</strong> This leaderboard only displays users who have checked their Pharos Testnet stats on platform <a href="https://pharoshub.xyz" target="_blank" class="disclaimer-link">pharoshub.xyz</a>.
-            </div>
-        </div>
-
-        <!-- Search Section -->
-        <div class="rank-search-section">
-            <div class="search-form">
-                <div class="input-group">
-                    <input
-                        type="text"
-                        class="wallet-input"
-                        id="walletAddress"
-                        placeholder="Enter your wallet address (0x...)"
-                        spellcheck="false"
-                    >
-                </div>
-                <button class="search-button" id="searchButton">
-                    Check My Rank
-                </button>
-            </div>
-            <div class="error" id="error"></div>
-            
-            <!-- User Search Result -->
-            <div class="user-search-result" id="userResult">
-                <!-- Compact top row with Points, Level, and Activities -->
-                <div class="result-compact-row">
-                    <!-- Points -->
-                    <div class="result-stat-block">
-                        <div class="result-stat-value" style="color: var(--pharos-gray-900);" id="userPoints">0</div>
-                        <div class="result-stat-label">Total Points</div>
-                    </div>
-                    
-                    <!-- Level -->
-                    <div class="result-stat-block result-level-block">
-                        <div class="result-stat-value" id="userLevel">L1</div>
-                        <div class="result-stat-label">Level</div>
-                    </div>
-
-                    <!-- Activities -->
-                    <div class="result-activities">
-                        <!-- Send TX -->
-                        <div class="result-activity send">
-                            <div class="result-activity-header">SEND TX</div>
-                            <div class="result-activity-single">
-                                <div class="result-activity-value" id="userSendTx">0</div>
-                                <div class="result-activity-sublabel">📤 Transfers</div>
-                            </div>
-                        </div>
-
-                        <!-- Zenith -->
-                        <div class="result-activity zenith">
-                            <div class="result-activity-header">Zenith</div>
-                            <div class="result-activity-grid">
-                                <div class="result-activity-item">
-                                    <div class="result-activity-value" id="userZenithSwaps">0</div>
-                                    <div class="result-activity-sublabel">🔄 Swaps</div>
-                                </div>
-                                <div class="result-activity-item">
-                                    <div class="result-activity-value" id="userZenithLP">0</div>
-                                    <div class="result-activity-sublabel">💧 LP</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Faroswap -->
-                        <div class="result-activity faroswap">
-                            <div class="result-activity-header">Faroswap</div>
-                            <div class="result-activity-grid">
-                                <div class="result-activity-item">
-                                    <div class="result-activity-value" id="userFaroswapSwaps">0</div>
-                                    <div class="result-activity-sublabel">🔄 Swaps</div>
-                                </div>
-                                <div class="result-activity-item">
-                                    <div class="result-activity-value" id="userFaroswapLP">0</div>
-                                    <div class="result-activity-sublabel">💧 LP</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- NFT & Domains -->
-                        <div class="result-activity nft">
-                            <div class="result-activity-header">NFT & Domains</div>
-                            <div class="result-activity-grid">
-                                <div class="result-activity-item">
-                                    <div class="result-activity-value" id="userNftDomains">0</div>
-                                    <div class="result-activity-sublabel">🌐 Domains</div>
-                                </div>
-                                <div class="result-activity-item">
-                                    <div class="result-activity-value" id="userNftNFTs">0</div>
-                                    <div class="result-activity-sublabel">🖼️ NFTs</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Full Width Rank -->
-                <div class="rank-info">
-                    <div class="rank-text" id="userRankText">Your Rank: #0 out of 0</div>
-                    <div class="rank-subtext" id="userRankSubtext">Loading...</div>
-                </div>
-
-                <!-- Boost CTA Block -->
-                <a href="https://x.com/avzcrypto/status/1940798987709395362" target="_blank" class="boost-cta">
-                    <div class="boost-cta-content">
-                        <div class="boost-cta-text">
-                            <span class="boost-cta-line1">WANT TO BOOST YOUR RANK?</span>
-                            <span class="boost-cta-line2">CLICK AND GET THE ULTIMATE GUIDE</span><span class="boost-cta-emoji">🚀</span>
-                        </div>
-                    </div>
-                </a>
             </div>
         </div>
 
@@ -1130,326 +662,274 @@
     </div>
 
     <script>
-        // DOM Elements
-        const walletInput = document.getElementById('walletAddress');
-        const searchButton = document.getElementById('searchButton');
-        const error = document.getElementById('error');
-        const userResult = document.getElementById('userResult');
-        const loading = document.getElementById('loading');
-        const leaderboardSection = document.getElementById('leaderboardSection');
-        const leaderboardBody = document.getElementById('leaderboardBody');
+        (function() {
+            'use strict';
+            
+            // DOM Elements
+            const totalUsersElement = document.getElementById('totalUsers');
+            const topPointsElement = document.getElementById('topPoints');
+            const loading = document.getElementById('loading');
+            const leaderboardSection = document.getElementById('leaderboardSection');
+            const leaderboardBody = document.getElementById('leaderboardBody');
+            const pieChart = document.getElementById('pieChart');
+            const pieLegend = document.getElementById('pieLegend');
+            const pieChartTotal = document.getElementById('pieChartTotal');
 
-        // Header stats
-        const totalUsersElement = document.getElementById('totalUsers');
-        const topPointsElement = document.getElementById('topPoints');
+            // Utility Functions
+            const formatNumber = num => new Intl.NumberFormat('en-US').format(num);
+            
+            const showLoading = () => {
+                loading.classList.add('show');
+                leaderboardSection.style.display = 'none';
+            };
+            
+            const hideLoading = () => {
+                loading.classList.remove('show');
+                leaderboardSection.style.display = 'block';
+            };
 
-        // User result elements
-        const userPoints = document.getElementById('userPoints');
-        const userLevel = document.getElementById('userLevel');
-        const userSendTx = document.getElementById('userSendTx');
-        const userRankText = document.getElementById('userRankText');
-        const userRankSubtext = document.getElementById('userRankSubtext');
+            const getRankTier = points => {
+                if (points >= 10000) return 'rank-tier-1';
+                if (points >= 9000) return 'rank-tier-2';
+                if (points >= 8000) return 'rank-tier-3';
+                if (points >= 7000) return 'rank-tier-4';
+                if (points >= 6000) return 'rank-tier-5';
+                if (points >= 5000) return 'rank-tier-6';
+                if (points >= 4000) return 'rank-tier-7';
+                if (points >= 3000) return 'rank-tier-8';
+                if (points >= 2000) return 'rank-tier-9';
+                return 'rank-tier-10';
+            };
 
-        // Analytics elements
-        const pieChart = document.getElementById('pieChart');
-        const pieLegend = document.getElementById('pieLegend');
-        const pieChartTotal = document.getElementById('pieChartTotal');
+            const calculateLevel = points => {
+                if (points < 1000) return 1;
+                if (points < 3000) return 2;
+                if (points < 6000) return 3;
+                return Math.min(4, Math.floor(points / 1000));
+            };
 
-        // Utility Functions
-        function isValidAddress(address) {
-            return /^0x[a-fA-F0-9]{40}$/.test(address);
-        }
-
-        function formatNumber(num) {
-            return new Intl.NumberFormat('en-US').format(num);
-        }
-
-        function showError(message) {
-            error.textContent = message;
-            error.classList.add('show');
-            userResult.classList.remove('show');
-        }
-
-        function hideError() {
-            error.classList.remove('show');
-        }
-
-        function showLoading() {
-            loading.classList.add('show');
-            leaderboardSection.style.display = 'none';
-            searchButton.disabled = true;
-            searchButton.textContent = 'Checking...';
-        }
-
-        function hideLoading() {
-            loading.classList.remove('show');
-            leaderboardSection.style.display = 'block';
-            searchButton.disabled = false;
-            searchButton.textContent = 'Check My Rank';
-        }
-
-        function getRankTier(points) {
-            if (points >= 10000) return 'rank-tier-1';
-            if (points >= 9000) return 'rank-tier-2';
-            if (points >= 8000) return 'rank-tier-3';
-            if (points >= 7000) return 'rank-tier-4';
-            if (points >= 6000) return 'rank-tier-5';
-            if (points >= 5000) return 'rank-tier-6';
-            if (points >= 4000) return 'rank-tier-7';
-            if (points >= 3000) return 'rank-tier-8';
-            if (points >= 2000) return 'rank-tier-9';
-            return 'rank-tier-10';
-        }
-
-        function calculateLevel(points) {
-            if (points < 1000) return 1;
-            if (points < 3000) return 2;
-            if (points < 6000) return 3;
-            return Math.min(4, Math.floor(points / 1000)); // Max level 4
-        }
-
-        function formatAddress(address) {
-            return `${address.slice(0, 4)}...${address.slice(-4)}`;
-        }
-
-        function formatDate(dateString) {
-            if (!dateString) return 'Unknown';
-            const date = new Date(dateString);
-            return date.toLocaleDateString('en-US', { 
-                year: 'numeric', 
-                month: 'short', 
-                day: 'numeric' 
-            });
-        }
-
-        // API Functions
-        async function searchUserRank() {
-            const address = walletInput.value.trim();
-
-            if (!address) {
-                showError('Please enter a wallet address');
-                return;
-            }
-
-            if (!isValidAddress(address)) {
-                showError('Please enter a valid Ethereum address');
-                return;
-            }
-
-            hideError();
-            showLoading();
-
-            try {
-                // Get user data
-                const userResponse = await fetch('/api/check-wallet', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        wallet_address: address
-                    })
+            const formatAddress = address => `${address.slice(0, 4)}...${address.slice(-4)}`;
+            
+            const formatDate = dateString => {
+                if (!dateString) return 'Unknown';
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
                 });
+            };
 
-                if (!userResponse.ok) {
-                    throw new Error(`User API failed: ${userResponse.status}`);
-                }
-
-                const userData = await userResponse.json();
-                if (!userData.success) {
-                    throw new Error(userData.error || 'Failed to fetch user data');
-                }
-
-                // Get leaderboard data
-                const leaderboardResponse = await fetch('/api/admin/stats');
-                if (!leaderboardResponse.ok) {
-                    throw new Error(`Leaderboard API failed: ${leaderboardResponse.status}`);
-                }
-
-                const leaderboardData = await leaderboardResponse.json();
-                if (!leaderboardData.success) {
-                    throw new Error(leaderboardData.error || 'Failed to fetch leaderboard data');
-                }
-
-                displayUserResult(userData, leaderboardData);
-                
-            } catch (err) {
-                console.error('Error:', err);
-                showError(err.message || 'Failed to fetch data. Please try again.');
-            } finally {
-                hideLoading();
-            }
-        }
-
-        function displayUserResult(userData, leaderboardData) {
-            // Update user stats
-            userPoints.textContent = formatNumber(userData.total_points);
-            userLevel.textContent = `L${calculateLevel(userData.total_points)}`;
-            userSendTx.textContent = userData.send_count || 0;
-            
-            // Update individual activity values
-            document.getElementById('userZenithSwaps').textContent = userData.zenith_swaps || 0;
-            document.getElementById('userZenithLP').textContent = userData.zenith_lp || 0;
-            document.getElementById('userFaroswapSwaps').textContent = userData.faroswap_swaps || 0;
-            document.getElementById('userFaroswapLP').textContent = userData.faroswap_lp || 0;
-            document.getElementById('userNftDomains').textContent = userData.mint_domain || 0;
-            document.getElementById('userNftNFTs').textContent = userData.mint_nft || 0;
-
-            // Use only exact rank from API
-            const totalUsers = leaderboardData.total_users;
-
-            if (userData.exact_rank) {
-                const userRank = userData.exact_rank;
-                const percentile = ((totalUsers - userRank) / totalUsers * 100).toFixed(2);
-                
-                userRankText.textContent = `Your Rank: #${formatNumber(userRank)} out of ${formatNumber(totalUsers)}`;
-                userRankSubtext.textContent = `You're in the top ${percentile}% of all users! 🎉`;
-            } else {
-                userRankText.textContent = `Your Rank: Not available`;
-                userRankSubtext.textContent = `Rank calculation requires stats to be enabled on the server`;
-            }
-
-            userResult.classList.add('show');
-        }
-
-        async function loadLeaderboard() {
-            try {
-                showLoading();
-                
-                const response = await fetch('/api/admin/stats');
-                
-                if (!response.ok) {
-                    throw new Error(`API failed: ${response.status}`);
-                }
-
-                const data = await response.json();
-                if (!data.success) {
-                    throw new Error(data.error || 'Failed to fetch leaderboard');
-                }
-
-                displayLeaderboard(data);
-                updateAnalytics(data);
-                updateHeaderStats(data);
-
-            } catch (err) {
-                console.error('Error loading leaderboard:', err);
-                showError(`Failed to load leaderboard: ${err.message}`);
-            } finally {
-                hideLoading();
-            }
-        }
-
-        function displayLeaderboard(data) {
-            const tbody = leaderboardBody;
-            tbody.innerHTML = '';
-
-            data.leaderboard.slice(0, 100).forEach((user, index) => {
-                const row = document.createElement('tr');
-                const rankClass = getRankTier(user.total_points);
-                const level = calculateLevel(user.total_points);
-
-                row.innerHTML = `
-                    <td><span class="rank ${rankClass}">#${user.rank}</span></td>
-                    <td class="address">${formatAddress(user.address)}</td>
-                    <td><div class="points-level-wrapper"><span class="points">${formatNumber(user.total_points)}</span><span class="level-badge">L${level}</span></div></td>
-                    <td><div class="send-block" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: center; padding: 4px; border-radius: 8px;"><div class="activity-count">${user.send_count || 0}</div><div class="activity-count" style="opacity: 0;"></div></div></td>
-                    <td>
-                        <div class="zenith-block" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: center; padding: 4px; border-radius: 8px;">
-                            <div class="activity-count">${user.swap_count || 0}</div>
-                            <div class="activity-count">${user.lp_count || 0}</div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="faroswap-block" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: center; padding: 4px; border-radius: 8px;">
-                            <div class="activity-count">${user.faroswap_swaps || 0}</div>
-                            <div class="activity-count">${user.faroswap_lp || 0}</div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="nft-block" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: center; padding: 4px; border-radius: 8px;">
-                            <div class="activity-count">${user.mint_domain || 0}</div>
-                            <div class="activity-count">${user.mint_nft || 0}</div>
-                        </div>
-                    </td>
-                    <td class="member-since">${formatDate(user.member_since)}</td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-
-        function updateHeaderStats(data) {
-            totalUsersElement.textContent = formatNumber(data.total_users);
-            
-            if (data.leaderboard && data.leaderboard.length > 0) {
-                topPointsElement.textContent = formatNumber(data.leaderboard[0].total_points);
-            }
-        }
-
-        // ✅ ИСПРАВЛЕННАЯ ФУНКЦИЯ updateAnalytics
-        function updateAnalytics(data) {
-            const tiers = [
-                { name: '10,000+ Points', min: 10000, color: '#dc2626', key: '10000+' },
-                { name: '9,000 - 9,999 Points', min: 9000, max: 9999, color: '#ea580c', key: '9000-9999' },
-                { name: '8,000 - 8,999 Points', min: 8000, max: 8999, color: '#d97706', key: '8000-8999' },
-                { name: '7,000 - 7,999 Points', min: 7000, max: 7999, color: '#059669', key: '7000-7999' },
-                { name: '6,000 - 6,999 Points', min: 6000, max: 6999, color: '#0891b2', key: '6000-6999' },
-                { name: '5,000 - 5,999 Points', min: 5000, max: 5999, color: '#2563eb', key: '5000-5999' },
-                { name: '4,000 - 4,999 Points', min: 4000, max: 4999, color: '#7c3aed', key: '4000-4999' },
-                { name: '3,000 - 3,999 Points', min: 3000, max: 3999, color: '#c026d3', key: '3000-3999' },
-                { name: 'Below 3,000 Points', min: 0, max: 2999, color: '#6b7280', key: 'below-3000' }
-            ];
-
-            let distribution;
-
-            // ✅ ИСПРАВЛЕНО: Используем point_distribution из API если доступно
-            if (data.point_distribution && Object.keys(data.point_distribution).length > 0) {
-                distribution = tiers.map(tier => {
-                    const count = data.point_distribution[tier.key] || 0;
-                    const percentage = data.total_users > 0 ? (count / data.total_users * 100).toFixed(1) : 0;
+            // Load leaderboard data
+            const loadLeaderboard = async () => {
+                try {
+                    const response = await fetch('/api/admin/stats');
                     
-                    return {
-                        ...tier,
-                        count: count,
-                        percentage: percentage
-                    };
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+                    
+                    if (!data.success) {
+                        throw new Error(data.error || 'Failed to fetch leaderboard');
+                    }
+                    
+                    return data;
+                    
+                } catch (error) {
+                    console.error('Leaderboard fetch error:', error);
+                    throw error;
+                }
+            };
+
+            // Display Functions
+            const displayLeaderboard = data => {
+                const tbody = leaderboardBody;
+                tbody.innerHTML = '';
+
+                // Use only top 100 for performance
+                const top100 = data.leaderboard.slice(0, 100);
+                
+                // Batch DOM updates using DocumentFragment
+                const fragment = document.createDocumentFragment();
+                
+                top100.forEach(user => {
+                    const row = document.createElement('tr');
+                    const rankClass = getRankTier(user.total_points);
+                    const level = calculateLevel(user.total_points);
+
+                    row.innerHTML = `
+                        <td><span class="rank ${rankClass}">#${user.rank}</span></td>
+                        <td class="address">${formatAddress(user.address)}</td>
+                        <td><div class="points-level-wrapper"><span class="points">${formatNumber(user.total_points)}</span><span class="level-badge">L${level}</span></div></td>
+                        <td><div class="send-block" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: center; padding: 4px; border-radius: 8px;"><div class="activity-count">${user.send_count || 0}</div><div class="activity-count" style="opacity: 0;"></div></div></td>
+                        <td>
+                            <div class="zenith-block" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: center; padding: 4px; border-radius: 8px;">
+                                <div class="activity-count">${user.swap_count || 0}</div>
+                                <div class="activity-count">${user.lp_count || 0}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="faroswap-block" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: center; padding: 4px; border-radius: 8px;">
+                                <div class="activity-count">${user.faroswap_swaps || 0}</div>
+                                <div class="activity-count">${user.faroswap_lp || 0}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="nft-block" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: center; padding: 4px; border-radius: 8px;">
+                                <div class="activity-count">${user.mint_domain || 0}</div>
+                                <div class="activity-count">${user.mint_nft || 0}</div>
+                            </div>
+                        </td>
+                        <td class="member-since">${formatDate(user.member_since)}</td>
+                    `;
+                    
+                    fragment.appendChild(row);
                 });
-            } else {
-                // ✅ FALLBACK: Если нет point_distribution, считаем из топ-100
-                distribution = tiers.map(tier => {
-                    const count = data.leaderboard.filter(user => {
-                        const points = user.total_points;
-                        if (tier.max) {
-                            return points >= tier.min && points <= tier.max;
-                        } else {
-                            return points >= tier.min;
+                
+                tbody.appendChild(fragment);
+            };
+
+            const updateHeaderStats = data => {
+                // Animate numbers for better UX
+                const animateValue = (element, start, end, duration = 1000) => {
+                    const startTime = performance.now();
+                    const animate = currentTime => {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const value = Math.floor(start + (end - start) * progress);
+                        element.textContent = formatNumber(value);
+                        
+                        if (progress < 1) {
+                            requestAnimationFrame(animate);
                         }
-                    }).length;
-
-                    const percentage = data.leaderboard.length > 0 ? (count / data.leaderboard.length * 100).toFixed(1) : 0;
-                    
-                    return {
-                        ...tier,
-                        count: count,
-                        percentage: percentage
                     };
-                });
-            }
+                    requestAnimationFrame(animate);
+                };
+                
+                animateValue(totalUsersElement, 0, data.total_users);
+                
+                if (data.leaderboard && data.leaderboard.length > 0) {
+                    animateValue(topPointsElement, 0, data.leaderboard[0].total_points);
+                }
 
-            renderPieChart(distribution, data.total_users);
-            renderLegend(distribution);
-        }
+                // Update last updated time in disclaimer
+                const disclaimerContent = document.querySelector('.disclaimer-content');
+                if (disclaimerContent) {
+                    if (data.last_updated) {
+                        const lastUpdated = new Date(data.last_updated);
+                        const timeAgo = getTimeAgo(lastUpdated);
+                        disclaimerContent.innerHTML = `
+                            ⏰ <strong>Update Schedule:</strong> Leaderboard refreshes daily at 00:00 UTC. 
+                            <span style="opacity: 0.8;">Last updated: ${timeAgo}</span>
+                        `;
+                    } else {
+                        disclaimerContent.innerHTML = `
+                            ⏰ <strong>Update Schedule:</strong> Leaderboard refreshes daily at 00:00 UTC.
+                        `;
+                    }
+                }
+            };
 
-        function renderPieChart(distribution, totalUsers) {
-            pieChartTotal.textContent = formatNumber(totalUsers);
-            
-            let currentAngle = 0;
-            const radius = 110;
-            const circumference = 2 * Math.PI * radius;
-            
-            pieChart.innerHTML = '';
+            // Helper function for time ago display
+            const getTimeAgo = date => {
+                const now = new Date();
+                const diffMs = now - date;
+                const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+                const diffMins = Math.floor(diffMs / (1000 * 60));
+                
+                if (diffHours >= 24) {
+                    const days = Math.floor(diffHours / 24);
+                    return `${days} day${days > 1 ? 's' : ''} ago`;
+                } else if (diffHours >= 1) {
+                    return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+                } else if (diffMins >= 1) {
+                    return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
+                } else {
+                    return 'Just now';
+                }
+            };
 
-            distribution.forEach((tier, index) => {
-                if (tier.count > 0) {
+            // Optimized Analytics with lazy rendering
+            const updateAnalytics = data => {
+                const tiers = [
+                    { name: '10,000+ Points', min: 10000, color: '#dc2626', key: '10000+' },
+                    { name: '9,000 - 9,999 Points', min: 9000, max: 9999, color: '#ea580c', key: '9000-9999' },
+                    { name: '8,000 - 8,999 Points', min: 8000, max: 8999, color: '#d97706', key: '8000-8999' },
+                    { name: '7,000 - 7,999 Points', min: 7000, max: 7999, color: '#059669', key: '7000-7999' },
+                    { name: '6,000 - 6,999 Points', min: 6000, max: 6999, color: '#0891b2', key: '6000-6999' },
+                    { name: '5,000 - 5,999 Points', min: 5000, max: 5999, color: '#2563eb', key: '5000-5999' },
+                    { name: '4,000 - 4,999 Points', min: 4000, max: 4999, color: '#7c3aed', key: '4000-4999' },
+                    { name: '3,000 - 3,999 Points', min: 3000, max: 3999, color: '#c026d3', key: '3000-3999' },
+                    { name: 'Below 3,000 Points', min: 0, max: 2999, color: '#6b7280', key: 'below-3000' }
+                ];
+
+                let distribution;
+
+                // Use server-side distribution if available, otherwise calculate client-side
+                if (data.point_distribution && Object.keys(data.point_distribution).length > 0) {
+                    distribution = tiers.map(tier => {
+                        const count = data.point_distribution[tier.key] || 0;
+                        const percentage = data.total_users > 0 ? (count / data.total_users * 100).toFixed(1) : 0;
+                        
+                        return {
+                            ...tier,
+                            count: count,
+                            percentage: percentage
+                        };
+                    });
+                } else {
+                    // Fallback: calculate from top 100 (less accurate but still useful)
+                    distribution = tiers.map(tier => {
+                        const count = data.leaderboard.filter(user => {
+                            const points = user.total_points;
+                            if (tier.max) {
+                                return points >= tier.min && points <= tier.max;
+                            } else {
+                                return points >= tier.min;
+                            }
+                        }).length;
+
+                        const percentage = data.leaderboard.length > 0 ? (count / data.leaderboard.length * 100).toFixed(1) : 0;
+                        
+                        return {
+                            ...tier,
+                            count: count,
+                            percentage: percentage
+                        };
+                    });
+                }
+
+                // Lazy render analytics when scrolled into view
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            renderPieChart(distribution, data.total_users);
+                            renderLegend(distribution);
+                            observer.disconnect();
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                observer.observe(document.querySelector('.analytics-section'));
+            };
+
+            // Optimized SVG Pie Chart Rendering
+            const renderPieChart = (distribution, totalUsers) => {
+                pieChartTotal.textContent = formatNumber(totalUsers);
+                
+                let currentAngle = 0;
+                const radius = 110;
+                const circumference = 2 * Math.PI * radius;
+                
+                // Clear previous chart
+                pieChart.innerHTML = '';
+                
+                // Only render visible slices for performance
+                const visibleTiers = distribution.filter(tier => tier.count > 0);
+                
+                visibleTiers.forEach(tier => {
                     const percentage = tier.count / totalUsers;
                     const strokeDasharray = `${percentage * circumference} ${circumference}`;
                     const strokeDashoffset = -currentAngle * circumference;
@@ -1466,6 +946,7 @@
                     circle.style.cursor = 'pointer';
                     circle.style.transition = 'stroke-width 0.3s ease';
                     
+                    // Optimized hover effects
                     circle.addEventListener('mouseenter', function() {
                         this.setAttribute('stroke-width', '35');
                         showTooltip(tier, event);
@@ -1478,87 +959,106 @@
 
                     pieChart.appendChild(circle);
                     currentAngle += percentage;
-                }
-            });
-        }
+                });
+            };
 
-        function showTooltip(tier, event) {
-            const tooltip = document.createElement('div');
-            tooltip.id = 'pie-tooltip';
-            tooltip.style.cssText = `
-                position: fixed;
-                background: rgba(0, 0, 0, 0.9);
-                color: white;
-                padding: 8px 12px;
-                border-radius: 8px;
-                font-size: 14px;
-                font-weight: 600;
-                z-index: 1000;
-                pointer-events: none;
-                white-space: nowrap;
-                left: ${event.clientX + 10}px;
-                top: ${event.clientY - 10}px;
-            `;
-            tooltip.innerHTML = `
-                <div style="color: ${tier.color}; font-weight: 700;">${tier.name}</div>
-                <div>${formatNumber(tier.count)} users (${tier.percentage}%)</div>
-            `;
-            document.body.appendChild(tooltip);
-        }
-
-        function hideTooltip() {
-            const tooltip = document.getElementById('pie-tooltip');
-            if (tooltip) {
-                tooltip.remove();
-            }
-        }
-
-        function renderLegend(distribution) {
-            pieLegend.innerHTML = '';
-
-            distribution.forEach(tier => {
-                const item = document.createElement('div');
-                item.className = 'legend-item';
-                
-                // Правильный расчет заполнения background по проценту
-                const fillPercentage = parseFloat(tier.percentage);
-                
-                // Устанавливаем background gradient с правильным заполнением
-                item.style.background = `linear-gradient(to right, 
-                    ${tier.color}25 0%, 
-                    ${tier.color}25 ${fillPercentage}%, 
-                    rgba(255, 255, 255, 0.8) ${fillPercentage}%, 
-                    rgba(255, 255, 255, 0.8) 100%)`;
-                
-                item.innerHTML = `
-                    <div class="legend-color" style="background: ${tier.color};"></div>
-                    <div class="legend-text">${tier.name}</div>
-                    <div class="legend-count">${formatNumber(tier.count)}</div>
-                    <div class="legend-percentage">${tier.percentage}%</div>
+            // Tooltip functions
+            const showTooltip = (tier, event) => {
+                const tooltip = document.createElement('div');
+                tooltip.id = 'pie-tooltip';
+                tooltip.style.cssText = `
+                    position: fixed;
+                    background: rgba(0, 0, 0, 0.9);
+                    color: white;
+                    padding: 8px 12px;
+                    border-radius: 8px;
+                    font-size: 14px;
+                    font-weight: 600;
+                    z-index: 1000;
+                    pointer-events: none;
+                    white-space: nowrap;
+                    left: ${event.clientX + 10}px;
+                    top: ${event.clientY - 10}px;
                 `;
+                tooltip.innerHTML = `
+                    <div style="color: ${tier.color}; font-weight: 700;">${tier.name}</div>
+                    <div>${formatNumber(tier.count)} users (${tier.percentage}%)</div>
+                `;
+                document.body.appendChild(tooltip);
+            };
+
+            const hideTooltip = () => {
+                const tooltip = document.getElementById('pie-tooltip');
+                if (tooltip) {
+                    tooltip.remove();
+                }
+            };
+
+            // Optimized Legend Rendering
+            const renderLegend = distribution => {
+                const fragment = document.createDocumentFragment();
                 
-                pieLegend.appendChild(item);
-            });
-        }
+                distribution.forEach(tier => {
+                    const item = document.createElement('div');
+                    item.className = 'legend-item';
+                    
+                    const fillPercentage = parseFloat(tier.percentage);
+                    
+                    item.style.background = `linear-gradient(to right, 
+                        ${tier.color}25 0%, 
+                        ${tier.color}25 ${fillPercentage}%, 
+                        rgba(255, 255, 255, 0.8) ${fillPercentage}%, 
+                        rgba(255, 255, 255, 0.8) 100%)`;
+                    
+                    item.innerHTML = `
+                        <div class="legend-color" style="background: ${tier.color};"></div>
+                        <div class="legend-text">${tier.name}</div>
+                        <div class="legend-count">${formatNumber(tier.count)}</div>
+                        <div class="legend-percentage">${tier.percentage}%</div>
+                    `;
+                    
+                    fragment.appendChild(item);
+                });
+                
+                pieLegend.innerHTML = '';
+                pieLegend.appendChild(fragment);
+            };
 
-        // Event Listeners
-        searchButton.addEventListener('click', searchUserRank);
+            // Main Load Function with Error Handling
+            const initializeLeaderboard = async () => {
+                try {
+                    showLoading();
+                    
+                    const data = await loadLeaderboard();
+                    
+                    // Batch all DOM updates
+                    requestAnimationFrame(() => {
+                        displayLeaderboard(data);
+                        updateHeaderStats(data);
+                        updateAnalytics(data);
+                    });
 
-        walletInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                searchUserRank();
-            }
-        });
+                } catch (error) {
+                    console.error('Failed to load leaderboard:', error);
+                    
+                    // Show user-friendly error
+                    leaderboardBody.innerHTML = `
+                        <tr>
+                            <td colspan="8" style="text-align: center; padding: 40px; color: #ef4444;">
+                                <div style="font-size: 18px; margin-bottom: 8px;">⚠️ Unable to load leaderboard</div>
+                                <div style="font-size: 14px; opacity: 0.8;">Please try refreshing the page</div>
+                            </td>
+                        </tr>
+                    `;
+                } finally {
+                    hideLoading();
+                }
+            };
 
-        walletInput.addEventListener('input', () => {
-            hideError();
-            userResult.classList.remove('show');
-        });
+            // Initialize on DOM ready
+            document.addEventListener('DOMContentLoaded', initializeLeaderboard);
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            loadLeaderboard();
-        });
+        })();
     </script>
 </body>
 </html>
