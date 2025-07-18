@@ -1046,7 +1046,7 @@
                     </svg>
                     <div class="pie-center-info">
                         <div class="total-users" id="pieChartTotal">0</div>
-                        <div class="total-label">Total Users</div>
+                        <div class="total-label">Total in Chart</div>
                     </div>
                 </div>
 
@@ -1299,19 +1299,14 @@
             const totalUsers = leaderboardData.total_users;
 
             if (userData.exact_rank) {
-                // Use exact rank from API
                 const userRank = userData.exact_rank;
                 const percentile = ((totalUsers - userRank) / totalUsers * 100).toFixed(2);
                 
                 userRankText.textContent = `Your Rank: #${formatNumber(userRank)} out of ${formatNumber(totalUsers)}`;
                 userRankSubtext.textContent = `You're in the top ${percentile}% of all users! 🎉`;
-                
-                console.log(`✅ Using exact rank from API: #${userRank}`);
             } else {
-                // No exact rank available - stats disabled
                 userRankText.textContent = `Your Rank: Not available`;
                 userRankSubtext.textContent = `Rank calculation requires stats to be enabled on the server`;
-                console.log(`⚠️ Exact rank not available - stats may be disabled`);
             }
 
             userResult.classList.add('show');
@@ -1403,68 +1398,56 @@
                 { name: 'Below 3,000 Points', min: 0, max: 2999, color: '#6b7280' }
             ];
 
-            // Используем статистику всех пользователей, а не только топ 100
-            const distribution = tiers.map(tier => {
-                // Считаем пользователей из топ 100 для базы
-                let topCount = data.leaderboard.filter(user => {
-                    const points = user.total_points;
-                    if (tier.max) {
-                        return points >= tier.min && points <= tier.max;
-                    } else {
-                        return points >= tier.min;
-                    }
-                }).length;
+            let distribution;
 
-                // Экстраполируем на всех пользователей на основе реальной статистики
-                let estimatedCount;
-                const totalUsers = data.total_users;
-                const topUsersCount = data.leaderboard.length;
+            if (data.point_distribution && Object.keys(data.point_distribution).length > 0) {
+                distribution = tiers.map(tier => {
+                    let count = 0;
+                    
+                    Object.entries(data.point_distribution).forEach(([range, userCount]) => {
+                        const [min, max] = range.includes('-') 
+                            ? range.split('-').map(Number)
+                            : range.includes('+') 
+                                ? [parseInt(range), Infinity]
+                                : [parseInt(range), parseInt(range)];
+                        
+                        const tierMax = tier.max || Infinity;
+                        const hasOverlap = min <= tierMax && max >= tier.min;
+                        
+                        if (hasOverlap) {
+                            count += userCount;
+                        }
+                    });
 
-                if (totalUsers > topUsersCount) {
-                    // Реалистичная экстраполяция для каждого тира
-                    if (tier.name === '10,000+ Points') {
-                        // Высокие баллы - только в топе
-                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.0005);
-                    } else if (tier.name === '9,000 - 9,999 Points') {
-                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.002);
-                    } else if (tier.name === '8,000 - 8,999 Points') {
-                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.008);
-                    } else if (tier.name === '7,000 - 7,999 Points') {
-                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.020);
-                    } else if (tier.name === '6,000 - 6,999 Points') {
-                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.035);
-                    } else if (tier.name === '5,000 - 5,999 Points') {
-                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.055);
-                    } else if (tier.name === '4,000 - 4,999 Points') {
-                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.080);
-                    } else if (tier.name === '3,000 - 3,999 Points') {
-                        estimatedCount = topCount + Math.floor((totalUsers - topUsersCount) * 0.120);
-                    } else if (tier.name === 'Below 3,000 Points') {
-                        // Большинство пользователей с низкими баллами
-                        const usedCount = tiers.slice(0, -1).reduce((sum, t, index) => {
-                            const rates = [0.0005, 0.002, 0.008, 0.020, 0.035, 0.055, 0.080, 0.120];
-                            const tierTopCount = data.leaderboard.filter(user => {
-                                const points = user.total_points;
-                                if (t.max) {
-                                    return points >= t.min && points <= t.max;
-                                } else {
-                                    return points >= t.min;
-                                }
-                            }).length;
-                            return sum + tierTopCount + Math.floor((totalUsers - topUsersCount) * rates[index]);
-                        }, 0);
-                        estimatedCount = totalUsers - usedCount;
-                    }
-                } else {
-                    estimatedCount = topCount;
-                }
+                    const percentage = data.total_users > 0 ? (count / data.total_users * 100).toFixed(1) : 0;
+                    
+                    return {
+                        ...tier,
+                        count: count,
+                        percentage: percentage
+                    };
+                });
+                
+            } else {
+                distribution = tiers.map(tier => {
+                    const count = data.leaderboard.filter(user => {
+                        const points = user.total_points;
+                        if (tier.max) {
+                            return points >= tier.min && points <= tier.max;
+                        } else {
+                            return points >= tier.min;
+                        }
+                    }).length;
 
-                return {
-                    ...tier,
-                    count: Math.max(0, estimatedCount),
-                    percentage: totalUsers > 0 ? (estimatedCount / totalUsers * 100).toFixed(1) : 0
-                };
-            });
+                    const percentage = data.total_users > 0 ? (count / data.total_users * 100).toFixed(1) : 0;
+                    
+                    return {
+                        ...tier,
+                        count: count,
+                        percentage: percentage
+                    };
+                });
+            }
 
             renderPieChart(distribution, data.total_users);
             renderLegend(distribution);
