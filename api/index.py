@@ -1,13 +1,10 @@
 """
 Pharos Stats Checker API
-========================
-
-High-performance API for Pharos Network testnet statistics tracking and leaderboard management.
-Optimized for serverless deployment with advanced caching and concurrent processing.
+=====================================
 
 Author: @avzcrypto
 License: MIT
-Version: 2.0.0
+Version: 2.1.0
 """
 
 from http.server import BaseHTTPRequestHandler
@@ -88,7 +85,7 @@ class ProxyManager:
 
 
 class RedisManager:
-    """Redis connection and operations manager."""
+    """Redis connection and operations manager with 24h leaderboard cache."""
     
     def __init__(self):
         self.client = None
@@ -98,8 +95,12 @@ class RedisManager:
         """Initialize Redis connection with error handling."""
         try:
             import redis
+            redis_url = os.environ.get('REDIS_URL', '')
+            if not redis_url:
+                return False
+                
             self.client = redis.Redis.from_url(
-                os.environ.get('REDIS_URL', ''),
+                redis_url,
                 socket_connect_timeout=5,
                 socket_timeout=5
             )
@@ -170,44 +171,97 @@ class RedisManager:
             pass  # Graceful degradation if Redis fails
     
     def get_leaderboard_data(self) -> Dict[str, Any]:
-        """Retrieve leaderboard statistics with point distribution."""
-        if not self.enabled or not self.client:
-            raise Exception('Stats not available')
+        """Получение данных лидерборда с кэшем 24 часа."""
+        if not self.enabled:
+            return {'success': False, 'error': 'Statistics not available'}
         
         try:
-            # Get top 100 for leaderboard display
-            top_addresses = self.client.zrevrange('pharos:leaderboard', 0, 99, withscores=True)
+            # Проверяем кэш
+            cache_key = 'pharos:leaderboard:daily'
+            cached_data = self.client.get(cache_key)
             
+            if cached_data:
+                try:
+                    data = json.loads(cached_data)
+                    # Добавляем информацию о кэше
+                    data['cached'] = True
+                    data['cache_info'] = 'Updated once daily at 00:00 UTC'
+                    return data
+                except json.JSONDecodeError:
+                    # Если кэш поврежден, пересчитываем
+                    pass
+            
+            # Кэш пустой или поврежден - делаем полный расчет
+            print("Calculating fresh leaderboard data...")
+            fresh_data = self._calculate_full_leaderboard()
+            
+            # Кэшируем на 24 часа (86400 секунд)
+            cache_ttl = 86400
+            self.client.setex(cache_key, cache_ttl, json.dumps(fresh_data))
+            
+            # Добавляем информацию о свежих данных
+            fresh_data['cached'] = False
+            fresh_data['cache_info'] = 'Freshly calculated - next update in 24h'
+            
+            return fresh_data
+            
+        except Exception as e:
+            print(f"Error in get_leaderboard_data: {e}")
+            return {'success': False, 'error': str(e)}
+
+    def _calculate_full_leaderboard(self) -> Dict[str, Any]:
+        """Полный расчет лидерборда (тяжелая операция)."""
+        try:
+            # Получаем ВСЕ кошельки и их очки
+            all_wallets = self.client.zrevrange(
+                'pharos:leaderboard', 0, -1, 
+                withscores=True
+            )
+            
+            if not all_wallets:
+                return {
+                    'success': True,
+                    'total_users': 0,
+                    'total_checks': 0,
+                    'leaderboard': [],
+                    'point_distribution': {},
+                    'last_updated': datetime.now().isoformat()
+                }
+            
+            # Формируем топ-100 для отображения
             leaderboard = []
-            for i, (address, points) in enumerate(top_addresses):
-                address_str = address.decode('utf-8')
-                user_data = self.client.hget('pharos:users', address_str)
+            for i, (wallet_bytes, points) in enumerate(all_wallets[:100], 1):
+                wallet = wallet_bytes.decode('utf-8') if isinstance(wallet_bytes, bytes) else str(wallet_bytes)
                 
+                # Получаем детальную статистику пользователя
+                user_data = self.client.hget('pharos:users', wallet)
+                stats = {}
                 if user_data:
-                    stats = json.loads(user_data)
-                    leaderboard.append({
-                        'rank': i + 1,
-                        'address': address_str,
-                        'total_points': int(points),
-                        'current_level': stats.get('current_level', 1),
-                        'send_count': stats.get('send_count', 0),
-                        'swap_count': stats.get('swap_count', 0),
-                        'lp_count': stats.get('lp_count', 0),
-                        'social_tasks': stats.get('social_tasks', 0),
-                        'member_since': stats.get('member_since'),
-                        'last_check': stats.get('last_check'),
-                        'total_checks': stats.get('total_checks', 1),
-                        'first_check': stats.get('first_check'),
-                        'mint_domain': stats.get('mint_domain', 0),
-                        'mint_nft': stats.get('mint_nft', 0),
-                        'faroswap_lp': stats.get('faroswap_lp', 0),
-                        'faroswap_swaps': stats.get('faroswap_swaps', 0)
-                    })
+                    try:
+                        stats = json.loads(user_data)
+                    except json.JSONDecodeError:
+                        pass
+                
+                leaderboard.append({
+                    'rank': i,
+                    'address': wallet,
+                    'total_points': int(points),
+                    'current_level': stats.get('current_level', 1),
+                    'send_count': stats.get('send_count', 0),
+                    'swap_count': stats.get('swap_count', 0),
+                    'lp_count': stats.get('lp_count', 0),
+                    'social_tasks': stats.get('social_tasks', 0),
+                    'member_since': stats.get('member_since'),
+                    'last_check': stats.get('last_check'),
+                    'total_checks': stats.get('total_checks', 1),
+                    'first_check': stats.get('first_check'),
+                    'mint_domain': stats.get('mint_domain', 0),
+                    'mint_nft': stats.get('mint_nft', 0),
+                    'faroswap_lp': stats.get('faroswap_lp', 0),
+                    'faroswap_swaps': stats.get('faroswap_swaps', 0)
+                })
             
-            # ✅ НОВОЕ: Получаем ВСЕ очки пользователей для аналитики
-            all_users_points = self.client.zrevrange('pharos:leaderboard', 0, -1, withscores=True)
-            
-            # ✅ НОВОЕ: Считаем распределение по тирам для ВСЕХ пользователей
+            # Рассчитываем распределение по тирам для ВСЕХ пользователей
             point_distribution = {
                 '10000+': 0,
                 '9000-9999': 0,
@@ -220,7 +274,7 @@ class RedisManager:
                 'below-3000': 0
             }
             
-            for address, points in all_users_points:
+            for wallet_bytes, points in all_wallets:
                 points = int(points)
                 if points >= 10000:
                     point_distribution['10000+'] += 1
@@ -241,7 +295,7 @@ class RedisManager:
                 else:
                     point_distribution['below-3000'] += 1
             
-            total_users = self.client.zcard('pharos:leaderboard')
+            total_users = len(all_wallets)
             total_checks = self.client.get('pharos:total_checks')
             
             return {
@@ -249,12 +303,27 @@ class RedisManager:
                 'total_users': total_users,
                 'total_checks': int(total_checks) if total_checks else 0,
                 'leaderboard': leaderboard,
-                'point_distribution': point_distribution,  # ✅ НОВОЕ: Добавляем распределение
+                'point_distribution': point_distribution,
                 'last_updated': datetime.now().isoformat()
             }
             
         except Exception as e:
+            print(f"Error calculating leaderboard: {e}")
             return {'success': False, 'error': str(e)}
+
+    def clear_leaderboard_cache(self) -> bool:
+        """Очистить кэш лидерборда (для принудительного обновления)."""
+        if not self.enabled:
+            return False
+        
+        try:
+            cache_key = 'pharos:leaderboard:daily'
+            self.client.delete(cache_key)
+            print("Leaderboard cache cleared successfully")
+            return True
+        except Exception as e:
+            print(f"Error clearing cache: {e}")
+            return False
 
 
 class PharosAPIClient:
@@ -496,7 +565,7 @@ class handler(BaseHTTPRequestHandler):
         response_data = {
             'status': 'ok',
             'message': 'Pharos Stats API is operational',
-            'version': '2.0.0',
+            'version': '2.1.0',
             'cache_size': len(cache_manager.cache),
             'proxies_loaded': len(proxy_manager.proxies),
             'redis_enabled': redis_manager.enabled
@@ -504,16 +573,18 @@ class handler(BaseHTTPRequestHandler):
         self._send_json_response(response_data)
     
     def _handle_admin_stats(self):
-        """Handle admin statistics request."""
+        """Handle admin statistics request with 24h cache."""
         try:
             if not redis_manager.enabled:
                 self._send_error_response({'error': 'Statistics not available'}, 503)
                 return
             
+            # Используем новый метод с 24h кэшем
             stats_data = redis_manager.get_leaderboard_data()
             self._send_json_response(stats_data)
             
-        except Exception:
+        except Exception as e:
+            print(f"Error in admin stats: {e}")
             self._send_error_response({'error': 'Failed to fetch statistics'}, 500)
     
     def _handle_wallet_check(self):
@@ -561,6 +632,7 @@ class handler(BaseHTTPRequestHandler):
         except json.JSONDecodeError:
             self._send_error_response({'error': 'Invalid JSON format'}, 400)
         except Exception as e:
+            print(f"Error in wallet check: {e}")
             self._send_error_response({'error': 'Internal server error'}, 500)
     
     def _is_valid_address(self, address: str) -> bool:
