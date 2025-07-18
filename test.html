@@ -536,6 +536,7 @@
                 📋 <strong>Disclaimer:</strong> This leaderboard only displays users who have checked their Pharos Testnet stats on platform PharosHub!
             </div>
         </div>
+        
         <div class="header-section">
             <div class="header-left">
                 <img src="./leaderboard_logo.webp" alt="Pharos Leaderboard Logo" class="logo-img">
@@ -787,3 +788,278 @@
                     
                     fragment.appendChild(row);
                 });
+                
+                tbody.appendChild(fragment);
+            };
+
+            const updateHeaderStats = data => {
+                // Animate numbers for better UX
+                const animateValue = (element, start, end, duration = 1000) => {
+                    const startTime = performance.now();
+                    const animate = currentTime => {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const value = Math.floor(start + (end - start) * progress);
+                        element.textContent = formatNumber(value);
+                        
+                        if (progress < 1) {
+                            requestAnimationFrame(animate);
+                        }
+                    };
+                    requestAnimationFrame(animate);
+                };
+                
+                animateValue(totalUsersElement, 0, data.total_users);
+                
+                if (data.leaderboard && data.leaderboard.length > 0) {
+                    animateValue(topPointsElement, 0, data.leaderboard[0].total_points);
+                }
+
+                // Update last updated time in disclaimer
+                const disclaimerContent = document.querySelector('.disclaimer-content');
+                if (disclaimerContent) {
+                    if (data.last_updated) {
+                        const lastUpdated = new Date(data.last_updated);
+                        const timeAgo = getTimeAgo(lastUpdated);
+                        disclaimerContent.innerHTML = `
+                            ⏰ <strong>Update Schedule:</strong> Leaderboard refreshes daily at 00:00 UTC. 
+                            <span style="opacity: 0.8;">Last updated: ${timeAgo}</span>
+                        `;
+                    } else {
+                        disclaimerContent.innerHTML = `
+                            ⏰ <strong>Update Schedule:</strong> Leaderboard refreshes daily at 00:00 UTC.
+                        `;
+                    }
+                }
+            };
+
+            // Helper function for time ago display
+            const getTimeAgo = date => {
+                const now = new Date();
+                const diffMs = now - date;
+                const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+                const diffMins = Math.floor(diffMs / (1000 * 60));
+                
+                if (diffHours >= 24) {
+                    const days = Math.floor(diffHours / 24);
+                    return `${days} day${days > 1 ? 's' : ''} ago`;
+                } else if (diffHours >= 1) {
+                    return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+                } else if (diffMins >= 1) {
+                    return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
+                } else {
+                    return 'Just now';
+                }
+            };
+
+            // Optimized Analytics with lazy rendering
+            const updateAnalytics = data => {
+                const tiers = [
+                    { name: '10,000+ Points', min: 10000, color: '#dc2626', key: '10000+' },
+                    { name: '9,000 - 9,999 Points', min: 9000, max: 9999, color: '#ea580c', key: '9000-9999' },
+                    { name: '8,000 - 8,999 Points', min: 8000, max: 8999, color: '#d97706', key: '8000-8999' },
+                    { name: '7,000 - 7,999 Points', min: 7000, max: 7999, color: '#059669', key: '7000-7999' },
+                    { name: '6,000 - 6,999 Points', min: 6000, max: 6999, color: '#0891b2', key: '6000-6999' },
+                    { name: '5,000 - 5,999 Points', min: 5000, max: 5999, color: '#2563eb', key: '5000-5999' },
+                    { name: '4,000 - 4,999 Points', min: 4000, max: 4999, color: '#7c3aed', key: '4000-4999' },
+                    { name: '3,000 - 3,999 Points', min: 3000, max: 3999, color: '#c026d3', key: '3000-3999' },
+                    { name: 'Below 3,000 Points', min: 0, max: 2999, color: '#6b7280', key: 'below-3000' }
+                ];
+
+                let distribution;
+
+                // Use server-side distribution if available, otherwise calculate client-side
+                if (data.point_distribution && Object.keys(data.point_distribution).length > 0) {
+                    distribution = tiers.map(tier => {
+                        const count = data.point_distribution[tier.key] || 0;
+                        const percentage = data.total_users > 0 ? (count / data.total_users * 100).toFixed(1) : 0;
+                        
+                        return {
+                            ...tier,
+                            count: count,
+                            percentage: percentage
+                        };
+                    });
+                } else {
+                    // Fallback: calculate from top 100 (less accurate but still useful)
+                    distribution = tiers.map(tier => {
+                        const count = data.leaderboard.filter(user => {
+                            const points = user.total_points;
+                            if (tier.max) {
+                                return points >= tier.min && points <= tier.max;
+                            } else {
+                                return points >= tier.min;
+                            }
+                        }).length;
+
+                        const percentage = data.leaderboard.length > 0 ? (count / data.leaderboard.length * 100).toFixed(1) : 0;
+                        
+                        return {
+                            ...tier,
+                            count: count,
+                            percentage: percentage
+                        };
+                    });
+                }
+
+                // Lazy render analytics when scrolled into view
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            renderPieChart(distribution, data.total_users);
+                            renderLegend(distribution);
+                            observer.disconnect();
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                observer.observe(document.querySelector('.analytics-section'));
+            };
+
+            // Optimized SVG Pie Chart Rendering
+            const renderPieChart = (distribution, totalUsers) => {
+                pieChartTotal.textContent = formatNumber(totalUsers);
+                
+                let currentAngle = 0;
+                const radius = 110;
+                const circumference = 2 * Math.PI * radius;
+                
+                // Clear previous chart
+                pieChart.innerHTML = '';
+                
+                // Only render visible slices for performance
+                const visibleTiers = distribution.filter(tier => tier.count > 0);
+                
+                visibleTiers.forEach(tier => {
+                    const percentage = tier.count / totalUsers;
+                    const strokeDasharray = `${percentage * circumference} ${circumference}`;
+                    const strokeDashoffset = -currentAngle * circumference;
+
+                    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    circle.setAttribute('cx', '140');
+                    circle.setAttribute('cy', '140');
+                    circle.setAttribute('r', radius);
+                    circle.setAttribute('fill', 'none');
+                    circle.setAttribute('stroke', tier.color);
+                    circle.setAttribute('stroke-width', '30');
+                    circle.setAttribute('stroke-dasharray', strokeDasharray);
+                    circle.setAttribute('stroke-dashoffset', strokeDashoffset);
+                    circle.style.cursor = 'pointer';
+                    circle.style.transition = 'stroke-width 0.3s ease';
+                    
+                    // Optimized hover effects
+                    circle.addEventListener('mouseenter', function() {
+                        this.setAttribute('stroke-width', '35');
+                        showTooltip(tier, event);
+                    });
+                    
+                    circle.addEventListener('mouseleave', function() {
+                        this.setAttribute('stroke-width', '30');
+                        hideTooltip();
+                    });
+
+                    pieChart.appendChild(circle);
+                    currentAngle += percentage;
+                });
+            };
+
+            // Tooltip functions
+            const showTooltip = (tier, event) => {
+                const tooltip = document.createElement('div');
+                tooltip.id = 'pie-tooltip';
+                tooltip.style.cssText = `
+                    position: fixed;
+                    background: rgba(0, 0, 0, 0.9);
+                    color: white;
+                    padding: 8px 12px;
+                    border-radius: 8px;
+                    font-size: 14px;
+                    font-weight: 600;
+                    z-index: 1000;
+                    pointer-events: none;
+                    white-space: nowrap;
+                    left: ${event.clientX + 10}px;
+                    top: ${event.clientY - 10}px;
+                `;
+                tooltip.innerHTML = `
+                    <div style="color: ${tier.color}; font-weight: 700;">${tier.name}</div>
+                    <div>${formatNumber(tier.count)} users (${tier.percentage}%)</div>
+                `;
+                document.body.appendChild(tooltip);
+            };
+
+            const hideTooltip = () => {
+                const tooltip = document.getElementById('pie-tooltip');
+                if (tooltip) {
+                    tooltip.remove();
+                }
+            };
+
+            // Optimized Legend Rendering
+            const renderLegend = distribution => {
+                const fragment = document.createDocumentFragment();
+                
+                distribution.forEach(tier => {
+                    const item = document.createElement('div');
+                    item.className = 'legend-item';
+                    
+                    const fillPercentage = parseFloat(tier.percentage);
+                    
+                    item.style.background = `linear-gradient(to right, 
+                        ${tier.color}25 0%, 
+                        ${tier.color}25 ${fillPercentage}%, 
+                        rgba(255, 255, 255, 0.8) ${fillPercentage}%, 
+                        rgba(255, 255, 255, 0.8) 100%)`;
+                    
+                    item.innerHTML = `
+                        <div class="legend-color" style="background: ${tier.color};"></div>
+                        <div class="legend-text">${tier.name}</div>
+                        <div class="legend-count">${formatNumber(tier.count)}</div>
+                        <div class="legend-percentage">${tier.percentage}%</div>
+                    `;
+                    
+                    fragment.appendChild(item);
+                });
+                
+                pieLegend.innerHTML = '';
+                pieLegend.appendChild(fragment);
+            };
+
+            // Main Load Function with Error Handling
+            const initializeLeaderboard = async () => {
+                try {
+                    showLoading();
+                    
+                    const data = await loadLeaderboard();
+                    
+                    // Batch all DOM updates
+                    requestAnimationFrame(() => {
+                        displayLeaderboard(data);
+                        updateHeaderStats(data);
+                        updateAnalytics(data);
+                    });
+
+                } catch (error) {
+                    console.error('Failed to load leaderboard:', error);
+                    
+                    // Show user-friendly error
+                    leaderboardBody.innerHTML = `
+                        <tr>
+                            <td colspan="8" style="text-align: center; padding: 40px; color: #ef4444;">
+                                <div style="font-size: 18px; margin-bottom: 8px;">⚠️ Unable to load leaderboard</div>
+                                <div style="font-size: 14px; opacity: 0.8;">Please try refreshing the page</div>
+                            </td>
+                        </tr>
+                    `;
+                } finally {
+                    hideLoading();
+                }
+            };
+
+            // Initialize on DOM ready
+            document.addEventListener('DOMContentLoaded', initializeLeaderboard);
+
+        })();
+    </script>
+</body>
+</html>
