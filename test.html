@@ -815,42 +815,10 @@
                     animateValue(topPointsElement, 0, data.leaderboard[0].total_points);
                 }
 
-                // Update last updated time in disclaimer
-                const disclaimerContent = document.querySelector('.disclaimer-content');
-                if (disclaimerContent) {
-                    if (data.last_updated) {
-                        const lastUpdated = new Date(data.last_updated);
-                        const timeAgo = getTimeAgo(lastUpdated);
-                        disclaimerContent.innerHTML = `
-                            ⏰ <strong>Update Schedule:</strong> Leaderboard refreshes daily at 00:00 UTC. 
-                            <span style="opacity: 0.8;">Last updated: ${timeAgo}</span>
-                        `;
-                    } else {
-                        disclaimerContent.innerHTML = `
-                            ⏰ <strong>Update Schedule:</strong> Leaderboard refreshes daily at 00:00 UTC.
-                        `;
-                    }
-                }
+                // Disclaimer content remains static - no dynamic updates needed
             };
 
-            // Helper function for time ago display
-            const getTimeAgo = date => {
-                const now = new Date();
-                const diffMs = now - date;
-                const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-                const diffMins = Math.floor(diffMs / (1000 * 60));
-                
-                if (diffHours >= 24) {
-                    const days = Math.floor(diffHours / 24);
-                    return `${days} day${days > 1 ? 's' : ''} ago`;
-                } else if (diffHours >= 1) {
-                    return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
-                } else if (diffMins >= 1) {
-                    return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
-                } else {
-                    return 'Just now';
-                }
-            };
+            // Removed getTimeAgo function - no longer needed
 
             // Optimized Analytics with lazy rendering
             const updateAnalytics = data => {
