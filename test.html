@@ -1386,68 +1386,41 @@
         }
 
         function updateAnalytics(data) {
-            const tiers = [
-                { name: '10,000+ Points', min: 10000, color: '#dc2626' },
-                { name: '9,000 - 9,999 Points', min: 9000, max: 9999, color: '#ea580c' },
-                { name: '8,000 - 8,999 Points', min: 8000, max: 8999, color: '#d97706' },
-                { name: '7,000 - 7,999 Points', min: 7000, max: 7999, color: '#059669' },
-                { name: '6,000 - 6,999 Points', min: 6000, max: 6999, color: '#0891b2' },
-                { name: '5,000 - 5,999 Points', min: 5000, max: 5999, color: '#2563eb' },
-                { name: '4,000 - 4,999 Points', min: 4000, max: 4999, color: '#7c3aed' },
-                { name: '3,000 - 3,999 Points', min: 3000, max: 3999, color: '#c026d3' },
-                { name: 'Below 3,000 Points', min: 0, max: 2999, color: '#6b7280' }
-            ];
+    const tiers = [
+        { name: '10,000+ Points', min: 10000, color: '#dc2626' },
+        { name: '9,000 - 9,999 Points', min: 9000, max: 9999, color: '#ea580c' },
+        { name: '8,000 - 8,999 Points', min: 8000, max: 8999, color: '#d97706' },
+        { name: '7,000 - 7,999 Points', min: 7000, max: 7999, color: '#059669' },
+        { name: '6,000 - 6,999 Points', min: 6000, max: 6999, color: '#0891b2' },
+        { name: '5,000 - 5,999 Points', min: 5000, max: 5999, color: '#2563eb' },
+        { name: '4,000 - 4,999 Points', min: 4000, max: 4999, color: '#7c3aed' },
+        { name: '3,000 - 3,999 Points', min: 3000, max: 3999, color: '#c026d3' },
+        { name: 'Below 3,000 Points', min: 0, max: 2999, color: '#6b7280' }
+    ];
 
-            let distribution;
-
-            if (data.point_distribution && Object.keys(data.point_distribution).length > 0) {
-                distribution = tiers.map(tier => {
-                    let count = 0;
-                    
-                    Object.entries(data.point_distribution).forEach(([range, userCount]) => {
-                        const [min, max] = range.includes('-') 
-                            ? range.split('-').map(Number)
-                            : range.includes('+') 
-                                ? [parseInt(range), Infinity]
-                                : [parseInt(range), parseInt(range)];
-                        
-                        const tierMax = tier.max || Infinity;
-                        const hasOverlap = min <= tierMax && max >= tier.min;
-                        
-                        if (hasOverlap) {
-                            count += userCount;
-                        }
-                    });
-
-                    const percentage = data.total_users > 0 ? (count / data.total_users * 100).toFixed(1) : 0;
-                    
-                    return {
-                        ...tier,
-                        count: count,
-                        percentage: percentage
-                    };
-                });
-                
+    // ✅ ИСПРАВЛЕНО: Считаем только из leaderboard данных
+    const distribution = tiers.map(tier => {
+        const count = data.leaderboard.filter(user => {
+            const points = user.total_points;
+            if (tier.max) {
+                return points >= tier.min && points <= tier.max;
             } else {
-                distribution = tiers.map(tier => {
-                    const count = data.leaderboard.filter(user => {
-                        const points = user.total_points;
-                        if (tier.max) {
-                            return points >= tier.min && points <= tier.max;
-                        } else {
-                            return points >= tier.min;
-                        }
-                    }).length;
-
-                    const percentage = data.total_users > 0 ? (count / data.total_users * 100).toFixed(1) : 0;
-                    
-                    return {
-                        ...tier,
-                        count: count,
-                        percentage: percentage
-                    };
-                });
+                return points >= tier.min;
             }
+        }).length;
+
+        const percentage = data.total_users > 0 ? (count / data.total_users * 100).toFixed(1) : 0;
+        
+        return {
+            ...tier,
+            count: count,
+            percentage: percentage
+        };
+    });
+
+    renderPieChart(distribution, data.total_users);
+    renderLegend(distribution);
+}
 
             renderPieChart(distribution, data.total_users);
             renderLegend(distribution);
