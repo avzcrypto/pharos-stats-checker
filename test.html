@@ -3,22 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pharos Stats Leaderboard</title>
+    <title>Pharos Testnet Leaderboard</title>
     <link rel="icon" type="image/webp" href="./leaderboard_logo.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
-        /* Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+        /* Reset и базовые стили */
+        a,body,footer,h1,header,html,img,li,nav,ol,span,ul{margin:0;padding:0}
+        *{-webkit-tap-highlight-color:transparent;box-sizing:border-box}
         
-        /* Base styles */
         body {
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
@@ -27,58 +22,57 @@
             background: linear-gradient(135deg, #f5f2ed 0%, #e8eaf6 30%, #e3f2fd 60%, #bbdefb 100%);
             min-height: 100vh;
             overflow-x: hidden;
-            padding: 40px 20px;
         }
 
+        /* палитра Pharos */
         :root {
             --pharos-blue-500: #3b82f6;
+            --pharos-blue-600: #2563eb;
             --pharos-blue-700: #1d4ed8;
             --pharos-blue-800: #1e3a8a;
+            --pharos-blue-900: #1e40af;
+            --pharos-orange-500: #f97316;
+            --pharos-orange-600: #fb923c;
             --pharos-green-500: #22c55e;
             --pharos-green-600: #16a34a;
+            --pharos-purple-500: #a855f7;
+            --pharos-purple-600: #9333ea;
             --pharos-gray-500: #64748b;
-            --pharos-gray-700: #374151;
             --pharos-gray-900: #1f2937;
         }
 
+        /* Main container */
         .container {
-            max-width: 1200px;
+            max-width: 900px;
             margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        /* Disclaimer Section */
-        .disclaimer-section {
-            background: rgba(59, 130, 246, 0.1);
-            backdrop-filter: blur(20px);
-            border-radius: 12px;
-            padding: 16px 20px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        .disclaimer-content {
-            font-size: 14px;
-            color: #1e40af;
-            font-weight: 500;
-            text-align: center;
-            line-height: 1.4;
-        }
-
-        /* Header */
+        /* Header section */
         .header-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
             margin-bottom: 40px;
-            align-items: start;
+            gap: 40px;
         }
 
         .header-left {
+            flex: 1;
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .top-row {
+            display: flex;
+            align-items: flex-start;
             gap: 24px;
-            min-height: 160px;
+            margin-bottom: 16px;
         }
 
         .logo-img {
@@ -88,48 +82,57 @@
             flex-shrink: 0;
         }
 
-        .title-section {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
         .main-title {
             font-size: 46px;
             font-weight: 900;
             color: var(--pharos-gray-900);
             line-height: 1.1;
             letter-spacing: -0.02em;
+            margin: 0;
+        }
+
+        .main-subtitle {
+            color: var(--pharos-gray-500);
+            font-size: 17px;
+            font-weight: 500;
+            line-height: 1.4;
+            margin: 0;
+            width: 100%;
         }
 
         .header-right {
+            flex: 0 0 400px;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
-            height: 160px;
         }
 
-        .stat-card-header {
+        /* Top Stats */
+        .stat-card {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 24px;
-            text-align: left;
+            text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.5);
+            min-height: 120px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            box-shadow: 
+                0 10px 20px rgba(0, 0, 0, 0.08),
+                0 4px 8px rgba(0, 0, 0, 0.04);
         }
 
-        .stat-card-header:hover {
+        .stat-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.12),
+                0 8px 16px rgba(0, 0, 0, 0.08);
         }
 
-        .stat-value-header {
+        .stat-value {
             font-size: 36px;
             font-weight: 900;
             color: var(--pharos-blue-800);
@@ -139,17 +142,14 @@
             line-height: 1;
         }
 
-        .stat-label-header {
+        .stat-label {
             font-size: 14px;
             color: var(--pharos-gray-500);
             font-weight: 600;
             letter-spacing: 0.025em;
-            text-align: center;
-            position: relative;
-            left: 25px;
         }
 
-        /* NEW RANK CHECKER SECTION */
+        /* Rank Checker Section */
         .rank-checker-section {
             background: rgba(255, 255, 255, 0.9);
             border-radius: 20px;
@@ -313,12 +313,15 @@
 
         /* Analytics Section */
         .analytics-section {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
             border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 
+                0 10px 20px rgba(0, 0, 0, 0.08),
+                0 4px 8px rgba(0, 0, 0, 0.04);
         }
 
         .analytics-header {
@@ -437,11 +440,14 @@
 
         /* Leaderboard */
         .leaderboard-section {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 30px;
-            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 
+                0 10px 20px rgba(0, 0, 0, 0.08),
+                0 4px 8px rgba(0, 0, 0, 0.04);
         }
 
         .leaderboard-header {
@@ -641,8 +647,23 @@
         /* Responsive */
         @media (max-width: 1024px) {
             .header-section {
-                grid-template-columns: 1fr;
+                flex-direction: column;
                 gap: 30px;
+            }
+
+            .header-right {
+                flex: none;
+                width: 100%;
+            }
+
+            .main-title {
+                font-size: 46px !important;
+                text-align: left;
+            }
+
+            .top-row {
+                align-items: center;
+                justify-content: flex-start;
             }
 
             .analytics-content {
@@ -666,19 +687,17 @@
         }
 
         @media (max-width: 768px) {
-            body {
+            .container {
                 padding: 20px 16px;
-            }
-
-            .header-left {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-                gap: 16px;
             }
 
             .main-title {
                 font-size: 28px;
+            }
+
+            .header-right {
+                grid-template-columns: 1fr;
+                gap: 16px;
             }
 
             .leaderboard-table {
@@ -690,59 +709,63 @@
                 padding: 8px 4px;
             }
 
-            .rank-checker-section {
-                padding: 20px;
+            .protocol-block {
+                grid-template-columns: 1fr;
             }
 
             .rank-details {
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Анимации */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translate3d(0, 40px, 0);
+            }
+            100% {
+                opacity: 1;
+                transform: translateZ(0);
+            }
+        }
+
+        .animate__fadeInUp {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .animate-delay-1 { animation-delay: 0.1s; }
+        .animate-delay-2 { animation-delay: 0.2s; }
+        .animate-delay-3 { animation-delay: 0.3s; }
+        .animate-delay-4 { animation-delay: 0.4s; }
+        .animate-delay-5 { animation-delay: 0.5s; }
+        .animate-delay-6 { animation-delay: 0.6s; }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Disclaimer Section -->
-        <div class="disclaimer-section">
-            <div class="disclaimer-content">
-                ⏰ <strong>Update Schedule:</strong> Leaderboard data is refreshed once daily at 00:00 UTC.
-            </div>
-        </div>
-
-        <!-- Disclaimer Section -->
-        <div class="disclaimer-section">
-            <div class="disclaimer-content">
-                📋 <strong>Disclaimer:</strong> This leaderboard only displays users who have checked their Pharos Testnet stats on platform PharosHub!
-            </div>
-        </div>
-        
         <div class="header-section">
             <div class="header-left">
-                <img src="./leaderboard_logo.webp" alt="Pharos Leaderboard Logo" class="logo-img">
-                <div class="title-section">
+                <div class="top-row">
+                    <img src="./logo.webp" alt="Pharos Logo" class="logo-img">
                     <h1 class="main-title">Pharos<br>Testnet<br>Leaderboard</h1>
                 </div>
+                <p class="main-subtitle">Top performers and community statistics</p>
             </div>
             
             <div class="header-right">
-                <div class="stat-card-header">
-                    <div class="stat-value-header">
-                        <span class="stat-emoji">📈</span>
-                        <span class="stat-number" id="totalUsers">0</span>
-                    </div>
-                    <div class="stat-label-header">Total Users</div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalUsers">0</div>
+                    <div class="stat-label">Total Users</div>
                 </div>
-                <div class="stat-card-header">
-                    <div class="stat-value-header">
-                        <span class="stat-emoji">🏆</span>
-                        <span class="stat-number" id="topPoints">0</span>
-                    </div>
-                    <div class="stat-label-header">Top Score</div>
+                <div class="stat-card">
+                    <div class="stat-value" id="topPoints">0</div>
+                    <div class="stat-label">Top Score</div>
                 </div>
             </div>
         </div>
 
-        <!-- NEW RANK CHECKER SECTION -->
+        <!-- Rank Checker Section -->
         <div class="rank-checker-section">
             <div class="rank-checker-header">
                 <h3 class="rank-checker-title">🔍 Check Your Rank</h3>
@@ -773,8 +796,7 @@
             </div>
         </div>
 
-        <!-- Analytics Section -->
-        <div class="analytics-section">
+        <div class="analytics-section animate__fadeInUp animate-delay-2">
             <div class="analytics-header">
                 <div>
                     <h3 class="analytics-title">📈 User Distribution by Points</h3>
@@ -805,7 +827,7 @@
         </div>
 
         <!-- Leaderboard -->
-        <div class="leaderboard-section" id="leaderboardSection">
+        <div class="leaderboard-section animate__fadeInUp animate-delay-3" id="leaderboardSection">
             <div class="leaderboard-header">
                 <h3 class="leaderboard-title">🏆 Top 100 Users</h3>
             </div>
@@ -820,6 +842,21 @@
                         <th style="background: rgba(249, 115, 22, 0.08);">
                             <div style="text-align: center;">
                                 <div style="font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--pharos-gray-900); margin-bottom: 8px;">ZENITH</div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px; color: var(--pharos-gray-500);">
+                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+                                        <div style="font-size: 12px;">🔄</div>
+                                        <div>Swaps</div>
+                                    </div>
+                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+                                        <div style="font-size: 12px;">💧</div>
+                                        <div>LP</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </th>
+                        <th style="background: rgba(168, 85, 247, 0.08);">
+                            <div style="text-align: center;">
+                                <div style="font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--pharos-gray-900); margin-bottom: 8px;">FAROSWAP</div>
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px; color: var(--pharos-gray-500);">
                                     <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
                                         <div style="font-size: 12px;">🔄</div>
@@ -871,7 +908,7 @@
             const pieLegend = document.getElementById('pieLegend');
             const pieChartTotal = document.getElementById('pieChartTotal');
 
-            // NEW: Rank Checker Elements
+            // Rank Checker Elements
             const rankWalletInput = document.getElementById('rankWalletInput');
             const rankCheckButton = document.getElementById('rankCheckButton');
             const rankResult = document.getElementById('rankResult');
@@ -928,7 +965,7 @@
                 return /^0x[a-fA-F0-9]{40}$/.test(address);
             };
 
-            // NEW: Rank Checker Functions
+            // Rank Checker Functions
             const checkUserRank = async () => {
                 const address = rankWalletInput.value.trim();
 
@@ -1338,18 +1375,3 @@
     </script>
 </body>
 </html>
-                                </div>
-                            </div>
-                        </th>
-                        <th style="background: rgba(168, 85, 247, 0.08);">
-                            <div style="text-align: center;">
-                                <div style="font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--pharos-gray-900); margin-bottom: 8px;">FAROSWAP</div>
-                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px; color: var(--pharos-gray-500);">
-                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
-                                        <div style="font-size: 12px;">🔄</div>
-                                        <div>Swaps</div>
-                                    </div>
-                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
-                                        <div style="font-size: 12px;">💧</div>
-                                        <div>LP</div>
-                                    </div>
