@@ -21,7 +21,7 @@ from typing import Optional, Dict, Any, List
 class CacheManager:
     """Advanced in-memory cache with LRU eviction policy."""
     
-    def __init__(self, ttl: int = 300, max_size: int = 2000):
+    def __init__(self, ttl: int = 300, max_size: int = 50000):
         self.cache = {}
         self.ttl = ttl
         self.max_size = max_size
