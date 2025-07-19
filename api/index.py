@@ -4,7 +4,7 @@ Pharos Stats Checker API
 
 Author: @avzcrypto
 License: MIT
-Version: 2.1.0
+Version: 2.2.0
 """
 
 from http.server import BaseHTTPRequestHandler
@@ -185,7 +185,7 @@ class RedisManager:
                     data = json.loads(cached_data)
                     # Добавляем информацию о кэше
                     data['cached'] = True
-                    data['cache_info'] = 'Updated once daily at 00:00 UTC'
+                    data['cache_info'] = 'Updated daily at 00:00 UTC via auto-refresh'
                     return data
                 except json.JSONDecodeError:
                     # Если кэш поврежден, пересчитываем
@@ -550,6 +550,8 @@ class handler(BaseHTTPRequestHandler):
             self._handle_health_check()
         elif self.path == '/api/admin/stats':
             self._handle_admin_stats()
+        elif self.path == '/api/refresh-leaderboard':
+            self._handle_refresh_leaderboard()
         else:
             self.send_error(404)
     
@@ -565,10 +567,15 @@ class handler(BaseHTTPRequestHandler):
         response_data = {
             'status': 'ok',
             'message': 'Pharos Stats API is operational',
-            'version': '2.1.0',
+            'version': '2.2.0',
             'cache_size': len(cache_manager.cache),
             'proxies_loaded': len(proxy_manager.proxies),
-            'redis_enabled': redis_manager.enabled
+            'redis_enabled': redis_manager.enabled,
+            'auto_refresh': {
+                'enabled': True,
+                'schedule': '0 0 * * * (daily at 00:00 UTC)',
+                'endpoint': '/api/refresh-leaderboard'
+            }
         }
         self._send_json_response(response_data)
     
@@ -586,6 +593,41 @@ class handler(BaseHTTPRequestHandler):
         except Exception as e:
             print(f"Error in admin stats: {e}")
             self._send_error_response({'error': 'Failed to fetch statistics'}, 500)
+    
+    def _handle_refresh_leaderboard(self):
+        """Обработчик принудительного обновления лидерборда (для cron)."""
+        try:
+            print(f"🔄 Leaderboard refresh requested at {datetime.now().isoformat()}")
+            
+            if not redis_manager.enabled:
+                self._send_error_response({'error': 'Redis not available'}, 503)
+                return
+            
+            # Очищаем кэш
+            cache_cleared = redis_manager.clear_leaderboard_cache()
+            
+            if cache_cleared:
+                # Генерируем свежие данные
+                fresh_data = redis_manager.get_leaderboard_data()
+                
+                if fresh_data.get('success'):
+                    response = {
+                        'success': True,
+                        'message': 'Leaderboard refreshed successfully',
+                        'timestamp': datetime.now().isoformat(),
+                        'total_users': fresh_data.get('total_users', 0),
+                        'total_checks': fresh_data.get('total_checks', 0)
+                    }
+                    print(f"✅ Leaderboard refreshed: {fresh_data.get('total_users', 0)} users")
+                    self._send_json_response(response)
+                else:
+                    self._send_error_response({'error': 'Failed to generate fresh data'}, 500)
+            else:
+                self._send_error_response({'error': 'Failed to clear cache'}, 500)
+                
+        except Exception as e:
+            print(f"❌ Error in refresh handler: {e}")
+            self._send_error_response({'error': f'Refresh failed: {str(e)}'}, 500)
     
     def _handle_wallet_check(self):
         """Handle wallet statistics check request."""
