@@ -179,14 +179,11 @@
         }
 
         .rank-input-section {
-            display: flex;
-            gap: 16px;
-            max-width: 500px;
+            max-width: 100%;
             margin: 0 auto 20px;
         }
 
         .rank-input-group {
-            flex: 1;
             display: flex;
             border: 2px solid rgba(59, 130, 246, 0.2);
             border-radius: 12px;
@@ -224,7 +221,6 @@
             background: rgb(0, 7, 185);
             color: white;
             border: none;
-            border-radius: 12px;
             font-size: 14px;
             font-weight: 600;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -232,24 +228,24 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 8px 16px rgba(0, 7, 185, 0.3);
             white-space: nowrap;
+            border-left: 2px solid rgba(255, 255, 255, 0.2);
         }
 
         .rank-check-button:hover:not(:disabled) {
-            transform: translateY(-2px);
+            background: rgb(0, 5, 160);
             box-shadow: 0 12px 24px rgba(0, 7, 185, 0.4);
         }
 
         .rank-check-button:disabled {
             background: #9ca3af;
             cursor: not-allowed;
-            transform: none;
             box-shadow: 0 4px 8px rgba(156, 163, 175, 0.3);
         }
 
         .rank-result {
             display: none;
             text-align: center;
-            padding: 20px;
+            padding: 24px;
             background: rgba(34, 197, 94, 0.1);
             border: 1px solid rgba(34, 197, 94, 0.2);
             border-radius: 12px;
@@ -266,11 +262,12 @@
         }
 
         .rank-number {
-            font-size: 32px;
+            font-size: 48px;
             font-weight: 900;
             color: var(--pharos-green-500);
             margin-bottom: 8px;
             font-family: 'Inter', 'SF Mono', monospace;
+            letter-spacing: -2px;
         }
 
         .rank-result.error .rank-number {
@@ -280,18 +277,18 @@
         }
 
         .rank-text {
-            font-size: 14px;
+            font-size: 16px;
             color: var(--pharos-gray-700);
             font-weight: 500;
+            margin-bottom: 24px;
         }
 
         .rank-details {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 16px;
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid rgba(34, 197, 94, 0.2);
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            max-width: 400px;
+            margin: 0 auto;
         }
 
         .rank-detail-item {
@@ -299,16 +296,19 @@
         }
 
         .rank-detail-value {
-            font-size: 18px;
-            font-weight: 800;
+            font-size: 28px;
+            font-weight: 900;
             color: var(--pharos-gray-900);
-            margin-bottom: 4px;
+            margin-bottom: 8px;
+            font-family: 'Inter', 'SF Mono', monospace;
+            letter-spacing: -1px;
         }
 
         .rank-detail-label {
-            font-size: 12px;
+            font-size: 14px;
             color: var(--pharos-gray-500);
             font-weight: 600;
+            letter-spacing: 0.025em;
         }
 
         /* Analytics Section */
@@ -758,10 +758,10 @@
                         placeholder="0x..."
                         spellcheck="false"
                     >
+                    <button class="rank-check-button" id="rankCheckButton">
+                        Check My Rank
+                    </button>
                 </div>
-                <button class="rank-check-button" id="rankCheckButton">
-                    Check My Rank
-                </button>
             </div>
 
             <div class="rank-result" id="rankResult">
@@ -995,14 +995,6 @@
                     <div class="rank-detail-item">
                         <div class="rank-detail-value">L${userData.current_level}</div>
                         <div class="rank-detail-label">Current Level</div>
-                    </div>
-                    <div class="rank-detail-item">
-                        <div class="rank-detail-value">${userData.send_count || 0}</div>
-                        <div class="rank-detail-label">Send TX</div>
-                    </div>
-                    <div class="rank-detail-item">
-                        <div class="rank-detail-value">${(userData.swap_count || 0) + (userData.faroswap_swaps || 0)}</div>
-                        <div class="rank-detail-label">Total Swaps</div>
                     </div>
                 `;
 
