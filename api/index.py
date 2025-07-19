@@ -4,15 +4,14 @@ Pharos Stats Checker API
 
 Author: @avzcrypto
 License: MIT
-Version: 2.2.1
+Version: 2.2.0
 """
 
-from flask import Flask, request, jsonify
-from flask_cors import CORS
+from http.server import BaseHTTPRequestHandler
 import json
 import requests
 import os
-from datetime import datetime, timezone
+from datetime import datetime
 import time
 import random
 import concurrent.futures
@@ -22,11 +21,10 @@ from typing import Optional, Dict, Any, List
 class CacheManager:
     """Advanced in-memory cache with LRU eviction policy."""
     
-    def __init__(self, ttl: int = 300, max_size: int = 50000):  # УВЕЛИЧЕНО ДО 50K!
+    def __init__(self, ttl: int = 300, max_size: int = 2000):
         self.cache = {}
         self.ttl = ttl
         self.max_size = max_size
-        self.access_times = {}  # LRU tracking
     
     def get(self, key: str) -> Optional[Dict[str, Any]]:
         """Retrieve cached data if still valid."""
@@ -34,128 +32,23 @@ class CacheManager:
         if cache_key in self.cache:
             data, timestamp = self.cache[cache_key]
             if time.time() - timestamp < self.ttl:
-                self.access_times[cache_key] = time.time()  # LRU update
                 return data
             del self.cache[cache_key]
-            if cache_key in self.access_times:
-                del self.access_times[cache_key]
         return None
     
     def set(self, key: str, data: Dict[str, Any]) -> None:
         """Store data in cache with automatic cleanup."""
         cache_key = key.lower()
-        current_time = time.time()
-        self.cache[cache_key] = (data, current_time)
-        self.access_times[cache_key] = current_time
+        self.cache[cache_key] = (data, time.time())
         self._cleanup_if_needed()
     
     def _cleanup_if_needed(self) -> None:
         """Cleanup oldest entries when cache exceeds maximum size."""
         if len(self.cache) > self.max_size:
-            # Удаляем 20% самых старых записей
-            remove_count = self.max_size // 5
-            sorted_items = sorted(self.access_times.items(), key=lambda x: x[1])
-            
+            sorted_items = sorted(self.cache.items(), key=lambda x: x[1][1])
+            remove_count = self.max_size // 4
             for key, _ in sorted_items[:remove_count]:
-                if key in self.cache:
-                    del self.cache[key]
-                # ИСПРАВЛЕНО: Безопасное удаление
-                if key in self.access_times:
-                    del self.access_times[key]
-
-
-class RankCacheManager:
-    """НОВЫЙ: Кэширование рангов до 00:00 UTC для снижения нагрузки на Redis."""
-    
-    def __init__(self):
-        self.rank_cache = {}  # {points: rank}
-        self.cache_valid_until = None
-        self.last_refresh = None
-    
-    def get_cached_rank(self, total_points: int) -> Optional[int]:
-        """Получить ранг из кэша если он валиден."""
-        if not self._is_cache_valid():
-            return None
-        
-        # Точное совпадение
-        if total_points in self.rank_cache:
-            return self.rank_cache[total_points]
-        
-        # Интерполяция для промежуточных значений
-        return self._interpolate_rank(total_points)
-    
-    def refresh_rank_cache(self, redis_client) -> bool:
-        """Обновить кэш рангов из Redis."""
-        try:
-            # Получаем уникальные очки и их количество
-            all_scores = redis_client.zrevrange('pharos:leaderboard', 0, -1, withscores=True)
-            
-            if not all_scores:
-                return False
-            
-            # Группируем по очкам и считаем ранги
-            score_counts = {}
-            for _, points in all_scores:
-                points = int(points)
-                score_counts[points] = score_counts.get(points, 0) + 1
-            
-            # Строим кэш рангов
-            current_rank = 1
-            sorted_scores = sorted(score_counts.keys(), reverse=True)
-            
-            for points in sorted_scores:
-                self.rank_cache[points] = current_rank
-                current_rank += score_counts[points]
-            
-            # Устанавливаем время валидности до следующего 00:00 UTC
-            now = datetime.now(timezone.utc)
-            next_midnight = now.replace(hour=0, minute=0, second=0, microsecond=0)
-            if next_midnight <= now:
-                next_midnight = next_midnight.replace(day=next_midnight.day + 1)
-            
-            self.cache_valid_until = next_midnight
-            self.last_refresh = now
-            
-            print(f"Rank cache updated: {len(self.rank_cache)} unique scores cached until {next_midnight}")
-            return True
-            
-        except Exception as e:
-            print(f"Failed to refresh rank cache: {e}")
-            return False
-    
-    def _is_cache_valid(self) -> bool:
-        """Проверить валидность кэша."""
-        if not self.cache_valid_until or not self.rank_cache:
-            return False
-        return datetime.now(timezone.utc) < self.cache_valid_until
-    
-    def _interpolate_rank(self, target_points: int) -> Optional[int]:
-        """Интерполяция ранга для промежуточных значений."""
-        if not self.rank_cache:
-            return None
-        
-        sorted_points = sorted(self.rank_cache.keys(), reverse=True)
-        
-        # Если очки выше максимального
-        if target_points >= sorted_points[0]:
-            return 1
-        
-        # Если очки ниже минимального
-        if target_points <= sorted_points[-1]:
-            return self.rank_cache[sorted_points[-1]]
-        
-        # Находим ближайшие точки для интерполяции
-        for i in range(len(sorted_points) - 1):
-            higher_points = sorted_points[i]
-            lower_points = sorted_points[i + 1]
-            
-            if lower_points <= target_points < higher_points:
-                higher_rank = self.rank_cache[higher_points]
-                # ИСПРАВЛЕНО: Убрали зависимость от redis_manager
-                # Возвращаем приблизительный ранг без точного подсчета
-                return higher_rank
-        
-        return None
+                del self.cache[key]
 
 
 class ProxyManager:
@@ -197,7 +90,6 @@ class RedisManager:
     def __init__(self):
         self.client = None
         self.enabled = self._initialize_connection()
-        self.rank_cache = RankCacheManager()  # НОВОЕ: добавили rank cache
     
     def _initialize_connection(self) -> bool:
         """Initialize Redis connection with error handling."""
@@ -218,24 +110,11 @@ class RedisManager:
             return False
     
     def get_exact_rank(self, total_points: int) -> Optional[int]:
-        """ОПТИМИЗИРОВАНО: Calculate exact user rank with caching."""
+        """Calculate exact user rank based on points."""
         try:
             if not self.enabled or not self.client:
                 return None
             
-            # НОВОЕ: Пытаемся получить из кэша
-            cached_rank = self.rank_cache.get_cached_rank(total_points)
-            if cached_rank is not None:
-                return cached_rank
-            
-            # НОВОЕ: Если кэш невалиден - обновляем его
-            cache_refreshed = self.rank_cache.refresh_rank_cache(self.client)
-            if cache_refreshed:
-                cached_rank = self.rank_cache.get_cached_rank(total_points)
-                if cached_rank is not None:
-                    return cached_rank
-            
-            # Fallback на старый метод
             users_with_more_points = self.client.zcount(
                 'pharos:leaderboard', 
                 total_points + 1, 
@@ -433,18 +312,14 @@ class RedisManager:
             return {'success': False, 'error': str(e)}
 
     def clear_leaderboard_cache(self) -> bool:
-        """НОВОЕ: Очистить кэш лидерборда и обновить rank cache."""
+        """Очистить кэш лидерборда (для принудительного обновления)."""
         if not self.enabled:
             return False
         
         try:
             cache_key = 'pharos:leaderboard:daily'
             self.client.delete(cache_key)
-            
-            # НОВОЕ: ТАКЖЕ ОБНОВЛЯЕМ КЭШ РАНГОВ
-            self.rank_cache.refresh_rank_cache(self.client)
-            
-            print("Leaderboard cache cleared + rank cache refreshed")
+            print("Leaderboard cache cleared successfully")
             return True
         except Exception as e:
             print(f"Error clearing cache: {e}")
@@ -570,7 +445,7 @@ class PharosAPIClient:
             points_for_next = level_thresholds.get(next_level, 150000)
             points_needed = max(0, points_for_next - total_points)
             
-            # ОПТИМИЗИРОВАНО: Get exact rank from Redis with caching
+            # Get exact rank from Redis
             exact_rank = self.redis_manager.get_exact_rank(total_points)
             
             return {
@@ -651,43 +526,49 @@ class PharosAPIClient:
             return 10
 
 
-# ОПТИМИЗИРОВАНО: Module-level managers (Vercel serverless compatible)
-cache_manager = CacheManager(ttl=300, max_size=50000)  # УВЕЛИЧЕНО ДО 50K!
+# Module-level managers (Vercel serverless compatible)
+cache_manager = CacheManager(ttl=300, max_size=2000)
 proxy_manager = ProxyManager()
 redis_manager = RedisManager()
 api_client = PharosAPIClient(proxy_manager, redis_manager)
 
-# Create Flask app
-app = Flask(__name__)
-CORS(app)
 
-
-@app.route('/api/health', methods=['GET'])
-def health_check():
-    """Return API health status and configuration."""
-    rank_cache_info = {
-        'enabled': True,
-        'cached_scores': len(redis_manager.rank_cache.rank_cache),
-        'valid_until': redis_manager.rank_cache.cache_valid_until.isoformat() if redis_manager.rank_cache.cache_valid_until else None,
-        'last_refresh': redis_manager.rank_cache.last_refresh.isoformat() if redis_manager.rank_cache.last_refresh else None
-    }
+class handler(BaseHTTPRequestHandler):
+    """Main HTTP request handler optimized for Vercel serverless deployment."""
     
-    response_data = {
-        'status': 'ok',
-        'message': 'Pharos Stats API is operational',
-        'version': '2.2.1',
-        'performance': {
-            'memory_cache_size': len(cache_manager.cache),
-            'memory_cache_max': cache_manager.max_size,
-            'cache_hit_ratio_estimated': '85%+',
-            'rank_cache': rank_cache_info  # НОВОЕ
-        },
-        'optimization': {
-            'redis_load_reduction': '99%',
-            'operations_saved_daily': '190k+',
-            'response_time_improvement': '300%+'
-        },
-        'infrastructure': {
+    def do_OPTIONS(self):
+        """Handle CORS preflight requests."""
+        self.send_response(200)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        self.end_headers()
+    
+    def do_GET(self):
+        """Handle GET requests for health check and admin statistics."""
+        if self.path == '/api/health':
+            self._handle_health_check()
+        elif self.path == '/api/admin/stats':
+            self._handle_admin_stats()
+        elif self.path == '/api/refresh-leaderboard':
+            self._handle_refresh_leaderboard()
+        else:
+            self.send_error(404)
+    
+    def do_POST(self):
+        """Handle POST requests for wallet statistics."""
+        if self.path == '/api/check-wallet':
+            self._handle_wallet_check()
+        else:
+            self.send_error(404)
+    
+    def _handle_health_check(self):
+        """Return API health status and configuration."""
+        response_data = {
+            'status': 'ok',
+            'message': 'Pharos Stats API is operational',
+            'version': '2.2.0',
+            'cache_size': len(cache_manager.cache),
             'proxies_loaded': len(proxy_manager.proxies),
             'redis_enabled': redis_manager.enabled,
             'auto_refresh': {
@@ -696,118 +577,129 @@ def health_check():
                 'endpoint': '/api/refresh-leaderboard'
             }
         }
-    }
-    return jsonify(response_data)
-
-
-@app.route('/api/admin/stats', methods=['GET'])
-def admin_stats():
-    """Handle admin statistics request with 24h cache."""
-    try:
-        if not redis_manager.enabled:
-            return jsonify({'error': 'Statistics not available'}), 503
-        
-        stats_data = redis_manager.get_leaderboard_data()
-        return jsonify(stats_data)
-        
-    except Exception as e:
-        print(f"Error in admin stats: {e}")
-        return jsonify({'error': 'Failed to fetch statistics'}), 500
-
-
-@app.route('/api/refresh-leaderboard', methods=['GET'])
-def refresh_leaderboard():
-    """ОБНОВЛЕНО: Handle forced leaderboard refresh for scheduled updates."""
-    try:
-        print(f"Leaderboard refresh requested at {datetime.now().isoformat()}")
-        
-        if not redis_manager.enabled:
-            return jsonify({'error': 'Redis not available'}), 503
-        
-        cache_cleared = redis_manager.clear_leaderboard_cache()
-        
-        if cache_cleared:
-            fresh_data = redis_manager.get_leaderboard_data()
+        self._send_json_response(response_data)
+    
+    def _handle_admin_stats(self):
+        """Handle admin statistics request with 24h cache."""
+        try:
+            if not redis_manager.enabled:
+                self._send_error_response({'error': 'Statistics not available'}, 503)
+                return
             
-            if fresh_data.get('success'):
-                response = {
-                    'success': True,
-                    'message': 'Leaderboard refreshed successfully',
-                    'timestamp': datetime.now().isoformat(),
-                    'performance_boost': {
-                        'rank_cache_refreshed': True,  # НОВОЕ
-                        'leaderboard_cache_cleared': True,
-                        'memory_cache_optimized': True
-                    },
-                    'stats': {
+            # Используем новый метод с 24h кэшем
+            stats_data = redis_manager.get_leaderboard_data()
+            self._send_json_response(stats_data)
+            
+        except Exception as e:
+            print(f"Error in admin stats: {e}")
+            self._send_error_response({'error': 'Failed to fetch statistics'}, 500)
+    
+    def _handle_refresh_leaderboard(self):
+        """Обработчик принудительного обновления лидерборда (для cron)."""
+        try:
+            print(f"🔄 Leaderboard refresh requested at {datetime.now().isoformat()}")
+            
+            if not redis_manager.enabled:
+                self._send_error_response({'error': 'Redis not available'}, 503)
+                return
+            
+            # Очищаем кэш
+            cache_cleared = redis_manager.clear_leaderboard_cache()
+            
+            if cache_cleared:
+                # Генерируем свежие данные
+                fresh_data = redis_manager.get_leaderboard_data()
+                
+                if fresh_data.get('success'):
+                    response = {
+                        'success': True,
+                        'message': 'Leaderboard refreshed successfully',
+                        'timestamp': datetime.now().isoformat(),
                         'total_users': fresh_data.get('total_users', 0),
-                        'total_checks': fresh_data.get('total_checks', 0),
-                        'rank_cache_size': len(redis_manager.rank_cache.rank_cache)  # НОВОЕ
+                        'total_checks': fresh_data.get('total_checks', 0)
                     }
-                }
-                print(f"Refresh completed: {fresh_data.get('total_users', 0)} users, {len(redis_manager.rank_cache.rank_cache)} ranks cached")
-                return jsonify(response)
+                    print(f"✅ Leaderboard refreshed: {fresh_data.get('total_users', 0)} users")
+                    self._send_json_response(response)
+                else:
+                    self._send_error_response({'error': 'Failed to generate fresh data'}, 500)
             else:
-                return jsonify({'error': 'Failed to generate fresh data'}), 500
-        else:
-            return jsonify({'error': 'Failed to clear cache'}), 500
+                self._send_error_response({'error': 'Failed to clear cache'}, 500)
+                
+        except Exception as e:
+            print(f"❌ Error in refresh handler: {e}")
+            self._send_error_response({'error': f'Refresh failed: {str(e)}'}, 500)
+    
+    def _handle_wallet_check(self):
+        """Handle wallet statistics check request."""
+        try:
+            # Parse and validate request
+            content_length = int(self.headers.get('Content-Length', 0))
+            if content_length > 1000:
+                self._send_error_response({'error': 'Request too large'}, 413)
+                return
             
-    except Exception as e:
-        print(f"Error in refresh handler: {e}")
-        return jsonify({'error': f'Refresh failed: {str(e)}'}), 500
-
-
-@app.route('/api/check-wallet', methods=['POST'])
-def check_wallet():
-    """Handle wallet statistics check request."""
-    try:
-        # Parse and validate request
-        data = request.get_json()
-        if not data:
-            return jsonify({'error': 'No JSON data provided'}), 400
-        
-        wallet_address = data.get('wallet_address', '').strip()
-        
-        # Validate wallet address format
-        if not _is_valid_address(wallet_address):
-            return jsonify({'error': 'Invalid wallet address format'}), 400
-        
-        # ОПТИМИЗИРОВАНО: Check cache first (primary optimization)
-        cached_result = cache_manager.get(wallet_address)
-        if cached_result:
-            return jsonify(cached_result)
-        
-        # Fetch fresh data from API
-        result = api_client.get_user_data(wallet_address)
-        
-        if result.get('success'):
-            # ОПТИМИЗИРОВАНО: Cache successful result
-            cache_manager.set(wallet_address, result)
+            post_data = self.rfile.read(content_length)
+            data = json.loads(post_data.decode('utf-8'))
+            wallet_address = data.get('wallet_address', '').strip()
             
-            # Save to Redis asynchronously (non-blocking)
-            if redis_manager.enabled:
-                try:
-                    redis_manager.save_user_stats(result)
-                except Exception:
-                    pass  # Graceful degradation
+            # Validate wallet address format
+            if not self._is_valid_address(wallet_address):
+                self._send_error_response({'error': 'Invalid wallet address format'}, 400)
+                return
             
-            return jsonify(result)
-        else:
-            return jsonify(result), 400
+            # Check cache first (primary optimization)
+            cached_result = cache_manager.get(wallet_address)
+            if cached_result:
+                self._send_json_response(cached_result)
+                return
             
-    except Exception as e:
-        print(f"Error in wallet check: {e}")
-        return jsonify({'error': 'Internal server error'}), 500
-
-
-def _is_valid_address(address: str) -> bool:
-    """Validate Ethereum address format."""
-    return (len(address) == 42 and 
-            address.startswith('0x') and 
-            all(c in '0123456789abcdefABCDEF' for c in address[2:]))
-
-
-# Vercel serverless handler
-def handler(environ, start_response):
-    """Vercel serverless entry point."""
-    return app(environ, start_response)
+            # Fetch fresh data from API
+            result = api_client.get_user_data(wallet_address)
+            
+            if result.get('success'):
+                # Cache successful result
+                cache_manager.set(wallet_address, result)
+                
+                # Save to Redis asynchronously (non-blocking)
+                if redis_manager.enabled:
+                    try:
+                        redis_manager.save_user_stats(result)
+                    except Exception:
+                        pass  # Graceful degradation
+                
+                self._send_json_response(result)
+            else:
+                self._send_error_response(result, 400)
+                
+        except json.JSONDecodeError:
+            self._send_error_response({'error': 'Invalid JSON format'}, 400)
+        except Exception as e:
+            print(f"Error in wallet check: {e}")
+            self._send_error_response({'error': 'Internal server error'}, 500)
+    
+    def _is_valid_address(self, address: str) -> bool:
+        """Validate Ethereum address format."""
+        return (len(address) == 42 and 
+                address.startswith('0x') and 
+                all(c in '0123456789abcdefABCDEF' for c in address[2:]))
+    
+    def _send_json_response(self, data: Dict[str, Any], status_code: int = 200):
+        """Send JSON response with proper headers."""
+        if 'success' not in data:
+            data['success'] = True
+        
+        response_body = json.dumps(data, separators=(',', ':'))
+        
+        self.send_response(status_code)
+        self.send_header('Content-Type', 'application/json')
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Cache-Control', 'no-cache')
+        self.send_header('Content-Length', str(len(response_body)))
+        self.end_headers()
+        
+        self.wfile.write(response_body.encode('utf-8'))
+    
+    def _send_error_response(self, error_data: Dict[str, Any], status_code: int):
+        """Send error response with proper formatting."""
+        error_data['success'] = False
+        self._send_json_response(error_data, status_code)
