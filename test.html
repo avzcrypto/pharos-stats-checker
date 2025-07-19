@@ -149,6 +149,168 @@
             left: 25px;
         }
 
+        /* NEW RANK CHECKER SECTION */
+        .rank-checker-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .rank-checker-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .rank-checker-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--pharos-gray-900);
+            margin-bottom: 8px;
+        }
+
+        .rank-checker-subtitle {
+            font-size: 14px;
+            color: var(--pharos-gray-500);
+            font-weight: 500;
+        }
+
+        .rank-input-section {
+            display: flex;
+            gap: 16px;
+            max-width: 500px;
+            margin: 0 auto 20px;
+        }
+
+        .rank-input-group {
+            flex: 1;
+            display: flex;
+            border: 2px solid rgba(59, 130, 246, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .rank-input-group:focus-within {
+            border-color: var(--pharos-blue-500);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .rank-wallet-input {
+            flex: 1;
+            padding: 14px 16px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            font-family: 'Inter', 'SF Mono', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            color: var(--pharos-gray-900);
+            background: transparent;
+            font-weight: 500;
+        }
+
+        .rank-wallet-input::placeholder {
+            color: var(--pharos-gray-500);
+            font-weight: 400;
+        }
+
+        .rank-check-button {
+            padding: 14px 24px;
+            background: rgb(0, 7, 185);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 16px rgba(0, 7, 185, 0.3);
+            white-space: nowrap;
+        }
+
+        .rank-check-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(0, 7, 185, 0.4);
+        }
+
+        .rank-check-button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 4px 8px rgba(156, 163, 175, 0.3);
+        }
+
+        .rank-result {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 12px;
+            margin-top: 16px;
+        }
+
+        .rank-result.show {
+            display: block;
+        }
+
+        .rank-result.error {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.2);
+        }
+
+        .rank-number {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--pharos-green-500);
+            margin-bottom: 8px;
+            font-family: 'Inter', 'SF Mono', monospace;
+        }
+
+        .rank-result.error .rank-number {
+            color: #ef4444;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .rank-text {
+            font-size: 14px;
+            color: var(--pharos-gray-700);
+            font-weight: 500;
+        }
+
+        .rank-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .rank-detail-item {
+            text-align: center;
+        }
+
+        .rank-detail-value {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--pharos-gray-900);
+            margin-bottom: 4px;
+        }
+
+        .rank-detail-label {
+            font-size: 12px;
+            color: var(--pharos-gray-500);
+            font-weight: 600;
+        }
+
         /* Analytics Section */
         .analytics-section {
             background: rgba(255, 255, 255, 0.9);
@@ -492,6 +654,15 @@
             .pie-container {
                 margin: 0 auto;
             }
+
+            .rank-input-section {
+                flex-direction: column;
+                max-width: 400px;
+            }
+
+            .rank-details {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media (max-width: 768px) {
@@ -517,6 +688,14 @@
             .leaderboard-table th,
             .leaderboard-table td {
                 padding: 8px 4px;
+            }
+
+            .rank-checker-section {
+                padding: 20px;
+            }
+
+            .rank-details {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -559,6 +738,37 @@
                         <span class="stat-number" id="topPoints">0</span>
                     </div>
                     <div class="stat-label-header">Top Score</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW RANK CHECKER SECTION -->
+        <div class="rank-checker-section">
+            <div class="rank-checker-header">
+                <h3 class="rank-checker-title">🔍 Check Your Rank</h3>
+                <p class="rank-checker-subtitle">Enter your wallet address to see your current leaderboard position</p>
+            </div>
+            
+            <div class="rank-input-section">
+                <div class="rank-input-group">
+                    <input
+                        type="text"
+                        class="rank-wallet-input"
+                        id="rankWalletInput"
+                        placeholder="0x..."
+                        spellcheck="false"
+                    >
+                </div>
+                <button class="rank-check-button" id="rankCheckButton">
+                    Check My Rank
+                </button>
+            </div>
+
+            <div class="rank-result" id="rankResult">
+                <div class="rank-number" id="rankNumber">#1,234</div>
+                <div class="rank-text" id="rankText">Your current rank on the leaderboard</div>
+                <div class="rank-details" id="rankDetails">
+                    <!-- Details will be populated by JavaScript -->
                 </div>
             </div>
         </div>
@@ -622,21 +832,6 @@
                                 </div>
                             </div>
                         </th>
-                        <th style="background: rgba(168, 85, 247, 0.08);">
-                            <div style="text-align: center;">
-                                <div style="font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--pharos-gray-900); margin-bottom: 8px;">FAROSWAP</div>
-                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px; color: var(--pharos-gray-500);">
-                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
-                                        <div style="font-size: 12px;">🔄</div>
-                                        <div>Swaps</div>
-                                    </div>
-                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
-                                        <div style="font-size: 12px;">💧</div>
-                                        <div>LP</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </th>
                         <th style="background: rgba(34, 197, 94, 0.08);">
                             <div style="text-align: center;">
                                 <div style="font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--pharos-gray-900); margin-bottom: 8px;">NFT & DOMAINS</div>
@@ -675,6 +870,14 @@
             const pieChart = document.getElementById('pieChart');
             const pieLegend = document.getElementById('pieLegend');
             const pieChartTotal = document.getElementById('pieChartTotal');
+
+            // NEW: Rank Checker Elements
+            const rankWalletInput = document.getElementById('rankWalletInput');
+            const rankCheckButton = document.getElementById('rankCheckButton');
+            const rankResult = document.getElementById('rankResult');
+            const rankNumber = document.getElementById('rankNumber');
+            const rankText = document.getElementById('rankText');
+            const rankDetails = document.getElementById('rankDetails');
 
             // Utility Functions
             const formatNumber = num => new Intl.NumberFormat('en-US').format(num);
@@ -719,6 +922,109 @@
                     month: 'short', 
                     day: 'numeric' 
                 });
+            };
+
+            const isValidAddress = address => {
+                return /^0x[a-fA-F0-9]{40}$/.test(address);
+            };
+
+            // NEW: Rank Checker Functions
+            const checkUserRank = async () => {
+                const address = rankWalletInput.value.trim();
+
+                if (!address) {
+                    showRankError('Please enter a wallet address');
+                    return;
+                }
+
+                if (!isValidAddress(address)) {
+                    showRankError('Please enter a valid Ethereum address');
+                    return;
+                }
+
+                rankCheckButton.disabled = true;
+                rankCheckButton.textContent = 'Checking...';
+                hideRankResult();
+
+                try {
+                    const response = await fetch('/api/check-wallet', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            wallet_address: address
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok || !data.success) {
+                        throw new Error(data.error || 'Failed to fetch wallet statistics');
+                    }
+
+                    showRankResult(data);
+
+                } catch (error) {
+                    console.error('Rank check error:', error);
+                    showRankError(error.message || 'Failed to check rank. Please try again.');
+                } finally {
+                    rankCheckButton.disabled = false;
+                    rankCheckButton.textContent = 'Check My Rank';
+                }
+            };
+
+            const showRankResult = (userData) => {
+                hideRankError();
+
+                // Show rank number
+                if (userData.exact_rank) {
+                    rankNumber.textContent = `#${formatNumber(userData.exact_rank)}`;
+                    rankText.textContent = 'Your current rank on the leaderboard';
+                } else {
+                    rankNumber.textContent = 'Not Ranked';
+                    rankText.textContent = 'Complete tasks to appear on the leaderboard';
+                }
+
+                // Show user details
+                rankDetails.innerHTML = `
+                    <div class="rank-detail-item">
+                        <div class="rank-detail-value">${formatNumber(userData.total_points)}</div>
+                        <div class="rank-detail-label">Total Points</div>
+                    </div>
+                    <div class="rank-detail-item">
+                        <div class="rank-detail-value">L${userData.current_level}</div>
+                        <div class="rank-detail-label">Current Level</div>
+                    </div>
+                    <div class="rank-detail-item">
+                        <div class="rank-detail-value">${userData.send_count || 0}</div>
+                        <div class="rank-detail-label">Send TX</div>
+                    </div>
+                    <div class="rank-detail-item">
+                        <div class="rank-detail-value">${(userData.swap_count || 0) + (userData.faroswap_swaps || 0)}</div>
+                        <div class="rank-detail-label">Total Swaps</div>
+                    </div>
+                `;
+
+                rankResult.classList.remove('error');
+                rankResult.classList.add('show');
+            };
+
+            const showRankError = (message) => {
+                rankNumber.textContent = message;
+                rankText.textContent = '';
+                rankDetails.innerHTML = '';
+                
+                rankResult.classList.add('error');
+                rankResult.classList.add('show');
+            };
+
+            const hideRankResult = () => {
+                rankResult.classList.remove('show', 'error');
+            };
+
+            const hideRankError = () => {
+                rankResult.classList.remove('error');
             };
 
             // Load leaderboard data
@@ -814,11 +1120,7 @@
                 if (data.leaderboard && data.leaderboard.length > 0) {
                     animateValue(topPointsElement, 0, data.leaderboard[0].total_points);
                 }
-
-                // Disclaimer content remains static - no dynamic updates needed
             };
-
-            // Removed getTimeAgo function - no longer needed
 
             // Optimized Analytics with lazy rendering
             const updateAnalytics = data => {
@@ -1024,6 +1326,19 @@
                 }
             };
 
+            // Event Listeners
+            rankCheckButton.addEventListener('click', checkUserRank);
+
+            rankWalletInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    checkUserRank();
+                }
+            });
+
+            rankWalletInput.addEventListener('input', () => {
+                hideRankResult();
+            });
+
             // Initialize on DOM ready
             document.addEventListener('DOMContentLoaded', initializeLeaderboard);
 
@@ -1031,3 +1346,18 @@
     </script>
 </body>
 </html>
+                                </div>
+                            </div>
+                        </th>
+                        <th style="background: rgba(168, 85, 247, 0.08);">
+                            <div style="text-align: center;">
+                                <div style="font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--pharos-gray-900); margin-bottom: 8px;">FAROSWAP</div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px; color: var(--pharos-gray-500);">
+                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+                                        <div style="font-size: 12px;">🔄</div>
+                                        <div>Swaps</div>
+                                    </div>
+                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+                                        <div style="font-size: 12px;">💧</div>
+                                        <div>LP</div>
+                                    </div>
