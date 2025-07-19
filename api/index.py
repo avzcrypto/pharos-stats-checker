@@ -1,10 +1,10 @@
 """
 Pharos Stats Checker API 
-===========================================================
+=======================================================
 
 Author: @avzcrypto
 License: MIT
-Version: 2.3.0
+Version: 2.4.0
 """
 
 from http.server import BaseHTTPRequestHandler
@@ -18,43 +18,111 @@ import concurrent.futures
 from typing import Optional, Dict, Any, List
 
 
-class CacheManager:
-    """Advanced in-memory cache with smart TTL for rank data."""
+class HybridCacheManager:
+    """Hybrid cache: main data (5min, in-memory) + rank (until midnight, Redis)."""
     
-    def __init__(self, default_ttl: int = 300, max_size: int = 50000):
-        self.cache = {}
+    def __init__(self, redis_client, default_ttl: int = 300, max_size: int = 2000):
+        self.redis_client = redis_client
         self.default_ttl = default_ttl
         self.max_size = max_size
+        self.redis_enabled = redis_client is not None
+        
+        # In-memory cache for main data (5 minutes)
+        self.memory_cache = {}
+        
+        # Redis prefixes
+        self.rank_prefix = "pharos:rank:"
+        self.cache_prefix = "pharos:cache:"
     
     def get(self, key: str) -> Optional[Dict[str, Any]]:
-        """Retrieve cached data if still valid."""
+        """Retrieve cached data - combine memory cache + Redis rank."""
         cache_key = key.lower()
-        if cache_key in self.cache:
-            data, expiry_time = self.cache[cache_key]
-            if time.time() < expiry_time:
-                return data
-            del self.cache[cache_key]
+        
+        # Try memory cache first (main data)
+        memory_data = self._get_memory_cache(cache_key)
+        if memory_data:
+            # Try to get cached rank from Redis
+            rank = self._get_rank_cache(cache_key)
+            if rank is not None:
+                memory_data['exact_rank'] = rank
+            return memory_data
+            
         return None
     
     def set(self, key: str, data: Dict[str, Any]) -> None:
-        """Store data in cache with smart TTL logic."""
+        """Store data with hybrid logic: main data in memory, rank in Redis."""
         cache_key = key.lower()
         
-        # Calculate TTL based on data content
-        ttl = self._calculate_smart_ttl(data)
-        expiry_time = time.time() + ttl
+        # Extract rank for separate caching
+        exact_rank = data.get('exact_rank')
         
-        self.cache[cache_key] = (data, expiry_time)
-        self._cleanup_if_needed()
+        # Store main data in memory (5 minutes)
+        self._set_memory_cache(cache_key, data)
+        
+        # Store rank in Redis (until midnight) if available
+        if exact_rank is not None and self.redis_enabled:
+            self._set_rank_cache(cache_key, exact_rank)
     
-    def _calculate_smart_ttl(self, data: Dict[str, Any]) -> int:
-        """Calculate TTL based on data content - smart logic for rank caching."""
-        # If data contains exact_rank, cache until midnight
-        if data.get('exact_rank') is not None:
-            return self._calculate_ttl_until_midnight()
+    def _get_memory_cache(self, key: str) -> Optional[Dict[str, Any]]:
+        """Get data from in-memory cache."""
+        if key in self.memory_cache:
+            data, expiry_time = self.memory_cache[key]
+            if time.time() < expiry_time:
+                return data.copy()  # Return copy to avoid mutations
+            del self.memory_cache[key]
+        return None
+    
+    def _set_memory_cache(self, key: str, data: Dict[str, Any]) -> None:
+        """Set data in in-memory cache with cleanup."""
+        expiry_time = time.time() + self.default_ttl
+        self.memory_cache[key] = (data.copy(), expiry_time)
+        self._cleanup_memory_cache()
+    
+    def _get_rank_cache(self, key: str) -> Optional[int]:
+        """Get rank from Redis cache."""
+        if not self.redis_enabled:
+            return None
+            
+        try:
+            rank_key = f"{self.rank_prefix}{key}"
+            cached_rank = self.redis_client.get(rank_key)
+            return int(cached_rank) if cached_rank else None
+        except Exception:
+            return None
+    
+    def _set_rank_cache(self, key: str, rank: int) -> None:
+        """Set rank in Redis cache until midnight."""
+        if not self.redis_enabled:
+            return
+            
+        try:
+            rank_key = f"{self.rank_prefix}{key}"
+            ttl = self._calculate_ttl_until_midnight()
+            self.redis_client.setex(rank_key, ttl, str(rank))
+        except Exception:
+            pass  # Graceful degradation
+    
+    def _cleanup_memory_cache(self) -> None:
+        """Cleanup expired entries and manage size limit."""
+        current_time = time.time()
         
-        # For data without rank, use default TTL (5 minutes)
-        return self.default_ttl
+        # Remove expired entries
+        expired_keys = [
+            key for key, (_, expiry_time) in self.memory_cache.items()
+            if current_time >= expiry_time
+        ]
+        for key in expired_keys:
+            del self.memory_cache[key]
+        
+        # Limit cache size
+        if len(self.memory_cache) > self.max_size:
+            sorted_items = sorted(
+                self.memory_cache.items(),
+                key=lambda x: x[1][1]  # Sort by expiry time
+            )
+            remove_count = self.max_size // 4
+            for key, _ in sorted_items[:remove_count]:
+                del self.memory_cache[key]
     
     def _calculate_ttl_until_midnight(self) -> int:
         """Calculate seconds until next midnight (00:00 UTC)."""
@@ -72,50 +140,52 @@ class CacheManager:
             # Fallback to default TTL on any error
             return self.default_ttl
     
-    def _cleanup_if_needed(self) -> None:
-        """Cleanup expired and oldest entries when cache exceeds maximum size."""
-        current_time = time.time()
-        
-        # First, remove expired entries
-        expired_keys = [
-            key for key, (_, expiry_time) in self.cache.items()
-            if current_time >= expiry_time
-        ]
-        for key in expired_keys:
-            del self.cache[key]
-        
-        # If still over limit, remove oldest entries
-        if len(self.cache) > self.max_size:
-            sorted_items = sorted(
-                self.cache.items(), 
-                key=lambda x: x[1][1]  # Sort by expiry time
-            )
-            remove_count = self.max_size // 4
-            for key, _ in sorted_items[:remove_count]:
-                del self.cache[key]
-    
     def get_cache_stats(self) -> Dict[str, Any]:
         """Get cache statistics for monitoring."""
-        current_time = time.time()
-        total_entries = len(self.cache)
+        memory_entries = len(self.memory_cache)
         
-        # Count entries by TTL type
-        rank_cached = 0
-        regular_cached = 0
+        # Count Redis rank entries
+        rank_entries = 0
+        if self.redis_enabled:
+            try:
+                rank_pattern = f"{self.rank_prefix}*"
+                rank_keys = self.redis_client.keys(rank_pattern)
+                rank_entries = len(rank_keys)
+            except Exception:
+                pass
         
-        for data, expiry_time in self.cache.values():
-            remaining_ttl = expiry_time - current_time
-            if remaining_ttl > 3600:  # More than 1 hour = rank cache
-                rank_cached += 1
-            else:
-                regular_cached += 1
+        cache_hit_optimization = (rank_entries / max(memory_entries, 1)) * 100
         
         return {
-            'total_entries': total_entries,
-            'rank_cached_entries': rank_cached,
-            'regular_cached_entries': regular_cached,
-            'cache_hit_optimization': f"{(rank_cached / max(total_entries, 1)) * 100:.1f}%"
+            'total_entries': memory_entries,
+            'rank_cached_entries': rank_entries,
+            'regular_cached_entries': memory_entries,
+            'cache_hit_optimization': f"{min(cache_hit_optimization, 100):.1f}%",
+            'cache_type': 'hybrid_memory_redis',
+            'memory_cache_ttl': f"{self.default_ttl}s",
+            'rank_cache_ttl': 'until_midnight'
         }
+    
+    def clear_expired_cache(self) -> int:
+        """Clear expired entries from both memory and Redis."""
+        # Clear memory cache
+        initial_memory_size = len(self.memory_cache)
+        self._cleanup_memory_cache()
+        memory_cleared = initial_memory_size - len(self.memory_cache)
+        
+        # Redis handles TTL automatically, but we can count expired rank keys
+        redis_expired = 0
+        if self.redis_enabled:
+            try:
+                rank_pattern = f"{self.rank_prefix}*"
+                rank_keys = self.redis_client.keys(rank_pattern)
+                for key in rank_keys:
+                    if self.redis_client.ttl(key) == -2:  # Expired
+                        redis_expired += 1
+            except Exception:
+                pass
+        
+        return memory_cleared + redis_expired
 
 
 class ProxyManager:
@@ -215,7 +285,7 @@ class RedisManager:
                 'mint_nft': user_data.get('mint_nft', 0),
                 'faroswap_lp': user_data.get('faroswap_lp', 0),
                 'faroswap_swaps': user_data.get('faroswap_swaps', 0),
-                # NEW: Save exact rank for future reference
+                # Save exact rank for future reference
                 'exact_rank': user_data.get('exact_rank'),
                 'rank_calculated_at': timestamp
             }
@@ -597,9 +667,9 @@ class PharosAPIClient:
 
 
 # Module-level managers (Vercel serverless compatible)
-cache_manager = CacheManager(default_ttl=300, max_size=2000)
 proxy_manager = ProxyManager()
 redis_manager = RedisManager()
+cache_manager = HybridCacheManager(redis_manager.client if redis_manager.enabled else None)
 api_client = PharosAPIClient(proxy_manager, redis_manager)
 
 
@@ -622,6 +692,8 @@ class handler(BaseHTTPRequestHandler):
             self._handle_admin_stats()
         elif self.path == '/api/refresh-leaderboard':
             self._handle_refresh_leaderboard()
+        elif self.path == '/api/cache/clear':
+            self._handle_cache_clear()
         else:
             self.send_error(404)
     
@@ -639,14 +711,16 @@ class handler(BaseHTTPRequestHandler):
         response_data = {
             'status': 'ok',
             'message': 'Pharos Stats API is operational',
-            'version': '2.3.0',
+            'version': '2.4.0',
             'cache_stats': cache_stats,
             'proxies_loaded': len(proxy_manager.proxies),
             'redis_enabled': redis_manager.enabled,
-            'smart_caching': {
-                'enabled': True,
-                'rank_cache_ttl': 'until_midnight',
-                'regular_cache_ttl': '5_minutes'
+            'persistent_caching': {
+                'enabled': cache_manager.redis_enabled or len(cache_manager.memory_cache) > 0,
+                'type': 'hybrid_memory_redis',
+                'main_data_cache': f'memory_{cache_manager.default_ttl}s',
+                'rank_cache': 'redis_until_midnight',
+                'survives_restarts': 'ranks_only'
             },
             'auto_refresh': {
                 'enabled': True,
@@ -706,6 +780,28 @@ class handler(BaseHTTPRequestHandler):
             print(f"❌ Error in refresh handler: {e}")
             self._send_error_response({'error': f'Refresh failed: {str(e)}'}, 500)
     
+    def _handle_cache_clear(self):
+        """Handle manual cache clearing for maintenance."""
+        try:
+            if not cache_manager.enabled:
+                self._send_error_response({'error': 'Cache not available'}, 503)
+                return
+            
+            expired_count = cache_manager.clear_expired_cache()
+            
+            response = {
+                'success': True,
+                'message': 'Cache maintenance completed',
+                'expired_entries_found': expired_count,
+                'timestamp': datetime.now().isoformat()
+            }
+            
+            self._send_json_response(response)
+            
+        except Exception as e:
+            print(f"❌ Error in cache clear: {e}")
+            self._send_error_response({'error': f'Cache clear failed: {str(e)}'}, 500)
+    
     def _handle_wallet_check(self):
         """Handle wallet statistics check request."""
         try:
@@ -724,7 +820,7 @@ class handler(BaseHTTPRequestHandler):
                 self._send_error_response({'error': 'Invalid wallet address format'}, 400)
                 return
             
-            # Check cache first (primary optimization with smart TTL)
+            # Check Redis cache first (persistent across restarts)
             cached_result = cache_manager.get(wallet_address)
             if cached_result:
                 self._send_json_response(cached_result)
@@ -734,10 +830,10 @@ class handler(BaseHTTPRequestHandler):
             result = api_client.get_user_data(wallet_address)
             
             if result.get('success'):
-                # Cache successful result with smart TTL
+                # Cache successful result in Redis with smart TTL
                 cache_manager.set(wallet_address, result)
                 
-                # Save to Redis asynchronously (non-blocking)
+                # Save to Redis user stats asynchronously (non-blocking)
                 if redis_manager.enabled:
                     try:
                         redis_manager.save_user_stats(result)
