@@ -1,17 +1,17 @@
 """
-Pharos Stats Checker API
-=====================================
+Pharos Stats Checker API 
+===========================================================
 
 Author: @avzcrypto
 License: MIT
-Version: 2.2.0
+Version: 2.3.0
 """
 
 from http.server import BaseHTTPRequestHandler
 import json
 import requests
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 import time
 import random
 import concurrent.futures
@@ -19,36 +19,103 @@ from typing import Optional, Dict, Any, List
 
 
 class CacheManager:
-    """Advanced in-memory cache with LRU eviction policy."""
+    """Advanced in-memory cache with smart TTL for rank data."""
     
-    def __init__(self, ttl: int = 300, max_size: int = 50000):
+    def __init__(self, default_ttl: int = 300, max_size: int = 50000):
         self.cache = {}
-        self.ttl = ttl
+        self.default_ttl = default_ttl
         self.max_size = max_size
     
     def get(self, key: str) -> Optional[Dict[str, Any]]:
         """Retrieve cached data if still valid."""
         cache_key = key.lower()
         if cache_key in self.cache:
-            data, timestamp = self.cache[cache_key]
-            if time.time() - timestamp < self.ttl:
+            data, expiry_time = self.cache[cache_key]
+            if time.time() < expiry_time:
                 return data
             del self.cache[cache_key]
         return None
     
     def set(self, key: str, data: Dict[str, Any]) -> None:
-        """Store data in cache with automatic cleanup."""
+        """Store data in cache with smart TTL logic."""
         cache_key = key.lower()
-        self.cache[cache_key] = (data, time.time())
+        
+        # Calculate TTL based on data content
+        ttl = self._calculate_smart_ttl(data)
+        expiry_time = time.time() + ttl
+        
+        self.cache[cache_key] = (data, expiry_time)
         self._cleanup_if_needed()
     
+    def _calculate_smart_ttl(self, data: Dict[str, Any]) -> int:
+        """Calculate TTL based on data content - smart logic for rank caching."""
+        # If data contains exact_rank, cache until midnight
+        if data.get('exact_rank') is not None:
+            return self._calculate_ttl_until_midnight()
+        
+        # For data without rank, use default TTL (5 minutes)
+        return self.default_ttl
+    
+    def _calculate_ttl_until_midnight(self) -> int:
+        """Calculate seconds until next midnight (00:00 UTC)."""
+        try:
+            now = datetime.utcnow()
+            # Next midnight
+            midnight = (now + timedelta(days=1)).replace(
+                hour=0, minute=0, second=0, microsecond=0
+            )
+            ttl_seconds = int((midnight - now).total_seconds())
+            
+            # Minimum TTL of 1 hour to prevent edge cases
+            return max(ttl_seconds, 3600)
+        except Exception:
+            # Fallback to default TTL on any error
+            return self.default_ttl
+    
     def _cleanup_if_needed(self) -> None:
-        """Cleanup oldest entries when cache exceeds maximum size."""
+        """Cleanup expired and oldest entries when cache exceeds maximum size."""
+        current_time = time.time()
+        
+        # First, remove expired entries
+        expired_keys = [
+            key for key, (_, expiry_time) in self.cache.items()
+            if current_time >= expiry_time
+        ]
+        for key in expired_keys:
+            del self.cache[key]
+        
+        # If still over limit, remove oldest entries
         if len(self.cache) > self.max_size:
-            sorted_items = sorted(self.cache.items(), key=lambda x: x[1][1])
+            sorted_items = sorted(
+                self.cache.items(), 
+                key=lambda x: x[1][1]  # Sort by expiry time
+            )
             remove_count = self.max_size // 4
             for key, _ in sorted_items[:remove_count]:
                 del self.cache[key]
+    
+    def get_cache_stats(self) -> Dict[str, Any]:
+        """Get cache statistics for monitoring."""
+        current_time = time.time()
+        total_entries = len(self.cache)
+        
+        # Count entries by TTL type
+        rank_cached = 0
+        regular_cached = 0
+        
+        for data, expiry_time in self.cache.values():
+            remaining_ttl = expiry_time - current_time
+            if remaining_ttl > 3600:  # More than 1 hour = rank cache
+                rank_cached += 1
+            else:
+                regular_cached += 1
+        
+        return {
+            'total_entries': total_entries,
+            'rank_cached_entries': rank_cached,
+            'regular_cached_entries': regular_cached,
+            'cache_hit_optimization': f"{(rank_cached / max(total_entries, 1)) * 100:.1f}%"
+        }
 
 
 class ProxyManager:
@@ -147,7 +214,10 @@ class RedisManager:
                 'mint_domain': user_data.get('mint_domain', 0),
                 'mint_nft': user_data.get('mint_nft', 0),
                 'faroswap_lp': user_data.get('faroswap_lp', 0),
-                'faroswap_swaps': user_data.get('faroswap_swaps', 0)
+                'faroswap_swaps': user_data.get('faroswap_swaps', 0),
+                # NEW: Save exact rank for future reference
+                'exact_rank': user_data.get('exact_rank'),
+                'rank_calculated_at': timestamp
             }
             
             existing_data = self.client.hget('pharos:users', address)
@@ -527,7 +597,7 @@ class PharosAPIClient:
 
 
 # Module-level managers (Vercel serverless compatible)
-cache_manager = CacheManager(ttl=300, max_size=2000)
+cache_manager = CacheManager(default_ttl=300, max_size=2000)
 proxy_manager = ProxyManager()
 redis_manager = RedisManager()
 api_client = PharosAPIClient(proxy_manager, redis_manager)
@@ -564,13 +634,20 @@ class handler(BaseHTTPRequestHandler):
     
     def _handle_health_check(self):
         """Return API health status and configuration."""
+        cache_stats = cache_manager.get_cache_stats()
+        
         response_data = {
             'status': 'ok',
             'message': 'Pharos Stats API is operational',
-            'version': '2.2.0',
-            'cache_size': len(cache_manager.cache),
+            'version': '2.3.0',
+            'cache_stats': cache_stats,
             'proxies_loaded': len(proxy_manager.proxies),
             'redis_enabled': redis_manager.enabled,
+            'smart_caching': {
+                'enabled': True,
+                'rank_cache_ttl': 'until_midnight',
+                'regular_cache_ttl': '5_minutes'
+            },
             'auto_refresh': {
                 'enabled': True,
                 'schedule': '0 0 * * * (daily at 00:00 UTC)',
@@ -647,7 +724,7 @@ class handler(BaseHTTPRequestHandler):
                 self._send_error_response({'error': 'Invalid wallet address format'}, 400)
                 return
             
-            # Check cache first (primary optimization)
+            # Check cache first (primary optimization with smart TTL)
             cached_result = cache_manager.get(wallet_address)
             if cached_result:
                 self._send_json_response(cached_result)
@@ -657,7 +734,7 @@ class handler(BaseHTTPRequestHandler):
             result = api_client.get_user_data(wallet_address)
             
             if result.get('success'):
-                # Cache successful result
+                # Cache successful result with smart TTL
                 cache_manager.set(wallet_address, result)
                 
                 # Save to Redis asynchronously (non-blocking)
