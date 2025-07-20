@@ -3,11 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pharos Testnet Leaderboard</title>
-    <link rel="icon" type="image/webp" href="./leaderboard_logo.webp">
+    <title>Pharos Testnet Dashboard - Live Stats & Analytics</title>
+    <meta name="description" content="🔥 Live Pharos testnet analytics! Top performers, community stats & real-time insights. Track the ecosystem growth.">
+    <link rel="canonical" href="https://pharoshub.xyz/dashboard">
+    <link rel="icon" type="image/webp" href="./logo.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9R37J7CL3J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-9R37J7CL3J');
+    </script>
     
     <style>
         /* Reset и базовые стили */
@@ -47,12 +58,9 @@
             margin: 0 auto;
             padding: 40px 20px;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
         }
 
-        /* Header section */
+        /* Header section - КАК В ОРИГИНАЛЕ */
         .header-section {
             display: flex;
             justify-content: space-between;
@@ -107,7 +115,36 @@
             gap: 20px;
         }
 
-        /* Top Stats */
+        /* Live indicator */
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--pharos-green-600);
+            margin: 24px 0;
+            backdrop-filter: blur(10px);
+            width: fit-content;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--pharos-green-500);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+
         .stat-card {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
@@ -133,7 +170,7 @@
         }
 
         .stat-value {
-            font-size: 36px;
+            font-size: 32px;
             font-weight: 900;
             color: var(--pharos-blue-800);
             margin-bottom: 8px;
@@ -143,168 +180,6 @@
         }
 
         .stat-label {
-            font-size: 14px;
-            color: var(--pharos-gray-500);
-            font-weight: 600;
-            letter-spacing: 0.025em;
-        }
-
-        /* Rank Checker Section */
-        .rank-checker-section {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        .rank-checker-header {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-
-        .rank-checker-title {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--pharos-gray-900);
-            margin-bottom: 8px;
-        }
-
-        .rank-checker-subtitle {
-            font-size: 14px;
-            color: var(--pharos-gray-500);
-            font-weight: 500;
-        }
-
-        .rank-input-section {
-            max-width: 100%;
-            margin: 0 auto 20px;
-        }
-
-        .rank-input-group {
-            display: flex;
-            border: 2px solid rgba(59, 130, 246, 0.2);
-            border-radius: 12px;
-            overflow: hidden;
-            background: white;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        }
-
-        .rank-input-group:focus-within {
-            border-color: var(--pharos-blue-500);
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-            transform: translateY(-1px);
-        }
-
-        .rank-wallet-input {
-            flex: 1;
-            padding: 14px 16px;
-            border: none;
-            outline: none;
-            font-size: 14px;
-            font-family: 'Inter', 'SF Mono', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            color: var(--pharos-gray-900);
-            background: transparent;
-            font-weight: 500;
-        }
-
-        .rank-wallet-input::placeholder {
-            color: var(--pharos-gray-500);
-            font-weight: 400;
-        }
-
-        .rank-check-button {
-            padding: 14px 24px;
-            background: rgb(0, 7, 185);
-            color: white;
-            border: none;
-            font-size: 14px;
-            font-weight: 600;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 16px rgba(0, 7, 185, 0.3);
-            white-space: nowrap;
-            border-left: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .rank-check-button:hover:not(:disabled) {
-            background: rgb(0, 5, 160);
-            box-shadow: 0 12px 24px rgba(0, 7, 185, 0.4);
-        }
-
-        .rank-check-button:disabled {
-            background: #9ca3af;
-            cursor: not-allowed;
-            box-shadow: 0 4px 8px rgba(156, 163, 175, 0.3);
-        }
-
-        .rank-result {
-            display: none;
-            text-align: center;
-            padding: 24px;
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.2);
-            border-radius: 12px;
-            margin-top: 16px;
-        }
-
-        .rank-result.show {
-            display: block;
-        }
-
-        .rank-result.error {
-            background: rgba(239, 68, 68, 0.1);
-            border-color: rgba(239, 68, 68, 0.2);
-        }
-
-        .rank-number {
-            font-size: 48px;
-            font-weight: 900;
-            color: var(--pharos-green-500);
-            margin-bottom: 8px;
-            font-family: 'Inter', 'SF Mono', monospace;
-            letter-spacing: -2px;
-        }
-
-        .rank-result.error .rank-number {
-            color: #ef4444;
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .rank-text {
-            font-size: 16px;
-            color: var(--pharos-gray-700);
-            font-weight: 500;
-            margin-bottom: 24px;
-        }
-
-        .rank-details {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        .rank-detail-item {
-            text-align: center;
-        }
-
-        .rank-detail-value {
-            font-size: 28px;
-            font-weight: 900;
-            color: var(--pharos-gray-900);
-            margin-bottom: 8px;
-            font-family: 'Inter', 'SF Mono', monospace;
-            letter-spacing: -1px;
-        }
-
-        .rank-detail-label {
             font-size: 14px;
             color: var(--pharos-gray-500);
             font-weight: 600;
@@ -401,8 +276,6 @@
             border-radius: 12px;
             border: 1px solid rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
 
         .legend-item:hover {
@@ -448,6 +321,7 @@
             box-shadow: 
                 0 10px 20px rgba(0, 0, 0, 0.08),
                 0 4px 8px rgba(0, 0, 0, 0.04);
+            margin-bottom: 30px;
         }
 
         .leaderboard-header {
@@ -486,33 +360,6 @@
             text-align: left;
         }
 
-        .leaderboard-table th:nth-child(3),
-        .leaderboard-table td:nth-child(3) {
-            padding-right: 0px;
-        }
-
-        /* Vertical separators */
-        .leaderboard-table th:nth-child(2)::after,
-        .leaderboard-table td:nth-child(2)::after,
-        .leaderboard-table th:nth-child(3)::after,
-        .leaderboard-table td:nth-child(3)::after,
-        .leaderboard-table th:nth-child(4)::after,
-        .leaderboard-table td:nth-child(4)::after,
-        .leaderboard-table th:nth-child(5)::after,
-        .leaderboard-table td:nth-child(5)::after,
-        .leaderboard-table th:nth-child(6)::after,
-        .leaderboard-table td:nth-child(6)::after,
-        .leaderboard-table th:nth-child(7)::after,
-        .leaderboard-table td:nth-child(7)::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 10%;
-            bottom: 10%;
-            width: 1px;
-            background: rgba(203, 213, 225, 0.4);
-        }
-
         .leaderboard-table th {
             background: rgba(248, 250, 252, 0.8);
             font-weight: 700;
@@ -523,7 +370,6 @@
             border-radius: 12px 12px 0 0;
         }
 
-        /* Leaderboard alternating row background */
         .leaderboard-table tbody tr {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -591,19 +437,13 @@
             letter-spacing: -1px;
         }
 
+        /* Activity blocks */
         .activity-count {
             font-weight: 600;
             color: var(--pharos-gray-900);
             font-size: 14px;
         }
 
-        .member-since {
-            font-size: 14px;
-            color: var(--pharos-gray-500);
-            font-weight: 500;
-        }
-
-        /* Protocol blocks */
         .protocol-block {
             background: rgba(248, 250, 252, 0.6);
             border-radius: 8px;
@@ -611,20 +451,51 @@
             margin: 2px;
         }
 
-        .zenith-block {
-            background: rgba(249, 115, 22, 0.08);
+        .zenith-block { background: rgba(249, 115, 22, 0.08); }
+        .faroswap-block { background: rgba(168, 85, 247, 0.08); }
+        .nft-block { background: rgba(34, 197, 94, 0.08); }
+        .send-block { background: rgba(59, 130, 246, 0.08); }
+
+        /* Auto-refresh info */
+        .auto-refresh-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
         }
 
-        .faroswap-block {
-            background: rgba(168, 85, 247, 0.08);
+        .refresh-icon {
+            font-size: 20px;
+            color: var(--pharos-blue-600);
+            animation: spin 3s linear infinite;
         }
 
-        .nft-block {
-            background: rgba(34, 197, 94, 0.08);
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
-        .send-block {
-            background: rgba(59, 130, 246, 0.08);
+        .refresh-content {
+            flex: 1;
+        }
+
+        .refresh-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--pharos-blue-600);
+            margin-bottom: 4px;
+        }
+
+        .refresh-text {
+            font-size: 13px;
+            color: var(--pharos-gray-700);
+            font-weight: 500;
+            line-height: 1.4;
         }
 
         /* Loading */
@@ -642,6 +513,39 @@
             color: var(--pharos-gray-500);
             font-size: 18px;
             font-weight: 600;
+        }
+
+        /* Author footer */
+        .author-footer {
+            margin-top: 32px;
+            text-align: center;
+        }
+
+        .author-link {
+            color: white;
+            text-decoration: none;
+            font-size: 15.4px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            padding: 12px 20px;
+            border-radius: 16px;
+            display: inline-block;
+            background: var(--pharos-green-500);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            line-height: 1.4;
+            box-shadow: 
+                0 8px 16px rgba(34, 197, 94, 0.3),
+                0 4px 8px rgba(34, 197, 94, 0.2);
+        }
+
+        .author-link:hover {
+            color: white;
+            background: var(--pharos-green-600);
+            transform: translateY(-2px);
+            box-shadow: 
+                0 12px 24px rgba(34, 197, 94, 0.4),
+                0 6px 12px rgba(34, 197, 94, 0.3);
         }
 
         /* Responsive */
@@ -675,15 +579,6 @@
             .pie-container {
                 margin: 0 auto;
             }
-
-            .rank-input-section {
-                flex-direction: column;
-                max-width: 400px;
-            }
-
-            .rank-details {
-                grid-template-columns: repeat(2, 1fr);
-            }
         }
 
         @media (max-width: 768px) {
@@ -707,14 +602,6 @@
             .leaderboard-table th,
             .leaderboard-table td {
                 padding: 8px 4px;
-            }
-
-            .protocol-block {
-                grid-template-columns: 1fr;
-            }
-
-            .rank-details {
-                grid-template-columns: 1fr;
             }
         }
 
@@ -744,13 +631,19 @@
 </head>
 <body>
     <div class="container">
+        <!-- HEADER КАК В ОРИГИНАЛЕ -->
         <div class="header-section">
             <div class="header-left">
                 <div class="top-row">
                     <img src="./logo.webp" alt="Pharos Logo" class="logo-img">
-                    <h1 class="main-title">Pharos<br>Testnet<br>Leaderboard</h1>
+                    <h1 class="main-title">Pharos<br>Testnet<br>Dashboard</h1>
                 </div>
-                <p class="main-subtitle">Top performers and community statistics</p>
+                <p class="main-subtitle">Live community analytics and leaderboard insights</p>
+                
+                <div class="live-indicator">
+                    <div class="live-dot"></div>
+                    Live Data • Updated Hourly
+                </div>
             </div>
             
             <div class="header-right">
@@ -765,42 +658,23 @@
             </div>
         </div>
 
-        <!-- Rank Checker Section -->
-        <div class="rank-checker-section">
-            <div class="rank-checker-header">
-                <h3 class="rank-checker-title">🔍 Check Your Rank</h3>
-                <p class="rank-checker-subtitle">Enter your wallet address to see your current leaderboard position</p>
-            </div>
-            
-            <div class="rank-input-section">
-                <div class="rank-input-group">
-                    <input
-                        type="text"
-                        class="rank-wallet-input"
-                        id="rankWalletInput"
-                        placeholder="0x..."
-                        spellcheck="false"
-                    >
-                    <button class="rank-check-button" id="rankCheckButton">
-                        Check My Rank
-                    </button>
-                </div>
-            </div>
-
-            <div class="rank-result" id="rankResult">
-                <div class="rank-number" id="rankNumber">#1,234</div>
-                <div class="rank-text" id="rankText">Your current rank on the leaderboard</div>
-                <div class="rank-details" id="rankDetails">
-                    <!-- Details will be populated by JavaScript -->
+        <!-- AUTO-REFRESH INFO -->
+        <div class="auto-refresh-info animate__fadeInUp animate-delay-2">
+            <div class="refresh-icon">🔄</div>
+            <div class="refresh-content">
+                <div class="refresh-title">Auto-Updated Dashboard</div>
+                <div class="refresh-text">
+                    Data refreshes automatically every hour to provide the latest community insights and leaderboard standings.
                 </div>
             </div>
         </div>
 
-        <div class="analytics-section animate__fadeInUp animate-delay-2">
+        <!-- ANALYTICS SECTION -->
+        <div class="analytics-section animate__fadeInUp animate-delay-3">
             <div class="analytics-header">
                 <div>
                     <h3 class="analytics-title">📈 User Distribution by Points</h3>
-                    <p class="analytics-subtitle">See how users are distributed across different point tiers</p>
+                    <p class="analytics-subtitle">Community breakdown across different achievement tiers</p>
                 </div>
             </div>
             
@@ -811,7 +685,7 @@
                     </svg>
                     <div class="pie-center-info">
                         <div class="total-users" id="pieChartTotal">0</div>
-                        <div class="total-label">Total in Chart</div>
+                        <div class="total-label">Active Users</div>
                     </div>
                 </div>
 
@@ -821,15 +695,15 @@
             </div>
         </div>
 
-        <!-- Loading -->
+        <!-- LOADING -->
         <div class="loading" id="loading">
-            <div class="loading-text">Loading leaderboard...</div>
+            <div class="loading-text">Loading dashboard...</div>
         </div>
 
-        <!-- Leaderboard -->
-        <div class="leaderboard-section animate__fadeInUp animate-delay-3" id="leaderboardSection">
+        <!-- LEADERBOARD -->
+        <div class="leaderboard-section animate__fadeInUp animate-delay-4" id="leaderboardSection">
             <div class="leaderboard-header">
-                <h3 class="leaderboard-title">🏆 Top 100 Users</h3>
+                <h3 class="leaderboard-title">🏆 Top 50 Performers</h3>
             </div>
             
             <table class="leaderboard-table">
@@ -843,14 +717,8 @@
                             <div style="text-align: center;">
                                 <div style="font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--pharos-gray-900); margin-bottom: 8px;">ZENITH</div>
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px; color: var(--pharos-gray-500);">
-                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
-                                        <div style="font-size: 12px;">🔄</div>
-                                        <div>Swaps</div>
-                                    </div>
-                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
-                                        <div style="font-size: 12px;">💧</div>
-                                        <div>LP</div>
-                                    </div>
+                                    <div>Swaps</div>
+                                    <div>LP</div>
                                 </div>
                             </div>
                         </th>
@@ -858,14 +726,8 @@
                             <div style="text-align: center;">
                                 <div style="font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--pharos-gray-900); margin-bottom: 8px;">FAROSWAP</div>
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px; color: var(--pharos-gray-500);">
-                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
-                                        <div style="font-size: 12px;">🔄</div>
-                                        <div>Swaps</div>
-                                    </div>
-                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
-                                        <div style="font-size: 12px;">💧</div>
-                                        <div>LP</div>
-                                    </div>
+                                    <div>Swaps</div>
+                                    <div>LP</div>
                                 </div>
                             </div>
                         </th>
@@ -873,14 +735,8 @@
                             <div style="text-align: center;">
                                 <div style="font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--pharos-gray-900); margin-bottom: 8px;">NFT & DOMAINS</div>
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px; color: var(--pharos-gray-500);">
-                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
-                                        <div style="font-size: 12px;">🌐</div>
-                                        <div>Domains</div>
-                                    </div>
-                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
-                                        <div style="font-size: 12px;">🖼️</div>
-                                        <div>NFTs</div>
-                                    </div>
+                                    <div>Domains</div>
+                                    <div>NFTs</div>
                                 </div>
                             </div>
                         </th>
@@ -892,12 +748,44 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- AUTHOR FOOTER -->
+        <div class="author-footer">
+            <a href="https://x.com/avzcrypto" target="_blank" class="author-link" id="authorLink">
+                Made with ❤️ by @avzcrypto<br>
+                ➡️Click to Follow for Alpha Updates & Insights 🚀
+            </a>
+        </div>
     </div>
 
     <script>
         (function() {
             'use strict';
             
+            // Analytics tracking functions
+            function trackPageView() {
+                gtag('event', 'page_view', {
+                    page_title: 'Pharos Dashboard',
+                    page_location: window.location.href
+                });
+            }
+
+            function trackDashboardLoaded(data) {
+                gtag('event', 'dashboard_loaded', {
+                    event_category: 'engagement',
+                    event_label: 'dashboard_view',
+                    total_users: data.total_users,
+                    top_score: data.leaderboard?.[0]?.total_points || 0
+                });
+            }
+
+            function trackAuthorClick() {
+                gtag('event', 'author_follow_click', {
+                    event_category: 'engagement',
+                    event_label: 'social_link_dashboard'
+                });
+            }
+
             // DOM Elements
             const totalUsersElement = document.getElementById('totalUsers');
             const topPointsElement = document.getElementById('topPoints');
@@ -907,14 +795,6 @@
             const pieChart = document.getElementById('pieChart');
             const pieLegend = document.getElementById('pieLegend');
             const pieChartTotal = document.getElementById('pieChartTotal');
-
-            // Rank Checker Elements
-            const rankWalletInput = document.getElementById('rankWalletInput');
-            const rankCheckButton = document.getElementById('rankCheckButton');
-            const rankResult = document.getElementById('rankResult');
-            const rankNumber = document.getElementById('rankNumber');
-            const rankText = document.getElementById('rankText');
-            const rankDetails = document.getElementById('rankDetails');
 
             // Utility Functions
             const formatNumber = num => new Intl.NumberFormat('en-US').format(num);
@@ -961,103 +841,20 @@
                 });
             };
 
-            const isValidAddress = address => {
-                return /^0x[a-fA-F0-9]{40}$/.test(address);
-            };
-
-            // Rank Checker Functions
-            const checkUserRank = async () => {
-                const address = rankWalletInput.value.trim();
-
-                if (!address) {
-                    showRankError('Please enter a wallet address');
-                    return;
-                }
-
-                if (!isValidAddress(address)) {
-                    showRankError('Please enter a valid Ethereum address');
-                    return;
-                }
-
-                rankCheckButton.disabled = true;
-                rankCheckButton.textContent = 'Checking...';
-                hideRankResult();
-
-                try {
-                    const response = await fetch('/api/check-wallet', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            wallet_address: address
-                        })
-                    });
-
-                    const data = await response.json();
-
-                    if (!response.ok || !data.success) {
-                        throw new Error(data.error || 'Failed to fetch wallet statistics');
-                    }
-
-                    showRankResult(data);
-
-                } catch (error) {
-                    console.error('Rank check error:', error);
-                    showRankError(error.message || 'Failed to check rank. Please try again.');
-                } finally {
-                    rankCheckButton.disabled = false;
-                    rankCheckButton.textContent = 'Check My Rank';
-                }
-            };
-
-            const showRankResult = (userData) => {
-                hideRankError();
-
-                // Show rank number
-                if (userData.exact_rank) {
-                    rankNumber.textContent = `#${formatNumber(userData.exact_rank)}`;
-                    rankText.textContent = 'Your current rank on the leaderboard';
-                } else {
-                    rankNumber.textContent = 'Not Ranked';
-                    rankText.textContent = 'Complete tasks to appear on the leaderboard';
-                }
-
-                // Show user details
-                rankDetails.innerHTML = `
-                    <div class="rank-detail-item">
-                        <div class="rank-detail-value">${formatNumber(userData.total_points)}</div>
-                        <div class="rank-detail-label">Total Points</div>
-                    </div>
-                    <div class="rank-detail-item">
-                        <div class="rank-detail-value">L${userData.current_level}</div>
-                        <div class="rank-detail-label">Current Level</div>
-                    </div>
-                `;
-
-                rankResult.classList.remove('error');
-                rankResult.classList.add('show');
-            };
-
-            const showRankError = (message) => {
-                rankNumber.textContent = message;
-                rankText.textContent = '';
-                rankDetails.innerHTML = '';
+            const getTimeAgo = (dateString) => {
+                if (!dateString) return 'Unknown';
+                const now = new Date();
+                const past = new Date(dateString);
+                const diffInHours = Math.floor((now - past) / (1000 * 60 * 60));
                 
-                rankResult.classList.add('error');
-                rankResult.classList.add('show');
-            };
-
-            const hideRankResult = () => {
-                rankResult.classList.remove('show', 'error');
-            };
-
-            const hideRankError = () => {
-                rankResult.classList.remove('error');
+                if (diffInHours < 1) return 'Just now';
+                if (diffInHours < 24) return `${diffInHours}h ago`;
+                const diffInDays = Math.floor(diffInHours / 24);
+                return `${diffInDays}d ago`;
             };
 
             // Load leaderboard data
-            const loadLeaderboard = async () => {
+            const loadDashboard = async () => {
                 try {
                     const response = await fetch('/api/admin/stats');
                     
@@ -1068,29 +865,67 @@
                     const data = await response.json();
                     
                     if (!data.success) {
-                        throw new Error(data.error || 'Failed to fetch leaderboard');
+                        throw new Error(data.error || 'Failed to fetch dashboard data');
                     }
                     
                     return data;
                     
                 } catch (error) {
-                    console.error('Leaderboard fetch error:', error);
+                    console.error('Dashboard fetch error:', error);
                     throw error;
                 }
             };
 
             // Display Functions
+            const displayDashboard = data => {
+                // Update header stats
+                updateHeaderStats(data);
+                
+                // Display leaderboard (top 50)
+                displayLeaderboard(data);
+                
+                // Update analytics
+                updateAnalytics(data);
+                
+                // Track successful load
+                trackDashboardLoaded(data);
+            };
+
+            const updateHeaderStats = data => {
+                // Animate numbers for better UX
+                const animateValue = (element, start, end, duration = 1000) => {
+                    const startTime = performance.now();
+                    const animate = currentTime => {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const value = Math.floor(start + (end - start) * progress);
+                        element.textContent = formatNumber(value);
+                        
+                        if (progress < 1) {
+                            requestAnimationFrame(animate);
+                        }
+                    };
+                    requestAnimationFrame(animate);
+                };
+                
+                animateValue(totalUsersElement, 0, data.total_users || 0);
+                
+                if (data.leaderboard && data.leaderboard.length > 0) {
+                    animateValue(topPointsElement, 0, data.leaderboard[0].total_points);
+                }
+            };
+
             const displayLeaderboard = data => {
                 const tbody = leaderboardBody;
                 tbody.innerHTML = '';
 
-                // Use only top 100 for performance
-                const top100 = data.leaderboard.slice(0, 100);
+                // Use only top 50 for dashboard
+                const top50 = data.leaderboard.slice(0, 50);
                 
                 // Batch DOM updates using DocumentFragment
                 const fragment = document.createDocumentFragment();
                 
-                top100.forEach(user => {
+                top50.forEach(user => {
                     const row = document.createElement('tr');
                     const rankClass = getRankTier(user.total_points);
                     const level = calculateLevel(user.total_points);
@@ -1099,7 +934,7 @@
                         <td><span class="rank ${rankClass}">#${user.rank}</span></td>
                         <td class="address">${formatAddress(user.address)}</td>
                         <td><div class="points-level-wrapper"><span class="points">${formatNumber(user.total_points)}</span><span class="level-badge">L${level}</span></div></td>
-                        <td><div class="send-block" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: center; padding: 4px; border-radius: 8px;"><div class="activity-count">${user.send_count || 0}</div><div class="activity-count" style="opacity: 0;"></div></div></td>
+                        <td><div class="send-block" style="display: grid; grid-template-columns: 1fr; gap: 8px; text-align: center; padding: 4px; border-radius: 8px;"><div class="activity-count">${user.send_count || 0}</div></div></td>
                         <td>
                             <div class="zenith-block" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: center; padding: 4px; border-radius: 8px;">
                                 <div class="activity-count">${user.swap_count || 0}</div>
@@ -1127,31 +962,7 @@
                 tbody.appendChild(fragment);
             };
 
-            const updateHeaderStats = data => {
-                // Animate numbers for better UX
-                const animateValue = (element, start, end, duration = 1000) => {
-                    const startTime = performance.now();
-                    const animate = currentTime => {
-                        const elapsed = currentTime - startTime;
-                        const progress = Math.min(elapsed / duration, 1);
-                        const value = Math.floor(start + (end - start) * progress);
-                        element.textContent = formatNumber(value);
-                        
-                        if (progress < 1) {
-                            requestAnimationFrame(animate);
-                        }
-                    };
-                    requestAnimationFrame(animate);
-                };
-                
-                animateValue(totalUsersElement, 0, data.total_users);
-                
-                if (data.leaderboard && data.leaderboard.length > 0) {
-                    animateValue(topPointsElement, 0, data.leaderboard[0].total_points);
-                }
-            };
-
-            // Optimized Analytics with lazy rendering
+            // Analytics with lazy rendering
             const updateAnalytics = data => {
                 const tiers = [
                     { name: '10,000+ Points', min: 10000, color: '#dc2626', key: '10000+' },
@@ -1167,7 +978,7 @@
 
                 let distribution;
 
-                // Use server-side distribution if available, otherwise calculate client-side
+                // Use server-side distribution if available
                 if (data.point_distribution && Object.keys(data.point_distribution).length > 0) {
                     distribution = tiers.map(tier => {
                         const count = data.point_distribution[tier.key] || 0;
@@ -1180,7 +991,7 @@
                         };
                     });
                 } else {
-                    // Fallback: calculate from top 100 (less accurate but still useful)
+                    // Fallback: calculate from top 50 (less accurate)
                     distribution = tiers.map(tier => {
                         const count = data.leaderboard.filter(user => {
                             const points = user.total_points;
@@ -1201,18 +1012,9 @@
                     });
                 }
 
-                // Lazy render analytics when scrolled into view
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            renderPieChart(distribution, data.total_users);
-                            renderLegend(distribution);
-                            observer.disconnect();
-                        }
-                    });
-                }, { threshold: 0.1 });
-
-                observer.observe(document.querySelector('.analytics-section'));
+                // Render analytics
+                renderPieChart(distribution, data.total_users);
+                renderLegend(distribution);
             };
 
             // Optimized SVG Pie Chart Rendering
@@ -1246,52 +1048,18 @@
                     circle.style.cursor = 'pointer';
                     circle.style.transition = 'stroke-width 0.3s ease';
                     
-                    // Optimized hover effects
+                    // Hover effects
                     circle.addEventListener('mouseenter', function() {
                         this.setAttribute('stroke-width', '35');
-                        showTooltip(tier, event);
                     });
                     
                     circle.addEventListener('mouseleave', function() {
                         this.setAttribute('stroke-width', '30');
-                        hideTooltip();
                     });
 
                     pieChart.appendChild(circle);
                     currentAngle += percentage;
                 });
-            };
-
-            // Tooltip functions
-            const showTooltip = (tier, event) => {
-                const tooltip = document.createElement('div');
-                tooltip.id = 'pie-tooltip';
-                tooltip.style.cssText = `
-                    position: fixed;
-                    background: rgba(0, 0, 0, 0.9);
-                    color: white;
-                    padding: 8px 12px;
-                    border-radius: 8px;
-                    font-size: 14px;
-                    font-weight: 600;
-                    z-index: 1000;
-                    pointer-events: none;
-                    white-space: nowrap;
-                    left: ${event.clientX + 10}px;
-                    top: ${event.clientY - 10}px;
-                `;
-                tooltip.innerHTML = `
-                    <div style="color: ${tier.color}; font-weight: 700;">${tier.name}</div>
-                    <div>${formatNumber(tier.count)} users (${tier.percentage}%)</div>
-                `;
-                document.body.appendChild(tooltip);
-            };
-
-            const hideTooltip = () => {
-                const tooltip = document.getElementById('pie-tooltip');
-                if (tooltip) {
-                    tooltip.remove();
-                }
             };
 
             // Optimized Legend Rendering
@@ -1325,27 +1093,25 @@
             };
 
             // Main Load Function with Error Handling
-            const initializeLeaderboard = async () => {
+            const initializeDashboard = async () => {
                 try {
                     showLoading();
                     
-                    const data = await loadLeaderboard();
+                    const data = await loadDashboard();
                     
                     // Batch all DOM updates
                     requestAnimationFrame(() => {
-                        displayLeaderboard(data);
-                        updateHeaderStats(data);
-                        updateAnalytics(data);
+                        displayDashboard(data);
                     });
 
                 } catch (error) {
-                    console.error('Failed to load leaderboard:', error);
+                    console.error('Failed to load dashboard:', error);
                     
                     // Show user-friendly error
                     leaderboardBody.innerHTML = `
                         <tr>
                             <td colspan="8" style="text-align: center; padding: 40px; color: #ef4444;">
-                                <div style="font-size: 18px; margin-bottom: 8px;">⚠️ Unable to load leaderboard</div>
+                                <div style="font-size: 18px; margin-bottom: 8px;">⚠️ Unable to load dashboard</div>
                                 <div style="font-size: 14px; opacity: 0.8;">Please try refreshing the page</div>
                             </td>
                         </tr>
@@ -1355,21 +1121,23 @@
                 }
             };
 
+            // Auto-refresh every hour
+            const setupAutoRefresh = () => {
+                setInterval(() => {
+                    console.log('🔄 Auto-refreshing dashboard data...');
+                    initializeDashboard();
+                }, 60 * 60 * 1000); // 1 hour
+            };
+
             // Event Listeners
-            rankCheckButton.addEventListener('click', checkUserRank);
+            document.getElementById('authorLink').addEventListener('click', trackAuthorClick);
 
-            rankWalletInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    checkUserRank();
-                }
+            // Initialize dashboard
+            document.addEventListener('DOMContentLoaded', () => {
+                trackPageView();
+                initializeDashboard();
+                setupAutoRefresh();
             });
-
-            rankWalletInput.addEventListener('input', () => {
-                hideRankResult();
-            });
-
-            // Initialize on DOM ready
-            document.addEventListener('DOMContentLoaded', initializeLeaderboard);
 
         })();
     </script>
