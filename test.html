@@ -286,7 +286,7 @@
             text-align: right;
         }
 
-        /* Leaderboard */
+        /* Leaderboard - GLASSMORPHISM СТИЛЬ */
         .leaderboard-section {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
@@ -314,48 +314,81 @@
 
         .leaderboard-table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0 8px;
         }
 
-        .leaderboard-table th,
-        .leaderboard-table td {
-            padding: 12px 6px;
-            text-align: center;
-            border-bottom: 1px solid rgba(203, 213, 225, 0.3);
-            vertical-align: middle;
-            position: relative;
-        }
-
-        .leaderboard-table th:first-child,
-        .leaderboard-table td:first-child,
-        .leaderboard-table th:nth-child(2),
-        .leaderboard-table td:nth-child(2),
-        .leaderboard-table th:nth-child(3),
-        .leaderboard-table td:nth-child(3) {
-            text-align: left;
-        }
-
-        .leaderboard-table th {
-            background: rgba(248, 250, 252, 0.8);
+        .leaderboard-table thead th {
+            background: rgba(59, 130, 246, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 16px 12px;
             font-weight: 700;
             color: var(--pharos-gray-900);
             font-size: 13px;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            border-radius: 12px 12px 0 0;
+            text-align: center;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
+
+        .leaderboard-table th:first-child,
+        .leaderboard-table th:nth-child(2),
+        .leaderboard-table th:nth-child(3) {
+            text-align: left;
+        }
+
+        /* Специальные фоны для заголовков протоколов */
+        .leaderboard-table th.send-header {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .leaderboard-table th.zenith-header {
+            background: rgba(249, 115, 22, 0.1);
+        }
+
+        .leaderboard-table th.faroswap-header {
+            background: rgba(168, 85, 247, 0.1);
+        }
+
+        .leaderboard-table th.nft-header {
+            background: rgba(34, 197, 94, 0.1);
         }
 
         .leaderboard-table tbody tr {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .leaderboard-table tbody tr:nth-child(even) {
-            background: rgba(241, 245, 249, 0.8);
+        .leaderboard-table tbody tr:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 24px rgba(59, 130, 246, 0.15);
+            background: rgba(255, 255, 255, 0.95);
         }
 
-        .leaderboard-table tbody tr:hover {
-            background: rgba(59, 130, 246, 0.08) !important;
-            transform: translateX(4px);
+        .leaderboard-table td {
+            padding: 16px 12px;
+            text-align: center;
+            vertical-align: middle;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(20px);
+            background: inherit;
+        }
+
+        .leaderboard-table td:first-child {
+            border-radius: 12px 0 0 12px;
+            text-align: left;
+        }
+
+        .leaderboard-table td:last-child {
+            border-radius: 0 12px 12px 0;
+        }
+
+        .leaderboard-table td:nth-child(2),
+        .leaderboard-table td:nth-child(3) {
+            text-align: left;
         }
 
         /* Rank styling */
@@ -553,6 +586,7 @@
                 max-width: 400px;
                 grid-template-columns: 1fr 1fr;
                 gap: 16px;
+                margin-top: 0;
             }
 
             .stat-value {
@@ -570,7 +604,11 @@
 
             .leaderboard-table th,
             .leaderboard-table td {
-                padding: 8px 4px;
+                padding: 12px 8px;
+            }
+
+            .leaderboard-table tbody tr:hover {
+                transform: scale(1.01);
             }
         }
 
@@ -599,8 +637,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 16px;
-            margin-top: 30px;
+            margin-top: 20px;
             flex-wrap: wrap;
         }
 
@@ -608,6 +645,9 @@
             font-size: 14px;
             color: var(--pharos-gray-500);
             font-weight: 500;
+            text-align: center;
+            width: 100%;
+            margin-bottom: 16px;
         }
 
         .pagination-controls {
@@ -708,7 +748,6 @@
             <div class="analytics-header">
                 <div>
                     <h3 class="analytics-title">📈 User Distribution by Points</h3>
-                    <p class="analytics-subtitle">Community breakdown across different achievement tiers</p>
                 </div>
             </div>
             
@@ -746,8 +785,8 @@
                         <th>Rank</th>
                         <th>Address</th>
                         <th>Points & Level</th>
-                        <th style="background: rgba(59, 130, 246, 0.08);">Send TX</th>
-                        <th style="background: rgba(249, 115, 22, 0.08);">
+                        <th class="send-header">Send TX</th>
+                        <th class="zenith-header">
                             <div style="text-align: center;">
                                 <div style="font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--pharos-gray-900); margin-bottom: 8px;">ZENITH</div>
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px; color: var(--pharos-gray-500);">
@@ -756,7 +795,7 @@
                                 </div>
                             </div>
                         </th>
-                        <th style="background: rgba(168, 85, 247, 0.08);">
+                        <th class="faroswap-header">
                             <div style="text-align: center;">
                                 <div style="font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--pharos-gray-900); margin-bottom: 8px;">FAROSWAP</div>
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px; color: var(--pharos-gray-500);">
@@ -765,7 +804,7 @@
                                 </div>
                             </div>
                         </th>
-                        <th style="background: rgba(34, 197, 94, 0.08);">
+                        <th class="nft-header">
                             <div style="text-align: center;">
                                 <div style="font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--pharos-gray-900); margin-bottom: 8px;">NFT & DOMAINS</div>
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px; color: var(--pharos-gray-500);">
@@ -787,6 +826,8 @@
                 <div class="pagination-info" id="paginationInfo">
                     Showing 1-20 of 100 users
                 </div>
+            </div>
+            <div class="pagination-container">
                 <div class="pagination-controls">
                     <button class="pagination-btn pagination-nav" id="prevBtn" disabled>← Prev</button>
                     <button class="pagination-btn active" data-page="1">1</button>
