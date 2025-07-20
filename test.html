@@ -431,7 +431,7 @@
         .nft-block { background: rgba(34, 197, 94, 0.08); }
         .send-block { background: rgba(59, 130, 246, 0.08); }
 
-        /* УБИРАЕМ Auto-refresh info styles */
+        /* Анимации */
 
         /* Loading */
         .loading {
@@ -594,7 +594,66 @@
             }
         }
 
-        /* Анимации */
+        /* Pagination */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .pagination-info {
+            font-size: 14px;
+            color: var(--pharos-gray-500);
+            font-weight: 500;
+        }
+
+        .pagination-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .pagination-btn {
+            padding: 8px 12px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.8);
+            color: var(--pharos-gray-700);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 40px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            background: var(--pharos-blue-500);
+            color: white;
+            border-color: var(--pharos-blue-500);
+            transform: translateY(-1px);
+        }
+
+        .pagination-btn.active {
+            background: var(--pharos-blue-500);
+            color: white;
+            border-color: var(--pharos-blue-500);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .pagination-nav {
+            padding: 8px 16px;
+            font-weight: 600;
+        }
         @keyframes fadeInUp {
             0% {
                 opacity: 0;
@@ -678,7 +737,7 @@
         <!-- LEADERBOARD -->
         <div class="leaderboard-section animate__fadeInUp animate-delay-3" id="leaderboardSection">
             <div class="leaderboard-header">
-                <h3 class="leaderboard-title">🏆 Top 50 Performers</h3>
+                <h3 class="leaderboard-title">🏆 Top 100 Users</h3>
             </div>
             
             <table class="leaderboard-table">
@@ -722,6 +781,22 @@
                     <!-- Data will be populated by JavaScript -->
                 </tbody>
             </table>
+
+            <!-- PAGINATION -->
+            <div class="pagination-container">
+                <div class="pagination-info" id="paginationInfo">
+                    Showing 1-20 of 100 users
+                </div>
+                <div class="pagination-controls">
+                    <button class="pagination-btn pagination-nav" id="prevBtn" disabled>← Prev</button>
+                    <button class="pagination-btn active" data-page="1">1</button>
+                    <button class="pagination-btn" data-page="2">2</button>
+                    <button class="pagination-btn" data-page="3">3</button>
+                    <button class="pagination-btn" data-page="4">4</button>
+                    <button class="pagination-btn" data-page="5">5</button>
+                    <button class="pagination-btn pagination-nav" id="nextBtn">Next →</button>
+                </div>
+            </div>
         </div>
 
         <!-- AUTHOR FOOTER -->
@@ -770,6 +845,18 @@
             const pieChart = document.getElementById('pieChart');
             const pieLegend = document.getElementById('pieLegend');
             const pieChartTotal = document.getElementById('pieChartTotal');
+
+            // Pagination Elements
+            const paginationInfo = document.getElementById('paginationInfo');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const pageButtons = document.querySelectorAll('.pagination-btn[data-page]');
+
+            // Pagination State
+            let currentPage = 1;
+            const usersPerPage = 20;
+            const totalPages = 5;
+            let allUsers = [];
 
             // Utility Functions
             const formatNumber = num => new Intl.NumberFormat('en-US').format(num);
@@ -891,16 +978,25 @@
             };
 
             const displayLeaderboard = data => {
+                // Store all users for pagination
+                allUsers = data.leaderboard.slice(0, 100); // Top 100 users
+                
+                // Display current page
+                displayCurrentPage();
+            };
+
+            const displayCurrentPage = () => {
+                const startIndex = (currentPage - 1) * usersPerPage;
+                const endIndex = startIndex + usersPerPage;
+                const pageUsers = allUsers.slice(startIndex, endIndex);
+
                 const tbody = leaderboardBody;
                 tbody.innerHTML = '';
-
-                // Use only top 50 for dashboard
-                const top50 = data.leaderboard.slice(0, 50);
                 
                 // Batch DOM updates using DocumentFragment
                 const fragment = document.createDocumentFragment();
                 
-                top50.forEach(user => {
+                pageUsers.forEach(user => {
                     const row = document.createElement('tr');
                     const rankClass = getRankTier(user.total_points);
                     const level = calculateLevel(user.total_points);
@@ -935,6 +1031,38 @@
                 });
                 
                 tbody.appendChild(fragment);
+                
+                // Update pagination info
+                updatePaginationInfo();
+            };
+
+            const updatePaginationInfo = () => {
+                const startUser = (currentPage - 1) * usersPerPage + 1;
+                const endUser = Math.min(currentPage * usersPerPage, allUsers.length);
+                paginationInfo.textContent = `Showing ${startUser}-${endUser} of ${allUsers.length} users`;
+
+                // Update button states
+                prevBtn.disabled = currentPage === 1;
+                nextBtn.disabled = currentPage === totalPages;
+
+                // Update page button states
+                pageButtons.forEach(btn => {
+                    const page = parseInt(btn.dataset.page);
+                    btn.classList.toggle('active', page === currentPage);
+                });
+            };
+
+            const changePage = (page) => {
+                if (page >= 1 && page <= totalPages && page !== currentPage) {
+                    currentPage = page;
+                    displayCurrentPage();
+                    
+                    // Smooth scroll to table top
+                    leaderboardSection.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }
             };
 
             // Analytics with lazy rendering
@@ -1106,6 +1234,17 @@
 
             // Event Listeners
             document.getElementById('authorLink').addEventListener('click', trackAuthorClick);
+
+            // Pagination Event Listeners
+            prevBtn.addEventListener('click', () => changePage(currentPage - 1));
+            nextBtn.addEventListener('click', () => changePage(currentPage + 1));
+
+            pageButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const page = parseInt(btn.dataset.page);
+                    changePage(page);
+                });
+            });
 
             // Initialize dashboard
             document.addEventListener('DOMContentLoaded', () => {
