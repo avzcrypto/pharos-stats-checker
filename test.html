@@ -1057,11 +1057,12 @@
             // НОВАЯ АНИМАЦИЯ РАНГА
             if (data.exact_rank) {
                 animateRank(currentRank, 1, data.exact_rank);
-                // Оценочное количество пользователей (можно получить из API или использовать константу)
-                animateValue(totalUsers, 1, 270000);
+                // РЕАЛЬНОЕ количество пользователей из API
+                animateValue(totalUsers, 1, data.total_users_count || 270000);
             } else {
                 currentRank.textContent = 'Unranked';
-                totalUsers.textContent = '270,000';
+                // РЕАЛЬНОЕ количество пользователей даже для unranked
+                animateValue(totalUsers, 1, data.total_users_count || 270000);
             }
             
             animateValue(sendCount, 0, data.send_count);
