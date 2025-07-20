@@ -330,7 +330,10 @@
             text-align: center;
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.3);
-            position: relative;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .leaderboard-table th:first-child,
@@ -339,21 +342,25 @@
             text-align: left;
         }
 
-        /* Специальные фоны для заголовков протоколов */
+        /* Специальные фоны для заголовков протоколов с sticky */
         .leaderboard-table th.send-header {
-            background: rgba(59, 130, 246, 0.1);
+            background: rgba(59, 130, 246, 0.2);
+            backdrop-filter: blur(15px);
         }
 
         .leaderboard-table th.zenith-header {
-            background: rgba(249, 115, 22, 0.1);
+            background: rgba(249, 115, 22, 0.2);
+            backdrop-filter: blur(15px);
         }
 
         .leaderboard-table th.faroswap-header {
-            background: rgba(168, 85, 247, 0.1);
+            background: rgba(168, 85, 247, 0.2);
+            backdrop-filter: blur(15px);
         }
 
         .leaderboard-table th.nft-header {
-            background: rgba(34, 197, 94, 0.1);
+            background: rgba(34, 197, 94, 0.2);
+            backdrop-filter: blur(15px);
         }
 
         .leaderboard-table tbody tr {
@@ -605,6 +612,12 @@
             .leaderboard-table th,
             .leaderboard-table td {
                 padding: 12px 8px;
+            }
+
+            .leaderboard-table thead th {
+                top: 0;
+                backdrop-filter: blur(20px);
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             }
 
             .leaderboard-table tbody tr:hover {
