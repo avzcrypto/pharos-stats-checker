@@ -60,7 +60,7 @@
             min-height: 100vh;
         }
 
-        /* Header section - КАК В ОРИГИНАЛЕ */
+        /* Header section - КАК В ЧЕКЕРЕ */
         .header-section {
             display: flex;
             justify-content: space-between;
@@ -76,7 +76,7 @@
             justify-content: center;
         }
 
-        .top-row {
+        .logo-title-row {
             display: flex;
             align-items: flex-start;
             gap: 24px;
@@ -113,38 +113,13 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
+            align-self: flex-start;
+            margin-top: 4px;
         }
 
-        /* Live indicator */
-        .live-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(34, 197, 94, 0.15);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--pharos-green-600);
-            margin: 24px 0;
-            backdrop-filter: blur(10px);
-            width: fit-content;
-        }
+        /* УБИРАЕМ Live indicator */
 
-        .live-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--pharos-green-500);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.1); }
-        }
-
+        /* Stat Card - увеличенная высота */
         .stat-card {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
@@ -152,7 +127,7 @@
             padding: 24px;
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.5);
-            min-height: 120px;
+            height: 152px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -456,47 +431,7 @@
         .nft-block { background: rgba(34, 197, 94, 0.08); }
         .send-block { background: rgba(59, 130, 246, 0.08); }
 
-        /* Auto-refresh info */
-        .auto-refresh-info {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 30px;
-            backdrop-filter: blur(10px);
-        }
-
-        .refresh-icon {
-            font-size: 20px;
-            color: var(--pharos-blue-600);
-            animation: spin 3s linear infinite;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .refresh-content {
-            flex: 1;
-        }
-
-        .refresh-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--pharos-blue-600);
-            margin-bottom: 4px;
-        }
-
-        .refresh-text {
-            font-size: 13px;
-            color: var(--pharos-gray-700);
-            font-weight: 500;
-            line-height: 1.4;
-        }
+        /* УБИРАЕМ Auto-refresh info styles */
 
         /* Loading */
         .loading {
@@ -548,26 +483,25 @@
                 0 6px 12px rgba(34, 197, 94, 0.3);
         }
 
-        /* Responsive */
+        /* Responsive - ПРАВИЛЬНАЯ АДАПТАЦИЯ */
+        @media (max-width: 1200px) {
+            .container {
+                max-width: 100%;
+                padding: 40px 30px;
+            }
+        }
+
         @media (max-width: 1024px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
             .header-section {
-                flex-direction: column;
                 gap: 30px;
             }
 
             .header-right {
-                flex: none;
-                width: 100%;
-            }
-
-            .main-title {
-                font-size: 46px !important;
-                text-align: left;
-            }
-
-            .top-row {
-                align-items: center;
-                justify-content: flex-start;
+                flex: 0 0 350px;
             }
 
             .analytics-content {
@@ -586,13 +520,48 @@
                 padding: 20px 16px;
             }
 
+            .header-section {
+                flex-direction: column;
+                gap: 20px;
+                align-items: center;
+                text-align: center;
+            }
+
+            .header-left {
+                align-items: center;
+            }
+
+            .logo-title-row {
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                gap: 16px;
+            }
+
             .main-title {
                 font-size: 28px;
+                text-align: center;
+            }
+
+            .main-subtitle {
+                text-align: center;
             }
 
             .header-right {
-                grid-template-columns: 1fr;
+                flex: none;
+                width: 100%;
+                max-width: 400px;
+                grid-template-columns: 1fr 1fr;
                 gap: 16px;
+            }
+
+            .stat-value {
+                font-size: 28px;
+            }
+
+            .logo-img {
+                width: 120px;
+                height: 120px;
             }
 
             .leaderboard-table {
@@ -602,6 +571,26 @@
             .leaderboard-table th,
             .leaderboard-table td {
                 padding: 8px 4px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-right {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .stat-value {
+                font-size: 24px;
+            }
+
+            .main-title {
+                font-size: 24px;
+            }
+
+            .logo-img {
+                width: 100px;
+                height: 100px;
             }
         }
 
@@ -631,19 +620,14 @@
 </head>
 <body>
     <div class="container">
-        <!-- HEADER КАК В ОРИГИНАЛЕ -->
+        <!-- HEADER КАК В ЧЕКЕРЕ -->
         <div class="header-section">
             <div class="header-left">
-                <div class="top-row">
-                    <img src="./logo.webp" alt="Pharos Logo" class="logo-img">
+                <div class="logo-title-row">
+                    <img src="./leaderboard_logo.webp" alt="Pharos Logo" class="logo-img">
                     <h1 class="main-title">Pharos<br>Testnet<br>Dashboard</h1>
                 </div>
                 <p class="main-subtitle">Live community analytics and leaderboard insights</p>
-                
-                <div class="live-indicator">
-                    <div class="live-dot"></div>
-                    Live Data • Updated Hourly
-                </div>
             </div>
             
             <div class="header-right">
@@ -658,19 +642,10 @@
             </div>
         </div>
 
-        <!-- AUTO-REFRESH INFO -->
-        <div class="auto-refresh-info animate__fadeInUp animate-delay-2">
-            <div class="refresh-icon">🔄</div>
-            <div class="refresh-content">
-                <div class="refresh-title">Auto-Updated Dashboard</div>
-                <div class="refresh-text">
-                    Data refreshes automatically every hour to provide the latest community insights and leaderboard standings.
-                </div>
-            </div>
-        </div>
+        <!-- AUTO-REFRESH INFO УБРАНО -->
 
         <!-- ANALYTICS SECTION -->
-        <div class="analytics-section animate__fadeInUp animate-delay-3">
+        <div class="analytics-section animate__fadeInUp animate-delay-2">
             <div class="analytics-header">
                 <div>
                     <h3 class="analytics-title">📈 User Distribution by Points</h3>
@@ -701,7 +676,7 @@
         </div>
 
         <!-- LEADERBOARD -->
-        <div class="leaderboard-section animate__fadeInUp animate-delay-4" id="leaderboardSection">
+        <div class="leaderboard-section animate__fadeInUp animate-delay-3" id="leaderboardSection">
             <div class="leaderboard-header">
                 <h3 class="leaderboard-title">🏆 Top 50 Performers</h3>
             </div>
