@@ -216,7 +216,7 @@
             display: block;
         }
 
-        /* Top Stats - ИЗМЕНЕНО НА 3 КОЛОНКИ */
+        /* Top Stats - 3 КОЛОНКИ */
         .top-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -289,7 +289,7 @@
             transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* НОВЫЙ БЛОК CTA - ИЗМЕНЕНО НА 3 КОЛОНКИ */
+        /* БЛОК CTA - 3 КОЛОНКИ */
         .boost-cta {
             grid-column: span 3;
             background: url('./form_background.webp') center/cover;
@@ -467,6 +467,50 @@
             gap: 16px;
         }
 
+        /* Cache Disclaimer Styles */
+        .cache-disclaimer {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: rgba(249, 115, 22, 0.1);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 32px;
+            margin-bottom: 32px;
+            backdrop-filter: blur(10px);
+        }
+
+        .disclaimer-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .disclaimer-content {
+            flex: 1;
+        }
+
+        .disclaimer-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--pharos-orange-600);
+            margin-bottom: 4px;
+            letter-spacing: 0.025em;
+        }
+
+        .disclaimer-text {
+            font-size: 13px;
+            color: var(--pharos-gray-700);
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .disclaimer-text strong {
+            color: var(--pharos-orange-600);
+            font-weight: 700;
+        }
+
         /* Loading и Error состояния */
         .loading {
             display: none;
@@ -516,7 +560,7 @@
             display: block;
         }
 
-        /* ОБНОВЛЕННЫЙ Author footer */
+        /* Author footer */
         .author-footer {
             margin-top: 32px;
             text-align: center;
@@ -622,6 +666,26 @@
                 font-size: 28px;
             }
 
+            /* Cache disclaimer mobile adaptation */
+            .cache-disclaimer {
+                padding: 12px;
+                gap: 10px;
+                margin-top: 24px;
+                margin-bottom: 24px;
+            }
+
+            .disclaimer-icon {
+                font-size: 18px;
+            }
+
+            .disclaimer-title {
+                font-size: 13px;
+            }
+
+            .disclaimer-text {
+                font-size: 12px;
+            }
+
             /* Author footer - мобильная адаптация */
             .author-footer {
                 margin-top: 24px;
@@ -698,7 +762,7 @@
         </div>
 
         <div class="results-section" id="results">
-            <!-- ТРИ КАРТОЧКИ ВМЕСТО ДВУХ -->
+            <!-- ТРИ КАРТОЧКИ -->
             <div class="top-stats animate__fadeInUp animate-delay-1">
                 <div class="stat-card">
                     <div class="stat-value" id="totalPoints">15,647</div>
@@ -711,15 +775,15 @@
                         <div class="level-progress-bar" id="levelProgress" style="width: 65%"></div>
                     </div>
                 </div>
-                <!-- НОВАЯ ТРЕТЬЯ КАРТОЧКА С РАНГОМ -->
+                <!-- ТРЕТЬЯ КАРТОЧКА С РАНГОМ -->
                 <div class="stat-card">
                     <div class="stat-value" id="currentRank">#1,234</div>
                     <div class="stat-label">Current Rank</div>
-                    <div class="rank-context">of <span id="totalUsers">270,456</span> users PharosHub</div>
+                    <div class="rank-context">of <span id="totalUsers">270,456</span> users</div>
                 </div>
             </div>
 
-            <!-- НОВЫЙ БЛОК CTA -->
+            <!-- БЛОК CTA -->
             <a href="https://x.com/avzcrypto/status/1940798987709395362" target="_blank" class="boost-cta animate__fadeInUp animate-delay-2" id="boostGuideLink">
                 <div class="boost-cta-text">
                     <span class="boost-cta-line1">WANT TO BOOST YOUR LVL?</span>
@@ -802,6 +866,18 @@
                             <div class="task-name">Collect NFTs</div>
                         </div>
                         <div class="task-count" id="mintNFT">1</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cache Disclaimer -->
+            <div class="cache-disclaimer animate__fadeInUp animate-delay-7">
+                <div class="disclaimer-icon">⏱️</div>
+                <div class="disclaimer-content">
+                    <div class="disclaimer-title">Data Updates</div>
+                    <div class="disclaimer-text">
+                        Statistics are refreshed every <strong>1 hour</strong>. 
+                        Recent activities may take up to 60 minutes to appear in your results.
                     </div>
                 </div>
             </div>
@@ -1054,14 +1130,14 @@
             animateValue(totalPoints, 0, data.total_points);
             animateValue(currentLevel, 1, Math.min(data.current_level, maxLevel)); // Показываем максимум 4 уровень
             
-            // НОВАЯ АНИМАЦИЯ РАНГА
+            // АНИМАЦИЯ РАНГА
             if (data.exact_rank) {
                 animateRank(currentRank, 1, data.exact_rank);
-                // РЕАЛЬНОЕ количество пользователей из API
+                // Количество пользователей из API
                 animateValue(totalUsers, 1, data.total_users_count || 270000);
             } else {
                 currentRank.textContent = 'Unranked';
-                // РЕАЛЬНОЕ количество пользователей даже для unranked
+                // Количество пользователей даже для unranked
                 animateValue(totalUsers, 1, data.total_users_count || 270000);
             }
             
