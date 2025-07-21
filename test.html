@@ -56,7 +56,7 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            margin-bottom: 24px;
+            margin-bottom: 40px;
             gap: 40px;
         }
 
@@ -100,7 +100,7 @@
         }
 
         .header-right {
-            flex: 0 0 500px; /* УВЕЛИЧЕНО С 400px ДО 500px */
+            flex: 0 0 500px; /* ИЗМЕНЕНИЕ: 400px → 500px */
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
@@ -150,124 +150,29 @@
             letter-spacing: 0.025em;
         }
 
-        /* НОВЫЙ INFO BAR */
-        .info-bar {
-            background: rgba(255, 255, 255, 0.85);
+        /* ИЗМЕНЕНИЕ: НОВЫЙ INFO BAR */
+        .live-data-info {
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 20px 32px;
-            margin-bottom: 32px;
+            border-radius: 16px;
+            padding: 16px 24px;
+            margin-bottom: 30px;
             border: 1px solid rgba(255, 255, 255, 0.5);
             box-shadow: 
                 0 8px 16px rgba(0, 0, 0, 0.06),
                 0 4px 8px rgba(0, 0, 0, 0.04);
-            position: relative;
-            overflow: hidden;
+            text-align: center;
         }
 
-        .info-bar::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--pharos-blue-500), var(--pharos-green-500), var(--pharos-orange-500), var(--pharos-purple-500));
-            border-radius: 20px 20px 0 0;
+        .live-data-text {
+            color: var(--pharos-gray-600);
+            font-size: 14px;
+            font-weight: 500;
         }
 
-        .info-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 24px;
-            flex-wrap: wrap;
-        }
-
-        .info-icon {
-            font-size: 24px;
-            animation: pulse-glow 2s infinite ease-in-out;
-        }
-
-        @keyframes pulse-glow {
-            0%, 100% { 
-                transform: scale(1);
-                filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.4));
-            }
-            50% { 
-                transform: scale(1.1);
-                filter: drop-shadow(0 0 16px rgba(34, 197, 94, 0.6));
-            }
-        }
-
-        .info-text {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            font-size: 15px;
-            color: var(--pharos-gray-900);
-            font-weight: 600;
-        }
-
-        .info-highlight {
-            background: linear-gradient(135deg, var(--pharos-blue-500), var(--pharos-green-500));
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
-            font-size: 16px;
-        }
-
-        .info-badges {
-            display: flex;
-            gap: 12px;
-        }
-
-        .info-badge {
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.2);
+        .live-data-highlight {
             color: var(--pharos-blue-600);
-            padding: 6px 12px;
-            border-radius: 12px;
-            font-size: 12px;
             font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.3s ease;
-        }
-
-        .info-badge:hover {
-            background: rgba(59, 130, 246, 0.15);
-            transform: translateY(-1px);
-        }
-
-        .info-badge.live {
-            background: rgba(34, 197, 94, 0.1);
-            border-color: rgba(34, 197, 94, 0.2);
-            color: var(--pharos-green-600);
-        }
-
-        .info-badge.auto {
-            background: rgba(249, 115, 22, 0.1);
-            border-color: rgba(249, 115, 22, 0.2);
-            color: var(--pharos-orange-600);
-        }
-
-        .badge-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: currentColor;
-        }
-
-        .badge-dot.pulse {
-            animation: pulse-dot 2s infinite ease-in-out;
-        }
-
-        @keyframes pulse-dot {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
         }
 
         /* Analytics Section */
@@ -294,6 +199,12 @@
             font-size: 20px;
             font-weight: 800;
             color: var(--pharos-gray-900);
+        }
+
+        .analytics-subtitle {
+            font-size: 14px;
+            color: var(--pharos-gray-500);
+            font-weight: 500;
         }
 
         .analytics-content {
@@ -648,7 +559,7 @@
             }
 
             .header-right {
-                flex: 0 0 450px; /* Немного меньше на планшетах */
+                flex: 0 0 350px;
             }
 
             .analytics-content {
@@ -659,16 +570,6 @@
 
             .pie-container {
                 margin: 0 auto;
-            }
-
-            .info-content {
-                flex-direction: column;
-                gap: 16px;
-                text-align: center;
-            }
-
-            .info-badges {
-                justify-content: center;
             }
         }
 
@@ -722,25 +623,6 @@
                 height: 120px;
             }
 
-            .info-bar {
-                padding: 16px 20px;
-            }
-
-            .info-content {
-                gap: 12px;
-            }
-
-            .info-text {
-                font-size: 14px;
-                flex-direction: column;
-                gap: 8px;
-            }
-
-            .info-badges {
-                flex-wrap: wrap;
-                gap: 8px;
-            }
-
             .leaderboard-table {
                 font-size: 12px;
             }
@@ -748,6 +630,16 @@
             .leaderboard-table th,
             .leaderboard-table td {
                 padding: 12px 8px;
+            }
+
+            .leaderboard-table thead th {
+                top: 0;
+                backdrop-filter: blur(20px);
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            .leaderboard-table tbody tr:hover {
+                transform: scale(1.01);
             }
         }
 
@@ -833,7 +725,6 @@
             padding: 8px 16px;
             font-weight: 600;
         }
-
         @keyframes fadeInUp {
             0% {
                 opacity: 0;
@@ -881,29 +772,10 @@
             </div>
         </div>
 
-        <!-- НОВЫЙ INFO BAR -->
-        <div class="info-bar animate__fadeInUp animate-delay-1">
-            <div class="info-content">
-                <div class="info-icon">📊</div>
-                <div class="info-text">
-                    <span class="info-highlight">Live data updates every hour</span>
-                    <span>•</span>
-                    <span>Real-time statistics and community insights</span>
-                </div>
-                <div class="info-badges">
-                    <div class="info-badge live">
-                        <div class="badge-dot pulse"></div>
-                        Live
-                    </div>
-                    <div class="info-badge auto">
-                        <div class="badge-dot"></div>
-                        Auto-refresh
-                    </div>
-                    <div class="info-badge">
-                        <div class="badge-dot"></div>
-                        Real-time
-                    </div>
-                </div>
+        <!-- НОВЫЙ LIVE DATA INFO -->
+        <div class="live-data-info">
+            <div class="live-data-text">
+                <span class="live-data-highlight">Live data updates every hour</span> • Real-time statistics and community insights
             </div>
         </div>
 
@@ -987,11 +859,6 @@
 
             <!-- PAGINATION -->
             <div class="pagination-container">
-                <div class="pagination-info" id="paginationInfo">
-                    Showing 1-20 of 100 users
-                </div>
-            </div>
-            <div class="pagination-container">
                 <div class="pagination-controls">
                     <button class="pagination-btn pagination-nav" id="prevBtn" disabled>← Prev</button>
                     <button class="pagination-btn active" data-page="1">1</button>
@@ -1019,26 +886,15 @@
             
             // Analytics tracking functions
             function trackPageView() {
-                gtag('event', 'page_view', {
-                    page_title: 'Pharos Dashboard',
-                    page_location: window.location.href
-                });
+                console.log('Page view tracked');
             }
 
             function trackDashboardLoaded(data) {
-                gtag('event', 'dashboard_loaded', {
-                    event_category: 'engagement',
-                    event_label: 'dashboard_view',
-                    total_users: data.total_users,
-                    top_score: data.leaderboard?.[0]?.total_points || 0
-                });
+                console.log('Dashboard loaded:', data.total_users);
             }
 
             function trackAuthorClick() {
-                gtag('event', 'author_follow_click', {
-                    event_category: 'engagement',
-                    event_label: 'social_link_dashboard'
-                });
+                console.log('Author link clicked');
             }
 
             // DOM Elements
@@ -1108,6 +964,18 @@
                 });
             };
 
+            const getTimeAgo = (dateString) => {
+                if (!dateString) return 'Unknown';
+                const now = new Date();
+                const past = new Date(dateString);
+                const diffInHours = Math.floor((now - past) / (1000 * 60 * 60));
+                
+                if (diffInHours < 1) return 'Just now';
+                if (diffInHours < 24) return `${diffInHours}h ago`;
+                const diffInDays = Math.floor(diffInHours / 24);
+                return `${diffInDays}d ago`;
+            };
+
             // Load leaderboard data
             const loadDashboard = async () => {
                 try {
@@ -1133,13 +1001,21 @@
 
             // Display Functions
             const displayDashboard = data => {
+                // Update header stats
                 updateHeaderStats(data);
+                
+                // Display leaderboard (top 50)
                 displayLeaderboard(data);
+                
+                // Update analytics
                 updateAnalytics(data);
+                
+                // Track successful load
                 trackDashboardLoaded(data);
             };
 
             const updateHeaderStats = data => {
+                // Animate numbers for better UX
                 const animateValue = (element, start, end, duration = 1000) => {
                     const startTime = performance.now();
                     const animate = currentTime => {
@@ -1163,7 +1039,10 @@
             };
 
             const displayLeaderboard = data => {
-                allUsers = data.leaderboard.slice(0, 100);
+                // Store all users for pagination
+                allUsers = data.leaderboard.slice(0, 100); // Top 100 users
+                
+                // Display current page
                 displayCurrentPage();
             };
 
@@ -1175,6 +1054,7 @@
                 const tbody = leaderboardBody;
                 tbody.innerHTML = '';
                 
+                // Batch DOM updates using DocumentFragment
                 const fragment = document.createDocumentFragment();
                 
                 pageUsers.forEach(user => {
@@ -1212,6 +1092,8 @@
                 });
                 
                 tbody.appendChild(fragment);
+                
+                // Update pagination info
                 updatePaginationInfo();
             };
 
@@ -1220,9 +1102,11 @@
                 const endUser = Math.min(currentPage * usersPerPage, allUsers.length);
                 paginationInfo.textContent = `Showing ${startUser}-${endUser} of ${allUsers.length} users`;
 
+                // Update button states
                 prevBtn.disabled = currentPage === 1;
                 nextBtn.disabled = currentPage === totalPages;
 
+                // Update page button states
                 pageButtons.forEach(btn => {
                     const page = parseInt(btn.dataset.page);
                     btn.classList.toggle('active', page === currentPage);
@@ -1234,6 +1118,7 @@
                     currentPage = page;
                     displayCurrentPage();
                     
+                    // Smooth scroll to table top
                     leaderboardSection.scrollIntoView({ 
                         behavior: 'smooth', 
                         block: 'start' 
@@ -1257,6 +1142,7 @@
 
                 let distribution;
 
+                // Use server-side distribution if available
                 if (data.point_distribution && Object.keys(data.point_distribution).length > 0) {
                     distribution = tiers.map(tier => {
                         const count = data.point_distribution[tier.key] || 0;
@@ -1269,6 +1155,7 @@
                         };
                     });
                 } else {
+                    // Fallback: calculate from top 50 (less accurate)
                     distribution = tiers.map(tier => {
                         const count = data.leaderboard.filter(user => {
                             const points = user.total_points;
@@ -1289,10 +1176,12 @@
                     });
                 }
 
+                // Render analytics
                 renderPieChart(distribution, data.total_users);
                 renderLegend(distribution);
             };
 
+            // Optimized SVG Pie Chart Rendering
             const renderPieChart = (distribution, totalUsers) => {
                 pieChartTotal.textContent = formatNumber(totalUsers);
                 
@@ -1300,8 +1189,10 @@
                 const radius = 110;
                 const circumference = 2 * Math.PI * radius;
                 
+                // Clear previous chart
                 pieChart.innerHTML = '';
                 
+                // Only render visible slices for performance
                 const visibleTiers = distribution.filter(tier => tier.count > 0);
                 
                 visibleTiers.forEach(tier => {
@@ -1321,6 +1212,7 @@
                     circle.style.cursor = 'pointer';
                     circle.style.transition = 'stroke-width 0.3s ease';
                     
+                    // Hover effects
                     circle.addEventListener('mouseenter', function() {
                         this.setAttribute('stroke-width', '35');
                     });
@@ -1334,6 +1226,7 @@
                 });
             };
 
+            // Optimized Legend Rendering
             const renderLegend = distribution => {
                 const fragment = document.createDocumentFragment();
                 
@@ -1363,11 +1256,14 @@
                 pieLegend.appendChild(fragment);
             };
 
+            // Main Load Function with Error Handling
             const initializeDashboard = async () => {
                 try {
                     showLoading();
+                    
                     const data = await loadDashboard();
                     
+                    // Batch all DOM updates
                     requestAnimationFrame(() => {
                         displayDashboard(data);
                     });
@@ -1375,6 +1271,7 @@
                 } catch (error) {
                     console.error('Failed to load dashboard:', error);
                     
+                    // Show user-friendly error
                     leaderboardBody.innerHTML = `
                         <tr>
                             <td colspan="8" style="text-align: center; padding: 40px; color: #ef4444;">
@@ -1388,16 +1285,18 @@
                 }
             };
 
+            // Auto-refresh every hour
             const setupAutoRefresh = () => {
                 setInterval(() => {
                     console.log('🔄 Auto-refreshing dashboard data...');
                     initializeDashboard();
-                }, 60 * 60 * 1000);
+                }, 60 * 60 * 1000); // 1 hour
             };
 
             // Event Listeners
             document.getElementById('authorLink').addEventListener('click', trackAuthorClick);
 
+            // Pagination Event Listeners
             prevBtn.addEventListener('click', () => changePage(currentPage - 1));
             nextBtn.addEventListener('click', () => changePage(currentPage + 1));
 
