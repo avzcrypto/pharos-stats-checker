@@ -40,6 +40,8 @@
             --pharos-purple-500: #a855f7;
             --pharos-purple-600: #9333ea;
             --pharos-gray-500: #64748b;
+            --pharos-gray-600: #4b5563;
+            --pharos-gray-700: #374151;
             --pharos-gray-900: #1f2937;
         }
 
@@ -100,7 +102,7 @@
         }
 
         .header-right {
-            flex: 0 0 500px; /* ИЗМЕНЕНИЕ: 400px → 500px */
+            flex: 0 0 500px;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
@@ -150,7 +152,7 @@
             letter-spacing: 0.025em;
         }
 
-        /* ИЗМЕНЕНИЕ: НОВЫЙ INFO BAR */
+        /* LIVE DATA INFO */
         .live-data-info {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
@@ -199,12 +201,6 @@
             font-size: 20px;
             font-weight: 800;
             color: var(--pharos-gray-900);
-        }
-
-        .analytics-subtitle {
-            font-size: 14px;
-            color: var(--pharos-gray-500);
-            font-weight: 500;
         }
 
         .analytics-content {
@@ -541,6 +537,69 @@
                 0 6px 12px rgba(34, 197, 94, 0.3);
         }
 
+        /* Pagination */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .pagination-info {
+            font-size: 14px;
+            color: var(--pharos-gray-500);
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .pagination-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .pagination-btn {
+            padding: 8px 12px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.8);
+            color: var(--pharos-gray-700);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 40px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            background: var(--pharos-blue-500);
+            color: white;
+            border-color: var(--pharos-blue-500);
+            transform: translateY(-1px);
+        }
+
+        .pagination-btn.active {
+            background: var(--pharos-blue-500);
+            color: white;
+            border-color: var(--pharos-blue-500);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .pagination-nav {
+            padding: 8px 16px;
+            font-weight: 600;
+        }
+
         /* Responsive - ПРАВИЛЬНАЯ АДАПТАЦИЯ */
         @media (max-width: 1200px) {
             .container {
@@ -663,68 +722,6 @@
             }
         }
 
-        /* Pagination */
-        .pagination-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
-        .pagination-info {
-            font-size: 14px;
-            color: var(--pharos-gray-500);
-            font-weight: 500;
-            text-align: center;
-            width: 100%;
-            margin-bottom: 16px;
-        }
-
-        .pagination-controls {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .pagination-btn {
-            padding: 8px 12px;
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.8);
-            color: var(--pharos-gray-700);
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-width: 40px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-        }
-
-        .pagination-btn:hover:not(:disabled) {
-            background: var(--pharos-blue-500);
-            color: white;
-            border-color: var(--pharos-blue-500);
-            transform: translateY(-1px);
-        }
-
-        .pagination-btn.active {
-            background: var(--pharos-blue-500);
-            color: white;
-            border-color: var(--pharos-blue-500);
-        }
-
-        .pagination-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .pagination-nav {
-            padding: 8px 16px;
-            font-weight: 600;
-        }
         @keyframes fadeInUp {
             0% {
                 opacity: 0;
@@ -772,7 +769,7 @@
             </div>
         </div>
 
-        <!-- НОВЫЙ LIVE DATA INFO -->
+        <!-- LIVE DATA INFO -->
         <div class="live-data-info">
             <div class="live-data-text">
                 <span class="live-data-highlight">Live data updates every hour</span> • Real-time statistics and community insights
@@ -859,6 +856,9 @@
 
             <!-- PAGINATION -->
             <div class="pagination-container">
+                <div class="pagination-info" id="paginationInfo">
+                    Showing 1-20 of 100 users
+                </div>
                 <div class="pagination-controls">
                     <button class="pagination-btn pagination-nav" id="prevBtn" disabled>← Prev</button>
                     <button class="pagination-btn active" data-page="1">1</button>
@@ -916,7 +916,7 @@
             // Pagination State
             let currentPage = 1;
             const usersPerPage = 20;
-            const totalPages = 5;
+            let totalPages = 5;
             let allUsers = [];
 
             // Utility Functions
@@ -964,18 +964,6 @@
                 });
             };
 
-            const getTimeAgo = (dateString) => {
-                if (!dateString) return 'Unknown';
-                const now = new Date();
-                const past = new Date(dateString);
-                const diffInHours = Math.floor((now - past) / (1000 * 60 * 60));
-                
-                if (diffInHours < 1) return 'Just now';
-                if (diffInHours < 24) return `${diffInHours}h ago`;
-                const diffInDays = Math.floor(diffInHours / 24);
-                return `${diffInDays}d ago`;
-            };
-
             // Load leaderboard data
             const loadDashboard = async () => {
                 try {
@@ -1001,21 +989,13 @@
 
             // Display Functions
             const displayDashboard = data => {
-                // Update header stats
                 updateHeaderStats(data);
-                
-                // Display leaderboard (top 50)
                 displayLeaderboard(data);
-                
-                // Update analytics
                 updateAnalytics(data);
-                
-                // Track successful load
                 trackDashboardLoaded(data);
             };
 
             const updateHeaderStats = data => {
-                // Animate numbers for better UX
                 const animateValue = (element, start, end, duration = 1000) => {
                     const startTime = performance.now();
                     const animate = currentTime => {
@@ -1039,10 +1019,8 @@
             };
 
             const displayLeaderboard = data => {
-                // Store all users for pagination
-                allUsers = data.leaderboard.slice(0, 100); // Top 100 users
-                
-                // Display current page
+                allUsers = data.leaderboard.slice(0, 100);
+                totalPages = Math.ceil(allUsers.length / usersPerPage);
                 displayCurrentPage();
             };
 
@@ -1054,7 +1032,6 @@
                 const tbody = leaderboardBody;
                 tbody.innerHTML = '';
                 
-                // Batch DOM updates using DocumentFragment
                 const fragment = document.createDocumentFragment();
                 
                 pageUsers.forEach(user => {
@@ -1092,8 +1069,6 @@
                 });
                 
                 tbody.appendChild(fragment);
-                
-                // Update pagination info
                 updatePaginationInfo();
             };
 
@@ -1102,14 +1077,17 @@
                 const endUser = Math.min(currentPage * usersPerPage, allUsers.length);
                 paginationInfo.textContent = `Showing ${startUser}-${endUser} of ${allUsers.length} users`;
 
-                // Update button states
                 prevBtn.disabled = currentPage === 1;
-                nextBtn.disabled = currentPage === totalPages;
+                nextBtn.disabled = currentPage === totalPages || allUsers.length === 0;
 
-                // Update page button states
                 pageButtons.forEach(btn => {
                     const page = parseInt(btn.dataset.page);
-                    btn.classList.toggle('active', page === currentPage);
+                    if (page <= totalPages) {
+                        btn.style.display = 'inline-block';
+                        btn.classList.toggle('active', page === currentPage);
+                    } else {
+                        btn.style.display = 'none';
+                    }
                 });
             };
 
@@ -1118,7 +1096,6 @@
                     currentPage = page;
                     displayCurrentPage();
                     
-                    // Smooth scroll to table top
                     leaderboardSection.scrollIntoView({ 
                         behavior: 'smooth', 
                         block: 'start' 
@@ -1142,7 +1119,6 @@
 
                 let distribution;
 
-                // Use server-side distribution if available
                 if (data.point_distribution && Object.keys(data.point_distribution).length > 0) {
                     distribution = tiers.map(tier => {
                         const count = data.point_distribution[tier.key] || 0;
@@ -1155,7 +1131,6 @@
                         };
                     });
                 } else {
-                    // Fallback: calculate from top 50 (less accurate)
                     distribution = tiers.map(tier => {
                         const count = data.leaderboard.filter(user => {
                             const points = user.total_points;
@@ -1176,12 +1151,10 @@
                     });
                 }
 
-                // Render analytics
                 renderPieChart(distribution, data.total_users);
                 renderLegend(distribution);
             };
 
-            // Optimized SVG Pie Chart Rendering
             const renderPieChart = (distribution, totalUsers) => {
                 pieChartTotal.textContent = formatNumber(totalUsers);
                 
@@ -1189,11 +1162,21 @@
                 const radius = 110;
                 const circumference = 2 * Math.PI * radius;
                 
-                // Clear previous chart
                 pieChart.innerHTML = '';
                 
-                // Only render visible slices for performance
                 const visibleTiers = distribution.filter(tier => tier.count > 0);
+                
+                if (visibleTiers.length === 0) {
+                    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    circle.setAttribute('cx', '140');
+                    circle.setAttribute('cy', '140');
+                    circle.setAttribute('r', radius);
+                    circle.setAttribute('fill', 'none');
+                    circle.setAttribute('stroke', '#e5e7eb');
+                    circle.setAttribute('stroke-width', '30');
+                    pieChart.appendChild(circle);
+                    return;
+                }
                 
                 visibleTiers.forEach(tier => {
                     const percentage = tier.count / totalUsers;
@@ -1212,7 +1195,6 @@
                     circle.style.cursor = 'pointer';
                     circle.style.transition = 'stroke-width 0.3s ease';
                     
-                    // Hover effects
                     circle.addEventListener('mouseenter', function() {
                         this.setAttribute('stroke-width', '35');
                     });
@@ -1226,7 +1208,6 @@
                 });
             };
 
-            // Optimized Legend Rendering
             const renderLegend = distribution => {
                 const fragment = document.createDocumentFragment();
                 
@@ -1256,14 +1237,12 @@
                 pieLegend.appendChild(fragment);
             };
 
-            // Main Load Function with Error Handling
             const initializeDashboard = async () => {
                 try {
                     showLoading();
                     
                     const data = await loadDashboard();
                     
-                    // Batch all DOM updates
                     requestAnimationFrame(() => {
                         displayDashboard(data);
                     });
@@ -1271,7 +1250,6 @@
                 } catch (error) {
                     console.error('Failed to load dashboard:', error);
                     
-                    // Show user-friendly error
                     leaderboardBody.innerHTML = `
                         <tr>
                             <td colspan="8" style="text-align: center; padding: 40px; color: #ef4444;">
@@ -1285,18 +1263,16 @@
                 }
             };
 
-            // Auto-refresh every hour
             const setupAutoRefresh = () => {
                 setInterval(() => {
                     console.log('🔄 Auto-refreshing dashboard data...');
                     initializeDashboard();
-                }, 60 * 60 * 1000); // 1 hour
+                }, 60 * 60 * 1000);
             };
 
             // Event Listeners
             document.getElementById('authorLink').addEventListener('click', trackAuthorClick);
 
-            // Pagination Event Listeners
             prevBtn.addEventListener('click', () => changePage(currentPage - 1));
             nextBtn.addEventListener('click', () => changePage(currentPage + 1));
 
