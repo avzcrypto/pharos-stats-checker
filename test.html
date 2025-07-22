@@ -977,19 +977,19 @@
                     return {
                         wallet_address: DataUtils.isValidAddress(user.wallet_address) ? 
                             DOMPurify.sanitize(user.wallet_address) : 'Invalid',
-                        total_points: this.isValidNumber(user.total_points) ? 
+                        total_points: DataValidator.isValidNumber(user.total_points) ? 
                             Math.floor(user.total_points) : 0,
-                        level: this.isValidNumber(user.level) ? 
+                        level: DataValidator.isValidNumber(user.level) ? 
                             Math.max(1, Math.floor(user.level)) : 1,
-                        send_count: this.isValidNumber(user.send_count) ? 
+                        send_count: DataValidator.isValidNumber(user.send_count) ? 
                             Math.floor(user.send_count) : 0,
-                        zenith_count: this.isValidNumber(user.zenith_count) ? 
+                        zenith_count: DataValidator.isValidNumber(user.zenith_count) ? 
                             Math.floor(user.zenith_count) : 0,
-                        faroswap_count: this.isValidNumber(user.faroswap_count) ? 
+                        faroswap_count: DataValidator.isValidNumber(user.faroswap_count) ? 
                             Math.floor(user.faroswap_count) : 0,
-                        domain_count: this.isValidNumber(user.domain_count) ? 
+                        domain_count: DataValidator.isValidNumber(user.domain_count) ? 
                             Math.floor(user.domain_count) : 0,
-                        nft_count: this.isValidNumber(user.nft_count) ? 
+                        nft_count: DataValidator.isValidNumber(user.nft_count) ? 
                             Math.floor(user.nft_count) : 0,
                         created_at: user.created_at ? 
                             DOMPurify.sanitize(String(user.created_at)) : null
