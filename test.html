@@ -127,32 +127,31 @@
             will-change: transform; /* Оптимизация для анимации */
             transition: all 0.3s ease;
             color: white;
+            /* Блоки изначально ровные */
+            transform: rotate(0deg);
         }
 
         /* Total Users - Pharos Blue градиент */
         .stat-card:nth-child(1) {
             background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
-            transform: rotate(-1deg);
             box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
         }
 
         /* Top Score - Pharos Orange градиент */
         .stat-card:nth-child(2) {
             background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
-            transform: rotate(1deg);
             box-shadow: 0 8px 25px rgba(249, 115, 22, 0.3);
         }
 
-        .stat-card:hover {
-            transform: rotate(0deg) scale(1.05);
-        }
-
+        /* Hover эффекты - играют при наведении */
         .stat-card:nth-child(1):hover {
+            transform: rotate(-1deg) scale(1.05);
             box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4);
             background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
         }
 
         .stat-card:nth-child(2):hover {
+            transform: rotate(1deg) scale(1.05);
             box-shadow: 0 15px 35px rgba(249, 115, 22, 0.4);
             background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
         }
