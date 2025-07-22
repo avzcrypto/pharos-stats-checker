@@ -964,12 +964,6 @@
 
             // 🔒 SECURITY: Safe data validation
             const DataValidator = {
-                isValidAddress: function(address) {
-                    return typeof address === 'string' && 
-                           address.length >= 10 && 
-                           address.match(/^[a-zA-Z0-9]+$/);
-                },
-                
                 isValidNumber: function(num) {
                     return typeof num === 'number' && 
                            !isNaN(num) && 
@@ -981,7 +975,7 @@
                     if (!user || typeof user !== 'object') return null;
                     
                     return {
-                        wallet_address: this.isValidAddress(user.wallet_address) ? 
+                        wallet_address: DataUtils.isValidAddress(user.wallet_address) ? 
                             DOMPurify.sanitize(user.wallet_address) : 'Invalid',
                         total_points: this.isValidNumber(user.total_points) ? 
                             Math.floor(user.total_points) : 0,
@@ -1087,8 +1081,14 @@
 
             // 🔧 Data processing utilities
             const DataUtils = {
+                isValidAddress: function(address) {
+                    return typeof address === 'string' && 
+                           address.length >= 10 && 
+                           address.match(/^[a-zA-Z0-9]+$/);
+                },
+                
                 shortenAddress: function(address) {
-                    if (!DataValidator.isValidAddress(address)) return 'Invalid Address';
+                    if (!this.isValidAddress(address)) return 'Invalid Address';
                     const sanitized = DOMPurify.sanitize(address);
                     return `${sanitized.slice(0, 6)}...${sanitized.slice(-4)}`;
                 },
@@ -1352,37 +1352,60 @@
                         
                         // Update stat cards
                         const statsContainer = document.getElementById('statsContainer');
-                        if (statsContainer && typeof data.total_users === 'number' && typeof data.top_points === 'number') {
+                        if (statsContainer) {
                             statsContainer.textContent = '';
+                            
+                            const totalUsers = typeof data.total_users === 'number' ? Math.floor(data.total_users) : 0;
+                            const topPoints = (data.leaderboard && data.leaderboard.length > 0 && typeof data.leaderboard[0].total_points === 'number') 
+                                ? Math.floor(data.leaderboard[0].total_points) 
+                                : 0;
                             
                             const totalUsersCard = UI.createStatCard(
                                 '👥', 
-                                Math.floor(data.total_users), 
+                                totalUsers, 
                                 'Total Users',
                                 'animate-fadeInLeft animate-delay-1',
-                                `Total users: ${data.total_users.toLocaleString()}`
+                                `Total users: ${totalUsers.toLocaleString()}`
                             );
                             
                             const topPointsCard = UI.createStatCard(
                                 '🏆', 
-                                Math.floor(data.top_points), 
+                                topPoints, 
                                 'Top Score',
                                 'animate-fadeInRight animate-delay-2',
-                                `Top score: ${data.top_points.toLocaleString()}`
+                                `Top score: ${topPoints.toLocaleString()}`
                             );
                             
                             statsContainer.appendChild(totalUsersCard);
                             statsContainer.appendChild(topPointsCard);
                         }
                         
-                        // Create pie chart
-                        if (data.points_distribution) {
+                        // Create pie chart - only if data exists
+                        if (data.points_distribution && Array.isArray(data.points_distribution) && data.points_distribution.length > 0) {
                             ChartBuilder.createPieChart(data.points_distribution);
+                        } else {
+                            console.log('📊 No points_distribution data available for pie chart');
+                            // Hide pie chart section or show placeholder
+                            const analyticsSection = document.querySelector('.analytics-section');
+                            if (analyticsSection) {
+                                analyticsSection.style.display = 'none';
+                            }
                         }
                         
-                        // Populate leaderboard
-                        if (data.leaderboard) {
+                        // Populate leaderboard - only if data exists
+                        if (data.leaderboard && Array.isArray(data.leaderboard) && data.leaderboard.length > 0) {
                             TableBuilder.populateLeaderboard(data.leaderboard);
+                        } else {
+                            console.log('📋 No leaderboard data available');
+                            const leaderboardContainer = document.getElementById('leaderboardContainer');
+                            if (leaderboardContainer) {
+                                leaderboardContainer.innerHTML = `
+                                    <div style="text-align: center; padding: 40px; color: #64748b;">
+                                        📊 Leaderboard data is being prepared.<br>
+                                        Please check back in a few minutes.
+                                    </div>
+                                `;
+                            }
                         }
                         
                         UI.hideSkeletons();
