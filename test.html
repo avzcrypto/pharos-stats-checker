@@ -54,7 +54,7 @@
         .header-section {
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
+            align-items: center; /* Все элементы на одной линии */
             margin-bottom: 40px;
             gap: 40px;
             contain: layout; /* Изоляция header */
@@ -63,15 +63,21 @@
         .header-left {
             flex: 1;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            align-items: center; /* Лого и заголовок на одной линии */
+            gap: 24px;
         }
 
-        .logo-title-row {
+        .logo-title-container {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             gap: 24px;
-            margin-bottom: 16px;
+            flex: 1;
+        }
+
+        .title-subtitle-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .logo-img {
@@ -99,12 +105,8 @@
         }
 
         .header-right {
-            flex: 0 0 500px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+            display: flex;
             gap: 20px;
-            align-self: flex-start;
-            margin-top: 4px;
             contain: layout; /* Изоляция stats */
         }
 
@@ -432,7 +434,7 @@
 
         /* ⚡ ВЕРТИКАЛЬНЫЕ РАЗДЕЛИТЕЛИ для protocol grid */
         .protocol-grid > div:first-child {
-            border-right: 1px solid rgba(0, 0, 0, 0.35);
+            border-right: 1px solid rgba(0, 0, 0, 0.15);
             padding-right: 4px;
         }
 
@@ -585,11 +587,13 @@
         <!-- HEADER -->
         <div class="header-section">
             <div class="header-left">
-                <div class="logo-title-row">
+                <div class="logo-title-container">
                     <img src="./leaderboard_logo.webp" alt="Pharos Logo" class="logo-img">
-                    <h1 class="main-title">Pharos<br>Testnet<br>Dashboard</h1>
+                    <div class="title-subtitle-container">
+                        <h1 class="main-title">Pharos<br>Testnet<br>Dashboard</h1>
+                        <p class="main-subtitle">Live community analytics and leaderboard insights</p>
+                    </div>
                 </div>
-                <p class="main-subtitle">Live community analytics and leaderboard insights</p>
             </div>
             
             <div class="header-right">
@@ -673,7 +677,7 @@
                             </th>
                             <th class="nft-header">
                                 <div style="text-align: center;">
-                                    <div style="font-weight: 700; font-size: 12px; margin-bottom: 4px;">DOMAINS & NFT</div>
+                                    <div style="font-weight: 700; font-size: 12px; margin-bottom: 4px;">NFT & DOMAINS</div>
                                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 11px;">
                                         <div>Domains</div>
                                         <div>NFTs</div>
