@@ -126,7 +126,6 @@
             contain: layout; /* Изоляция каждой карточки */
             will-change: transform; /* Оптимизация для анимации */
             transition: all 0.3s ease;
-            color: white;
             /* Блоки изначально ровные */
             transform: rotate(0deg);
         }
@@ -154,6 +153,11 @@
             transform: rotate(1deg) scale(1.05);
             box-shadow: 0 15px 35px rgba(249, 115, 22, 0.4);
             background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
+        }
+
+        /* ПРИНУДИТЕЛЬНО БЕЛЫЙ ЦВЕТ ДЛЯ ВСЕГО В БЛОКАХ */
+        .stat-card * {
+            color: white !important;
         }
 
         .stat-icon {
