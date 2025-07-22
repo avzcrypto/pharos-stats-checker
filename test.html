@@ -296,7 +296,7 @@
             text-align: right;
         }
 
-        /* Leaderboard - GLASSMORPHISM СТИЛЬ */
+        /* Leaderboard - GLASSMORPHISM СТИЛЬ + СКРОЛЛ */
         .leaderboard-section {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
@@ -307,6 +307,9 @@
                 0 10px 20px rgba(0, 0, 0, 0.08),
                 0 4px 8px rgba(0, 0, 0, 0.04);
             margin-bottom: 30px;
+            /* ДОБАВЛЕНО: ГОРИЗОНТАЛЬНЫЙ СКРОЛЛ */
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .leaderboard-header {
@@ -324,6 +327,7 @@
 
         .leaderboard-table {
             width: 100%;
+            min-width: 1000px; /* ДОБАВЛЕНО: МИНИМАЛЬНАЯ ШИРИНА */
             border-collapse: separate;
             border-spacing: 0 6px;
         }
@@ -376,13 +380,14 @@
         .leaderboard-table tbody tr {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .leaderboard-table tbody tr:hover {
-            transform: scale(1.02);
-            box-shadow: 0 12px 24px rgba(59, 130, 246, 0.15);
-            background: rgba(255, 255, 255, 0.95);
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.1),
+                0 8px 16px rgba(0, 0, 0, 0.08);
         }
 
         .leaderboard-table td {
@@ -720,8 +725,18 @@
                 width: 100px;
                 height: 100px;
             }
+
+            .leaderboard-table {
+                font-size: 11px;
+            }
+
+            .leaderboard-table th,
+            .leaderboard-table td {
+                padding: 6px 4px;
+            }
         }
 
+        /* Анимации */
         @keyframes fadeInUp {
             0% {
                 opacity: 0;
@@ -806,7 +821,7 @@
             <div class="loading-text">Loading dashboard...</div>
         </div>
 
-        <!-- LEADERBOARD -->
+        <!-- LEADERBOARD С ГОРИЗОНТАЛЬНЫМ СКРОЛЛОМ -->
         <div class="leaderboard-section animate__fadeInUp animate-delay-3" id="leaderboardSection">
             <div class="leaderboard-header">
                 <h3 class="leaderboard-title">🏆 Top 100 Users</h3>
@@ -924,12 +939,10 @@
             
             const showLoading = () => {
                 loading.classList.add('show');
-                leaderboardSection.style.display = 'none';
             };
             
             const hideLoading = () => {
                 loading.classList.remove('show');
-                leaderboardSection.style.display = 'block';
             };
 
             const getRankTier = points => {
