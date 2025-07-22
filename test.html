@@ -430,6 +430,16 @@
             contain: layout; /* Изоляция grid */
         }
 
+        /* ⚡ ВЕРТИКАЛЬНЫЕ РАЗДЕЛИТЕЛИ для protocol grid */
+        .protocol-grid > div:first-child {
+            border-right: 1px solid rgba(0, 0, 0, 0.15);
+            padding-right: 4px;
+        }
+
+        .protocol-grid > div:last-child {
+            padding-left: 4px;
+        }
+
         .send-block { background: rgba(59, 130, 246, 0.08); }
         .zenith-block { background: rgba(249, 115, 22, 0.08); }
         .faroswap-block { background: rgba(168, 85, 247, 0.08); }
@@ -663,7 +673,7 @@
                             </th>
                             <th class="nft-header">
                                 <div style="text-align: center;">
-                                    <div style="font-weight: 700; font-size: 12px; margin-bottom: 4px;">NFT & DOMAINS</div>
+                                    <div style="font-weight: 700; font-size: 12px; margin-bottom: 4px;">DOMAINS & NFT</div>
                                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 11px;">
                                         <div>Domains</div>
                                         <div>NFTs</div>
