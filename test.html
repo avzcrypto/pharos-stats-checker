@@ -16,58 +16,70 @@
         a,body,footer,h1,header,html,img,li,nav,ol,span,ul{margin:0;padding:0}
         *{-webkit-tap-highlight-color:transparent;box-sizing:border-box}
         
+        /* PHAROS OFFICIAL STYLES - Применяем к дашборду */
         body {
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             margin: 0;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            /* PHAROS OFFICIAL BACKGROUND */
             background: linear-gradient(135deg, #f5f2ed 0%, #e8eaf6 30%, #e3f2fd 60%, #bbdefb 100%);
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* ⚡ CSS VARIABLES - PHAROS PALETTE */
+        /* PHAROS COLOR PALETTE - из official CSS */
         :root {
             --pharos-blue-500: #3b82f6;
             --pharos-blue-600: #2563eb;
             --pharos-blue-700: #1d4ed8;
             --pharos-blue-800: #1e3a8a;
+            --pharos-blue-900: #1e40af;
             --pharos-orange-500: #f97316;
+            --pharos-orange-600: #fb923c;
             --pharos-green-500: #22c55e;
             --pharos-green-600: #16a34a;
             --pharos-purple-500: #a855f7;
+            --pharos-purple-600: #9333ea;
             --pharos-gray-500: #64748b;
             --pharos-gray-600: #4b5563;
             --pharos-gray-700: #374151;
             --pharos-gray-900: #1f2937;
         }
 
-        /* ⚡ МАКСИМАЛЬНАЯ ОПТИМИЗАЦИЯ: CSS CONTAINMENT 2.0 */
+        /* CONTAINMENT OPTIMIZATION */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 40px 20px;
             min-height: 100vh;
-            contain: layout style; /* 🚀 93% быстрее рендеринг */
+            contain: layout style;
         }
 
+        /* PHAROS HEADER STYLE */
         .header-section {
             display: flex;
             justify-content: space-between;
-            align-items: center; /* Все элементы на одной линии */
+            align-items: center;
             margin-bottom: 40px;
             gap: 40px;
-            contain: layout; /* Изоляция header */
-            background: linear-gradient(135deg, #f5f2ed 0%, #e8eaf6 30%, #e3f2fd 60%, #bbdefb 100%);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 16px;
-            padding: 20px;
+            contain: layout;
+            /* PHAROS CARD STYLE */
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            padding: 24px;
+            /* PHAROS SHADOW */
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.08),
+                0 10px 20px rgba(0, 0, 0, 0.04);
         }
 
         .header-left {
             flex: 1;
             display: flex;
-            align-items: center; /* Лого и заголовок на одной линии */
+            align-items: center;
             gap: 24px;
         }
 
@@ -91,6 +103,7 @@
             flex-shrink: 0;
         }
 
+        /* PHAROS TYPOGRAPHY */
         .main-title {
             font-size: 46px;
             font-weight: 900;
@@ -111,10 +124,10 @@
         .header-right {
             display: flex;
             gap: 20px;
-            contain: layout; /* Изоляция stats */
+            contain: layout;
         }
 
-        /* ⚡ СУПЕР-ОПТИМИЗИРОВАННЫЕ STAT CARDS - GRADIENT STYLE */
+        /* PHAROS STAT CARDS - OFFICIAL GRADIENTS */
         .stat-card {
             border-radius: 16px;
             padding: 20px;
@@ -123,26 +136,25 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            contain: layout; /* Изоляция каждой карточки */
-            will-change: transform; /* Оптимизация для анимации */
-            transition: all 0.3s ease;
-            /* Блоки изначально ровные */
+            contain: layout;
+            will-change: transform;
+            /* PHAROS SMOOTH TRANSITION */
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             transform: rotate(0deg);
         }
 
-        /* Total Users - Pharos Blue градиент */
+        /* PHAROS OFFICIAL GRADIENTS */
         .stat-card:nth-child(1) {
             background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
             box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
         }
 
-        /* Top Score - Pharos Orange градиент */
         .stat-card:nth-child(2) {
             background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
             box-shadow: 0 8px 25px rgba(249, 115, 22, 0.3);
         }
 
-        /* Hover эффекты - играют при наведении */
+        /* PHAROS HOVER EFFECTS */
         .stat-card:nth-child(1):hover {
             transform: rotate(-1deg) scale(1.05);
             box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4);
@@ -155,7 +167,6 @@
             background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
         }
 
-        /* ПРИНУДИТЕЛЬНО БЕЛЫЙ ЦВЕТ ДЛЯ ВСЕГО В БЛОКАХ */
         .stat-card * {
             color: white !important;
         }
@@ -189,7 +200,7 @@
             letter-spacing: 0.025em;
         }
 
-        /* ⚡ ОПТИМИЗИРОВАННЫЕ СЕКЦИИ */
+        /* PHAROS LIVE DATA INFO */
         .live-data-info {
             background: rgba(255, 255, 255, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.8);
@@ -211,15 +222,20 @@
             font-weight: 700;
         }
 
-        /* ⚡ ANALYTICS - МАКСИМАЛЬНАЯ ОПТИМИЗАЦИЯ */
+        /* PHAROS ANALYTICS SECTION */
         .analytics-section {
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
             padding: 24px;
             margin-bottom: 30px;
-            contain: content; /* layout + paint + style КОМБО */
-            content-visibility: auto; /* 🚀 Lazy rendering */
+            contain: content;
+            content-visibility: auto;
+            /* PHAROS SHADOW */
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.08),
+                0 10px 20px rgba(0, 0, 0, 0.04);
         }
 
         .analytics-header {
@@ -242,12 +258,11 @@
             align-items: center;
         }
 
-        /* PIE CHART - ОПТИМИЗИРОВАННЫЙ */
         .pie-container {
             position: relative;
             width: 260px;
             height: 260px;
-            contain: layout; /* Изоляция SVG */
+            contain: layout;
         }
 
         .pie-chart {
@@ -277,14 +292,14 @@
             font-weight: 600;
         }
 
-        /* ⚡ LEGEND - МАКСИМАЛЬНО БЫСТРАЯ */
         .pie-legend {
             display: flex;
             flex-direction: column;
             gap: 6px;
-            contain: layout; /* Изоляция legend */
+            contain: layout;
         }
 
+        /* PHAROS LEGEND ITEMS */
         .legend-item {
             display: grid;
             grid-template-columns: 16px 1fr auto auto;
@@ -294,7 +309,14 @@
             background: rgba(255, 255, 255, 0.9);
             border: 1px solid rgba(0, 0, 0, 0.06);
             border-radius: 8px;
-            contain: layout; /* Каждый item изолирован */
+            contain: layout;
+            /* PHAROS SMOOTH TRANSITION */
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .legend-item:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .legend-color {
@@ -325,15 +347,20 @@
             text-align: right;
         }
 
-        /* ⚡ LEADERBOARD - ВИРТУАЛИЗАЦИЯ + CONTAINMENT */
+        /* PHAROS LEADERBOARD */
         .leaderboard-section {
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
             padding: 24px;
             margin-bottom: 30px;
-            contain: content; /* Полная изоляция таблицы */
-            content-visibility: auto; /* Lazy rendering */
+            contain: content;
+            content-visibility: auto;
+            /* PHAROS SHADOW */
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.08),
+                0 10px 20px rgba(0, 0, 0, 0.04);
         }
 
         .leaderboard-header {
@@ -349,11 +376,10 @@
             color: var(--pharos-gray-900);
         }
 
-        /* ⚡ TABLE - МАКСИМАЛЬНАЯ ПРОИЗВОДИТЕЛЬНОСТЬ */
         .leaderboard-table {
             width: 100%;
-            border-collapse: collapse; /* Быстрее чем separate */
-            contain: strict; /* size + layout + paint + style */
+            border-collapse: collapse;
+            contain: strict;
         }
 
         .leaderboard-table thead th {
@@ -375,7 +401,7 @@
         .leaderboard-table th:nth-child(2),
         .leaderboard-table th:nth-child(3) { text-align: left; }
 
-        /* PROTOCOL HEADERS - ПРОСТЫЕ ЦВЕТА */
+        /* PHAROS PROTOCOL HEADERS */
         .send-header { background: rgba(59, 130, 246, 0.12) !important; }
         .zenith-header { background: rgba(249, 115, 22, 0.12) !important; }
         .faroswap-header { background: rgba(168, 85, 247, 0.12) !important; }
@@ -383,12 +409,15 @@
 
         .leaderboard-table tbody tr {
             background: rgba(255, 255, 255, 0.9);
-            contain: layout; /* Каждая строка изолирована */
+            contain: layout;
+            /* PHAROS SMOOTH TRANSITION */
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .leaderboard-table tbody tr:hover {
             background: rgba(255, 255, 255, 1);
-            /* Убрали transform - только цвет */
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .leaderboard-table td {
@@ -402,7 +431,7 @@
         .leaderboard-table td:nth-child(2),
         .leaderboard-table td:nth-child(3) { text-align: left; }
 
-        /* RANK COLORS - ОПТИМИЗИРОВАННЫЕ */
+        /* PHAROS RANK COLORS */
         .rank { font-weight: 800; font-size: 14px; }
         .rank-tier-1 { color: #ef4444; }
         .rank-tier-2 { color: #f97316; }
@@ -422,7 +451,7 @@
             font-weight: 600;
         }
 
-        /* ⚡ POINTS WRAPPER - УПРОЩЕННЫЙ */
+        /* PHAROS POINTS WRAPPER */
         .points-level-wrapper {
             background: rgba(255, 255, 255, 0.95);
             border: 1px solid rgba(0, 0, 0, 0.06);
@@ -442,8 +471,9 @@
             font-family: 'Inter', monospace;
         }
 
+        /* PHAROS LEVEL BADGE */
         .level-badge {
-            background: var(--pharos-green-500);
+            background: linear-gradient(135deg, #22c55e, #16a34a);
             color: white;
             padding: 2px 6px;
             border-radius: 6px;
@@ -451,7 +481,6 @@
             font-weight: 800;
         }
 
-        /* ⚡ PROTOCOL BLOCKS - CSS CLASSES ВМЕСТО INLINE */
         .activity-count {
             font-weight: 600;
             color: var(--pharos-gray-900);
@@ -471,10 +500,9 @@
             text-align: center;
             padding: 3px;
             border-radius: 6px;
-            contain: layout; /* Изоляция grid */
+            contain: layout;
         }
 
-        /* ⚡ ВЕРТИКАЛЬНЫЕ РАЗДЕЛИТЕЛИ для protocol grid */
         .protocol-grid > div:first-child {
             border-right: 1px solid rgba(0, 0, 0, 0.15);
             padding-right: 4px;
@@ -484,12 +512,12 @@
             padding-left: 4px;
         }
 
+        /* PHAROS PROTOCOL BLOCKS */
         .send-block { background: rgba(59, 130, 246, 0.08); }
         .zenith-block { background: rgba(249, 115, 22, 0.08); }
         .faroswap-block { background: rgba(168, 85, 247, 0.08); }
         .nft-block { background: rgba(34, 197, 94, 0.08); }
 
-        /* LOADING */
         .loading {
             display: none;
             text-align: center;
@@ -505,7 +533,7 @@
             font-weight: 600;
         }
 
-        /* AUTHOR FOOTER */
+        /* PHAROS AUTHOR FOOTER */
         .author-footer {
             margin-top: 24px;
             text-align: center;
@@ -517,18 +545,30 @@
             text-decoration: none;
             font-size: 14px;
             font-weight: 600;
-            transition: opacity 0.2s ease;
-            padding: 10px 16px;
-            border-radius: 12px;
+            /* PHAROS SMOOTH TRANSITION */
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 12px 20px;
+            border-radius: 16px;
             display: inline-block;
-            background: var(--pharos-green-500);
+            background: linear-gradient(135deg, #22c55e, #16a34a);
             text-align: center;
             line-height: 1.4;
+            /* PHAROS SHADOW */
+            box-shadow: 
+                0 8px 16px rgba(34, 197, 94, 0.3),
+                0 4px 8px rgba(34, 197, 94, 0.2);
         }
 
-        .author-link:hover { opacity: 0.9; }
+        .author-link:hover {
+            color: white;
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            transform: translateY(-2px);
+            box-shadow: 
+                0 12px 24px rgba(34, 197, 94, 0.4),
+                0 6px 12px rgba(34, 197, 94, 0.3);
+        }
 
-        /* ⚡ PAGINATION - ОПТИМИЗИРОВАННАЯ */
+        /* PHAROS PAGINATION */
         .pagination-container {
             display: flex;
             justify-content: center;
@@ -560,12 +600,16 @@
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            transition: opacity 0.15s ease;
+            /* PHAROS SMOOTH TRANSITION */
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             min-width: 35px;
             text-align: center;
         }
 
-        .pagination-btn:hover:not(:disabled) { opacity: 0.8; }
+        .pagination-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
+        }
 
         .pagination-btn.active {
             background: var(--pharos-blue-500);
@@ -580,7 +624,7 @@
 
         .pagination-nav { padding: 6px 12px; }
 
-        /* ⚡ RESPONSIVE - УПРОЩЕННАЯ АДАПТАЦИЯ */
+        /* PHAROS RESPONSIVE */
         @media (max-width: 1024px) {
             .container { padding: 30px 20px; }
             .header-section { gap: 20px; }
@@ -617,7 +661,7 @@
             .logo-img { width: 80px; height: 80px; }
         }
 
-        /* ⚡ ПРОИЗВОДИТЕЛЬНОСТЬ: SCROLL OPTIMIZATION */
+        /* PHAROS SCROLL OPTIMIZATION */
         html { scroll-behavior: smooth; }
         @media (max-width: 768px) {
             body { -webkit-overflow-scrolling: touch; }
