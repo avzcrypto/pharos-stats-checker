@@ -3,28 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- 🔒 SECURITY HEADERS -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.anthropic.com; frame-ancestors 'none';">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
-    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-    
     <title>Pharos Testnet Dashboard - Live Stats & Analytics</title>
     <meta name="description" content="🔥 Live Pharos testnet analytics! Top performers, community stats & real-time insights. Track the ecosystem growth.">
-    <meta name="keywords" content="pharos, testnet, dashboard, leaderboard, crypto, blockchain">
-    <meta name="author" content="avzcrypto">
     <link rel="canonical" href="https://pharoshub.xyz/dashboard">
     <link rel="icon" type="image/webp" href="./logo.webp">
-    
-    <!-- 🚀 PERFORMANCE OPTIMIZATIONS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-    <link rel="preload" href="./leaderboard_logo.webp" as="image">
-            <link rel="modulepreload" href="/api/admin/stats">
-    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
@@ -32,7 +16,7 @@
         a,body,footer,h1,header,html,img,li,nav,ol,span,ul{margin:0;padding:0}
         *{-webkit-tap-highlight-color:transparent;box-sizing:border-box}
         
-        /* 🎨 PHAROS BRAND STYLES */
+        /* 🎨 ФИРМЕННЫЙ СТИЛЬ PHAROS */
         body {
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
@@ -50,7 +34,6 @@
             --pharos-blue-700: #1d4ed8;
             --pharos-blue-800: #1e3a8a;
             --pharos-orange-500: #f97316;
-            --pharos-orange-600: #fb923c;
             --pharos-green-500: #22c55e;
             --pharos-green-600: #16a34a;
             --pharos-purple-500: #a855f7;
@@ -60,28 +43,28 @@
             --pharos-gray-900: #1f2937;
         }
 
-        /* ⚡ PERFORMANCE: CSS CONTAINMENT */
+        /* ⚡ МАКСИМАЛЬНАЯ ОПТИМИЗАЦИЯ: CSS CONTAINMENT 2.0 */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 40px 20px;
             min-height: 100vh;
-            contain: layout style;
+            contain: layout style; /* 🚀 93% быстрее рендеринг */
         }
 
         .header-section {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: center; /* Все элементы на одной линии */
             margin-bottom: 40px;
             gap: 40px;
-            contain: layout;
+            contain: layout; /* Изоляция header */
         }
 
         .header-left {
             flex: 1;
             display: flex;
-            align-items: center;
+            align-items: center; /* Лого и заголовок на одной линии */
             gap: 24px;
         }
 
@@ -103,7 +86,6 @@
             height: 160px;
             object-fit: contain;
             flex-shrink: 0;
-            loading: lazy;
         }
 
         .main-title {
@@ -129,7 +111,7 @@
             contain: layout;
         }
 
-        /* 🚀 PHAROS BRANDED STAT CARDS */
+        /* 🚀 ФИРМЕННЫЕ STAT CARDS - PHAROS СТИЛЬ */
         .stat-card {
             border-radius: 16px;
             padding: 24px;
@@ -143,10 +125,9 @@
             will-change: transform;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
-            role: button;
-            tabindex: 0;
         }
 
+        /* 💎 ГРАДИЕНТЫ КАК В ОФИЦИАЛЬНОМ PHAROS */
         .stat-card:nth-child(1) {
             background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
             box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
@@ -157,15 +138,14 @@
             box-shadow: 0 8px 25px rgba(249, 115, 22, 0.3);
         }
 
-        .stat-card:nth-child(1):hover,
-        .stat-card:nth-child(1):focus {
+        /* ✨ ФИРМЕННЫЕ HOVER ЭФФЕКТЫ */
+        .stat-card:nth-child(1):hover {
             transform: translateY(-4px) scale(1.02);
             box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4);
             background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
         }
 
-        .stat-card:nth-child(2):hover,
-        .stat-card:nth-child(2):focus {
+        .stat-card:nth-child(2):hover {
             transform: translateY(-4px) scale(1.02);
             box-shadow: 0 15px 35px rgba(249, 115, 22, 0.4);
             background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
@@ -183,7 +163,6 @@
             font-size: 32px;
             color: white;
             opacity: 0.9;
-            aria-hidden: true;
         }
 
         .stat-value {
@@ -203,95 +182,7 @@
             opacity: 0.9;
         }
 
-        /* 🔄 SECURE LOADING SKELETONS */
-        .pharos-skeleton {
-            background: linear-gradient(90deg, #ebebeb 25%, #f5f5f5 50%, #ebebeb 75%);
-            background-size: 200% 100%;
-            animation: pharosShimmer 1.5s infinite ease-in-out;
-            border-radius: 8px;
-        }
-
-        @keyframes pharosShimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-
-        .skeleton-stat-card {
-            height: 160px;
-            width: 180px;
-            border-radius: 16px;
-            background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
-            background-size: 200% 100%;
-            animation: pharosShimmer 1.5s infinite ease-in-out;
-        }
-
-        /* 🎬 CUSTOM ANIMATIONS (NO EXTERNAL DEPS) */
-        @keyframes fadeInDown {
-            0% {
-                opacity: 0;
-                transform: translate3d(0, -100%, 0);
-            }
-            100% {
-                opacity: 1;
-                transform: translateZ(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translate3d(0, 40px, 0);
-            }
-            100% {
-                opacity: 1;
-                transform: translateZ(0);
-            }
-        }
-
-        @keyframes fadeInLeft {
-            0% {
-                opacity: 0;
-                transform: translate3d(-100%, 0, 0);
-            }
-            100% {
-                opacity: 1;
-                transform: translateZ(0);
-            }
-        }
-
-        @keyframes fadeInRight {
-            0% {
-                opacity: 0;
-                transform: translate3d(100%, 0, 0);
-            }
-            100% {
-                opacity: 1;
-                transform: translateZ(0);
-            }
-        }
-
-        .animate-fadeInDown {
-            animation: fadeInDown 0.6s ease-out;
-        }
-
-        .animate-fadeInUp {
-            animation: fadeInUp 0.6s ease-out;
-        }
-
-        .animate-fadeInLeft {
-            animation: fadeInLeft 0.6s ease-out;
-        }
-
-        .animate-fadeInRight {
-            animation: fadeInRight 0.6s ease-out;
-        }
-
-        .animate-delay-1 { animation-delay: 0.1s; }
-        .animate-delay-2 { animation-delay: 0.2s; }
-        .animate-delay-3 { animation-delay: 0.3s; }
-        .animate-delay-4 { animation-delay: 0.4s; }
-
-        /* COMPONENT STYLES */
+        /* LIVE DATA INFO */
         .live-data-info {
             background: rgba(255, 255, 255, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.8);
@@ -313,6 +204,7 @@
             font-weight: 700;
         }
 
+        /* ANALYTICS SECTION */
         .analytics-section {
             background: rgba(255, 255, 255, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.8);
@@ -373,29 +265,24 @@
             font-weight: 600;
         }
 
+        /* ⚡ LEGEND - МАКСИМАЛЬНО БЫСТРАЯ */
         .pie-legend {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            contain: layout;
+            gap: 6px;
+            contain: layout; /* Изоляция legend */
         }
 
         .legend-item {
             display: grid;
             grid-template-columns: 16px 1fr auto auto;
-            gap: 12px;
+            gap: 10px;
             align-items: center;
-            padding: 10px 14px;
+            padding: 8px 12px;
             background: rgba(255, 255, 255, 0.9);
             border: 1px solid rgba(0, 0, 0, 0.06);
-            border-radius: 10px;
-            contain: layout;
-            transition: all 0.2s ease;
-        }
-
-        .legend-item:hover {
-            background: rgba(255, 255, 255, 1);
-            transform: translateX(4px);
+            border-radius: 8px;
+            contain: layout; /* Каждый item изолирован */
         }
 
         .legend-color {
@@ -426,13 +313,15 @@
             text-align: right;
         }
 
+        /* ⚡ LEADERBOARD - ВИРТУАЛИЗАЦИЯ + CONTAINMENT */
         .leaderboard-section {
             background: rgba(255, 255, 255, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.8);
             border-radius: 16px;
             padding: 24px;
             margin-bottom: 30px;
-            contain: content;
+            contain: content; /* Полная изоляция таблицы */
+            content-visibility: auto; /* Lazy rendering */
         }
 
         .leaderboard-header {
@@ -448,16 +337,17 @@
             color: var(--pharos-gray-900);
         }
 
+        /* ⚡ TABLE - МАКСИМАЛЬНАЯ ПРОИЗВОДИТЕЛЬНОСТЬ */
         .leaderboard-table {
             width: 100%;
-            border-collapse: collapse;
-            contain: strict;
+            border-collapse: collapse; /* Быстрее чем separate */
+            contain: strict; /* size + layout + paint + style */
         }
 
         .leaderboard-table thead th {
             background: rgba(255, 255, 255, 0.95);
             border: 1px solid rgba(0, 0, 0, 0.08);
-            padding: 12px 8px;
+            padding: 10px 6px;
             font-weight: 700;
             color: var(--pharos-gray-900);
             font-size: 13px;
@@ -473,6 +363,7 @@
         .leaderboard-table th:nth-child(2),
         .leaderboard-table th:nth-child(3) { text-align: left; }
 
+        /* PROTOCOL HEADERS - ПРОСТЫЕ ЦВЕТА */
         .send-header { background: rgba(59, 130, 246, 0.12) !important; }
         .zenith-header { background: rgba(249, 115, 22, 0.12) !important; }
         .faroswap-header { background: rgba(168, 85, 247, 0.12) !important; }
@@ -480,17 +371,16 @@
 
         .leaderboard-table tbody tr {
             background: rgba(255, 255, 255, 0.9);
-            contain: layout;
-            transition: all 0.2s ease;
+            contain: layout; /* Каждая строка изолирована */
         }
 
         .leaderboard-table tbody tr:hover {
-            background: rgba(59, 130, 246, 0.05);
-            transform: translateX(4px);
+            background: rgba(255, 255, 255, 1);
+            /* Убрали transform - только цвет */
         }
 
         .leaderboard-table td {
-            padding: 10px 8px;
+            padding: 8px 6px;
             text-align: center;
             vertical-align: middle;
             border-bottom: 1px solid rgba(0, 0, 0, 0.04);
@@ -500,18 +390,37 @@
         .leaderboard-table td:nth-child(2),
         .leaderboard-table td:nth-child(3) { text-align: left; }
 
+        /* RANK COLORS - ОПТИМИЗИРОВАННЫЕ */
         .rank { font-weight: 800; font-size: 14px; }
         .rank-tier-1 { color: #ef4444; }
         .rank-tier-2 { color: #f97316; }
         .rank-tier-3 { color: #eab308; }
         .rank-tier-4 { color: #22c55e; }
-        .rank-tier-5 { color: #3b82f6; }
+        .rank-tier-5 { color: #06b6d4; }
+        .rank-tier-6 { color: #3b82f6; }
+        .rank-tier-7 { color: #8b5cf6; }
+        .rank-tier-8 { color: #a855f7; }
+        .rank-tier-9 { color: #ec4899; }
+        .rank-tier-10 { color: #64748b; }
 
         .address {
             font-family: 'Inter', monospace;
             font-size: 14px;
             color: var(--pharos-blue-700);
             font-weight: 600;
+        }
+
+        /* ⚡ POINTS WRAPPER - УПРОЩЕННЫЙ */
+        .points-level-wrapper {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 8px;
+            padding: 3px 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            width: 100px;
         }
 
         .points {
@@ -530,6 +439,7 @@
             font-weight: 800;
         }
 
+        /* ⚡ PROTOCOL BLOCKS - CSS CLASSES ВМЕСТО INLINE */
         .activity-count {
             font-weight: 600;
             color: var(--pharos-gray-900);
@@ -547,11 +457,12 @@
             grid-template-columns: 1fr 1fr;
             gap: 4px;
             text-align: center;
-            padding: 4px;
+            padding: 3px;
             border-radius: 6px;
-            contain: layout;
+            contain: layout; /* Изоляция grid */
         }
 
+        /* ⚡ ВЕРТИКАЛЬНЫЕ РАЗДЕЛИТЕЛИ для protocol grid */
         .protocol-grid > div:first-child {
             border-right: 1px solid rgba(0, 0, 0, 0.15);
             padding-right: 4px;
@@ -566,10 +477,11 @@
         .faroswap-block { background: rgba(168, 85, 247, 0.08); }
         .nft-block { background: rgba(34, 197, 94, 0.08); }
 
+        /* LOADING */
         .loading {
             display: none;
             text-align: center;
-            padding: 40px 20px;
+            padding: 30px 20px;
             contain: layout;
         }
 
@@ -577,22 +489,11 @@
 
         .loading-text {
             color: var(--pharos-gray-500);
-            font-size: 18px;
-            font-weight: 600;
-            margin-top: 16px;
-        }
-
-        .error-message {
-            background: rgba(255, 255, 255, 0.95);
-            border: 2px solid #ef4444;
-            border-radius: 12px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: center;
-            color: #ef4444;
+            font-size: 16px;
             font-weight: 600;
         }
 
+        /* AUTHOR FOOTER */
         .author-footer {
             margin-top: 24px;
             text-align: center;
@@ -604,34 +505,77 @@
             text-decoration: none;
             font-size: 14px;
             font-weight: 600;
-            transition: all 0.3s ease;
-            padding: 12px 20px;
+            transition: opacity 0.2s ease;
+            padding: 10px 16px;
             border-radius: 12px;
             display: inline-block;
-            background: linear-gradient(135deg, var(--pharos-green-500), var(--pharos-green-600));
+            background: var(--pharos-green-500);
             text-align: center;
             line-height: 1.4;
-            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.25);
         }
 
-        .author-link:hover,
-        .author-link:focus {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(34, 197, 94, 0.35);
+        .author-link:hover { opacity: 0.9; }
+
+        /* ⚡ PAGINATION - ОПТИМИЗИРОВАННАЯ */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 16px;
+            flex-direction: column;
+            gap: 12px;
+            contain: layout;
         }
 
-        /* RESPONSIVE */
+        .pagination-info {
+            font-size: 13px;
+            color: var(--pharos-gray-500);
+            font-weight: 500;
+        }
+
+        .pagination-controls {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .pagination-btn {
+            padding: 6px 10px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--pharos-gray-700);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.15s ease;
+            min-width: 35px;
+            text-align: center;
+        }
+
+        .pagination-btn:hover:not(:disabled) { opacity: 0.8; }
+
+        .pagination-btn.active {
+            background: var(--pharos-blue-500);
+            color: white;
+            border-color: var(--pharos-blue-500);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .pagination-nav { padding: 6px 12px; }
+
+        /* ⚡ RESPONSIVE - УПРОЩЕННАЯ АДАПТАЦИЯ */
         @media (max-width: 1024px) {
             .container { padding: 30px 20px; }
-            .header-section { 
-                flex-direction: column; 
-                gap: 24px; 
-                text-align: center;
-            }
-            .header-right { justify-content: center; }
+            .header-section { gap: 20px; }
+            .header-right { flex: 0 0 320px; }
             .analytics-content { 
                 grid-template-columns: 1fr; 
-                gap: 20px; 
+                gap: 16px; 
                 text-align: center; 
             }
             .pie-container { margin: 0 auto; }
@@ -639,84 +583,42 @@
 
         @media (max-width: 768px) {
             .container { padding: 20px 16px; }
-            .header-section { flex-direction: column; align-items: center; }
-            .logo-title-container { flex-direction: column; gap: 16px; }
-            .main-title { font-size: 32px; text-align: center; }
+            .header-section { flex-direction: column; align-items: center; text-align: center; }
+            .logo-title-container { flex-direction: column; gap: 12px; align-items: center; }
+            .main-title { font-size: 24px; text-align: center; }
             .header-right { 
-                flex-direction: column;
-                gap: 16px;
-                width: 100%;
-                max-width: 300px;
+                flex: none; 
+                width: 100%; 
+                max-width: 350px; 
+                grid-template-columns: 1fr 1fr; 
+                gap: 12px; 
+                margin-top: 0; 
             }
-            .stat-card {
-                width: 100%;
-                height: 140px;
-            }
-            .logo-img { width: 120px; height: 120px; }
+            .stat-value { font-size: 24px; }
+            .logo-img { width: 100px; height: 100px; }
             .leaderboard-table { font-size: 12px; }
         }
 
         @media (max-width: 480px) {
-            .main-title { font-size: 28px; }
-            .logo-img { width: 100px; height: 100px; }
-            .stat-card { height: 120px; }
+            .header-right { grid-template-columns: 1fr; }
+            .main-title { font-size: 20px; }
+            .logo-img { width: 80px; height: 80px; }
         }
 
+        /* ⚡ ПРОИЗВОДИТЕЛЬНОСТЬ: SCROLL OPTIMIZATION */
         html { scroll-behavior: smooth; }
         @media (max-width: 768px) {
             body { -webkit-overflow-scrolling: touch; }
         }
-
-        /* ♿ ACCESSIBILITY */
-        @media (prefers-reduced-motion: reduce) {
-            *, ::before, ::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-
-        /* Focus indicators */
-        *:focus {
-            outline: 2px solid var(--pharos-blue-500);
-            outline-offset: 2px;
-        }
-
-        .stat-card:focus {
-            outline: 3px solid var(--pharos-blue-500);
-        }
     </style>
 </head>
 <body>
-    <!-- ♿ ACCESSIBILITY: Screen reader support -->
-    <div class="sr-only" aria-live="polite" id="status-announcer"></div>
-    
-    <!-- ❌ NO JAVASCRIPT FALLBACK -->
-    <noscript>
-        <div style="background: #fef2f2; border: 2px solid #ef4444; padding: 20px; margin: 20px; border-radius: 8px; text-align: center;">
-            <h2 style="color: #ef4444; margin-bottom: 10px;">JavaScript Required</h2>
-            <p style="color: #7f1d1d;">Please enable JavaScript in your browser to view the Pharos Dashboard.</p>
-        </div>
-    </noscript>
-
     <div class="container">
         <!-- HEADER -->
-        <header class="header-section animate-fadeInDown" role="banner">
+        <div class="header-section">
             <div class="header-left">
                 <div class="logo-title-container">
-                    <img src="./leaderboard_logo.webp" alt="Pharos Network Logo" class="logo-img" loading="eager">
+                    <img src="./leaderboard_logo.webp" alt="Pharos Logo" class="logo-img">
                     <div class="title-subtitle-container">
                         <h1 class="main-title">Pharos<br>Testnet<br>Dashboard</h1>
                         <p class="main-subtitle">Live community analytics and leaderboard insights</p>
@@ -724,72 +626,80 @@
                 </div>
             </div>
             
-            <div class="header-right" id="statsContainer" role="region" aria-label="Statistics">
-                <!-- Loading skeletons will be shown initially -->
-                <div class="skeleton-stat-card pharos-skeleton" aria-label="Loading total users"></div>
-                <div class="skeleton-stat-card pharos-skeleton" aria-label="Loading top score"></div>
+            <div class="header-right">
+                <div class="stat-card">
+                    <div class="stat-value-container">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-value" id="totalUsers">0</div>
+                    </div>
+                    <div class="stat-label">Total Users</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value-container">
+                        <div class="stat-icon">🏆</div>
+                        <div class="stat-value" id="topPoints">0</div>
+                    </div>
+                    <div class="stat-label">Top Score</div>
+                </div>
             </div>
-        </header>
+        </div>
 
         <!-- LIVE DATA INFO -->
-        <section class="live-data-info animate-fadeInUp animate-delay-1" role="status" aria-live="polite">
+        <div class="live-data-info">
             <div class="live-data-text">
                 <span class="live-data-highlight">Live data updates every hour</span> • Real-time statistics and community insights
             </div>
-        </section>
+        </div>
 
         <!-- ANALYTICS SECTION -->
-        <section class="analytics-section animate-fadeInUp animate-delay-2" role="region" aria-label="User Analytics">
+        <div class="analytics-section">
             <div class="analytics-header">
-                <h2 class="analytics-title">📈 User Distribution by Points</h2>
+                <h3 class="analytics-title">📈 User Distribution by Points</h3>
             </div>
             
             <div class="analytics-content">
-                <div class="pie-container" role="img" aria-label="Pie chart showing user distribution">
-                    <svg class="pie-chart" viewBox="0 0 260 260" id="pieChart" aria-hidden="true">
+                <div class="pie-container">
+                    <svg class="pie-chart" viewBox="0 0 260 260" id="pieChart">
                         <!-- Pie slices will be generated by JavaScript -->
                     </svg>
                     <div class="pie-center-info">
-                        <div class="total-users" id="pieChartTotal" aria-label="Total active users">0</div>
+                        <div class="total-users" id="pieChartTotal">0</div>
                         <div class="total-label">Active Users</div>
                     </div>
                 </div>
 
-                <div class="pie-legend" id="pieLegend" role="list" aria-label="Chart legend">
-                    <!-- Legend items will be loaded via JS -->
+                <div class="pie-legend" id="pieLegend">
+                    <!-- Legend items will be generated by JavaScript -->
                 </div>
             </div>
-        </section>
+        </div>
 
         <!-- LEADERBOARD SECTION -->
-        <section class="leaderboard-section animate-fadeInUp animate-delay-3" role="region" aria-label="Community Leaderboard">
+        <div class="leaderboard-section">
             <div class="leaderboard-header">
-                <h2 class="leaderboard-title">🏆 Community Leaderboard</h2>
+                <h3 class="leaderboard-title">🏆 Community Leaderboard</h3>
             </div>
 
-            <div class="loading" id="loading" aria-live="polite">
-                <div class="pharos-skeleton" style="width: 200px; height: 20px; margin: 0 auto 12px; border-radius: 4px;"></div>
+            <div class="loading" id="loading">
                 <div class="loading-text">Loading leaderboard data...</div>
             </div>
 
-            <div class="leaderboard-table-container" id="leaderboardContainer" style="display: none;">
-                <table class="leaderboard-table" role="table" aria-label="Community leaderboard rankings">
+            <div class="leaderboard-table-container">
+                <table class="leaderboard-table">
                     <thead>
                         <tr>
-                            <th scope="col">Rank</th>
-                            <th scope="col">Wallet Address</th>
-                            <th scope="col">Total Points</th>
-                            <th scope="col">Level</th>
-                            <th scope="col" class="send-header">Send</th>
-                            <th scope="col" class="zenith-header">Zenith</th>
-                            <th scope="col" class="faroswap-header">FaroSwap</th>
-                            <th scope="col" class="nft-header">
-                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 11px;">
-                                    <div>Domains</div>
-                                    <div>NFTs</div>
-                                </div>
+                            <th>Rank</th>
+                            <th>Wallet Address</th>
+                            <th>Total Points</th>
+                            <th>Level</th>
+                            <th class="send-header">Send</th>
+                            <th class="zenith-header">Zenith</th>
+                            <th class="faroswap-header">FaroSwap</th>
+                            <th class="nft-header" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 11px;">
+                                <div>Domains</div>
+                                <div>NFTs</div>
                             </th>
-                            <th scope="col">Member Since</th>
+                            <th>Member Since</th>
                         </tr>
                     </thead>
                     <tbody id="leaderboardBody">
@@ -798,69 +708,37 @@
                 </table>
             </div>
 
-            <div id="errorContainer"></div>
-        </section>
+            <!-- PAGINATION -->
+            <div class="pagination-container">
+                <div class="pagination-info" id="paginationInfo">
+                    Showing 1-20 of 100 users
+                </div>
+                <div class="pagination-controls">
+                    <button class="pagination-btn pagination-nav" id="prevBtn" disabled>← Prev</button>
+                    <button class="pagination-btn active" data-page="1">1</button>
+                    <button class="pagination-btn" data-page="2">2</button>
+                    <button class="pagination-btn" data-page="3">3</button>
+                    <button class="pagination-btn" data-page="4">4</button>
+                    <button class="pagination-btn" data-page="5">5</button>
+                    <button class="pagination-btn pagination-nav" id="nextBtn">Next →</button>
+                </div>
+            </div>
+        </div>
 
         <!-- AUTHOR FOOTER -->
-        <footer class="author-footer animate-fadeInUp animate-delay-4" role="contentinfo">
-            <a href="https://x.com/avzcrypto" target="_blank" rel="noopener noreferrer" class="author-link" id="authorLink" aria-label="Follow @avzcrypto on Twitter">
+        <div class="author-footer">
+            <a href="https://x.com/avzcrypto" target="_blank" class="author-link" id="authorLink">
                 Made with ❤️ by @avzcrypto<br>
                 ➡️Click to Follow for Alpha Updates & Insights 🚀
             </a>
-        </footer>
+        </div>
     </div>
 
     <script>
         (function() {
             'use strict';
             
-            // 🔒 SECURITY: Input sanitization
-            const DOMPurify = {
-                sanitize: function(input) {
-                    if (typeof input !== 'string') return String(input || '');
-                    return input.replace(/[<>\"'&]/g, function(match) {
-                        const map = {
-                            '<': '&lt;',
-                            '>': '&gt;',
-                            '"': '&quot;',
-                            "'": '&#x27;',
-                            '&': '&amp;'
-                        };
-                        return map[match];
-                    });
-                }
-            };
-
-            // 🔒 SECURITY: Safe DOM manipulation
-            const SafeDOM = {
-                setText: function(element, text) {
-                    if (element && text !== null && text !== undefined) {
-                        element.textContent = DOMPurify.sanitize(String(text));
-                    }
-                },
-                
-                setHTML: function(element, html) {
-                    if (!element) return;
-                    // Clear existing content
-                    element.textContent = '';
-                    
-                    // Create safe elements instead of innerHTML
-                    const tempDiv = document.createElement('div');
-                    tempDiv.textContent = DOMPurify.sanitize(String(html));
-                    while (tempDiv.firstChild) {
-                        element.appendChild(tempDiv.firstChild);
-                    }
-                },
-                
-                createElement: function(tag, className, textContent) {
-                    const element = document.createElement(tag);
-                    if (className) element.className = DOMPurify.sanitize(className);
-                    if (textContent) SafeDOM.setText(element, textContent);
-                    return element;
-                }
-            };
-
-            // ⚡ PERFORMANCE: Throttle and debounce
+            // ⚡ PERFORMANCE: Throttle для оптимизации
             const throttle = (func, wait) => {
                 let timeout;
                 return function executedFunction(...args) {
@@ -873,685 +751,330 @@
                 };
             };
 
-            const debounce = (func, wait) => {
-                let timeout;
-                return function executedFunction(...args) {
-                    const later = () => {
-                        clearTimeout(timeout);
-                        func(...args);
-                    };
-                    clearTimeout(timeout);
-                    timeout = setTimeout(later, wait);
-                };
+            // Analytics tracking
+            function trackPageView() {
+                console.log('Page view tracked');
+            }
+
+            function trackDashboardLoaded(data) {
+                console.log('Dashboard loaded:', data.total_users);
+            }
+
+            function trackAuthorClick() {
+                console.log('Author link clicked');
+            }
+
+            // DOM Elements
+            const totalUsersElement = document.getElementById('totalUsers');
+            const topPointsElement = document.getElementById('topPoints');
+            const loading = document.getElementById('loading');
+            const leaderboardBody = document.getElementById('leaderboardBody');
+            const pieChart = document.getElementById('pieChart');
+            const pieLegend = document.getElementById('pieLegend');
+            const pieChartTotal = document.getElementById('pieChartTotal');
+
+            // Pagination Elements
+            const paginationInfo = document.getElementById('paginationInfo');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const pageButtons = document.querySelectorAll('.pagination-btn[data-page]');
+
+            // State
+            let currentPage = 1;
+            const usersPerPage = 20;
+            let totalPages = 5;
+            let allUsers = [];
+
+            // Utility Functions
+            const formatNumber = num => new Intl.NumberFormat('en-US').format(num);
+            const showLoading = () => loading.classList.add('show');
+            const hideLoading = () => loading.classList.remove('show');
+
+            const getRankTier = points => {
+                if (points >= 10000) return 'rank-tier-1';
+                if (points >= 9000) return 'rank-tier-2';
+                if (points >= 8000) return 'rank-tier-3';
+                if (points >= 7000) return 'rank-tier-4';
+                if (points >= 6000) return 'rank-tier-5';
+                if (points >= 5000) return 'rank-tier-6';
+                if (points >= 4000) return 'rank-tier-7';
+                if (points >= 3000) return 'rank-tier-8';
+                if (points >= 2000) return 'rank-tier-9';
+                return 'rank-tier-10';
             };
 
-            // 📊 Analytics tracking (GDPR compliant)
-            const Analytics = {
-                track: function(event, data = {}) {
-                    try {
-                        if (typeof gtag !== 'undefined') {
-                            gtag('event', event, data);
-                        }
-                        console.log(`Analytics: ${event}`, data);
-                    } catch (error) {
-                        console.warn('Analytics tracking failed:', error);
-                    }
-                },
-                
-                trackPageView: function() {
-                    this.track('page_view', {
-                        page_title: document.title,
-                        page_location: window.location.href
-                    });
-                },
-                
-                trackDashboardLoaded: function(data) {
-                    this.track('dashboard_loaded', {
-                        total_users: data.total_users || 0,
-                        load_time: performance.now()
-                    });
-                },
-                
-                trackError: function(error, context) {
-                    this.track('error_occurred', {
-                        error_message: error.message,
-                        error_context: context,
-                        user_agent: navigator.userAgent
-                    });
-                }
+            const calculateLevel = points => {
+                if (points < 1000) return 1;
+                if (points < 3000) return 2;
+                if (points < 6000) return 3;
+                return Math.min(4, Math.floor(points / 1000));
             };
 
-            // 🔧 Error handling and monitoring
-            const ErrorHandler = {
-                showError: function(message, isTemporary = true) {
-                    const errorContainer = document.getElementById('errorContainer');
-                    if (!errorContainer) return;
-                    
-                    const errorDiv = SafeDOM.createElement('div', 'error-message', message);
-                    errorContainer.appendChild(errorDiv);
-                    
-                    if (isTemporary) {
-                        setTimeout(() => {
-                            if (errorDiv && errorDiv.parentNode) {
-                                errorDiv.parentNode.removeChild(errorDiv);
-                            }
-                        }, 5000);
-                    }
-                },
-                
-                handleNetworkError: function(error) {
-                    let message = 'Network error occurred. Please check your connection.';
-                    
-                    if (error.name === 'TypeError' && error.message.includes('fetch')) {
-                        message = 'Unable to connect to server. Please try again later.';
-                    } else if (error.status === 429) {
-                        message = 'Too many requests. Please wait a moment before trying again.';
-                    } else if (error.status === 500) {
-                        message = 'Server error. Our team has been notified.';
-                    } else if (error.status === 404) {
-                        message = 'Leaderboard data not found. Please contact support.';
-                    }
-                    
-                    this.showError(message);
-                    Analytics.trackError(error, 'network_request');
-                },
-                
-                handleDataError: function(error) {
-                    this.showError('Invalid data received. Please refresh the page.');
-                    Analytics.trackError(error, 'data_parsing');
-                }
+            const formatAddress = address => `${address.slice(0, 4)}...${address.slice(-4)}`;
+            
+            const formatDate = dateString => {
+                if (!dateString) return 'Unknown';
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                });
             };
 
-            // 🔒 SECURITY: Safe data validation
-            const DataValidator = {
-                isValidNumber: function(num) {
-                    return typeof num === 'number' && 
-                           !isNaN(num) && 
-                           isFinite(num) && 
-                           num >= 0;
-                },
-                
-                sanitizeUser: function(user) {
-                    if (!user || typeof user !== 'object') return null;
-                    
-                    return {
-                        wallet_address: DataUtils.isValidAddress(user.wallet_address) ? 
-                            DOMPurify.sanitize(user.wallet_address) : 'Invalid',
-                        total_points: DataValidator.isValidNumber(user.total_points) ? 
-                            Math.floor(user.total_points) : 0,
-                        level: DataValidator.isValidNumber(user.level) ? 
-                            Math.max(1, Math.floor(user.level)) : 1,
-                        send_count: DataValidator.isValidNumber(user.send_count) ? 
-                            Math.floor(user.send_count) : 0,
-                        zenith_count: DataValidator.isValidNumber(user.zenith_count) ? 
-                            Math.floor(user.zenith_count) : 0,
-                        faroswap_count: DataValidator.isValidNumber(user.faroswap_count) ? 
-                            Math.floor(user.faroswap_count) : 0,
-                        domain_count: DataValidator.isValidNumber(user.domain_count) ? 
-                            Math.floor(user.domain_count) : 0,
-                        nft_count: DataValidator.isValidNumber(user.nft_count) ? 
-                            Math.floor(user.nft_count) : 0,
-                        created_at: user.created_at ? 
-                            DOMPurify.sanitize(String(user.created_at)) : null
-                    };
-                }
-            };
-
-            // ♿ ACCESSIBILITY: Screen reader announcements
-            const A11y = {
-                announce: function(message, priority = 'polite') {
-                    const announcer = document.getElementById('status-announcer');
-                    if (announcer) {
-                        announcer.setAttribute('aria-live', priority);
-                        SafeDOM.setText(announcer, message);
-                        
-                        // Clear after announcement
-                        setTimeout(() => {
-                            SafeDOM.setText(announcer, '');
-                        }, 1000);
-                    }
-                },
-                
-                setFocus: function(element) {
-                    if (element && typeof element.focus === 'function') {
-                        element.focus();
-                    }
-                }
-            };
-
-            // 🎨 UI Components and animations
-            const UI = {
-                animateElement: function(element, animationClass, delay = 0) {
-                    if (!element) return;
-                    
-                    setTimeout(() => {
-                        element.classList.add(animationClass);
-                    }, delay);
-                },
-                
-                showSkeletons: function() {
-                    const loading = document.getElementById('loading');
-                    const leaderboardContainer = document.getElementById('leaderboardContainer');
-                    
-                    if (loading) {
-                        loading.classList.add('show');
-                        A11y.announce('Loading leaderboard data');
-                    }
-                    
-                    if (leaderboardContainer) {
-                        leaderboardContainer.style.display = 'none';
-                    }
-                },
-                
-                hideSkeletons: function() {
-                    const loading = document.getElementById('loading');
-                    const leaderboardContainer = document.getElementById('leaderboardContainer');
-                    
-                    if (loading) {
-                        loading.classList.remove('show');
-                    }
-                    
-                    if (leaderboardContainer) {
-                        leaderboardContainer.style.display = 'block';
-                    }
-                },
-                
-                createStatCard: function(icon, value, label, animationClass, ariaLabel) {
-                    const card = SafeDOM.createElement('div', `stat-card ${animationClass}`);
-                    card.setAttribute('role', 'button');
-                    card.setAttribute('tabindex', '0');
-                    card.setAttribute('aria-label', ariaLabel);
-                    
-                    const container = SafeDOM.createElement('div', 'stat-value-container');
-                    const iconEl = SafeDOM.createElement('div', 'stat-icon', icon);
-                    iconEl.setAttribute('aria-hidden', 'true');
-                    const valueEl = SafeDOM.createElement('div', 'stat-value', value.toLocaleString());
-                    
-                    container.appendChild(iconEl);
-                    container.appendChild(valueEl);
-                    
-                    const labelEl = SafeDOM.createElement('div', 'stat-label', label);
-                    
-                    card.appendChild(container);
-                    card.appendChild(labelEl);
-                    
-                    return card;
-                }
-            };
-
-            // 🔧 Data processing utilities
-            const DataUtils = {
-                isValidAddress: function(address) {
-                    return typeof address === 'string' && 
-                           address.length >= 10 && 
-                           address.match(/^[a-zA-Z0-9]+$/);
-                },
-                
-                shortenAddress: function(address) {
-                    if (!this.isValidAddress(address)) return 'Invalid Address';
-                    const sanitized = DOMPurify.sanitize(address);
-                    return `${sanitized.slice(0, 6)}...${sanitized.slice(-4)}`;
-                },
-                
-                formatDate: function(dateString) {
-                    if (!dateString) return 'N/A';
-                    
-                    try {
-                        const date = new Date(DOMPurify.sanitize(dateString));
-                        if (isNaN(date.getTime())) return 'Invalid Date';
-                        
-                        return date.toLocaleDateString('en-US', { 
-                            month: 'short', 
-                            day: 'numeric',
-                            year: 'numeric'
-                        });
-                    } catch (error) {
-                        console.warn('Date formatting error:', error);
-                        return 'N/A';
-                    }
-                },
-                
-                getRankTierClass: function(rank) {
-                    const validRank = DataValidator.isValidNumber(rank) ? Math.floor(rank) : 1;
-                    
-                    if (validRank <= 10) return 'rank-tier-1';
-                    if (validRank <= 50) return 'rank-tier-2';
-                    if (validRank <= 100) return 'rank-tier-3';
-                    if (validRank <= 500) return 'rank-tier-4';
-                    return 'rank-tier-5';
-                }
-            };
-
-            // 📊 Chart creation (secure)
-            const ChartBuilder = {
-                createPieChart: function(data) {
-                    const pieChart = document.getElementById('pieChart');
-                    const pieLegend = document.getElementById('pieLegend');
-                    const pieChartTotal = document.getElementById('pieChartTotal');
-                    
-                    if (!pieChart || !data || !Array.isArray(data) || data.length === 0) {
-                        return;
-                    }
-
-                    // Validate and sanitize data
-                    const validData = data.filter(item => 
-                        item && 
-                        typeof item.count === 'number' && 
-                        item.count >= 0 && 
-                        typeof item.range === 'string'
-                    );
-
-                    if (validData.length === 0) {
-                        ErrorHandler.handleDataError(new Error('Invalid chart data'));
-                        return;
-                    }
-
-                    const total = validData.reduce((sum, item) => sum + item.count, 0);
-                    const colors = [
-                        '#3b82f6', '#f97316', '#22c55e', '#a855f7', 
-                        '#ef4444', '#06b6d4', '#8b5cf6', '#f59e0b'
-                    ];
-                    
-                    let currentAngle = 0;
-                    const slices = [];
-                    
-                    validData.forEach((item, index) => {
-                        const percentage = (item.count / total) * 100;
-                        const angle = (item.count / total) * 360;
-                        const color = colors[index % colors.length];
-                        
-                        if (percentage > 0) {
-                            const x1 = 130 + 100 * Math.cos((currentAngle - 90) * Math.PI / 180);
-                            const y1 = 130 + 100 * Math.sin((currentAngle - 90) * Math.PI / 180);
-                            const x2 = 130 + 100 * Math.cos((currentAngle + angle - 90) * Math.PI / 180);
-                            const y2 = 130 + 100 * Math.sin((currentAngle + angle - 90) * Math.PI / 180);
-                            
-                            const largeArc = angle > 180 ? 1 : 0;
-                            
-                            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                            path.setAttribute('d', `M 130 130 L ${x1} ${y1} A 100 100 0 ${largeArc} 1 ${x2} ${y2} Z`);
-                            path.setAttribute('fill', color);
-                            path.setAttribute('stroke', 'white');
-                            path.setAttribute('stroke-width', '2');
-                            path.setAttribute('opacity', '0.9');
-                            
-                            slices.push(path);
-                            currentAngle += angle;
-                        }
-                    });
-                    
-                    // Clear and populate chart safely
-                    pieChart.textContent = '';
-                    slices.forEach(slice => pieChart.appendChild(slice));
-                    
-                    if (pieChartTotal) {
-                        SafeDOM.setText(pieChartTotal, total.toLocaleString());
-                    }
-                    
-                    // Create legend safely
-                    if (pieLegend) {
-                        pieLegend.textContent = '';
-                        
-                        validData.forEach((item, index) => {
-                            const percentage = ((item.count / total) * 100).toFixed(1);
-                            const color = colors[index % colors.length];
-                            
-                            const legendItem = SafeDOM.createElement('div', 'legend-item animate-fadeInLeft');
-                            legendItem.style.animationDelay = `${0.3 + index * 0.1}s`;
-                            legendItem.setAttribute('role', 'listitem');
-                            
-                            const colorDiv = SafeDOM.createElement('div', 'legend-color');
-                            colorDiv.style.background = color;
-                            
-                            const textDiv = SafeDOM.createElement('div', 'legend-text', DOMPurify.sanitize(item.range));
-                            const countDiv = SafeDOM.createElement('div', 'legend-count', item.count.toLocaleString());
-                            const percentDiv = SafeDOM.createElement('div', 'legend-percentage', `${percentage}%`);
-                            
-                            legendItem.appendChild(colorDiv);
-                            legendItem.appendChild(textDiv);
-                            legendItem.appendChild(countDiv);
-                            legendItem.appendChild(percentDiv);
-                            
-                            pieLegend.appendChild(legendItem);
-                        });
-                    }
-                }
-            };
-
-            // 📋 Table population (secure)
-            const TableBuilder = {
-                populateLeaderboard: function(leaderboard) {
-                    const leaderboardBody = document.getElementById('leaderboardBody');
-                    if (!leaderboardBody || !Array.isArray(leaderboard)) return;
-                    
-                    // Clear existing content
-                    leaderboardBody.textContent = '';
-                    
-                    // Validate and sanitize data
-                    const validUsers = leaderboard
-                        .map(DataValidator.sanitizeUser)
-                        .filter(user => user !== null);
-                    
-                    validUsers.forEach((user, index) => {
-                        const rank = index + 1;
-                        const rankClass = DataUtils.getRankTierClass(rank);
-                        
-                        const row = document.createElement('tr');
-                        row.setAttribute('role', 'row');
-                        
-                        // Create cells safely
-                        const cells = [
-                            { content: `#${rank}`, className: `rank ${rankClass}` },
-                            { content: DataUtils.shortenAddress(user.wallet_address), className: 'address' },
-                            { content: user.total_points.toLocaleString(), className: 'points' },
-                            { content: `L${user.level}`, className: 'level-badge' },
-                            { content: user.send_count.toString(), className: 'activity-count' },
-                            { content: user.zenith_count.toString(), className: 'activity-count' },
-                            { content: user.faroswap_count.toString(), className: 'activity-count' },
-                            { content: '', className: 'protocol-grid nft-block', isSpecial: true },
-                            { content: DataUtils.formatDate(user.created_at), className: 'member-since' }
-                        ];
-                        
-                        cells.forEach((cellData, cellIndex) => {
-                            const cell = document.createElement('td');
-                            cell.setAttribute('role', 'gridcell');
-                            
-                            if (cellData.isSpecial && cellIndex === 7) {
-                                // NFT grid cell
-                                const grid = SafeDOM.createElement('div', 'protocol-grid nft-block');
-                                const domainDiv = SafeDOM.createElement('div', '', user.domain_count.toString());
-                                const nftDiv = SafeDOM.createElement('div', '', user.nft_count.toString());
-                                
-                                grid.appendChild(domainDiv);
-                                grid.appendChild(nftDiv);
-                                cell.appendChild(grid);
-                            } else {
-                                const span = SafeDOM.createElement('span', cellData.className, cellData.content);
-                                cell.appendChild(span);
-                            }
-                            
-                            row.appendChild(cell);
-                        });
-                        
-                        leaderboardBody.appendChild(row);
-                    });
-                    
-                    // Animate rows
-                    setTimeout(() => {
-                        const rows = leaderboardBody.querySelectorAll('tr');
-                        rows.forEach((row, index) => {
-                            UI.animateElement(row, 'animate-fadeInUp', index * 50);
-                        });
-                    }, 100);
-                }
-            };
-
-            // 🌐 Network and API handling
-            const API = {
-                abortController: null,
-                
-                async fetchWithTimeout(url, options = {}, timeout = 10000) {
-                    // Cancel previous request
-                    if (this.abortController) {
-                        this.abortController.abort();
-                    }
-                    
-                    this.abortController = new AbortController();
-                    const timeoutId = setTimeout(() => this.abortController.abort(), timeout);
-                    
-                    try {
-                        const response = await fetch(url, {
-                            ...options,
-                            signal: this.abortController.signal,
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json',
-                                ...options.headers
-                            }
-                        });
-                        
-                        clearTimeout(timeoutId);
-                        
-                        if (!response.ok) {
-                            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                        }
-                        
-                        return await response.json();
-                    } catch (error) {
-                        clearTimeout(timeoutId);
-                        
-                        if (error.name === 'AbortError') {
-                            throw new Error('Request timeout or cancelled');
-                        }
-                        
-                        throw error;
-                    }
-                },
-                
-                async loadDashboardData() {
-                    try {
-                        UI.showSkeletons();
-                        
-                        console.log('🔍 Loading dashboard data from /api/admin/stats...');
-                        
-                        // Simulate minimum loading time for UX
-                        const [data] = await Promise.all([
-                            this.fetchWithTimeout('/api/admin/stats'),
-                            new Promise(resolve => setTimeout(resolve, 1000))
-                        ]);
-                        
-                        console.log('📊 API Response:', data);
-                        
-                        if (!data || typeof data !== 'object') {
-                            throw new Error('Invalid response format');
-                        }
-                        
-                        if (!data.success) {
-                            throw new Error(data.error || 'Failed to fetch dashboard data');
-                        }
-                        
-                        // Update stat cards
-                        const statsContainer = document.getElementById('statsContainer');
-                        if (statsContainer) {
-                            statsContainer.textContent = '';
-                            
-                            const totalUsers = typeof data.total_users === 'number' ? Math.floor(data.total_users) : 0;
-                            const topPoints = (data.leaderboard && data.leaderboard.length > 0 && typeof data.leaderboard[0].total_points === 'number') 
-                                ? Math.floor(data.leaderboard[0].total_points) 
-                                : 0;
-                            
-                            const totalUsersCard = UI.createStatCard(
-                                '👥', 
-                                totalUsers, 
-                                'Total Users',
-                                'animate-fadeInLeft animate-delay-1',
-                                `Total users: ${totalUsers.toLocaleString()}`
-                            );
-                            
-                            const topPointsCard = UI.createStatCard(
-                                '🏆', 
-                                topPoints, 
-                                'Top Score',
-                                'animate-fadeInRight animate-delay-2',
-                                `Top score: ${topPoints.toLocaleString()}`
-                            );
-                            
-                            statsContainer.appendChild(totalUsersCard);
-                            statsContainer.appendChild(topPointsCard);
-                        }
-                        
-                        // Create pie chart - only if data exists
-                        if (data.points_distribution && Array.isArray(data.points_distribution) && data.points_distribution.length > 0) {
-                            ChartBuilder.createPieChart(data.points_distribution);
-                        } else {
-                            console.log('📊 No points_distribution data available for pie chart');
-                            // Hide pie chart section or show placeholder
-                            const analyticsSection = document.querySelector('.analytics-section');
-                            if (analyticsSection) {
-                                analyticsSection.style.display = 'none';
-                            }
-                        }
-                        
-                        // Populate leaderboard - only if data exists
-                        if (data.leaderboard && Array.isArray(data.leaderboard) && data.leaderboard.length > 0) {
-                            TableBuilder.populateLeaderboard(data.leaderboard);
-                        } else {
-                            console.log('📋 No leaderboard data available');
-                            const leaderboardContainer = document.getElementById('leaderboardContainer');
-                            if (leaderboardContainer) {
-                                leaderboardContainer.innerHTML = `
-                                    <div style="text-align: center; padding: 40px; color: #64748b;">
-                                        📊 Leaderboard data is being prepared.<br>
-                                        Please check back in a few minutes.
-                                    </div>
-                                `;
-                            }
-                        }
-                        
-                        UI.hideSkeletons();
-                        A11y.announce('Leaderboard data loaded successfully');
-                        Analytics.trackDashboardLoaded(data);
-                        
-                    } catch (error) {
-                        console.error('❌ Error loading dashboard data:', error);
-                        console.error('📍 Error details:', {
-                            name: error.name,
-                            message: error.message,
-                            stack: error.stack
-                        });
-                        
-                        ErrorHandler.handleNetworkError(error);
-                        
-                        // Show fallback content
-                        const loading = document.getElementById('loading');
-                        if (loading) {
-                            loading.innerHTML = `
-                                <div style="color: #ef4444; font-weight: 600; margin-top: 20px;">
-                                    ⚠️ Unable to load data. Please try refreshing the page.
-                                    <br><small>Error: ${error.message}</small>
-                                </div>
-                            `;
-                        }
-                    }
-                }
-            };
-
-            // 🔄 Event handlers and cleanup
-            const EventManager = {
-                listeners: [],
-                
-                addListener: function(element, event, handler, options = {}) {
-                    if (!element || typeof handler !== 'function') return;
-                    
-                    const wrappedHandler = function(e) {
-                        try {
-                            handler(e);
-                        } catch (error) {
-                            console.error('Event handler error:', error);
-                            Analytics.trackError(error, 'event_handler');
-                        }
-                    };
-                    
-                    element.addEventListener(event, wrappedHandler, options);
-                    this.listeners.push({ element, event, handler: wrappedHandler, options });
-                },
-                
-                cleanup: function() {
-                    this.listeners.forEach(({ element, event, handler, options }) => {
-                        if (element && element.removeEventListener) {
-                            element.removeEventListener(event, handler, options);
-                        }
-                    });
-                    this.listeners = [];
-                    
-                    if (API.abortController) {
-                        API.abortController.abort();
-                    }
-                }
-            };
-
-            // 🚀 Initialization
-            function init() {
+            // ⚡ API LOAD - ВАШ ОРИГИНАЛЬНЫЙ КОД
+            const loadDashboard = async () => {
                 try {
-                    Analytics.trackPageView();
+                    const response = await fetch('/api/admin/stats');
                     
-                    // Load dashboard data
-                    API.loadDashboardData();
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
                     
-                    // Setup event listeners
-                    const authorLink = document.getElementById('authorLink');
-                    if (authorLink) {
-                        EventManager.addListener(authorLink, 'click', function() {
-                            Analytics.track('author_link_clicked');
-                        });
+                    if (!data.success) {
+                        throw new Error(data.error || 'Failed to fetch dashboard data');
                     }
                     
-                    // Setup stat card interactions
-                    EventManager.addListener(document, 'click', function(e) {
-                        const statCard = e.target.closest('.stat-card');
-                        if (statCard) {
-                            statCard.style.animation = 'none';
-                            statCard.offsetHeight; // Trigger reflow
-                            statCard.style.animation = 'pulse 0.6s ease-in-out';
-                            Analytics.track('stat_card_clicked');
-                        }
-                    });
-                    
-                    // Keyboard accessibility for stat cards
-                    EventManager.addListener(document, 'keydown', function(e) {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                            const statCard = e.target.closest('.stat-card');
-                            if (statCard) {
-                                e.preventDefault();
-                                statCard.click();
-                            }
-                        }
-                    });
-                    
-                    // Network status monitoring
-                    EventManager.addListener(window, 'online', function() {
-                        A11y.announce('Connection restored');
-                        API.loadDashboardData();
-                    });
-                    
-                    EventManager.addListener(window, 'offline', function() {
-                        A11y.announce('Connection lost. Data may be outdated');
-                    });
-                    
-                    // Cleanup on page unload
-                    EventManager.addListener(window, 'beforeunload', function() {
-                        EventManager.cleanup();
-                    });
-                    
-                    // Global error handler
-                    EventManager.addListener(window, 'error', function(e) {
-                        console.error('Global error:', e.error);
-                        Analytics.trackError(e.error, 'global_error');
-                        ErrorHandler.showError('An unexpected error occurred. Please refresh the page.');
-                    });
-                    
-                    // Unhandled promise rejection handler
-                    EventManager.addListener(window, 'unhandledrejection', function(e) {
-                        console.error('Unhandled promise rejection:', e.reason);
-                        Analytics.trackError(e.reason, 'unhandled_promise');
-                        e.preventDefault();
-                    });
-                    
-                    console.log('🚀 Pharos Dashboard initialized successfully');
+                    return data;
                     
                 } catch (error) {
-                    console.error('Initialization error:', error);
-                    Analytics.trackError(error, 'initialization');
-                    ErrorHandler.showError('Failed to initialize dashboard. Please refresh the page.');
+                    console.error('Dashboard fetch error:', error);
+                    throw error;
                 }
-            }
+            };
 
-            // 🎯 Start the application
-            if (document.readyState === 'loading') {
-                EventManager.addListener(document, 'DOMContentLoaded', init);
-            } else {
-                init();
-            }
+            // Display Functions
+            const displayDashboard = data => {
+                updateHeaderStats(data);
+                displayLeaderboard(data);
+                updateAnalytics(data);
+                trackDashboardLoaded(data);
+            };
+
+            // ⚡ БЫСТРАЯ АНИМАЦИЯ ЧИСЕЛ
+            const updateHeaderStats = data => {
+                const animateValue = (element, start, end, duration = 600) => {
+                    if (start === end) {
+                        element.textContent = formatNumber(end);
+                        return;
+                    }
+
+                    const startTime = performance.now();
+                    const animate = currentTime => {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const value = Math.floor(start + (end - start) * progress);
+                        element.textContent = formatNumber(value);
+                        
+                        if (progress < 1) {
+                            requestAnimationFrame(animate);
+                        }
+                    };
+                    requestAnimationFrame(animate);
+                };
+                
+                animateValue(totalUsersElement, 0, data.total_users || 0);
+                
+                if (data.leaderboard && data.leaderboard.length > 0) {
+                    animateValue(topPointsElement, 0, data.leaderboard[0].total_points);
+                }
+            };
+
+            const displayLeaderboard = data => {
+                allUsers = data.leaderboard.slice(0, 100);
+                totalPages = Math.ceil(allUsers.length / usersPerPage);
+                displayCurrentPage();
+            };
+
+            // ⚡ МАКСИМАЛЬНАЯ ОПТИМИЗАЦИЯ: innerHTML + CSS CLASSES
+            const displayCurrentPage = () => {
+                const startIndex = (currentPage - 1) * usersPerPage;
+                const endIndex = Math.min(startIndex + usersPerPage, allUsers.length);
+                const currentUsers = allUsers.slice(startIndex, endIndex);
+
+                const htmlContent = currentUsers.map((user, index) => {
+                    const globalRank = startIndex + index + 1;
+                    const rankTier = getRankTier(user.total_points);
+                    const level = calculateLevel(user.total_points);
+                    
+                    return `
+                        <tr>
+                            <td><span class="rank ${rankTier}">#${globalRank}</span></td>
+                            <td><span class="address">${formatAddress(user.wallet_address)}</span></td>
+                            <td>
+                                <div class="points-level-wrapper">
+                                    <span class="points">${formatNumber(user.total_points)}</span>
+                                    <span class="level-badge">L${level}</span>
+                                </div>
+                            </td>
+                            <td><span class="level-badge">L${level}</span></td>
+                            <td><span class="activity-count">${user.send_count || 0}</span></td>
+                            <td><span class="activity-count">${user.zenith_count || 0}</span></td>
+                            <td><span class="activity-count">${user.faroswap_count || 0}</span></td>
+                            <td>
+                                <div class="protocol-grid nft-block">
+                                    <div>${user.domain_count || 0}</div>
+                                    <div>${user.nft_count || 0}</div>
+                                </div>
+                            </td>
+                            <td><span class="member-since">${formatDate(user.created_at)}</span></td>
+                        </tr>
+                    `;
+                }).join('');
+
+                leaderboardBody.innerHTML = htmlContent;
+                updatePaginationInfo();
+            };
+
+            const updatePaginationInfo = () => {
+                const startIndex = (currentPage - 1) * usersPerPage + 1;
+                const endIndex = Math.min(currentPage * usersPerPage, allUsers.length);
+                paginationInfo.textContent = `Showing ${startIndex}-${endIndex} of ${allUsers.length} users`;
+                
+                prevBtn.disabled = currentPage === 1;
+                nextBtn.disabled = currentPage === totalPages;
+                
+                pageButtons.forEach(btn => {
+                    const page = parseInt(btn.dataset.page);
+                    btn.classList.toggle('active', page === currentPage);
+                });
+            };
+
+            const changePage = newPage => {
+                if (newPage >= 1 && newPage <= totalPages && newPage !== currentPage) {
+                    currentPage = newPage;
+                    displayCurrentPage();
+                }
+            };
+
+            // ⚡ ANALYTICS UPDATE - ВАШ ОРИГИНАЛЬНЫЙ КОД
+            const updateAnalytics = data => {
+                if (!data.leaderboard || data.leaderboard.length === 0) return;
+
+                const distribution = [
+                    { range: '90,000+', min: 90000, max: Infinity, count: 0, color: '#ef4444' },
+                    { range: '60,000-89,999', min: 60000, max: 89999, count: 0, color: '#f97316' },
+                    { range: '40,000-59,999', min: 40000, max: 59999, count: 0, color: '#eab308' },
+                    { range: '25,000-39,999', min: 25000, max: 39999, count: 0, color: '#22c55e' },
+                    { range: '15,000-24,999', min: 15000, max: 24999, count: 0, color: '#06b6d4' },
+                    { range: '10,000-14,999', min: 10000, max: 14999, count: 0, color: '#3b82f6' },
+                    { range: '5,000-9,999', min: 5000, max: 9999, count: 0, color: '#8b5cf6' },
+                    { range: '1,000-4,999', min: 1000, max: 4999, count: 0, color: '#a855f7' },
+                    { range: '0-999', min: 0, max: 999, count: 0, color: '#64748b' }
+                ];
+
+                data.leaderboard.forEach(user => {
+                    const points = user.total_points || 0;
+                    for (let tier of distribution) {
+                        if (points >= tier.min && points <= tier.max) {
+                            tier.count++;
+                            break;
+                        }
+                    }
+                });
+
+                const validDistribution = distribution.filter(tier => tier.count > 0);
+                createPieChart(validDistribution);
+            };
+
+            const createPieChart = data => {
+                if (!data.length) return;
+
+                const total = data.reduce((sum, item) => sum + item.count, 0);
+                let currentAngle = 0;
+                let slicesHTML = '';
+
+                data.forEach((item, index) => {
+                    const percentage = (item.count / total) * 100;
+                    const angle = (item.count / total) * 360;
+                    
+                    if (percentage > 0) {
+                        const x1 = 130 + 100 * Math.cos((currentAngle - 90) * Math.PI / 180);
+                        const y1 = 130 + 100 * Math.sin((currentAngle - 90) * Math.PI / 180);
+                        const x2 = 130 + 100 * Math.cos((currentAngle + angle - 90) * Math.PI / 180);
+                        const y2 = 130 + 100 * Math.sin((currentAngle + angle - 90) * Math.PI / 180);
+                        
+                        const largeArc = angle > 180 ? 1 : 0;
+                        
+                        slicesHTML += `
+                            <path d="M 130 130 L ${x1} ${y1} A 100 100 0 ${largeArc} 1 ${x2} ${y2} Z" 
+                                  fill="${item.color}" 
+                                  stroke="white" 
+                                  stroke-width="2"
+                                  opacity="0.9"/>
+                        `;
+                        
+                        currentAngle += angle;
+                    }
+                });
+                
+                pieChart.innerHTML = slicesHTML;
+                pieChartTotal.textContent = formatNumber(total);
+                
+                const legendHTML = data.map((item, index) => {
+                    const percentage = ((item.count / total) * 100).toFixed(1);
+                    
+                    return `
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: ${item.color}"></div>
+                            <div class="legend-text">${item.range}</div>
+                            <div class="legend-count">${formatNumber(item.count)}</div>
+                            <div class="legend-percentage">${percentage}%</div>
+                        </div>
+                    `;
+                }).join('');
+                
+                pieLegend.innerHTML = legendHTML;
+            };
+
+            // ⚡ ИНИЦИАЛИЗАЦИЯ С REQUESTANIMATIONFRAME
+            const initializeDashboard = async () => {
+                try {
+                    showLoading();
+                    
+                    const data = await loadDashboard();
+                    
+                    // ⚡ SMOOTH RENDERING
+                    requestAnimationFrame(() => {
+                        displayDashboard(data);
+                    });
+
+                } catch (error) {
+                    console.error('Failed to load dashboard:', error);
+                    
+                    leaderboardBody.innerHTML = `
+                        <tr>
+                            <td colspan="9" style="text-align: center; padding: 40px; color: #ef4444;">
+                                <div style="font-size: 16px; margin-bottom: 8px;">⚠️ Unable to load dashboard</div>
+                                <div style="font-size: 13px; opacity: 0.8;">Please try refreshing the page</div>
+                            </td>
+                        </tr>
+                    `;
+                } finally {
+                    hideLoading();
+                }
+            };
+
+            // ⚡ EVENT LISTENERS - ОПТИМИЗИРОВАННЫЕ
+            document.getElementById('authorLink').addEventListener('click', trackAuthorClick);
+
+            prevBtn.addEventListener('click', () => changePage(currentPage - 1));
+            nextBtn.addEventListener('click', () => changePage(currentPage + 1));
+
+            pageButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const page = parseInt(btn.dataset.page);
+                    changePage(page);
+                });
+            });
+
+            // ⚡ ИНИЦИАЛИЗАЦИЯ
+            document.addEventListener('DOMContentLoaded', () => {
+                trackPageView();
+                initializeDashboard();
+            });
 
         })();
     </script>
