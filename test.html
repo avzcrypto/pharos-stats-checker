@@ -1332,11 +1332,15 @@
                     try {
                         UI.showSkeletons();
                         
+                        console.log('🔍 Loading dashboard data from /api/admin/stats...');
+                        
                         // Simulate minimum loading time for UX
                         const [data] = await Promise.all([
                             this.fetchWithTimeout('/api/admin/stats'),
                             new Promise(resolve => setTimeout(resolve, 1000))
                         ]);
+                        
+                        console.log('📊 API Response:', data);
                         
                         if (!data || typeof data !== 'object') {
                             throw new Error('Invalid response format');
@@ -1386,7 +1390,13 @@
                         Analytics.trackDashboardLoaded(data);
                         
                     } catch (error) {
-                        console.error('Error loading dashboard data:', error);
+                        console.error('❌ Error loading dashboard data:', error);
+                        console.error('📍 Error details:', {
+                            name: error.name,
+                            message: error.message,
+                            stack: error.stack
+                        });
+                        
                         ErrorHandler.handleNetworkError(error);
                         
                         // Show fallback content
@@ -1395,6 +1405,7 @@
                             loading.innerHTML = `
                                 <div style="color: #ef4444; font-weight: 600; margin-top: 20px;">
                                     ⚠️ Unable to load data. Please try refreshing the page.
+                                    <br><small>Error: ${error.message}</small>
                                 </div>
                             `;
                         }
