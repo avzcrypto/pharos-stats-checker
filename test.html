@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pharos Testnet Dashboard - Live Stats & Analytics</title>
-    <meta name="description" content="🔥 Live Pharos testnet analytics! Top performers, community stats & real-time insights. Track the ecosystem growth.">
+    <meta name="description" content="🔥 Live Pharos testnet analytics! Top performers, community stats & real-time insights.">
     <link rel="canonical" href="https://pharoshub.xyz/dashboard">
     <link rel="icon" type="image/webp" href="./logo.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,19 +16,16 @@
         a,body,footer,h1,header,html,img,li,nav,ol,span,ul{margin:0;padding:0}
         *{-webkit-tap-highlight-color:transparent;box-sizing:border-box}
         
-        /* PHAROS OFFICIAL STYLES - Применяем к дашборду */
         body {
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             margin: 0;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            /* PHAROS OFFICIAL BACKGROUND */
             background: linear-gradient(135deg, #f5f2ed 0%, #e8eaf6 30%, #e3f2fd 60%, #bbdefb 100%);
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* PHAROS COLOR PALETTE - из official CSS */
         :root {
             --pharos-blue-500: #3b82f6;
             --pharos-blue-600: #2563eb;
@@ -47,7 +44,6 @@
             --pharos-gray-900: #1f2937;
         }
 
-        /* CONTAINMENT OPTIMIZATION */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -56,7 +52,6 @@
             contain: layout style;
         }
 
-        /* PHAROS HEADER STYLE */
         .header-section {
             display: flex;
             justify-content: space-between;
@@ -64,13 +59,11 @@
             margin-bottom: 40px;
             gap: 40px;
             contain: layout;
-            /* PHAROS CARD STYLE */
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 20px;
             padding: 24px;
-            /* PHAROS SHADOW */
             box-shadow: 
                 0 20px 40px rgba(0, 0, 0, 0.08),
                 0 10px 20px rgba(0, 0, 0, 0.04);
@@ -103,7 +96,6 @@
             flex-shrink: 0;
         }
 
-        /* PHAROS TYPOGRAPHY */
         .main-title {
             font-size: 46px;
             font-weight: 900;
@@ -127,7 +119,6 @@
             contain: layout;
         }
 
-        /* PHAROS STAT CARDS - OFFICIAL GRADIENTS */
         .stat-card {
             border-radius: 16px;
             padding: 20px;
@@ -138,12 +129,10 @@
             justify-content: center;
             contain: layout;
             will-change: transform;
-            /* PHAROS SMOOTH TRANSITION */
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             transform: rotate(0deg);
         }
 
-        /* PHAROS OFFICIAL GRADIENTS */
         .stat-card:nth-child(1) {
             background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
             box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
@@ -154,7 +143,6 @@
             box-shadow: 0 8px 25px rgba(249, 115, 22, 0.3);
         }
 
-        /* PHAROS HOVER EFFECTS */
         .stat-card:nth-child(1):hover {
             transform: rotate(-1deg) scale(1.05);
             box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4);
@@ -200,7 +188,6 @@
             letter-spacing: 0.025em;
         }
 
-        /* PHAROS LIVE DATA INFO */
         .live-data-info {
             background: rgba(255, 255, 255, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.8);
@@ -222,7 +209,6 @@
             font-weight: 700;
         }
 
-        /* PHAROS ANALYTICS SECTION */
         .analytics-section {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
@@ -232,7 +218,6 @@
             margin-bottom: 30px;
             contain: content;
             content-visibility: auto;
-            /* PHAROS SHADOW */
             box-shadow: 
                 0 20px 40px rgba(0, 0, 0, 0.08),
                 0 10px 20px rgba(0, 0, 0, 0.04);
@@ -299,7 +284,6 @@
             contain: layout;
         }
 
-        /* PHAROS LEGEND ITEMS */
         .legend-item {
             display: grid;
             grid-template-columns: 16px 1fr auto auto;
@@ -310,7 +294,6 @@
             border: 1px solid rgba(0, 0, 0, 0.06);
             border-radius: 8px;
             contain: layout;
-            /* PHAROS SMOOTH TRANSITION */
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -347,7 +330,6 @@
             text-align: right;
         }
 
-        /* PHAROS LEADERBOARD */
         .leaderboard-section {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
@@ -357,7 +339,6 @@
             margin-bottom: 30px;
             contain: content;
             content-visibility: auto;
-            /* PHAROS SHADOW */
             box-shadow: 
                 0 20px 40px rgba(0, 0, 0, 0.08),
                 0 10px 20px rgba(0, 0, 0, 0.04);
@@ -401,7 +382,6 @@
         .leaderboard-table th:nth-child(2),
         .leaderboard-table th:nth-child(3) { text-align: left; }
 
-        /* PHAROS PROTOCOL HEADERS */
         .send-header { background: rgba(59, 130, 246, 0.12) !important; }
         .zenith-header { background: rgba(249, 115, 22, 0.12) !important; }
         .faroswap-header { background: rgba(168, 85, 247, 0.12) !important; }
@@ -410,7 +390,6 @@
         .leaderboard-table tbody tr {
             background: rgba(255, 255, 255, 0.9);
             contain: layout;
-            /* PHAROS SMOOTH TRANSITION */
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -431,7 +410,6 @@
         .leaderboard-table td:nth-child(2),
         .leaderboard-table td:nth-child(3) { text-align: left; }
 
-        /* PHAROS RANK COLORS */
         .rank { font-weight: 800; font-size: 14px; }
         .rank-tier-1 { color: #ef4444; }
         .rank-tier-2 { color: #f97316; }
@@ -451,7 +429,6 @@
             font-weight: 600;
         }
 
-        /* PHAROS POINTS WRAPPER */
         .points-level-wrapper {
             background: rgba(255, 255, 255, 0.95);
             border: 1px solid rgba(0, 0, 0, 0.06);
@@ -471,7 +448,6 @@
             font-family: 'Inter', monospace;
         }
 
-        /* PHAROS LEVEL BADGE */
         .level-badge {
             background: linear-gradient(135deg, #22c55e, #16a34a);
             color: white;
@@ -512,7 +488,6 @@
             padding-left: 4px;
         }
 
-        /* PHAROS PROTOCOL BLOCKS */
         .send-block { background: rgba(59, 130, 246, 0.08); }
         .zenith-block { background: rgba(249, 115, 22, 0.08); }
         .faroswap-block { background: rgba(168, 85, 247, 0.08); }
@@ -533,7 +508,6 @@
             font-weight: 600;
         }
 
-        /* PHAROS AUTHOR FOOTER */
         .author-footer {
             margin-top: 24px;
             text-align: center;
@@ -545,7 +519,6 @@
             text-decoration: none;
             font-size: 14px;
             font-weight: 600;
-            /* PHAROS SMOOTH TRANSITION */
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             padding: 12px 20px;
             border-radius: 16px;
@@ -553,7 +526,6 @@
             background: linear-gradient(135deg, #22c55e, #16a34a);
             text-align: center;
             line-height: 1.4;
-            /* PHAROS SHADOW */
             box-shadow: 
                 0 8px 16px rgba(34, 197, 94, 0.3),
                 0 4px 8px rgba(34, 197, 94, 0.2);
@@ -568,7 +540,6 @@
                 0 6px 12px rgba(34, 197, 94, 0.3);
         }
 
-        /* PHAROS PAGINATION */
         .pagination-container {
             display: flex;
             justify-content: center;
@@ -600,7 +571,6 @@
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            /* PHAROS SMOOTH TRANSITION */
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             min-width: 35px;
             text-align: center;
@@ -624,7 +594,6 @@
 
         .pagination-nav { padding: 6px 12px; }
 
-        /* PHAROS RESPONSIVE */
         @media (max-width: 1024px) {
             .container { padding: 30px 20px; }
             .header-section { gap: 20px; }
@@ -661,7 +630,6 @@
             .logo-img { width: 80px; height: 80px; }
         }
 
-        /* PHAROS SCROLL OPTIMIZATION */
         html { scroll-behavior: smooth; }
         @media (max-width: 768px) {
             body { -webkit-overflow-scrolling: touch; }
@@ -670,7 +638,6 @@
 </head>
 <body>
     <div class="container">
-        <!-- HEADER -->
         <div class="header-section">
             <div class="header-left">
                 <div class="logo-title-container">
@@ -699,14 +666,12 @@
             </div>
         </div>
 
-        <!-- LIVE DATA INFO -->
         <div class="live-data-info">
             <div class="live-data-text">
                 <span class="live-data-highlight">Live data updates every hour</span> • Real-time statistics and community insights
             </div>
         </div>
 
-        <!-- ANALYTICS SECTION -->
         <div class="analytics-section">
             <div class="analytics-header">
                 <h3 class="analytics-title">📈 User Distribution by Points</h3>
@@ -715,7 +680,6 @@
             <div class="analytics-content">
                 <div class="pie-container">
                     <svg class="pie-chart" viewBox="0 0 260 260" id="pieChart">
-                        <!-- Pie slices will be generated by JavaScript -->
                     </svg>
                     <div class="pie-center-info">
                         <div class="total-users" id="pieChartTotal">0</div>
@@ -724,17 +688,14 @@
                 </div>
 
                 <div class="pie-legend" id="pieLegend">
-                    <!-- Legend items will be generated by JavaScript -->
                 </div>
             </div>
         </div>
 
-        <!-- LOADING -->
         <div class="loading" id="loading">
             <div class="loading-text">Loading dashboard...</div>
         </div>
 
-        <!-- LEADERBOARD -->
         <div class="leaderboard-section" id="leaderboardSection">
             <div class="leaderboard-header">
                 <h3 class="leaderboard-title">🏆 Top 100 Users</h3>
@@ -779,12 +740,10 @@
                         </tr>
                     </thead>
                     <tbody id="leaderboardBody">
-                        <!-- Data will be populated by JavaScript -->
                     </tbody>
                 </table>
             </div>
 
-            <!-- PAGINATION -->
             <div class="pagination-container">
                 <div class="pagination-info" id="paginationInfo">
                     Showing 1-20 of 100 users
@@ -801,7 +760,6 @@
             </div>
         </div>
 
-        <!-- AUTHOR FOOTER -->
         <div class="author-footer">
             <a href="https://x.com/avzcrypto" target="_blank" class="author-link" id="authorLink">
                 Made with ❤️ by @avzcrypto<br>
@@ -814,7 +772,6 @@
         (function() {
             'use strict';
             
-            // ⚡ PERFORMANCE: Throttle для оптимизации
             const throttle = (func, wait) => {
                 let timeout;
                 return function executedFunction(...args) {
@@ -827,7 +784,6 @@
                 };
             };
 
-            // Analytics tracking
             function trackPageView() {
                 console.log('Page view tracked');
             }
@@ -840,7 +796,6 @@
                 console.log('Author link clicked');
             }
 
-            // DOM Elements
             const totalUsersElement = document.getElementById('totalUsers');
             const topPointsElement = document.getElementById('topPoints');
             const loading = document.getElementById('loading');
@@ -850,19 +805,16 @@
             const pieLegend = document.getElementById('pieLegend');
             const pieChartTotal = document.getElementById('pieChartTotal');
 
-            // Pagination Elements
             const paginationInfo = document.getElementById('paginationInfo');
             const prevBtn = document.getElementById('prevBtn');
             const nextBtn = document.getElementById('nextBtn');
             const pageButtons = document.querySelectorAll('.pagination-btn[data-page]');
 
-            // State
             let currentPage = 1;
             const usersPerPage = 20;
             let totalPages = 5;
             let allUsers = [];
 
-            // Utility Functions
             const formatNumber = num => new Intl.NumberFormat('en-US').format(num);
             const showLoading = () => loading.classList.add('show');
             const hideLoading = () => loading.classList.remove('show');
@@ -899,7 +851,6 @@
                 });
             };
 
-            // ⚡ API LOAD - БЕЗ КЕША (серверный кеш используется)
             const loadDashboard = async () => {
                 try {
                     const response = await fetch('/api/admin/stats');
@@ -922,7 +873,6 @@
                 }
             };
 
-            // Display Functions
             const displayDashboard = data => {
                 updateHeaderStats(data);
                 displayLeaderboard(data);
@@ -930,7 +880,6 @@
                 trackDashboardLoaded(data);
             };
 
-            // ⚡ БЫСТРАЯ АНИМАЦИЯ ЧИСЕЛ
             const updateHeaderStats = data => {
                 const animateValue = (element, start, end, duration = 600) => {
                     if (start === end) {
@@ -965,7 +914,6 @@
                 displayCurrentPage();
             };
 
-            // ⚡ МАКСИМАЛЬНАЯ ОПТИМИЗАЦИЯ: innerHTML + CSS CLASSES
             const displayCurrentPage = () => {
                 const startIndex = (currentPage - 1) * usersPerPage;
                 const endIndex = startIndex + usersPerPage;
@@ -974,7 +922,6 @@
                 const tbody = leaderboardBody;
                 let htmlContent = '';
                 
-                // ⚡ BATCH DOM UPDATE - СУПЕР БЫСТРО
                 pageUsers.forEach(user => {
                     const rankClass = getRankTier(user.total_points);
                     const level = calculateLevel(user.total_points);
@@ -1031,7 +978,6 @@
                 });
             };
 
-            // ⚡ THROTTLED PAGE CHANGE
             const changePage = throttle((page) => {
                 if (page >= 1 && page <= totalPages && page !== currentPage) {
                     currentPage = page;
@@ -1044,7 +990,6 @@
                 }
             }, 100);
 
-            // ⚡ ОПТИМИЗИРОВАННАЯ АНАЛИТИКА
             const updateAnalytics = data => {
                 const tiers = [
                     { name: '10,000+ Points', min: 10000, color: '#dc2626', key: '10000+' },
@@ -1096,7 +1041,6 @@
                 renderLegend(distribution);
             };
 
-            // ⚡ ОПТИМИЗИРОВАННЫЙ PIE CHART
             const renderPieChart = (distribution, totalUsers) => {
                 pieChartTotal.textContent = formatNumber(totalUsers);
                 
@@ -1120,7 +1064,6 @@
                     return;
                 }
                 
-                // ⚡ BATCH SVG CREATION
                 const fragment = document.createDocumentFragment();
                 
                 visibleTiers.forEach(tier => {
@@ -1145,7 +1088,6 @@
                 pieChart.appendChild(fragment);
             };
 
-            // ⚡ БЫСТРАЯ LEGEND БЕЗ HOVER ЭФФЕКТОВ
             const renderLegend = distribution => {
                 let htmlContent = '';
                 
@@ -1169,14 +1111,12 @@
                 pieLegend.innerHTML = htmlContent;
             };
 
-            // ⚡ ИНИЦИАЛИЗАЦИЯ С REQUESTANIMATIONFRAME
             const initializeDashboard = async () => {
                 try {
                     showLoading();
                     
                     const data = await loadDashboard();
                     
-                    // ⚡ SMOOTH RENDERING
                     requestAnimationFrame(() => {
                         displayDashboard(data);
                     });
@@ -1197,7 +1137,6 @@
                 }
             };
 
-            // ⚡ EVENT LISTENERS - ОПТИМИЗИРОВАННЫЕ
             document.getElementById('authorLink').addEventListener('click', trackAuthorClick);
 
             prevBtn.addEventListener('click', () => changePage(currentPage - 1));
@@ -1210,7 +1149,6 @@
                 });
             });
 
-            // ⚡ ИНИЦИАЛИЗАЦИЯ
             document.addEventListener('DOMContentLoaded', () => {
                 trackPageView();
                 initializeDashboard();
