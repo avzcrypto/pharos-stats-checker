@@ -390,6 +390,54 @@
                 0 2px 4px rgba(0, 0, 0, 0.02);
         }
 
+        /* Season 2 Live Streaming Style */
+        .season2-live .season-title {
+            background: linear-gradient(90deg, 
+                rgba(255, 255, 255, 0.9) 0%,
+                rgba(34, 197, 94, 0.1) 25%,
+                rgba(34, 197, 94, 0.2) 50%,
+                rgba(34, 197, 94, 0.1) 75%,
+                rgba(255, 255, 255, 0.9) 100%);
+            border: 2px solid #22c55e;
+            animation: streaming 3s linear infinite;
+            background-size: 200% 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes streaming {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* Live Badge */
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            background: #22c55e;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            margin-right: 4px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
         /* Tasks sections */
         .tasks-section {
             margin-bottom: 24px;
@@ -905,8 +953,14 @@
             </div>
 
             <!-- SEASON 2 HEADER -->
-            <div class="season-header animate__fadeInUp animate-delay-7">
-                <h3 class="season-title">🚀 SEASON 2 ACTIVITIES</h3>
+            <div class="season-header season2-live animate__fadeInUp animate-delay-7">
+                <div class="season-title">
+                    🚀 SEASON 2 ACTIVITIES
+                    <span class="live-badge">
+                        <span class="live-dot"></span>
+                        Live
+                    </span>
+                </div>
             </div>
 
             <!-- SEASON 2 TASKS -->
