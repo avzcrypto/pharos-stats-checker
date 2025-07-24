@@ -1111,25 +1111,25 @@
         function displayResults(data) {
             hideError();
 
-            // Calculate level progress and points needed - МАКСИМУМ 4 УРОВЕНЬ
+            // Calculate level progress and points needed - МАКСИМУМ 5 УРОВЕНЬ
             const levels = {
-                1: 0, 2: 1000, 3: 3000, 4: 6000
+                1: 0, 2: 1001, 3: 3501, 4: 6001, 5: 10001
             };
             
             const currentLevelPoints = levels[data.current_level] || 0;
-            const maxLevel = 4;
+            const maxLevel = 5;
             const nextLevel = Math.min(data.current_level + 1, maxLevel);
-            const nextLevelPoints = levels[nextLevel] || 6000;
+            const nextLevelPoints = levels[nextLevel] || 20001;
             
-            // Если уже 4 уровень - показываем MAX LVL
+            // Если уже 5 уровень - показываем MAX LVL
             const isMaxLevel = data.current_level >= maxLevel;
             const pointsNeeded = isMaxLevel ? 0 : nextLevelPoints - data.total_points;
             const progressInLevel = data.total_points - currentLevelPoints;
             const pointsForLevel = nextLevelPoints - currentLevelPoints;
 
-            // Animate numbers - ОГРАНИЧИВАЕМ УРОВЕНЬ ДО 4
+            // Animate numbers - ОГРАНИЧИВАЕМ УРОВЕНЬ ДО 5
             animateValue(totalPoints, 0, data.total_points);
-            animateValue(currentLevel, 1, Math.min(data.current_level, maxLevel)); // Показываем максимум 4 уровень
+            animateValue(currentLevel, 1, Math.min(data.current_level, maxLevel)); // Показываем максимум 5 уровень
             
             // АНИМАЦИЯ РАНГА
             if (data.exact_rank) {
