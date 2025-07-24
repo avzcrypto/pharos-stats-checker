@@ -745,17 +745,16 @@ class PharosAPIClient:
             # Parse task data efficiently
             task_counts = self._parse_task_data(user_tasks)
             
-            # Calculate user level based on points
+           # Calculate user level based on points
             current_level = self._calculate_level(int(total_points))
-            next_level = min(current_level + 1, 10)  # Cap at level 10
+            next_level = min(current_level + 1, 5)  # Cap at level 5
             
             # Calculate points needed for next level
             level_thresholds = {
-                1: 0, 2: 1000, 3: 3000, 4: 6000, 5: 10000, 
-                6: 15000, 7: 25000, 8: 40000, 9: 60000, 
-                10: 90000, 11: 150000
+                1: 0, 2: 1001, 3: 3501, 4: 6001, 5: 10001, 
+                6: 20001  # Next threshold after level 5
             }
-            points_for_next = level_thresholds.get(next_level, 150000)
+            points_for_next = level_thresholds.get(next_level, 20001)
             points_needed = max(0, points_for_next - int(total_points))
             
             # Get exact rank from Redis
@@ -841,26 +840,18 @@ class PharosAPIClient:
     def _calculate_level(self, total_points: int) -> int:
         """Calculate user level based on total points with validation."""
         try:
-            if total_points < 1000:
+            if total_points <= 1000:
                 return 1
-            elif total_points < 3000:
+            elif total_points <= 3500:
                 return 2
-            elif total_points < 6000:
+            elif total_points <= 6000:
                 return 3
-            elif total_points < 10000:
+            elif total_points <= 10000:
                 return 4
-            elif total_points < 15000:
+            elif total_points <= 20000:
                 return 5
-            elif total_points < 25000:
-                return 6
-            elif total_points < 40000:
-                return 7
-            elif total_points < 60000:
-                return 8
-            elif total_points < 90000:
-                return 9
             else:
-                return 10
+                return 5  # Cap at level 5
         except:
             return 1  # Default to level 1 on any error
 
