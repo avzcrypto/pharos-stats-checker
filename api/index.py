@@ -366,7 +366,13 @@ class RedisManager:
                 'faroswap_swaps': user_data.get('faroswap_swaps', 0),
                 'exact_rank': user_data.get('exact_rank'),
                 'rank_calculated_at': timestamp,
-                'total_users_count': user_data.get('total_users_count', 270000)
+                'total_users_count': user_data.get('total_users_count', 270000),
+                # NEW TASKS
+                'primuslabs_send': user_data.get('primuslabs_send', 0),
+                'aquaflux': user_data.get('aquaflux', 0),
+                'autostaking': user_data.get('autostaking', 0),
+                'fiamma_bridge': user_data.get('fiamma_bridge', 0),
+                'brokex': user_data.get('brokex', 0)
             }
             
             # Get existing data
@@ -495,7 +501,13 @@ class RedisManager:
                         'mint_domain': stats.get('mint_domain', 0),
                         'mint_nft': stats.get('mint_nft', 0),
                         'faroswap_lp': stats.get('faroswap_lp', 0),
-                        'faroswap_swaps': stats.get('faroswap_swaps', 0)
+                        'faroswap_swaps': stats.get('faroswap_swaps', 0),
+                        # NEW TASKS
+                        'primuslabs_send': stats.get('primuslabs_send', 0),
+                        'aquaflux': stats.get('aquaflux', 0),
+                        'autostaking': stats.get('autostaking', 0),
+                        'fiamma_bridge': stats.get('fiamma_bridge', 0),
+                        'brokex': stats.get('brokex', 0)
                     })
                 except Exception as e:
                     print(f"Error processing wallet {i}: {e}")
@@ -784,6 +796,12 @@ class PharosAPIClient:
                 'faroswap_swaps': task_counts['faroswap_swaps'],
                 'zenith_swaps': task_counts['swap'],
                 'zenith_lp': task_counts['lp'],
+                # NEW TASKS
+                'primuslabs_send': task_counts['primuslabs_send'],
+                'aquaflux': task_counts['aquaflux'],
+                'autostaking': task_counts['autostaking'],
+                'fiamma_bridge': task_counts['fiamma_bridge'],
+                'brokex': task_counts['brokex'],
                 'total_users_count': total_users_count
             }
             
@@ -797,7 +815,9 @@ class PharosAPIClient:
         """Parse task completion data with validation."""
         task_counts = {
             'send': 0, 'swap': 0, 'lp': 0, 'domain': 0, 'nft': 0,
-            'faroswap_lp': 0, 'faroswap_swaps': 0, 'social': 0
+            'faroswap_lp': 0, 'faroswap_swaps': 0, 'social': 0,
+            'primuslabs_send': 0, 'aquaflux': 0, 'autostaking': 0, 
+            'fiamma_bridge': 0, 'brokex': 0
         }
         
         for task in user_tasks:
@@ -830,6 +850,17 @@ class PharosAPIClient:
                     task_counts['faroswap_lp'] = complete_times
                 elif task_id == 107:
                     task_counts['faroswap_swaps'] = complete_times
+                # NEW TASKS
+                elif task_id == 108:
+                    task_counts['primuslabs_send'] = complete_times
+                elif task_id == 109:
+                    task_counts['fiamma_bridge'] = complete_times
+                elif task_id == 110:
+                    task_counts['autostaking'] = complete_times
+                elif task_id == 111:
+                    task_counts['brokex'] = complete_times
+                elif task_id == 112:
+                    task_counts['aquaflux'] = complete_times
                     
             except Exception as e:
                 print(f"Error parsing task {task}: {e}")
