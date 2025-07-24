@@ -6,7 +6,6 @@
     <title>Pharos Stats Checker - Track Testnet Points & Leaderboard Rank</title>
     <meta name="description" content="🚀 Check your Pharos testnet rank instantly! Track points, level progress & compete on leaderboard. Free tool to maximize your airdrop potential.">
     <meta name="author" content="avzcrypto">
-    <meta name="monetag" content="7bc19d7754f8a63470a4c993b5c28301">
     <link rel="canonical" href="https://pharoshub.xyz/">
     <link rel="icon" type="image/webp" href="./logo.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -369,6 +368,76 @@
             display: inline;
         }
 
+        /* Season Headers */
+        .season-header {
+            margin-top: 32px;
+            margin-bottom: 16px;
+        }
+
+        .season-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--pharos-gray-900);
+            letter-spacing: -0.025em;
+            text-align: center;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 4px 8px rgba(0, 0, 0, 0.04),
+                0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        /* Season 2 Live Streaming Style */
+        .season2-live .season-title {
+            background: linear-gradient(90deg, 
+                rgba(255, 255, 255, 0.9) 0%,
+                rgba(34, 197, 94, 0.1) 25%,
+                rgba(34, 197, 94, 0.2) 50%,
+                rgba(34, 197, 94, 0.1) 75%,
+                rgba(255, 255, 255, 0.9) 100%);
+            border: 2px solid #22c55e;
+            animation: streaming 3s linear infinite;
+            background-size: 200% 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes streaming {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* Live Badge */
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            background: #22c55e;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            margin-right: 4px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
         /* Tasks sections */
         .tasks-section {
             margin-bottom: 24px;
@@ -721,6 +790,13 @@
         .animate-delay-4 { animation-delay: 0.4s; }
         .animate-delay-5 { animation-delay: 0.5s; }
         .animate-delay-6 { animation-delay: 0.6s; }
+        .animate-delay-7 { animation-delay: 0.7s; }
+        .animate-delay-8 { animation-delay: 0.8s; }
+        .animate-delay-9 { animation-delay: 0.9s; }
+        .animate-delay-10 { animation-delay: 1.0s; }
+        .animate-delay-11 { animation-delay: 1.1s; }
+        .animate-delay-12 { animation-delay: 1.2s; }
+        .animate-delay-13 { animation-delay: 1.3s; }
     </style>
 </head>
 <body>
@@ -791,6 +867,11 @@
                     <span class="boost-cta-line2">CLICK AND GET THE ULTIMATE GUIDE</span><span class="boost-cta-emoji">🚀</span>
                 </div>
             </a>
+
+            <!-- SEASON 1 HEADER -->
+            <div class="season-header animate__fadeInUp animate-delay-2">
+                <h3 class="season-title">🏆 SEASON 1 ACTIVITIES</h3>
+            </div>
 
             <div class="tasks-section animate__fadeInUp animate-delay-3">
                 <div class="task-card">
@@ -871,8 +952,68 @@
                 </div>
             </div>
 
+            <!-- SEASON 2 HEADER -->
+            <div class="season-header season2-live animate__fadeInUp animate-delay-7">
+                <div class="season-title">
+                    🚀 SEASON 2 ACTIVITIES
+                    <span class="live-badge">
+                        <span class="live-dot"></span>
+                        Live
+                    </span>
+                </div>
+            </div>
+
+            <!-- SEASON 2 TASKS -->
+            <div class="tasks-section animate__fadeInUp animate-delay-8">
+                <div class="task-card">
+                    <div class="task-left">
+                        <img src="./primus.png" alt="Primuslabs" class="task-icon">
+                        <div class="task-name">Primuslabs Send</div>
+                    </div>
+                    <div class="task-count" id="primuslabsSend">0</div>
+                </div>
+            </div>
+
+            <div class="tasks-section animate__fadeInUp animate-delay-9">
+                <div class="protocol-grid">
+                    <div class="task-card">
+                        <div class="task-left">
+                            <img src="./rwafi.png" alt="RWAfi" class="task-icon">
+                            <div class="task-name">RWAfi</div>
+                        </div>
+                        <div class="task-count" id="rwafi">0</div>
+                    </div>
+                    <div class="task-card">
+                        <div class="task-left">
+                            <img src="./staking.png" alt="Stake" class="task-icon">
+                            <div class="task-name">Stake</div>
+                        </div>
+                        <div class="task-count" id="stake">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tasks-section animate__fadeInUp animate-delay-10">
+                <div class="protocol-grid">
+                    <div class="task-card">
+                        <div class="task-left">
+                            <img src="./btc.png" alt="Bitcoin Bridge" class="task-icon">
+                            <div class="task-name">Bitcoin Bridge</div>
+                        </div>
+                        <div class="task-count" id="bitcoinBridge">0</div>
+                    </div>
+                    <div class="task-card">
+                        <div class="task-left">
+                            <img src="./cfd.png" alt="CFD Trading" class="task-icon">
+                            <div class="task-name">CFD Trading</div>
+                        </div>
+                        <div class="task-count" id="cfdTrading">0</div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Cache Disclaimer -->
-            <div class="cache-disclaimer animate__fadeInUp animate-delay-7">
+            <div class="cache-disclaimer animate__fadeInUp animate-delay-11">
                 <div class="disclaimer-icon">⏱️</div>
                 <div class="disclaimer-content">
                     <div class="disclaimer-title">Data Updates</div>
@@ -913,6 +1054,13 @@
         const faroswapLP = document.getElementById('faroswapLP');
         const mintDomain = document.getElementById('mintDomain');
         const mintNFT = document.getElementById('mintNFT');
+
+        // Season 2 Elements
+        const primuslabsSend = document.getElementById('primuslabsSend');
+        const rwafi = document.getElementById('rwafi');
+        const stake = document.getElementById('stake');
+        const bitcoinBridge = document.getElementById('bitcoinBridge');
+        const cfdTrading = document.getElementById('cfdTrading');
 
         // Analytics Tracking Functions
         function trackPageView() {
@@ -1149,6 +1297,13 @@
             animateValue(faroswapLP, 0, data.faroswap_lp || 0);
             animateValue(mintDomain, 0, data.mint_domain || 0);
             animateValue(mintNFT, 0, data.mint_nft || 0);
+
+            // Animate Season 2 tasks
+            animateValue(primuslabsSend, 0, data.primuslabs_send || 0);
+            animateValue(rwafi, 0, data.aquaflux || 0);
+            animateValue(stake, 0, data.autostaking || 0);
+            animateValue(bitcoinBridge, 0, data.fiamma_bridge || 0);
+            animateValue(cfdTrading, 0, data.brokex || 0);
 
             // Update level progress and points needed info
             setTimeout(() => {
