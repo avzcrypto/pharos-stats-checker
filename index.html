@@ -289,43 +289,35 @@
             transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* БЛОК CTA - 3 КОЛОНКИ */
+        /* БЛОК CTA - 3 КОЛОНКИ - ЗАМЕНЕН НА НОВЫЙ СТИЛЬ */
         .boost-cta {
             grid-column: span 3;
-            background: url('./form_background.webp') center/cover;
             border-radius: 20px;
             padding: 24px;
             text-align: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             text-decoration: none;
             display: block;
             position: relative;
             margin-bottom: 30px;
-        }
-
-        .boost-cta::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.15);
-            border-radius: 20px;
-            z-index: 1;
-        }
-
-        .boost-cta-text {
-            position: relative;
-            z-index: 2;
+            overflow: hidden;
+            
+            /* НОВЫЙ НЕЙРОМОРФНЫЙ СТИЛЬ */
+            background: linear-gradient(145deg, #22c55e, #16a34a);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 8px 32px rgba(34, 197, 94, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
         }
 
         .boost-cta:hover {
-            transform: translateY(-2px);
+            transform: translateY(-4px) scale(1.02);
             box-shadow: 
-                0 12px 24px rgba(13, 120, 232, 0.3),
-                0 6px 12px rgba(13, 120, 232, 0.2);
+                0 16px 48px rgba(34, 197, 94, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
         }
 
         .boost-cta-text {
@@ -336,28 +328,25 @@
             margin: 0;
             position: relative;
             z-index: 2;
+            /* НОВЫЙ СТИЛЬ ТЕКСТА */
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .boost-cta-line1 {
-            background-image: linear-gradient(91deg, rgb(255, 255, 255) 23%, rgb(166, 224, 255) 98%);
-            font-family: 'Inter28pt-Bold', 'Inter', sans-serif;
+            /* ОРИГИНАЛЬНЫЕ СТИЛИ УБРАНЫ, НОВЫЙ ПРОСТОЙ СТИЛЬ */
+            font-family: 'Inter', sans-serif;
             font-weight: 900;
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(rgb(253, 255, 208) 0px 2px 40px);
+            color: white;
             display: block;
             margin-bottom: 4px;
         }
 
         .boost-cta-line2 {
-            background-image: linear-gradient(128deg, rgb(255, 215, 0) 13%, rgba(255, 223, 0, 0.9) 95%);
-            font-family: 'Inter28pt-Bold', 'Inter', sans-serif;
+            /* ОРИГИНАЛЬНЫЕ СТИЛИ УБРАНЫ, НОВЫЙ ПРОСТОЙ СТИЛЬ */
+            font-family: 'Inter', sans-serif;
             font-weight: 900;
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(rgb(253, 255, 208) 0px 2px 10px);
+            color: white;
             display: inline;
         }
 
@@ -630,37 +619,70 @@
             display: block;
         }
 
-        /* Author footer */
+        /* НОВЫЙ FOOTER В НЕЙРОМОРФНОМ СТИЛЕ */
         .author-footer {
             margin-top: 32px;
             text-align: center;
         }
 
         .author-link {
-            color: white;
+            display: block;
             text-decoration: none;
-            font-size: 15.4px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            padding: 12px 20px;
-            border-radius: 16px;
-            display: inline-block;
-            background: var(--pharos-green-500);
-            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 24px;
             text-align: center;
-            line-height: 1.4;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            
+            /* НЕЙРОМОРФНЫЙ СТИЛЬ КАК У CTA */
+            background: linear-gradient(145deg, #22c55e, #16a34a);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 
-                0 8px 16px rgba(34, 197, 94, 0.3),
-                0 4px 8px rgba(34, 197, 94, 0.2);
+                0 8px 32px rgba(34, 197, 94, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
         }
 
         .author-link:hover {
-            color: white;
-            background: var(--pharos-green-600);
-            transform: translateY(-2px);
+            transform: translateY(-4px) scale(1.02);
             box-shadow: 
-                0 12px 24px rgba(34, 197, 94, 0.4),
-                0 6px 12px rgba(34, 197, 94, 0.3);
+                0 16px 48px rgba(34, 197, 94, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .author-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .author-line1, .author-line2 {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .author-line2 {
+            display: inline;
+        }
+
+        /* CTA блок на странице результатов - на всю ширину */
+        .results-section .author-footer .author-link {
+            max-width: none;
+            width: 100%;
+        }
+
+        .author-emoji {
+            margin-left: 6px;
+            display: inline;
         }
 
         /* Адаптивность */
@@ -762,9 +784,11 @@
             }
 
             .author-link {
-                font-size: 13.2px;
-                padding: 10px 16px;
-                border-radius: 14px;
+                padding: 20px;
+            }
+
+            .author-text {
+                font-size: 14px;
             }
         }
 
@@ -860,13 +884,15 @@
                 </div>
             </div>
 
-            <!-- БЛОК CTA -->
-            <a href="https://x.com/avzcrypto/status/1940798987709395362" target="_blank" class="boost-cta animate__fadeInUp animate-delay-2" id="boostGuideLink">
-                <div class="boost-cta-text">
-                    <span class="boost-cta-line1">WANT TO BOOST YOUR LVL?</span>
-                    <span class="boost-cta-line2">CLICK AND GET THE ULTIMATE GUIDE</span><span class="boost-cta-emoji">🚀</span>
-                </div>
-            </a>
+            <!-- НОВЫЙ CTA БЛОК С АВТОРСТВОМ НА СТРАНИЦЕ РЕЗУЛЬТАТОВ -->
+            <div class="author-footer animate__fadeInUp animate-delay-2">
+                <a href="https://x.com/avzcrypto" target="_blank" class="author-link" id="resultsAuthorLink">
+                    <div class="author-text">
+                        <span class="author-line1">Made with ❤️ by @avzcrypto</span>
+                        <span class="author-line2">➡️Click to Follow for Alpha Updates & Insights</span><span class="author-emoji">🚀</span>
+                    </div>
+                </a>
+            </div>
 
             <!-- SEASON 1 HEADER -->
             <div class="season-header animate__fadeInUp animate-delay-2">
@@ -1025,10 +1051,13 @@
             </div>
         </div>
 
-        <div class="author-footer">
+        <!-- FOOTER ТОЛЬКО ДЛЯ ГЛАВНОЙ СТРАНИЦЫ -->
+        <div class="author-footer" id="mainPageFooter">
             <a href="https://x.com/avzcrypto" target="_blank" class="author-link" id="authorLink">
-                Made with ❤️ by @avzcrypto<br>
-                ➡️Click to Follow for Alpha Updates & Insights 🚀
+                <div class="author-text">
+                    <span class="author-line1">Made with ❤️ by @avzcrypto</span>
+                    <span class="author-line2">➡️Click to Follow for Alpha Updates & Insights</span><span class="author-emoji">🚀</span>
+                </div>
             </a>
         </div>
     </div>
@@ -1132,6 +1161,9 @@
             loading.classList.remove('show');
             results.classList.remove('show');
             
+            // Показываем footer на главной при ошибке
+            document.getElementById('mainPageFooter').style.display = 'block';
+            
             // Track error
             trackError(message);
         }
@@ -1147,8 +1179,9 @@
             checkButton.disabled = true;
             checkButton.textContent = 'Checking...';
             
-            // Скрываем header section при загрузке
+            // Скрываем header section и footer при загрузке
             document.querySelector('.header-section').style.display = 'none';
+            document.getElementById('mainPageFooter').style.display = 'none';
         }
 
         function hideLoading() {
@@ -1337,6 +1370,9 @@
             // Show results with animation
             results.classList.add('show');
             
+            // Скрываем footer с главной при показе результатов
+            document.getElementById('mainPageFooter').style.display = 'none';
+            
             // Trigger animations for result sections
             const animatedElements = results.querySelectorAll('.animate__fadeInUp');
             animatedElements.forEach((el, index) => {
@@ -1358,12 +1394,15 @@
         });
 
         // Track CTA clicks
-        document.getElementById('boostGuideLink').addEventListener('click', trackBoostGuideClick);
+        document.getElementById('resultsAuthorLink').addEventListener('click', trackAuthorClick);
         document.getElementById('authorLink').addEventListener('click', trackAuthorClick);
 
         // Auto-focus input and track page view
         walletInput.focus();
         trackPageView();
+        
+        // Показываем footer на главной при загрузке
+        document.getElementById('mainPageFooter').style.display = 'block';
     </script>
 </body>
 </html>
