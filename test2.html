@@ -878,13 +878,15 @@
                 </div>
             </div>
 
-            <!-- БЛОК CTA -->
-            <a href="https://x.com/avzcrypto/status/1940798987709395362" target="_blank" class="boost-cta animate__fadeInUp animate-delay-2" id="boostGuideLink">
-                <div class="boost-cta-text">
-                    <span class="boost-cta-line1">WANT TO BOOST YOUR LVL?</span>
-                    <span class="boost-cta-line2">CLICK AND GET THE ULTIMATE GUIDE</span><span class="boost-cta-emoji">🚀</span>
-                </div>
-            </a>
+            <!-- НОВЫЙ CTA БЛОК С АВТОРСТВОМ НА СТРАНИЦЕ РЕЗУЛЬТАТОВ -->
+            <div class="author-footer animate__fadeInUp animate-delay-2">
+                <a href="https://x.com/avzcrypto" target="_blank" class="author-link" id="resultsAuthorLink">
+                    <div class="author-text">
+                        <span class="author-line1">Made with ❤️ by @avzcrypto</span>
+                        <span class="author-line2">➡️Click to Follow for Alpha Updates & Insights</span><span class="author-emoji">🚀</span>
+                    </div>
+                </a>
+            </div>
 
             <!-- SEASON 1 HEADER -->
             <div class="season-header animate__fadeInUp animate-delay-2">
@@ -1043,8 +1045,8 @@
             </div>
         </div>
 
-        <!-- НОВЫЙ FOOTER В СТИЛЕ НЕЙРОМОРФИЗМ -->
-        <div class="author-footer">
+        <!-- FOOTER ТОЛЬКО ДЛЯ ГЛАВНОЙ СТРАНИЦЫ -->
+        <div class="author-footer" id="mainPageFooter">
             <a href="https://x.com/avzcrypto" target="_blank" class="author-link" id="authorLink">
                 <div class="author-text">
                     <span class="author-line1">Made with ❤️ by @avzcrypto</span>
@@ -1153,6 +1155,9 @@
             loading.classList.remove('show');
             results.classList.remove('show');
             
+            // Показываем footer на главной при ошибке
+            document.getElementById('mainPageFooter').style.display = 'block';
+            
             // Track error
             trackError(message);
         }
@@ -1168,8 +1173,9 @@
             checkButton.disabled = true;
             checkButton.textContent = 'Checking...';
             
-            // Скрываем header section при загрузке
+            // Скрываем header section и footer при загрузке
             document.querySelector('.header-section').style.display = 'none';
+            document.getElementById('mainPageFooter').style.display = 'none';
         }
 
         function hideLoading() {
@@ -1358,6 +1364,9 @@
             // Show results with animation
             results.classList.add('show');
             
+            // Скрываем footer с главной при показе результатов
+            document.getElementById('mainPageFooter').style.display = 'none';
+            
             // Trigger animations for result sections
             const animatedElements = results.querySelectorAll('.animate__fadeInUp');
             animatedElements.forEach((el, index) => {
@@ -1379,12 +1388,15 @@
         });
 
         // Track CTA clicks
-        document.getElementById('boostGuideLink').addEventListener('click', trackBoostGuideClick);
+        document.getElementById('resultsAuthorLink').addEventListener('click', trackAuthorClick);
         document.getElementById('authorLink').addEventListener('click', trackAuthorClick);
 
         // Auto-focus input and track page view
         walletInput.focus();
         trackPageView();
+        
+        // Показываем footer на главной при загрузке
+        document.getElementById('mainPageFooter').style.display = 'block';
     </script>
 </body>
 </html>
