@@ -689,8 +689,11 @@
         // Global state
         let currentPage = 1;
         let leaderboardData = [];
+        let allUsers = []; // All 100 users from API
         let totalUsers = 0;
         let isLoading = false;
+        const USERS_PER_PAGE = 20;
+        const TOTAL_PAGES = 5;
 
         // DOM elements
         const elements = {
@@ -817,13 +820,13 @@
         }
 
         // Create leaderboard row
-        function createLeaderboardRow(user, index) {
-            const rank = index + 1;
+        function createLeaderboardRow(user, globalIndex) {
+            const rank = globalIndex + 1; // Global rank (1-100)
             const season2Total = (user.primuslabs_send || 0) + (user.aquaflux || 0) + 
                                (user.autostaking || 0) + (user.fiamma_bridge || 0) + (user.brokex || 0);
             
             return `
-                <tr style="animation: fadeInUp 0.6s ease-out ${index * 0.05}s both;">
+                <tr style="animation: fadeInUp 0.6s ease-out ${(globalIndex % USERS_PER_PAGE) * 0.05}s both;">
                     <td class="center">
                         <div class="rank ${getRankClass(rank)}">${rank}</div>
                     </td>
@@ -930,9 +933,9 @@
             totalUsers = data.total_users || 0;
         }
 
-        // Render leaderboard
-        function renderLeaderboard(data) {
-            if (!data.leaderboard || data.leaderboard.length === 0) {
+        // Render leaderboard with pagination
+        function renderLeaderboard() {
+            if (!allUsers || allUsers.length === 0) {
                 elements.leaderboardBody.innerHTML = `
                     <tr>
                         <td colspan="9" style="text-align: center; padding: 60px 20px; color: var(--text-secondary);">
@@ -945,24 +948,59 @@
                 return;
             }
 
-            const rowsHtml = data.leaderboard.map((user, index) => createLeaderboardRow(user, index)).join('');
+            // Calculate pagination
+            const startIndex = (currentPage - 1) * USERS_PER_PAGE;
+            const endIndex = startIndex + USERS_PER_PAGE;
+            const currentPageUsers = allUsers.slice(startIndex, endIndex);
+
+            console.log(`📄 Rendering page ${currentPage}: users ${startIndex + 1}-${Math.min(endIndex, allUsers.length)} of ${allUsers.length}`);
+
+            // Generate rows with global indices for correct ranks
+            const rowsHtml = currentPageUsers.map((user, localIndex) => {
+                const globalIndex = startIndex + localIndex;
+                return createLeaderboardRow(user, globalIndex);
+            }).join('');
+
             elements.leaderboardBody.innerHTML = rowsHtml;
             
-            // Add fade in animation styles
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes fadeInUp {
-                    from {
-                        opacity: 0;
-                        transform: translate3d(0, 20px, 0);
+            // Update pagination info
+            updatePaginationInfo();
+            
+            // Add fade in animation styles if not already added
+            if (!document.querySelector('#fadeInUpStyles')) {
+                const style = document.createElement('style');
+                style.id = 'fadeInUpStyles';
+                style.textContent = `
+                    @keyframes fadeInUp {
+                        from {
+                            opacity: 0;
+                            transform: translate3d(0, 20px, 0);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translate3d(0, 0, 0);
+                        }
                     }
-                    to {
-                        opacity: 1;
-                        transform: translate3d(0, 0, 0);
-                    }
-                }
-            `;
-            document.head.appendChild(style);
+                `;
+                document.head.appendChild(style);
+            }
+        }
+
+        // Update pagination info
+        function updatePaginationInfo() {
+            const startRank = (currentPage - 1) * USERS_PER_PAGE + 1;
+            const endRank = Math.min(currentPage * USERS_PER_PAGE, allUsers.length);
+            
+            // Update section title with current page info
+            const sectionTitle = document.querySelector('.section-title');
+            if (sectionTitle) {
+                sectionTitle.innerHTML = `
+                    🏆 Top 100 Users
+                    <span style="font-size: 14px; font-weight: 500; color: var(--text-secondary); margin-left: 12px;">
+                        Showing ranks ${startRank}-${endRank}
+                    </span>
+                `;
+            }
         }
 
         // Load leaderboard data
@@ -992,10 +1030,13 @@
 
                 // Store data
                 leaderboardData = data;
+                allUsers = data.leaderboard || []; // Store all 100 users
+
+                console.log(`📊 Loaded ${allUsers.length} users from API`);
 
                 // Update UI
                 updateStatistics(data);
-                renderLeaderboard(data);
+                renderLeaderboard(); // Now uses allUsers and currentPage
                 showLeaderboard();
 
                 console.log('✅ Leaderboard loaded successfully:', {
@@ -1030,15 +1071,18 @@
             });
 
             elements.nextBtn.addEventListener('click', () => {
-                if (currentPage < 5) changePage(currentPage + 1);
+                if (currentPage < TOTAL_PAGES) changePage(currentPage + 1);
             });
         }
 
         function changePage(page) {
-            if (page === currentPage || page < 1 || page > 5) return;
+            if (page === currentPage || page < 1 || page > TOTAL_PAGES) return;
+            
+            console.log(`📄 Changing from page ${currentPage} to page ${page}`);
             
             currentPage = page;
             updatePaginationUI();
+            renderLeaderboard(); // Re-render with new page data
             
             // Smooth scroll to top of leaderboard
             elements.leaderboardSection.scrollIntoView({ 
@@ -1058,7 +1102,9 @@
 
             // Update prev/next buttons
             elements.prevBtn.disabled = currentPage === 1;
-            elements.nextBtn.disabled = currentPage === 5;
+            elements.nextBtn.disabled = currentPage === TOTAL_PAGES;
+            
+            console.log(`🔄 Updated pagination UI: page ${currentPage}/${TOTAL_PAGES}`);
         }
 
         // Auto-refresh functionality
