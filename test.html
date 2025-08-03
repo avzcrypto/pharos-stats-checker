@@ -1,13 +1,4 @@
-.leaderboard-table td {
-            padding: 14px 10px;
-            text-align: center;
-            border-right: 1px solid #f3f4f6;
-            vertical-align: middle;
-        }
-
-        .leaderboard-table td:last-child {
-            border-right: none;
-        }<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -146,20 +137,20 @@
         .leaderboard-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 14px; /* Увеличено с 13px */
+            font-size: 13px;
         }
 
         /* Table Headers */
         .leaderboard-table thead th {
             background: #f9fafb;
-            padding: 14px 10px;
+            padding: 12px 8px;
             text-align: center;
             font-weight: 600;
             color: #374151;
             border-right: 1px solid #e5e7eb;
             border-bottom: 2px solid #e5e7eb;
             text-transform: uppercase;
-            font-size: 12px;
+            font-size: 11px;
             letter-spacing: 0.5px;
             position: sticky;
             top: 0;
@@ -173,12 +164,12 @@
         /* Multi-level headers */
         .header-main {
             border-bottom: 1px solid #d1d5db;
-            padding: 10px;
+            padding: 8px;
         }
 
         .header-sub {
-            padding: 10px;
-            font-size: 11px;
+            padding: 8px;
+            font-size: 10px;
             font-weight: 500;
         }
 
@@ -194,6 +185,17 @@
 
         .leaderboard-table tbody tr:last-child {
             border-bottom: none;
+        }
+
+        .leaderboard-table td {
+            padding: 12px 8px;
+            text-align: center;
+            border-right: 1px solid #f3f4f6;
+            vertical-align: middle;
+        }
+
+        .leaderboard-table td:last-child {
+            border-right: none;
         }
 
         /* Sub-columns within cells */
@@ -242,14 +244,14 @@
 
         .address {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 13px; /* Увеличено с 12px */
+            font-size: 12px;
             color: #1f2937;
             font-weight: 600;
             margin-bottom: 2px;
         }
 
         .user-meta {
-            font-size: 11px; /* Увеличено с 10px */
+            font-size: 10px;
             color: #6b7280;
         }
 
@@ -265,16 +267,16 @@
         .points {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
-            font-size: 15px; /* Увеличено с 14px */
+            font-size: 14px;
             color: #111827;
         }
 
         .level-badge {
             background: #10b981;
             color: white;
-            padding: 3px 8px; /* Увеличено */
+            padding: 2px 6px;
             border-radius: 4px;
-            font-size: 11px; /* Увеличено с 10px */
+            font-size: 10px;
             font-weight: 600;
         }
 
@@ -283,7 +285,7 @@
             font-family: 'JetBrains Mono', monospace;
             font-weight: 600;
             color: #374151;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .activity-zero {
@@ -608,13 +610,6 @@
         function createTableRow(user, globalIndex) {
             const rank = globalIndex + 1;
             
-            // Helper function to format activity numbers with highlighting
-            function formatActivity(value, threshold = 10) {
-                const num = value || 0;
-                const className = num === 0 ? 'activity-zero' : (num >= threshold ? 'activity-high' : '');
-                return `<span class="activity-number ${className}">${num}</span>`;
-            }
-            
             return `
                 <tr>
                     <td>
@@ -632,18 +627,18 @@
                             <div class="level-badge">LVL ${user.current_level}</div>
                         </div>
                     </td>
-                    <td class="col-send">${formatActivity(user.send_count, 50)}</td>
-                    <td class="col-send">${formatActivity(user.primuslabs_send, 5)}</td>
-                    <td class="col-zenith">${formatActivity(user.swap_count, 20)}</td>
-                    <td class="col-zenith">${formatActivity(user.lp_count, 10)}</td>
-                    <td class="col-faroswap">${formatActivity(user.faroswap_swaps, 10)}</td>
-                    <td class="col-faroswap">${formatActivity(user.faroswap_lp, 5)}</td>
-                    <td class="col-nft">${formatActivity(user.mint_domain)}</td>
-                    <td class="col-nft">${formatActivity(user.mint_nft)}</td>
-                    <td class="col-season2">${formatActivity(user.aquaflux)}</td>
-                    <td class="col-season2">${formatActivity(user.autostaking)}</td>
-                    <td class="col-season2">${formatActivity(user.fiamma_bridge)}</td>
-                    <td class="col-season2">${formatActivity(user.brokex)}</td>
+                    <td><span class="activity-number ${(user.send_count || 0) === 0 ? 'activity-zero' : ''}">${user.send_count || 0}</span></td>
+                    <td><span class="activity-number ${(user.primuslabs_send || 0) === 0 ? 'activity-zero' : ''}">${user.primuslabs_send || 0}</span></td>
+                    <td><span class="activity-number ${(user.swap_count || 0) === 0 ? 'activity-zero' : ''}">${user.swap_count || 0}</span></td>
+                    <td><span class="activity-number ${(user.lp_count || 0) === 0 ? 'activity-zero' : ''}">${user.lp_count || 0}</span></td>
+                    <td><span class="activity-number ${(user.faroswap_swaps || 0) === 0 ? 'activity-zero' : ''}">${user.faroswap_swaps || 0}</span></td>
+                    <td><span class="activity-number ${(user.faroswap_lp || 0) === 0 ? 'activity-zero' : ''}">${user.faroswap_lp || 0}</span></td>
+                    <td><span class="activity-number ${(user.mint_domain || 0) === 0 ? 'activity-zero' : ''}">${user.mint_domain || 0}</span></td>
+                    <td><span class="activity-number ${(user.mint_nft || 0) === 0 ? 'activity-zero' : ''}">${user.mint_nft || 0}</span></td>
+                    <td><span class="activity-number ${(user.aquaflux || 0) === 0 ? 'activity-zero' : ''}">${user.aquaflux || 0}</span></td>
+                    <td><span class="activity-number ${(user.autostaking || 0) === 0 ? 'activity-zero' : ''}">${user.autostaking || 0}</span></td>
+                    <td><span class="activity-number ${(user.fiamma_bridge || 0) === 0 ? 'activity-zero' : ''}">${user.fiamma_bridge || 0}</span></td>
+                    <td><span class="activity-number ${(user.brokex || 0) === 0 ? 'activity-zero' : ''}">${user.brokex || 0}</span></td>
                 </tr>
             `;
         }
