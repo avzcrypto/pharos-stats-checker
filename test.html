@@ -34,6 +34,28 @@
             --animation-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        // Animation helper
+        function animateValue(element, start, end, duration = 2000) {
+            const startTime = performance.now();
+            const range = end - start;
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                const easeProgress = 1 - Math.pow(1 - progress, 3); // Ease out cubic
+                const current = start + (range * easeProgress);
+                
+                element.textContent = formatNumber(Math.floor(current));
+                
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            
+            requestAnimationFrame(update);
+        }
+
         /* Container & Layout */
         .container {
             max-width: 1440px;
