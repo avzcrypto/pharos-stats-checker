@@ -3,798 +3,1113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pharos Testnet Dashboard - Live Stats & Analytics</title>
-    <meta name="description" content="🔥 Live Pharos testnet analytics! Top performers, community stats & real-time insights. Track the ecosystem growth.">
-    <link rel="canonical" href="https://pharoshub.xyz/dashboard">
-    <link rel="icon" type="image/webp" href="./logo.webp">
+    <title>Pharos Testnet Leaderboard - Live Rankings & Analytics</title>
+    <meta name="description" content="🏆 Live Pharos testnet leaderboard! Track top performers, analyze activity patterns & discover ecosystem leaders. Real-time rankings & stats.">
+    <link rel="canonical" href="https://pharoshub.xyz/leaderboard">
+    <link rel="icon" type="image/webp" href="./leaderboard_logo.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* Reset */
-        a,body,footer,h1,header,html,img,li,nav,ol,span,ul{margin:0;padding:0}
-        *{-webkit-tap-highlight-color:transparent;box-sizing:border-box}
-        
-        body {
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            margin: 0;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #f5f2ed 0%, #e8eaf6 30%, #e3f2fd 60%, #bbdefb 100%);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+        /* Modern Reset & Base */
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+        body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#0f0f23 0%,#1a1a2e 50%,#16213e 100%);min-height:100vh;color:#e2e8f0;overflow-x:hidden}
 
+        /* CSS Variables */
         :root {
-            --pharos-blue-500: #3b82f6;
-            --pharos-blue-600: #2563eb;
-            --pharos-blue-700: #1d4ed8;
-            --pharos-blue-800: #1e3a8a;
-            --pharos-blue-900: #1e40af;
-            --pharos-orange-500: #f97316;
-            --pharos-orange-600: #fb923c;
-            --pharos-green-500: #22c55e;
-            --pharos-green-600: #16a34a;
-            --pharos-purple-500: #a855f7;
-            --pharos-purple-600: #9333ea;
-            --pharos-gray-500: #64748b;
-            --pharos-gray-600: #4b5563;
-            --pharos-gray-700: #374151;
-            --pharos-gray-900: #1f2937;
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --danger-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --card-bg: rgba(15, 23, 42, 0.8);
+            --card-border: rgba(148, 163, 184, 0.1);
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-accent: #38bdf8;
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+            --animation-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            --animation-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        /* Container & Layout */
         .container {
-            max-width: 1200px;
+            max-width: 1440px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 20px;
             min-height: 100vh;
-            contain: layout style;
         }
 
-        .header-section {
+        /* Header Section */
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 40px;
-            gap: 40px;
-            contain: layout;
-            background: rgba(255, 255, 255, 0.8);
+            padding: 24px 32px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 20px;
-            padding: 24px;
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.08),
-                0 10px 20px rgba(0, 0, 0, 0.04);
+            box-shadow: var(--shadow-lg);
         }
 
         .header-left {
-            flex: 1;
             display: flex;
             align-items: center;
-            gap: 24px;
-        }
-
-        .logo-title-container {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-            flex: 1;
-        }
-
-        .title-subtitle-container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .logo-img {
-            width: 160px;
-            height: 160px;
-            object-fit: contain;
-            flex-shrink: 0;
-        }
-
-        .main-title {
-            font-size: 46px;
-            font-weight: 900;
-            color: var(--pharos-gray-900);
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-            margin: 0;
-        }
-
-        .main-subtitle {
-            color: var(--pharos-gray-500);
-            font-size: 17px;
-            font-weight: 500;
-            line-height: 1.4;
-            margin: 0;
-        }
-
-        .header-right {
-            display: flex;
             gap: 20px;
-            contain: layout;
         }
 
-        .stat-card {
+        .logo {
+            width: 60px;
+            height: 60px;
             border-radius: 16px;
-            padding: 20px;
-            text-align: center;
-            height: 152px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            contain: layout;
-            will-change: transform;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: rotate(0deg);
-        }
-
-        .stat-card:nth-child(1) {
-            background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
-        }
-
-        .stat-card:nth-child(2) {
-            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
-            box-shadow: 0 8px 25px rgba(249, 115, 22, 0.3);
-        }
-
-        .stat-card:nth-child(1):hover {
-            transform: rotate(-1deg) scale(1.05);
-            box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4);
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-        }
-
-        .stat-card:nth-child(2):hover {
-            transform: rotate(1deg) scale(1.05);
-            box-shadow: 0 15px 35px rgba(249, 115, 22, 0.4);
-            background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
-        }
-
-        .stat-card * {
-            color: white !important;
-        }
-
-        .stat-icon {
-            font-size: 38px;
-            margin-right: 8px;
-        }
-
-        .stat-value-container {
+            background: var(--primary-gradient);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 8px;
+            font-size: 28px;
+            font-weight: 900;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header-content h1 {
+            font-size: 32px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #f1f5f9, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 4px;
+            letter-spacing: -0.02em;
+        }
+
+        .header-content p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 24px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 16px 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+            transition: var(--animation-normal);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            background: rgba(255,255,255,0.08);
         }
 
         .stat-value {
-            font-size: 38px;
+            font-size: 24px;
             font-weight: 900;
-            color: var(--pharos-blue-800);
-            margin-bottom: 8px;
-            font-family: 'Inter', monospace;
-            letter-spacing: -1.5px;
-            line-height: 1;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            font-family: 'JetBrains Mono', monospace;
         }
 
         .stat-label {
-            font-size: 15px;
-            color: var(--pharos-gray-500);
-            font-weight: 600;
-            letter-spacing: 0.025em;
-        }
-
-        .live-data-info {
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            border-radius: 14px;
-            padding: 14px 20px;
-            margin-bottom: 30px;
-            text-align: center;
-            contain: layout;
-        }
-
-        .live-data-text {
-            color: var(--pharos-gray-600);
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .live-data-highlight {
-            color: var(--pharos-blue-600);
-            font-weight: 700;
-        }
-
-        .analytics-section {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 20px;
-            padding: 24px;
-            margin-bottom: 30px;
-            contain: content;
-            content-visibility: auto;
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.08),
-                0 10px 20px rgba(0, 0, 0, 0.04);
-        }
-
-        .analytics-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .analytics-title {
-            font-size: 22px;
-            font-weight: 800;
-            color: var(--pharos-gray-900);
-        }
-
-        .analytics-content {
-            display: grid;
-            grid-template-columns: 260px 1fr;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .pie-container {
-            position: relative;
-            width: 260px;
-            height: 260px;
-            contain: layout;
-        }
-
-        .pie-chart {
-            width: 100%;
-            height: 100%;
-            transform: rotate(-90deg);
-        }
-
-        .pie-center-info {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-
-        .total-users {
-            font-size: 28px;
-            font-weight: 900;
-            color: var(--pharos-gray-900);
-            margin-bottom: 4px;
-        }
-
-        .total-label {
             font-size: 12px;
-            color: var(--pharos-gray-500);
+            color: var(--text-secondary);
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .pie-legend {
+        /* Analytics Section */
+        .analytics-section {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .distribution-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 24px;
+            backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .distribution-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 20px;
             display: flex;
-            flex-direction: column;
-            gap: 6px;
-            contain: layout;
+            align-items: center;
+            gap: 8px;
         }
 
         .legend-item {
-            display: grid;
-            grid-template-columns: 16px 1fr auto auto;
-            gap: 10px;
+            display: flex;
             align-items: center;
-            padding: 8px 12px;
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(0, 0, 0, 0.06);
-            border-radius: 8px;
-            contain: layout;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            justify-content: space-between;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            transition: var(--animation-normal);
         }
 
         .legend-item:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: rgba(255,255,255,0.06);
+            transform: translateX(4px);
         }
 
         .legend-color {
-            width: 16px;
-            height: 16px;
-            border-radius: 4px;
-            flex-shrink: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            margin-right: 12px;
         }
 
         .legend-text {
+            flex: 1;
+            font-size: 14px;
             font-weight: 600;
-            font-size: 15px;
-            color: var(--pharos-gray-900);
+            color: var(--text-primary);
         }
 
         .legend-count {
-            font-weight: 800;
-            font-size: 16px;
-            color: var(--pharos-gray-900);
-            font-family: 'Inter', monospace;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-accent);
         }
 
-        .legend-percentage {
-            font-weight: 600;
-            font-size: 13px;
-            color: var(--pharos-gray-500);
-            min-width: 35px;
-            text-align: right;
+        /* Live Status */
+        .live-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 12px;
+            margin-bottom: 24px;
         }
 
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* Main Leaderboard */
         .leaderboard-section {
-            background: rgba(255, 255, 255, 0.8);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 32px;
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 20px;
-            padding: 24px;
-            margin-bottom: 30px;
-            contain: content;
-            content-visibility: auto;
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.08),
-                0 10px 20px rgba(0, 0, 0, 0.04);
+            box-shadow: var(--shadow-lg);
         }
 
-        .leaderboard-header {
+        .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 16px;
+            margin-bottom: 24px;
         }
 
-        .leaderboard-title {
-            font-size: 22px;
+        .section-title {
+            font-size: 24px;
             font-weight: 800;
-            color: var(--pharos-gray-900);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+            background: rgba(0,0,0,0.2);
         }
 
         .leaderboard-table {
             width: 100%;
             border-collapse: collapse;
-            contain: strict;
+            font-size: 14px;
         }
 
-        .leaderboard-table thead th {
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            padding: 10px 6px;
+        .leaderboard-table th {
+            padding: 16px 12px;
+            text-align: left;
             font-weight: 700;
-            color: var(--pharos-gray-900);
-            font-size: 13px;
+            color: var(--text-primary);
+            background: rgba(255,255,255,0.03);
+            border-bottom: 1px solid var(--card-border);
             text-transform: uppercase;
-            letter-spacing: 0.03em;
-            text-align: center;
+            font-size: 11px;
+            letter-spacing: 0.5px;
             position: sticky;
             top: 0;
             z-index: 10;
         }
 
-        .leaderboard-table th:first-child,
-        .leaderboard-table th:nth-child(2),
-        .leaderboard-table th:nth-child(3) { text-align: left; }
-
-        .send-header { background: rgba(59, 130, 246, 0.12) !important; }
-        .zenith-header { background: rgba(249, 115, 22, 0.12) !important; }
-        .faroswap-header { background: rgba(168, 85, 247, 0.12) !important; }
-        .nft-header { background: rgba(34, 197, 94, 0.12) !important; }
+        .leaderboard-table th.center { text-align: center; }
 
         .leaderboard-table tbody tr {
-            background: rgba(255, 255, 255, 0.9);
-            contain: layout;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: var(--animation-fast);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.05);
         }
 
         .leaderboard-table tbody tr:hover {
-            background: rgba(255, 255, 255, 1);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: rgba(255,255,255,0.03);
+            transform: scale(1.005);
         }
 
         .leaderboard-table td {
-            padding: 8px 6px;
-            text-align: center;
+            padding: 16px 12px;
             vertical-align: middle;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-            font-size: 14px;
+            color: var(--text-secondary);
         }
 
-        .leaderboard-table td:nth-child(2),
-        .leaderboard-table td:nth-child(3) { text-align: left; }
+        .leaderboard-table td.center { text-align: center; }
 
-        .rank { font-weight: 800; font-size: 14px; }
-        .rank-tier-1 { color: #ef4444; }
-        .rank-tier-2 { color: #f97316; }
-        .rank-tier-3 { color: #eab308; }
-        .rank-tier-4 { color: #22c55e; }
-        .rank-tier-5 { color: #06b6d4; }
-        .rank-tier-6 { color: #3b82f6; }
-        .rank-tier-7 { color: #8b5cf6; }
-        .rank-tier-8 { color: #a855f7; }
-        .rank-tier-9 { color: #ec4899; }
-        .rank-tier-10 { color: #64748b; }
+        /* Rank Styling */
+        .rank {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 900;
+            font-size: 16px;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
 
+        .rank-1 { background: linear-gradient(135deg, #ffd700, #ffed4a); color: #1a202c; }
+        .rank-2 { background: linear-gradient(135deg, #c0c0c0, #e2e8f0); color: #1a202c; }
+        .rank-3 { background: linear-gradient(135deg, #cd7f32, #d69e2e); color: white; }
+        .rank-top10 { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+        .rank-top50 { background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; }
+        .rank-default { background: rgba(255,255,255,0.1); color: var(--text-secondary); }
+
+        /* Address */
         .address {
-            font-family: 'Inter', monospace;
-            font-size: 14px;
-            color: var(--pharos-blue-700);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--text-accent);
             font-weight: 600;
         }
 
-        .points-level-wrapper {
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid rgba(0, 0, 0, 0.06);
-            border-radius: 8px;
-            padding: 3px 5px;
+        /* Points & Level */
+        .points-level {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 6px;
-            width: 100px;
+            gap: 8px;
         }
 
         .points {
-            color: var(--pharos-gray-900);
-            font-size: 14px;
-            font-weight: 800;
-            font-family: 'Inter', monospace;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 16px;
         }
 
         .level-badge {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            color: white;
-            padding: 2px 6px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 800;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .activity-count {
-            font-weight: 600;
-            color: var(--pharos-gray-900);
+        .level-1 { background: linear-gradient(135deg, #6b7280, #9ca3af); color: white; }
+        .level-2 { background: linear-gradient(135deg, #059669, #10b981); color: white; }
+        .level-3 { background: linear-gradient(135deg, #0284c7, #0ea5e9); color: white; }
+        .level-4 { background: linear-gradient(135deg, #7c3aed, #a855f7); color: white; }
+        .level-5 { background: linear-gradient(135deg, #dc2626, #ef4444); color: white; }
+
+        /* Protocol Sections */
+        .protocol-cell {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .protocol-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+
+        .protocol-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .protocol-main {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            color: var(--text-primary);
             font-size: 14px;
         }
 
-        .member-since {
-            font-size: 13px;
-            color: var(--pharos-gray-500);
-            font-weight: 500;
+        .protocol-sub {
+            font-size: 11px;
+            color: var(--text-secondary);
         }
 
-        .protocol-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4px;
-            text-align: center;
-            padding: 3px;
+        /* Season 2 Badge */
+        .season2-badge {
+            background: var(--warning-gradient);
+            color: #1a202c;
+            padding: 2px 6px;
             border-radius: 6px;
-            contain: layout;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 4px;
         }
 
-        .protocol-grid > div:first-child {
-            border-right: 1px solid rgba(0, 0, 0, 0.15);
-            padding-right: 4px;
-        }
-
-        .protocol-grid > div:last-child {
-            padding-left: 4px;
-        }
-
-        .send-block { background: rgba(59, 130, 246, 0.08); }
-        .zenith-block { background: rgba(249, 115, 22, 0.08); }
-        .faroswap-block { background: rgba(168, 85, 247, 0.08); }
-        .nft-block { background: rgba(34, 197, 94, 0.08); }
-
+        /* Loading & Error States */
         .loading {
             display: none;
             text-align: center;
-            padding: 30px 20px;
-            contain: layout;
+            padding: 80px 20px;
         }
 
         .loading.show { display: block; }
 
-        .loading-text {
-            color: var(--pharos-gray-500);
-            font-size: 16px;
-            font-weight: 600;
+        .loading-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(255,255,255,0.1);
+            border-left: 4px solid var(--text-accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
         }
 
-        .author-footer {
-            margin-top: 24px;
-            text-align: center;
-            contain: layout;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-
-        .author-link {
-            color: white;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 12px 20px;
-            border-radius: 16px;
-            display: inline-block;
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            text-align: center;
-            line-height: 1.4;
-            box-shadow: 
-                0 8px 16px rgba(34, 197, 94, 0.3),
-                0 4px 8px rgba(34, 197, 94, 0.2);
-        }
-
-        .author-link:hover {
-            color: white;
-            background: linear-gradient(135deg, #16a34a, #15803d);
-            transform: translateY(-2px);
-            box-shadow: 
-                0 12px 24px rgba(34, 197, 94, 0.4),
-                0 6px 12px rgba(34, 197, 94, 0.3);
-        }
-
-        .pagination-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 16px;
-            flex-direction: column;
-            gap: 12px;
-            contain: layout;
-        }
-
-        .pagination-info {
-            font-size: 13px;
-            color: var(--pharos-gray-500);
-            font-weight: 500;
-        }
-
-        .pagination-controls {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-        }
-
-        .pagination-btn {
-            padding: 6px 10px;
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 6px;
-            background: rgba(255, 255, 255, 0.9);
-            color: var(--pharos-gray-700);
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            min-width: 35px;
-            text-align: center;
-        }
-
-        .pagination-btn:hover:not(:disabled) {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
-        }
-
-        .pagination-btn.active {
-            background: var(--pharos-blue-500);
-            color: white;
-            border-color: var(--pharos-blue-500);
-        }
-
-        .pagination-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        .pagination-nav { padding: 6px 12px; }
 
         .error-state {
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(239, 68, 68, 0.2);
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
             border-radius: 16px;
-            padding: 40px 20px;
+            padding: 32px;
             text-align: center;
             margin: 20px 0;
-        }
-
-        .error-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
         }
 
         .error-title {
             font-size: 18px;
             font-weight: 700;
-            color: var(--pharos-gray-900);
+            color: #ef4444;
             margin-bottom: 8px;
         }
 
         .error-message {
-            font-size: 14px;
-            color: var(--pharos-gray-500);
-            margin-bottom: 20px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
         }
 
         .retry-btn {
-            background: var(--pharos-blue-500);
+            background: var(--danger-gradient);
             color: white;
             border: none;
             padding: 12px 24px;
-            border-radius: 8px;
+            border-radius: 12px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--animation-normal);
         }
 
         .retry-btn:hover {
-            background: var(--pharos-blue-600);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 32px;
+        }
+
+        .pagination-btn {
+            padding: 8px 12px;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.05);
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--animation-normal);
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            background: rgba(255,255,255,0.1);
+            color: var(--text-primary);
             transform: translateY(-1px);
         }
 
-        @media (max-width: 1024px) {
-            .container { padding: 30px 20px; }
-            .header-section { gap: 20px; }
-            .header-right { flex: 0 0 320px; }
-            .analytics-content { 
-                grid-template-columns: 1fr; 
-                gap: 16px; 
-                text-align: center; 
+        .pagination-btn.active {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .analytics-section {
+                grid-template-columns: 1fr;
+                gap: 20px;
             }
-            .pie-container { margin: 0 auto; }
+            
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
         }
 
         @media (max-width: 768px) {
-            .container { padding: 20px 16px; }
-            .header-section { flex-direction: column; align-items: center; text-align: center; }
-            .logo-title-row { flex-direction: column; gap: 12px; align-items: center; }
-            .main-title { font-size: 24px; text-align: center; }
-            .header-right { 
-                flex: none; 
-                width: 100%; 
-                max-width: 350px; 
-                grid-template-columns: 1fr 1fr; 
-                gap: 12px; 
-                margin-top: 0; 
+            .container { padding: 16px; }
+            
+            .header {
+                padding: 20px;
             }
-            .stat-value { font-size: 24px; }
-            .logo-img { width: 100px; height: 100px; }
-            .leaderboard-table { font-size: 12px; }
+            
+            .header-content h1 {
+                font-size: 24px;
+            }
+            
+            .header-stats {
+                flex-direction: column;
+                gap: 12px;
+                width: 100%;
+            }
+            
+            .stat-item {
+                padding: 12px 16px;
+            }
+            
+            .leaderboard-section {
+                padding: 20px;
+            }
+            
+            .section-title {
+                font-size: 20px;
+            }
         }
 
-        @media (max-width: 480px) {
-            .header-right { grid-template-columns: 1fr; }
-            .main-title { font-size: 20px; }
-            .logo-img { width: 80px; height: 80px; }
-        }
-
+        /* Smooth Scrolling */
         html { scroll-behavior: smooth; }
-        @media (max-width: 768px) {
-            body { -webkit-overflow-scrolling: touch; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,255,255,0.3);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header-section">
+        <!-- Header -->
+        <header class="header">
             <div class="header-left">
-                <div class="logo-title-container">
-                    <img src="./leaderboard_logo.webp" alt="Pharos Logo" class="logo-img">
-                    <div class="title-subtitle-container">
-                        <h1 class="main-title">Pharos<br>Testnet<br>Dashboard</h1>
-                    </div>
+                <div class="logo">🏆</div>
+                <div class="header-content">
+                    <h1>Pharos Leaderboard</h1>
+                    <p>Live rankings & ecosystem analytics</p>
                 </div>
             </div>
-            
-            <div class="header-right">
-                <div class="stat-card">
-                    <div class="stat-value-container">
-                        <div class="stat-icon">📈</div>
-                        <div class="stat-value" id="totalUsers">0</div>
-                    </div>
+            <div class="header-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="totalUsers">0</div>
                     <div class="stat-label">Total Users</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-value-container">
-                        <div class="stat-icon">🏆</div>
-                        <div class="stat-value" id="topPoints">0</div>
-                    </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="totalChecks">0</div>
+                    <div class="stat-label">API Calls</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="topScore">0</div>
                     <div class="stat-label">Top Score</div>
                 </div>
             </div>
-        </div>
+        </header>
 
-        <div class="live-data-info">
-            <div class="live-data-text">
-                <span class="live-data-highlight">Live data updates every hour</span> • Real-time statistics and community insights
-            </div>
-        </div>
-
+        <!-- Analytics Section -->
         <div class="analytics-section">
-            <div class="analytics-header">
-                <h3 class="analytics-title">📈 User Distribution by Points</h3>
+            <div class="distribution-card">
+                <h3 class="distribution-title">
+                    📊 Point Distribution
+                </h3>
+                <div id="distributionLegend"></div>
             </div>
             
-            <div class="analytics-content">
-                <div class="pie-container">
-                    <svg class="pie-chart" viewBox="0 0 260 260" id="pieChart" role="img" aria-label="User distribution pie chart">
-                    </svg>
-                    <div class="pie-center-info">
-                        <div class="total-users" id="pieChartTotal">0</div>
-                        <div class="total-label">Active Users</div>
+            <div class="distribution-card">
+                <div class="live-status">
+                    <div class="live-dot"></div>
+                    <span style="color: #22c55e; font-weight: 600;">Live Data - Updates every hour</span>
+                </div>
+                <h3 class="distribution-title">
+                    🚀 Ecosystem Overview
+                </h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 16px; margin-top: 16px;">
+                    <div class="legend-item">
+                        <div style="text-align: center;">
+                            <div style="font-size: 20px; margin-bottom: 4px;">📈</div>
+                            <div class="legend-count" id="activeUsers">0</div>
+                            <div style="font-size: 11px; color: var(--text-secondary);">Active Users</div>
+                        </div>
+                    </div>
+                    <div class="legend-item">
+                        <div style="text-align: center;">
+                            <div style="font-size: 20px; margin-bottom: 4px;">⚡</div>
+                            <div class="legend-count" id="topPerformers">0</div>
+                            <div style="font-size: 11px; color: var(--text-secondary);">Top 10%</div>
+                        </div>
                     </div>
                 </div>
-
-                <div class="pie-legend" id="pieLegend" role="list" aria-label="Point distribution legend">
-                </div>
             </div>
         </div>
 
-        <div class="loading" id="loading" role="status" aria-live="polite">
-            <div class="loading-text">Loading dashboard...</div>
+        <!-- Loading State -->
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p style="color: var(--text-secondary); font-size: 16px; font-weight: 500;">Loading leaderboard data...</p>
         </div>
 
+        <!-- Error State -->
+        <div class="error-state" id="errorState" style="display: none;">
+            <div class="error-title">⚠️ Connection Error</div>
+            <div class="error-message">Unable to load leaderboard data. Please try again.</div>
+            <button class="retry-btn" onclick="loadLeaderboard()">Retry</button>
+        </div>
+
+        <!-- Main Leaderboard -->
         <div class="leaderboard-section" id="leaderboardSection">
-            <div class="leaderboard-header">
-                <h3 class="leaderboard-title">🏆 Top 100 Users</h3>
+            <div class="section-header">
+                <h2 class="section-title">
+                    🏆 Top 100 Users
+                </h2>
             </div>
             
-            <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
-                <table class="leaderboard-table" role="table" aria-label="User leaderboard">
+            <div class="table-container">
+                <table class="leaderboard-table">
                     <thead>
                         <tr>
-                            <th scope="col">Rank</th>
-                            <th scope="col">Address</th>
-                            <th scope="col">Points & Level</th>
-                            <th scope="col" class="send-header">Send TX</th>
-                            <th scope="col" class="zenith-header">
-                                <div style="text-align: center;">
-                                    <div style="font-weight: 700; font-size: 12px; margin-bottom: 4px;">ZENITH</div>
-                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 11px;">
-                                        <div>Swaps</div>
-                                        <div>LP</div>
-                                    </div>
-                                </div>
-                            </th>
-                            <th scope="col" class="faroswap-header">
-                                <div style="text-align: center;">
-                                    <div style="font-weight: 700; font-size: 12px; margin-bottom: 4px;">FAROSWAP</div>
-                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 11px;">
-                                        <div>Swaps</div>
-                                        <div>LP</div>
-                                    </div>
-                                </div>
-                            </th>
-                            <th scope="col" class="nft-header">
-                                <div style="text-align: center;">
-                                    <div style="font-weight: 700; font-size: 12px; margin-bottom: 4px;">NFT & DOMAINS</div>
-                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 11px;">
-                                        <div>Domains</div>
-                                        <div>NFTs</div>
-                                    </div>
-                                </div>
-                            </th>
-                            <th scope="col">Member Since</th>
+                            <th class="center">Rank</th>
+                            <th>User</th>
+                            <th class="center">Points & Level</th>
+                            <th class="center">Send TX</th>
+                            <th class="center">Zenith DEX</th>
+                            <th class="center">Faroswap</th>
+                            <th class="center">NFT/Domains</th>
+                            <th class="center">Season 2 🚀</th>
+                            <th class="center">Member Since</th>
                         </tr>
                     </thead>
                     <tbody id="leaderboardBody">
+                        <!-- Dynamic content will be loaded here -->
                     </tbody>
                 </table>
             </div>
 
-            <div class="pagination-container">
-                <div class="pagination-info" id="paginationInfo" aria-live="polite">
-                    Showing 1-20 of 100 users
-                </div>
-                <div class="pagination-controls" role="navigation" aria-label="Pagination">
-                    <button class="pagination-btn pagination-nav" id="prevBtn" disabled aria-label="Previous page">← Prev</button>
-                    <button class="pagination-btn active" data-page="1" aria-label="Go to page 1" aria-current="page">1</button>
-                    <button class="pagination-btn" data-page="2" aria-label="Go to page 2">2</button>
-                    <button class="pagination-btn" data-page="3" aria-label="Go to page 3">3</button>
-                    <button class="pagination-btn" data-page="4" aria-label="Go to page 4">4</button>
-                    <button class="pagination-btn" data-page="5
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+                <button class="pagination-btn" id="prevBtn" disabled>← Prev</button>
+                <button class="pagination-btn active" data-page="1">1</button>
+                <button class="pagination-btn" data-page="2">2</button>
+                <button class="pagination-btn" data-page="3">3</button>
+                <button class="pagination-btn" data-page="4">4</button>
+                <button class="pagination-btn" data-page="5">5</button>
+                <button class="pagination-btn" id="nextBtn">Next →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let currentPage = 1;
+        let leaderboardData = [];
+        let totalUsers = 0;
+        let isLoading = false;
+
+        // DOM elements
+        const elements = {
+            loading: document.getElementById('loading'),
+            errorState: document.getElementById('errorState'),
+            leaderboardSection: document.getElementById('leaderboardSection'),
+            leaderboardBody: document.getElementById('leaderboardBody'),
+            totalUsers: document.getElementById('totalUsers'),
+            totalChecks: document.getElementById('totalChecks'),
+            topScore: document.getElementById('topScore'),
+            activeUsers: document.getElementById('activeUsers'),
+            topPerformers: document.getElementById('topPerformers'),
+            distributionLegend: document.getElementById('distributionLegend'),
+            pagination: document.getElementById('pagination'),
+            prevBtn: document.getElementById('prevBtn'),
+            nextBtn: document.getElementById('nextBtn')
+        };
+
+        // Utility functions
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toString();
+        }
+
+        function formatAddress(address) {
+            return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'Unknown';
+            try {
+                return new Date(dateString).toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+            } catch {
+                return 'Unknown';
+            }
+        }
+
+        function getRankClass(rank) {
+            if (rank === 1) return 'rank-1';
+            if (rank === 2) return 'rank-2';
+            if (rank === 3) return 'rank-3';
+            if (rank <= 10) return 'rank-top10';
+            if (rank <= 50) return 'rank-top50';
+            return 'rank-default';
+        }
+
+        function getLevelClass(level) {
+            return `level-${Math.min(level, 5)}`;
+        }
+
+        // Animation helper
+        function animateValue(element, start, end, duration = 2000) {
+            const startTime = performance.now();
+            const range = end - start;
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                const easeProgress = 1 - Math.pow(1 - progress, 3); // Ease out cubic
+                const current = start + (range * easeProgress);
+                
+                element.textContent = formatNumber(Math.floor(current));
+                
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            
+            requestAnimationFrame(update);
+        }
+
+        // Show/hide states
+        function showLoading() {
+            elements.loading.classList.add('show');
+            elements.errorState.style.display = 'none';
+            elements.leaderboardSection.style.display = 'none';
+        }
+
+        function showError() {
+            elements.loading.classList.remove('show');
+            elements.errorState.style.display = 'block';
+            elements.leaderboardSection.style.display = 'none';
+        }
+
+        function showLeaderboard() {
+            elements.loading.classList.remove('show');
+            elements.errorState.style.display = 'none';
+            elements.leaderboardSection.style.display = 'block';
+        }
+
+        // Create distribution legend
+        function createDistributionLegend(pointDistribution) {
+            const colors = [
+                '#ef4444', '#f97316', '#eab308', '#22c55e', 
+                '#06b6d4', '#3b82f6', '#8b5cf6', '#ec4899', '#6b7280'
+            ];
+            
+            const entries = Object.entries(pointDistribution);
+            let html = '';
+            
+            entries.forEach(([range, count], index) => {
+                const percentage = totalUsers > 0 ? ((count / totalUsers) * 100).toFixed(1) : '0.0';
+                html += `
+                    <div class="legend-item">
+                        <div style="display: flex; align-items: center;">
+                            <div class="legend-color" style="background: ${colors[index % colors.length]}"></div>
+                            <span class="legend-text">${range} pts</span>
+                        </div>
+                        <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                            <span class="legend-count">${formatNumber(count)}</span>
+                            <span style="font-size: 11px; color: var(--text-secondary);">${percentage}%</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            elements.distributionLegend.innerHTML = html;
+        }
+
+        // Create leaderboard row
+        function createLeaderboardRow(user, index) {
+            const rank = index + 1;
+            const season2Total = (user.primuslabs_send || 0) + (user.aquaflux || 0) + 
+                               (user.autostaking || 0) + (user.fiamma_bridge || 0) + (user.brokex || 0);
+            
+            return `
+                <tr style="animation: fadeInUp 0.6s ease-out ${index * 0.05}s both;">
+                    <td class="center">
+                        <div class="rank ${getRankClass(rank)}">${rank}</div>
+                    </td>
+                    <td>
+                        <div style="display: flex; flex-direction: column; gap: 4px;">
+                            <span class="address">${formatAddress(user.address)}</span>
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                                <span style="font-size: 11px; color: var(--text-secondary);">
+                                    Checks: ${user.total_checks || 1}
+                                </span>
+                                ${user.first_check ? `
+                                    <span style="font-size: 10px; padding: 2px 6px; background: rgba(34,197,94,0.1); 
+                                          color: #22c55e; border-radius: 4px;">
+                                        Early User
+                                    </span>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </td>
+                    <td class="center">
+                        <div class="points-level">
+                            <span class="points">${formatNumber(user.total_points)}</span>
+                            <span class="level-badge ${getLevelClass(user.current_level)}">
+                                LVL ${user.current_level}
+                            </span>
+                        </div>
+                    </td>
+                    <td class="center">
+                        <div class="protocol-cell">
+                            <div class="protocol-stats">
+                                <span class="protocol-main">${formatNumber(user.send_count || 0)}</span>
+                                <span class="protocol-sub">transactions</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="center">
+                        <div class="protocol-cell">
+                            <div class="protocol-stats">
+                                <span class="protocol-main">${formatNumber((user.swap_count || 0) + (user.lp_count || 0))}</span>
+                                <span class="protocol-sub">${user.swap_count || 0} swaps • ${user.lp_count || 0} LP</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="center">
+                        <div class="protocol-cell">
+                            <div class="protocol-stats">
+                                <span class="protocol-main">${formatNumber((user.faroswap_swaps || 0) + (user.faroswap_lp || 0))}</span>
+                                <span class="protocol-sub">${user.faroswap_swaps || 0} swaps • ${user.faroswap_lp || 0} LP</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="center">
+                        <div class="protocol-cell">
+                            <div class="protocol-stats">
+                                <span class="protocol-main">${formatNumber((user.mint_domain || 0) + (user.mint_nft || 0))}</span>
+                                <span class="protocol-sub">${user.mint_domain || 0} domains • ${user.mint_nft || 0} NFTs</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="center">
+                        <div class="protocol-cell">
+                            <div class="protocol-stats">
+                                <span class="protocol-main">${formatNumber(season2Total)}</span>
+                                <span class="protocol-sub">
+                                    ${user.primuslabs_send || 0} sends • ${user.aquaflux || 0} DeFi • ${user.autostaking || 0} stake
+                                </span>
+                                ${season2Total > 0 ? '<span class="season2-badge">LIVE</span>' : ''}
+                            </div>
+                        </div>
+                    </td>
+                    <td class="center">
+                        <div style="font-size: 12px; color: var(--text-secondary);">
+                            ${formatDate(user.member_since)}
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }
+
+        // Update statistics
+        function updateStatistics(data) {
+            if (!data.success) return;
+
+            // Animate main stats
+            animateValue(elements.totalUsers, 0, data.total_users || 0);
+            animateValue(elements.totalChecks, 0, data.total_checks || 0);
+            
+            if (data.leaderboard && data.leaderboard.length > 0) {
+                animateValue(elements.topScore, 0, data.leaderboard[0].total_points || 0);
+            }
+
+            // Calculate derived stats
+            const activeUsersCount = data.leaderboard ? data.leaderboard.filter(u => u.total_points > 1000).length : 0;
+            const topPerformersCount = Math.ceil((data.total_users || 0) * 0.1);
+            
+            animateValue(elements.activeUsers, 0, activeUsersCount);
+            animateValue(elements.topPerformers, 0, topPerformersCount);
+
+            // Update distribution
+            if (data.point_distribution) {
+                createDistributionLegend(data.point_distribution);
+            }
+
+            totalUsers = data.total_users || 0;
+        }
+
+        // Render leaderboard
+        function renderLeaderboard(data) {
+            if (!data.leaderboard || data.leaderboard.length === 0) {
+                elements.leaderboardBody.innerHTML = `
+                    <tr>
+                        <td colspan="9" style="text-align: center; padding: 60px 20px; color: var(--text-secondary);">
+                            <div style="font-size: 48px; margin-bottom: 16px;">📊</div>
+                            <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">No Data Available</div>
+                            <div>Leaderboard data is being updated. Please check back soon.</div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            const rowsHtml = data.leaderboard.map((user, index) => createLeaderboardRow(user, index)).join('');
+            elements.leaderboardBody.innerHTML = rowsHtml;
+            
+            // Add fade in animation styles
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeInUp {
+                    from {
+                        opacity: 0;
+                        transform: translate3d(0, 20px, 0);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translate3d(0, 0, 0);
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // Load leaderboard data
+        async function loadLeaderboard() {
+            if (isLoading) return;
+            
+            isLoading = true;
+            showLoading();
+
+            try {
+                const response = await fetch('/api/admin/stats', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                
+                if (!data.success) {
+                    throw new Error(data.error || 'Failed to load leaderboard data');
+                }
+
+                // Store data
+                leaderboardData = data;
+
+                // Update UI
+                updateStatistics(data);
+                renderLeaderboard(data);
+                showLeaderboard();
+
+                console.log('✅ Leaderboard loaded successfully:', {
+                    users: data.total_users,
+                    checks: data.total_checks,
+                    topScore: data.leaderboard?.[0]?.total_points || 0
+                });
+
+            } catch (error) {
+                console.error('❌ Error loading leaderboard:', error);
+                showError();
+            } finally {
+                isLoading = false;
+            }
+        }
+
+        // Pagination handlers
+        function setupPagination() {
+            const paginationBtns = document.querySelectorAll('.pagination-btn[data-page]');
+            
+            paginationBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const page = parseInt(btn.dataset.page);
+                    if (page !== currentPage) {
+                        changePage(page);
+                    }
+                });
+            });
+
+            elements.prevBtn.addEventListener('click', () => {
+                if (currentPage > 1) changePage(currentPage - 1);
+            });
+
+            elements.nextBtn.addEventListener('click', () => {
+                if (currentPage < 5) changePage(currentPage + 1);
+            });
+        }
+
+        function changePage(page) {
+            if (page === currentPage || page < 1 || page > 5) return;
+            
+            currentPage = page;
+            updatePaginationUI();
+            
+            // Smooth scroll to top of leaderboard
+            elements.leaderboardSection.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+        }
+
+        function updatePaginationUI() {
+            // Update active button
+            document.querySelectorAll('.pagination-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.page === currentPage.toString()) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Update prev/next buttons
+            elements.prevBtn.disabled = currentPage === 1;
+            elements.nextBtn.disabled = currentPage === 5;
+        }
+
+        // Auto-refresh functionality
+        function setupAutoRefresh() {
+            const refreshInterval = 5 * 60 * 1000; // 5 minutes
+            
+            setInterval(() => {
+                if (!isLoading) {
+                    console.log('🔄 Auto-refreshing leaderboard data...');
+                    loadLeaderboard();
+                }
+            }, refreshInterval);
+        }
+
+        // Initialize app
+        async function initializeApp() {
+            console.log('🚀 Initializing Pharos Leaderboard...');
+            
+            // Setup event listeners
+            setupPagination();
+            
+            // Load initial data
+            await loadLeaderboard();
+            
+            // Setup auto-refresh
+            setupAutoRefresh();
+            
+            console.log('✅ Pharos Leaderboard initialized successfully');
+        }
+
+        // Error handling for network issues
+        window.addEventListener('online', () => {
+            if (!isLoading && elements.errorState.style.display !== 'none') {
+                console.log('🌐 Network restored, reloading data...');
+                loadLeaderboard();
+            }
+        });
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeApp);
+        } else {
+            initializeApp();
+        }
+
+        // Expose for debugging
+        window.pharosLeaderboard = {
+            loadLeaderboard,
+            data: () => leaderboardData,
+            refresh: () => loadLeaderboard()
+        };
+    </script>
+</body>
+</html>
