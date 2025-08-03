@@ -137,20 +137,20 @@
         .leaderboard-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 14px; /* Увеличено с 13px */
+            font-size: 13px;
         }
 
         /* Table Headers */
         .leaderboard-table thead th {
             background: #f9fafb;
-            padding: 14px 10px; /* Увеличено с 12px 8px */
+            padding: 12px 8px;
             text-align: center;
             font-weight: 600;
             color: #374151;
             border-right: 1px solid #e5e7eb;
             border-bottom: 2px solid #e5e7eb;
             text-transform: uppercase;
-            font-size: 12px; /* Увеличено с 11px */
+            font-size: 11px;
             letter-spacing: 0.5px;
             position: sticky;
             top: 0;
@@ -161,65 +161,26 @@
             border-right: none;
         }
 
-        /* Colored Headers by Protocol */
-        .header-send {
-            background: linear-gradient(135deg, #dbeafe, #bfdbfe) !important;
-            color: #1e40af !important;
-            border-bottom: 2px solid #3b82f6 !important;
-        }
-
-        .header-zenith {
-            background: linear-gradient(135deg, #ede9fe, #ddd6fe) !important;
-            color: #6b21a8 !important;
-            border-bottom: 2px solid #8b5cf6 !important;
-        }
-
-        .header-faroswap {
-            background: linear-gradient(135deg, #fed7aa, #fdba74) !important;
-            color: #c2410c !important;
-            border-bottom: 2px solid #f97316 !important;
-        }
-
-        .header-nft {
-            background: linear-gradient(135deg, #dcfce7, #bbf7d0) !important;
-            color: #166534 !important;
-            border-bottom: 2px solid #22c55e !important;
-        }
-
-        .header-season2 {
-            background: linear-gradient(135deg, #fce7f3, #fbcfe8) !important;
-            color: #be185d !important;
-            border-bottom: 2px solid #ec4899 !important;
-        }
-
         /* Multi-level headers */
         .header-main {
             border-bottom: 1px solid #d1d5db;
-            padding: 10px 8px; /* Увеличено */
-            font-weight: 700;
-            font-size: 13px; /* Увеличено */
+            padding: 8px;
         }
 
         .header-sub {
-            padding: 10px 8px; /* Увеличено */
-            font-size: 11px; /* Увеличено с 10px */
-            font-weight: 600;
+            padding: 8px;
+            font-size: 10px;
+            font-weight: 500;
         }
 
         /* Table Body */
         .leaderboard-table tbody tr {
             border-bottom: 1px solid #f3f4f6;
-            transition: background-color 0.2s ease;
-        }
-
-        .leaderboard-table tbody tr:nth-child(even) {
-            background: #fafafa;
+            transition: background-color 0.15s ease;
         }
 
         .leaderboard-table tbody tr:hover {
-            background: #f3f4f6 !important;
-            transform: scale(1.002);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            background: #f9fafb;
         }
 
         .leaderboard-table tbody tr:last-child {
@@ -227,7 +188,7 @@
         }
 
         .leaderboard-table td {
-            padding: 14px 10px; /* Увеличено с 12px 8px */
+            padding: 12px 8px;
             text-align: center;
             border-right: 1px solid #f3f4f6;
             vertical-align: middle;
@@ -235,32 +196,6 @@
 
         .leaderboard-table td:last-child {
             border-right: none;
-        }
-
-        /* Protocol Column Backgrounds */
-        .col-send {
-            background: rgba(59, 130, 246, 0.02);
-            border-left: 3px solid #3b82f6;
-        }
-
-        .col-zenith {
-            background: rgba(139, 92, 246, 0.02);
-            border-left: 3px solid #8b5cf6;
-        }
-
-        .col-faroswap {
-            background: rgba(249, 115, 22, 0.02);
-            border-left: 3px solid #f97316;
-        }
-
-        .col-nft {
-            background: rgba(34, 197, 94, 0.02);
-            border-left: 3px solid #22c55e;
-        }
-
-        .col-season2 {
-            background: rgba(236, 72, 153, 0.02);
-            border-left: 3px solid #ec4899;
         }
 
         /* Sub-columns within cells */
@@ -309,14 +244,14 @@
 
         .address {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 13px; /* Увеличено с 12px */
+            font-size: 12px;
             color: #1f2937;
             font-weight: 600;
             margin-bottom: 2px;
         }
 
         .user-meta {
-            font-size: 11px; /* Увеличено с 10px */
+            font-size: 10px;
             color: #6b7280;
         }
 
@@ -332,16 +267,16 @@
         .points {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
-            font-size: 15px; /* Увеличено с 14px */
+            font-size: 14px;
             color: #111827;
         }
 
         .level-badge {
             background: #10b981;
             color: white;
-            padding: 3px 8px; /* Увеличено */
+            padding: 2px 6px;
             border-radius: 4px;
-            font-size: 11px; /* Увеличено с 10px */
+            font-size: 10px;
             font-weight: 600;
         }
 
@@ -350,17 +285,11 @@
             font-family: 'JetBrains Mono', monospace;
             font-weight: 600;
             color: #374151;
-            font-size: 14px; /* Увеличено с 13px */
+            font-size: 13px;
         }
 
         .activity-zero {
             color: #9ca3af;
-            font-weight: 400;
-        }
-
-        .activity-high {
-            color: #059669;
-            font-weight: 700;
         }
 
         /* Loading & Error States */
@@ -529,24 +458,24 @@
                             <th rowspan="2" style="width: 60px;">Rank</th>
                             <th rowspan="2" style="width: 140px;">User</th>
                             <th rowspan="2" style="width: 120px;">Points & Level</th>
-                            <th colspan="2" class="header-main header-send">Send</th>
-                            <th colspan="2" class="header-main header-zenith">Zenith</th>
-                            <th colspan="2" class="header-main header-faroswap">Faroswap</th>
-                            <th colspan="2" class="header-main header-nft">Domains & NFT</th>
-                            <th rowspan="2" class="header-season2" style="width: 70px;">RWAfi</th>
-                            <th rowspan="2" class="header-season2" style="width: 70px;">Stake</th>
-                            <th rowspan="2" class="header-season2" style="width: 80px;">BTC Bridge</th>
-                            <th rowspan="2" class="header-season2" style="width: 80px;">CFD Trading</th>
+                            <th colspan="2" class="header-main">Send</th>
+                            <th colspan="2" class="header-main">Zenith</th>
+                            <th colspan="2" class="header-main">Faroswap</th>
+                            <th colspan="2" class="header-main">Domains & NFT</th>
+                            <th rowspan="2" style="width: 70px;">RWAfi</th>
+                            <th rowspan="2" style="width: 70px;">Stake</th>
+                            <th rowspan="2" style="width: 80px;">BTC Bridge</th>
+                            <th rowspan="2" style="width: 80px;">CFD Trading</th>
                         </tr>
                         <tr>
-                            <th class="header-sub header-send" style="width: 60px;">Onchain</th>
-                            <th class="header-sub header-send" style="width: 70px;">Primuslabs</th>
-                            <th class="header-sub header-zenith" style="width: 60px;">Swaps</th>
-                            <th class="header-sub header-zenith" style="width: 50px;">LP</th>
-                            <th class="header-sub header-faroswap" style="width: 60px;">Swaps</th>
-                            <th class="header-sub header-faroswap" style="width: 50px;">LP</th>
-                            <th class="header-sub header-nft" style="width: 60px;">Domains</th>
-                            <th class="header-sub header-nft" style="width: 50px;">NFTs</th>
+                            <th class="header-sub" style="width: 60px;">Onchain</th>
+                            <th class="header-sub" style="width: 70px;">Primuslabs</th>
+                            <th class="header-sub" style="width: 60px;">Swaps</th>
+                            <th class="header-sub" style="width: 50px;">LP</th>
+                            <th class="header-sub" style="width: 60px;">Swaps</th>
+                            <th class="header-sub" style="width: 50px;">LP</th>
+                            <th class="header-sub" style="width: 60px;">Domains</th>
+                            <th class="header-sub" style="width: 50px;">NFTs</th>
                         </tr>
                     </thead>
                     <tbody id="leaderboardBody">
@@ -681,13 +610,6 @@
         function createTableRow(user, globalIndex) {
             const rank = globalIndex + 1;
             
-            // Helper function to format activity numbers with highlighting
-            function formatActivity(value, threshold = 10) {
-                const num = value || 0;
-                const className = num === 0 ? 'activity-zero' : (num >= threshold ? 'activity-high' : '');
-                return `<span class="activity-number ${className}">${num}</span>`;
-            }
-            
             return `
                 <tr>
                     <td>
@@ -705,18 +627,18 @@
                             <div class="level-badge">LVL ${user.current_level}</div>
                         </div>
                     </td>
-                    <td class="col-send">${formatActivity(user.send_count, 50)}</td>
-                    <td class="col-send">${formatActivity(user.primuslabs_send, 5)}</td>
-                    <td class="col-zenith">${formatActivity(user.swap_count, 20)}</td>
-                    <td class="col-zenith">${formatActivity(user.lp_count, 10)}</td>
-                    <td class="col-faroswap">${formatActivity(user.faroswap_swaps, 10)}</td>
-                    <td class="col-faroswap">${formatActivity(user.faroswap_lp, 5)}</td>
-                    <td class="col-nft">${formatActivity(user.mint_domain)}</td>
-                    <td class="col-nft">${formatActivity(user.mint_nft)}</td>
-                    <td class="col-season2">${formatActivity(user.aquaflux)}</td>
-                    <td class="col-season2">${formatActivity(user.autostaking)}</td>
-                    <td class="col-season2">${formatActivity(user.fiamma_bridge)}</td>
-                    <td class="col-season2">${formatActivity(user.brokex)}</td>
+                    <td><span class="activity-number ${(user.send_count || 0) === 0 ? 'activity-zero' : ''}">${user.send_count || 0}</span></td>
+                    <td><span class="activity-number ${(user.primuslabs_send || 0) === 0 ? 'activity-zero' : ''}">${user.primuslabs_send || 0}</span></td>
+                    <td><span class="activity-number ${(user.swap_count || 0) === 0 ? 'activity-zero' : ''}">${user.swap_count || 0}</span></td>
+                    <td><span class="activity-number ${(user.lp_count || 0) === 0 ? 'activity-zero' : ''}">${user.lp_count || 0}</span></td>
+                    <td><span class="activity-number ${(user.faroswap_swaps || 0) === 0 ? 'activity-zero' : ''}">${user.faroswap_swaps || 0}</span></td>
+                    <td><span class="activity-number ${(user.faroswap_lp || 0) === 0 ? 'activity-zero' : ''}">${user.faroswap_lp || 0}</span></td>
+                    <td><span class="activity-number ${(user.mint_domain || 0) === 0 ? 'activity-zero' : ''}">${user.mint_domain || 0}</span></td>
+                    <td><span class="activity-number ${(user.mint_nft || 0) === 0 ? 'activity-zero' : ''}">${user.mint_nft || 0}</span></td>
+                    <td><span class="activity-number ${(user.aquaflux || 0) === 0 ? 'activity-zero' : ''}">${user.aquaflux || 0}</span></td>
+                    <td><span class="activity-number ${(user.autostaking || 0) === 0 ? 'activity-zero' : ''}">${user.autostaking || 0}</span></td>
+                    <td><span class="activity-number ${(user.fiamma_bridge || 0) === 0 ? 'activity-zero' : ''}">${user.fiamma_bridge || 0}</span></td>
+                    <td><span class="activity-number ${(user.brokex || 0) === 0 ? 'activity-zero' : ''}">${user.brokex || 0}</span></td>
                 </tr>
             `;
         }
