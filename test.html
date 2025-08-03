@@ -1058,7 +1058,10 @@
 
         // Render leaderboard with pagination
         function renderLeaderboard() {
+            console.log(`🔄 Rendering leaderboard. allUsers length: ${allUsers ? allUsers.length : 'undefined'}`);
+            
             if (!allUsers || allUsers.length === 0) {
+                console.log('❌ No users data available for rendering');
                 elements.leaderboardBody.innerHTML = `
                     <tr>
                         <td colspan="9" style="text-align: center; padding: 60px 20px; color: var(--text-secondary);">
@@ -1077,6 +1080,7 @@
             const currentPageUsers = allUsers.slice(startIndex, endIndex);
 
             console.log(`📄 Rendering page ${currentPage}: users ${startIndex + 1}-${Math.min(endIndex, allUsers.length)} of ${allUsers.length}`);
+            console.log(`🔍 Current page users:`, currentPageUsers.length);
 
             // Generate rows with global indices for correct ranks
             const rowsHtml = currentPageUsers.map((user, localIndex) => {
@@ -1167,7 +1171,8 @@
                 console.log('✅ Leaderboard loaded successfully:', {
                     users: data.total_users,
                     checks: data.total_checks,
-                    topScore: data.leaderboard?.[0]?.total_points || 0
+                    topScore: data.leaderboard?.[0]?.total_points || 0,
+                    leaderboardLength: allUsers.length
                 });
 
             } catch (error) {
