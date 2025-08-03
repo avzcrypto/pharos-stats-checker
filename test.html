@@ -3,236 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pharos Testnet Leaderboard - Live Rankings & Analytics</title>
-    <meta name="description" content="🏆 Live Pharos testnet leaderboard! Track top performers, analyze activity patterns & discover ecosystem leaders. Real-time rankings & stats.">
-    <link rel="canonical" href="https://pharoshub.xyz/leaderboard">
+    <title>Pharos Testnet Leaderboard - Top 100 Rankings</title>
+    <meta name="description" content="Live Pharos testnet leaderboard with top 100 users and detailed activity breakdown by protocol.">
     <link rel="icon" type="image/webp" href="./leaderboard_logo.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* Modern Reset & Base */
-        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-        body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#0f0f23 0%,#1a1a2e 50%,#16213e 100%);min-height:100vh;color:#e2e8f0;overflow-x:hidden}
-
-        /* CSS Variables */
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-            --danger-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-            --card-bg: rgba(15, 23, 42, 0.8);
-            --card-border: rgba(148, 163, 184, 0.1);
-            --text-primary: #f1f5f9;
-            --text-secondary: #94a3b8;
-            --text-accent: #38bdf8;
-            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
-            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
-            --animation-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-            --animation-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        /* Reset & Base */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #fafafa;
+            color: #1f2937;
+            line-height: 1.5;
         }
 
-        // Animation helper  
-        function animateValue(element, start, end, duration = 2000) {
-            const startTime = performance.now();
-            const range = end - start;
-
-            function update(currentTime) {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                
-                const easeProgress = 1 - Math.pow(1 - progress, 3); // Ease out cubic
-                const current = start + (range * easeProgress);
-                
-                element.textContent = formatNumber(Math.floor(current));
-                
-                if (progress < 1) {
-                    requestAnimationFrame(update);
-                }
-            }
-            
-            requestAnimationFrame(update);
-        }
-
-        /* Container & Layout */
+        /* Container */
         .container {
-            max-width: 1440px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
-            min-height: 100vh;
         }
 
-        /* Header Section */
+        /* Header */
         .header {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 40px;
-            padding: 24px 32px;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 24px;
-            backdrop-filter: blur(20px);
-            box-shadow: var(--shadow-lg);
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .logo {
-            width: 60px;
-            height: 60px;
-            border-radius: 16px;
-            background: var(--primary-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .header-left h1 {
             font-size: 28px;
-            font-weight: 900;
-            color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .header-content h1 {
-            font-size: 32px;
-            font-weight: 900;
-            background: linear-gradient(135deg, #f1f5f9, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-weight: 800;
+            color: #111827;
             margin-bottom: 4px;
-            letter-spacing: -0.02em;
         }
 
-        .header-content p {
-            color: var(--text-secondary);
-            font-size: 16px;
-            font-weight: 500;
+        .header-left p {
+            color: #6b7280;
+            font-size: 14px;
         }
 
         .header-stats {
             display: flex;
-            gap: 24px;
+            gap: 32px;
         }
 
         .stat-item {
             text-align: center;
-            padding: 16px 20px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 16px;
-            border: 1px solid var(--card-border);
-            backdrop-filter: blur(10px);
-            transition: var(--animation-normal);
-        }
-
-        .stat-item:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-            background: rgba(255,255,255,0.08);
         }
 
         .stat-value {
-            font-size: 24px;
-            font-weight: 900;
-            color: var(--text-primary);
-            margin-bottom: 4px;
             font-family: 'JetBrains Mono', monospace;
+            font-size: 24px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 4px;
         }
 
         .stat-label {
             font-size: 12px;
-            color: var(--text-secondary);
-            font-weight: 600;
+            color: #6b7280;
             text-transform: uppercase;
+            font-weight: 600;
             letter-spacing: 0.5px;
         }
 
-        /* Analytics Section */
-        .analytics-section {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 24px;
-            margin-bottom: 32px;
-        }
-
-        .distribution-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 24px;
-            padding: 24px;
-            backdrop-filter: blur(20px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .distribution-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        /* Update Info */
+        .update-info {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 6px;
             padding: 12px 16px;
-            margin-bottom: 8px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            transition: var(--animation-normal);
-        }
-
-        .legend-item:hover {
-            background: rgba(255,255,255,0.06);
-            transform: translateX(4px);
-        }
-
-        .legend-color {
-            width: 12px;
-            height: 12px;
-            border-radius: 3px;
-            margin-right: 12px;
-        }
-
-        .legend-text {
-            flex: 1;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .legend-count {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text-accent);
-        }
-
-        /* Live Status */
-        .live-status {
+            margin-bottom: 24px;
+            font-size: 13px;
+            color: #0369a1;
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 8px 16px;
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            border-radius: 12px;
-            margin-bottom: 24px;
         }
 
-        .live-dot {
-            width: 8px;
-            height: 8px;
-            background: #22c55e;
+        .update-dot {
+            width: 6px;
+            height: 6px;
+            background: #0ea5e9;
             border-radius: 50%;
             animation: pulse 2s infinite;
         }
@@ -242,53 +108,47 @@
             50% { opacity: 0.4; }
         }
 
-        /* Main Leaderboard */
-        .leaderboard-section {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 24px;
-            padding: 32px;
-            backdrop-filter: blur(20px);
-            box-shadow: var(--shadow-lg);
+        /* Main Table Section */
+        .table-section {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
+        .table-header {
+            background: #f9fafb;
+            padding: 16px 24px;
+            border-bottom: 1px solid #e5e7eb;
         }
 
-        .section-title {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        .table-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #111827;
         }
 
-        /* Table Styles */
+        /* Table */
         .table-container {
             overflow-x: auto;
-            border-radius: 16px;
-            border: 1px solid var(--card-border);
-            background: rgba(0,0,0,0.2);
         }
 
         .leaderboard-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 14px;
+            font-size: 13px;
         }
 
-        .leaderboard-table th {
-            padding: 16px 12px;
-            text-align: left;
-            font-weight: 700;
-            color: var(--text-primary);
-            background: rgba(255,255,255,0.03);
-            border-bottom: 1px solid var(--card-border);
+        /* Table Headers */
+        .leaderboard-table thead th {
+            background: #f9fafb;
+            padding: 12px 8px;
+            text-align: center;
+            font-weight: 600;
+            color: #374151;
+            border-right: 1px solid #e5e7eb;
+            border-bottom: 2px solid #e5e7eb;
             text-transform: uppercase;
             font-size: 11px;
             letter-spacing: 0.5px;
@@ -297,146 +157,158 @@
             z-index: 10;
         }
 
-        .leaderboard-table th.center { text-align: center; }
+        .leaderboard-table thead th:last-child {
+            border-right: none;
+        }
 
+        /* Multi-level headers */
+        .header-main {
+            border-bottom: 1px solid #d1d5db;
+            padding: 8px;
+        }
+
+        .header-sub {
+            padding: 8px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        /* Table Body */
         .leaderboard-table tbody tr {
-            transition: var(--animation-fast);
-            border-bottom: 1px solid rgba(148, 163, 184, 0.05);
+            border-bottom: 1px solid #f3f4f6;
+            transition: background-color 0.15s ease;
         }
 
         .leaderboard-table tbody tr:hover {
-            background: rgba(255,255,255,0.03);
-            transform: scale(1.005);
+            background: #f9fafb;
+        }
+
+        .leaderboard-table tbody tr:last-child {
+            border-bottom: none;
         }
 
         .leaderboard-table td {
-            padding: 16px 12px;
+            padding: 12px 8px;
+            text-align: center;
+            border-right: 1px solid #f3f4f6;
             vertical-align: middle;
-            color: var(--text-secondary);
         }
 
-        .leaderboard-table td.center { text-align: center; }
+        .leaderboard-table td:last-child {
+            border-right: none;
+        }
 
-        /* Rank Styling */
+        /* Sub-columns within cells */
+        .sub-columns {
+            display: flex;
+            height: 100%;
+        }
+
+        .sub-column {
+            flex: 1;
+            padding: 0 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sub-column:not(:last-child) {
+            border-right: 1px solid #e5e7eb;
+        }
+
+        /* Rank Column */
         .rank {
             font-family: 'JetBrains Mono', monospace;
-            font-weight: 900;
-            font-size: 16px;
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto;
         }
 
-        .rank-1 { background: linear-gradient(135deg, #ffd700, #ffed4a); color: #1a202c; }
-        .rank-2 { background: linear-gradient(135deg, #c0c0c0, #e2e8f0); color: #1a202c; }
-        .rank-3 { background: linear-gradient(135deg, #cd7f32, #d69e2e); color: white; }
-        .rank-top10 { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
-        .rank-top50 { background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; }
-        .rank-default { background: rgba(255,255,255,0.1); color: var(--text-secondary); }
+        .rank-1 { background: #fbbf24; color: #92400e; }
+        .rank-2 { background: #d1d5db; color: #374151; }
+        .rank-3 { background: #f59e0b; color: #92400e; }
+        .rank-top10 { background: #dbeafe; color: #1d4ed8; }
+        .rank-default { background: #f3f4f6; color: #6b7280; }
 
-        /* Address */
+        /* User Column */
+        .user-info {
+            text-align: left;
+            min-width: 120px;
+        }
+
         .address {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            color: var(--text-accent);
+            font-size: 12px;
+            color: #1f2937;
             font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .user-meta {
+            font-size: 10px;
+            color: #6b7280;
         }
 
         /* Points & Level */
         .points-level {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 8px;
+            gap: 4px;
+            min-width: 100px;
         }
 
         .points {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
-            color: var(--text-primary);
-            font-size: 16px;
+            font-size: 14px;
+            color: #111827;
         }
 
         .level-badge {
-            padding: 4px 8px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .level-1 { background: linear-gradient(135deg, #6b7280, #9ca3af); color: white; }
-        .level-2 { background: linear-gradient(135deg, #059669, #10b981); color: white; }
-        .level-3 { background: linear-gradient(135deg, #0284c7, #0ea5e9); color: white; }
-        .level-4 { background: linear-gradient(135deg, #7c3aed, #a855f7); color: white; }
-        .level-5 { background: linear-gradient(135deg, #dc2626, #ef4444); color: white; }
-
-        /* Protocol Sections */
-        .protocol-cell {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .protocol-icon {
-            width: 24px;
-            height: 24px;
-            border-radius: 6px;
-            object-fit: cover;
-        }
-
-        .protocol-stats {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .protocol-main {
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 700;
-            color: var(--text-primary);
-            font-size: 14px;
-        }
-
-        .protocol-sub {
-            font-size: 11px;
-            color: var(--text-secondary);
-        }
-
-        /* Season 2 Badge */
-        .season2-badge {
-            background: var(--warning-gradient);
-            color: #1a202c;
+            background: #10b981;
+            color: white;
             padding: 2px 6px;
-            border-radius: 6px;
+            border-radius: 4px;
             font-size: 10px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-left: 4px;
+            font-weight: 600;
+        }
+
+        /* Activity Numbers */
+        .activity-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: #374151;
+            font-size: 13px;
+        }
+
+        .activity-zero {
+            color: #9ca3af;
         }
 
         /* Loading & Error States */
         .loading {
             display: none;
             text-align: center;
-            padding: 80px 20px;
+            padding: 60px 20px;
         }
 
         .loading.show { display: block; }
 
         .loading-spinner {
-            width: 48px;
-            height: 48px;
-            border: 4px solid rgba(255,255,255,0.1);
-            border-left: 4px solid var(--text-accent);
+            width: 32px;
+            height: 32px;
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #3b82f6;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+            margin: 0 auto 16px;
         }
 
         @keyframes spin {
@@ -445,40 +317,39 @@
         }
 
         .error-state {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 16px;
-            padding: 32px;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 6px;
+            padding: 24px;
             text-align: center;
             margin: 20px 0;
         }
 
         .error-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #ef4444;
+            font-size: 16px;
+            font-weight: 600;
+            color: #dc2626;
             margin-bottom: 8px;
         }
 
         .error-message {
-            color: var(--text-secondary);
+            color: #6b7280;
             margin-bottom: 16px;
         }
 
         .retry-btn {
-            background: var(--danger-gradient);
+            background: #3b82f6;
             color: white;
             border: none;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
             cursor: pointer;
-            transition: var(--animation-normal);
         }
 
         .retry-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            background: #2563eb;
         }
 
         /* Pagination */
@@ -487,217 +358,137 @@
             justify-content: center;
             align-items: center;
             gap: 8px;
-            margin-top: 32px;
+            padding: 20px;
+            background: #f9fafb;
+            border-top: 1px solid #e5e7eb;
         }
 
         .pagination-btn {
             padding: 8px 12px;
-            border: 1px solid var(--card-border);
-            border-radius: 8px;
-            background: rgba(255,255,255,0.05);
-            color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 600;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            background: white;
+            color: #374151;
+            font-size: 13px;
+            font-weight: 500;
             cursor: pointer;
-            transition: var(--animation-normal);
-            min-width: 40px;
+            transition: all 0.15s ease;
+            min-width: 36px;
             text-align: center;
         }
 
         .pagination-btn:hover:not(:disabled) {
-            background: rgba(255,255,255,0.1);
-            color: var(--text-primary);
-            transform: translateY(-1px);
+            background: #f3f4f6;
+            border-color: #9ca3af;
         }
 
         .pagination-btn.active {
-            background: var(--primary-gradient);
+            background: #3b82f6;
+            border-color: #3b82f6;
             color: white;
-            border-color: transparent;
         }
 
         .pagination-btn:disabled {
-            opacity: 0.3;
+            opacity: 0.5;
             cursor: not-allowed;
         }
 
-        /* Responsive Design */
-        @media (max-width: 1200px) {
-            .analytics-section {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .header {
-                flex-direction: column;
-                gap: 20px;
-                text-align: center;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .container { padding: 16px; }
-            
-            .header {
-                padding: 20px;
-            }
-            
-            .header-content h1 {
-                font-size: 24px;
-            }
-            
-            .header-stats {
-                flex-direction: column;
-                gap: 12px;
-                width: 100%;
-            }
-            
-            .stat-item {
-                padding: 12px 16px;
-            }
-            
-            .leaderboard-section {
-                padding: 20px;
-            }
-            
-            .section-title {
-                font-size: 20px;
-            }
-        }
-
-        /* Smooth Scrolling */
-        html { scroll-behavior: smooth; }
-        
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.05);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255,255,255,0.2);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255,255,255,0.3);
+        .pagination-info {
+            font-size: 12px;
+            color: #6b7280;
+            margin: 0 16px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <!-- Header -->
-        <header class="header">
-            <div class="header-left">
-                <div class="logo">🏆</div>
-                <div class="header-content">
+        <div class="header">
+            <div class="header-content">
+                <div class="header-left">
                     <h1>Pharos Leaderboard</h1>
-                    <p>Live rankings & ecosystem analytics</p>
+                    <p>Top 100 users ranked by total points</p>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="totalUsers">0</div>
+                        <div class="stat-label">Total Users</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="totalChecks">0</div>
+                        <div class="stat-label">Total Checks</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="topScore">0</div>
+                        <div class="stat-label">Top Score</div>
+                    </div>
                 </div>
             </div>
-            <div class="header-stats">
-                <div class="stat-item">
-                    <div class="stat-value" id="totalUsers">0</div>
-                    <div class="stat-label">Total Users</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="totalChecks">0</div>
-                    <div class="stat-label">API Calls</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="topScore">0</div>
-                    <div class="stat-label">Top Score</div>
-                </div>
-            </div>
-        </header>
+        </div>
 
-        <!-- Analytics Section -->
-        <div class="analytics-section">
-            <div class="distribution-card">
-                <h3 class="distribution-title">
-                    📊 Point Distribution
-                </h3>
-                <div id="distributionLegend"></div>
-            </div>
-            
-            <div class="distribution-card">
-                <div class="live-status">
-                    <div class="live-dot"></div>
-                    <span style="color: #22c55e; font-weight: 600;">Live Data - Updates every hour</span>
-                </div>
-                <h3 class="distribution-title">
-                    🚀 Ecosystem Overview
-                </h3>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 16px; margin-top: 16px;">
-                    <div class="legend-item">
-                        <div style="text-align: center;">
-                            <div style="font-size: 20px; margin-bottom: 4px;">📈</div>
-                            <div class="legend-count" id="activeUsers">0</div>
-                            <div style="font-size: 11px; color: var(--text-secondary);">Active Users</div>
-                        </div>
-                    </div>
-                    <div class="legend-item">
-                        <div style="text-align: center;">
-                            <div style="font-size: 20px; margin-bottom: 4px;">⚡</div>
-                            <div class="legend-count" id="topPerformers">0</div>
-                            <div style="font-size: 11px; color: var(--text-secondary);">Top 10%</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- Update Info -->
+        <div class="update-info" id="updateInfo" style="display: none;">
+            <div class="update-dot"></div>
+            <span id="updateText">Loading...</span>
         </div>
 
         <!-- Loading State -->
         <div class="loading" id="loading">
             <div class="loading-spinner"></div>
-            <p style="color: var(--text-secondary); font-size: 16px; font-weight: 500;">Loading leaderboard data...</p>
+            <p>Loading leaderboard data...</p>
         </div>
 
         <!-- Error State -->
         <div class="error-state" id="errorState" style="display: none;">
-            <div class="error-title">⚠️ Connection Error</div>
+            <div class="error-title">Connection Error</div>
             <div class="error-message">Unable to load leaderboard data. Please try again.</div>
             <button class="retry-btn" onclick="loadLeaderboard()">Retry</button>
         </div>
 
-        <!-- Main Leaderboard -->
-        <div class="leaderboard-section" id="leaderboardSection">
-            <div class="section-header">
-                <h2 class="section-title">
-                    🏆 Top 100 Users
-                </h2>
+        <!-- Main Table -->
+        <div class="table-section" id="tableSection" style="display: none;">
+            <div class="table-header">
+                <div class="table-title">Top 100 Users</div>
             </div>
             
             <div class="table-container">
                 <table class="leaderboard-table">
                     <thead>
                         <tr>
-                            <th class="center">Rank</th>
-                            <th>User</th>
-                            <th class="center">Points & Level</th>
-                            <th class="center">Send TX</th>
-                            <th class="center">Zenith DEX</th>
-                            <th class="center">Faroswap</th>
-                            <th class="center">NFT/Domains</th>
-                            <th class="center">Season 2 🚀</th>
-                            <th class="center">Member Since</th>
+                            <th rowspan="2" style="width: 60px;">Rank</th>
+                            <th rowspan="2" style="width: 140px;">User</th>
+                            <th rowspan="2" style="width: 120px;">Points & Level</th>
+                            <th colspan="2" class="header-main">Send</th>
+                            <th colspan="2" class="header-main">Zenith</th>
+                            <th colspan="2" class="header-main">Faroswap</th>
+                            <th colspan="2" class="header-main">Domains & NFT</th>
+                            <th rowspan="2" style="width: 70px;">RWAfi</th>
+                            <th rowspan="2" style="width: 70px;">Stake</th>
+                            <th rowspan="2" style="width: 80px;">BTC Bridge</th>
+                            <th rowspan="2" style="width: 80px;">CFD Trading</th>
+                        </tr>
+                        <tr>
+                            <th class="header-sub" style="width: 60px;">Onchain</th>
+                            <th class="header-sub" style="width: 70px;">Primuslabs</th>
+                            <th class="header-sub" style="width: 60px;">Swaps</th>
+                            <th class="header-sub" style="width: 50px;">LP</th>
+                            <th class="header-sub" style="width: 60px;">Swaps</th>
+                            <th class="header-sub" style="width: 50px;">LP</th>
+                            <th class="header-sub" style="width: 60px;">Domains</th>
+                            <th class="header-sub" style="width: 50px;">NFTs</th>
                         </tr>
                     </thead>
                     <tbody id="leaderboardBody">
-                        <!-- Dynamic content will be loaded here -->
+                        <!-- Dynamic content -->
                     </tbody>
                 </table>
             </div>
 
             <!-- Pagination -->
-            <div class="pagination" id="pagination">
+            <div class="pagination">
                 <button class="pagination-btn" id="prevBtn" disabled>← Prev</button>
-                <button class="pagination-btn active" data-page="1">1</button>
+                <span class="pagination-info" id="paginationInfo">Page 1 of 5</span>
+                <button class="pagination-btn" data-page="1" class="active">1</button>
                 <button class="pagination-btn" data-page="2">2</button>
                 <button class="pagination-btn" data-page="3">3</button>
                 <button class="pagination-btn" data-page="4">4</button>
@@ -710,32 +501,29 @@
     <script>
         // Global state
         let currentPage = 1;
-        let leaderboardData = [];
-        let allUsers = []; // All 100 users from API
-        let totalUsers = 0;
+        let allUsers = [];
+        let lastUpdated = null;
+        let updateTimer = null;
         let isLoading = false;
-        let lastUpdated = null; // Track when data was last updated
-        let updateTimer = null; // Timer for updating time display
+        
         const USERS_PER_PAGE = 20;
         const TOTAL_PAGES = 5;
-        const CACHE_DURATION = 60 * 60 * 1000; // 1 hour in milliseconds
+        const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
 
         // DOM elements
         const elements = {
             loading: document.getElementById('loading'),
             errorState: document.getElementById('errorState'),
-            leaderboardSection: document.getElementById('leaderboardSection'),
+            tableSection: document.getElementById('tableSection'),
             leaderboardBody: document.getElementById('leaderboardBody'),
             totalUsers: document.getElementById('totalUsers'),
             totalChecks: document.getElementById('totalChecks'),
             topScore: document.getElementById('topScore'),
-            activeUsers: document.getElementById('activeUsers'),
-            topPerformers: document.getElementById('topPerformers'),
-            distributionLegend: document.getElementById('distributionLegend'),
-            pagination: document.getElementById('pagination'),
+            updateInfo: document.getElementById('updateInfo'),
+            updateText: document.getElementById('updateText'),
+            paginationInfo: document.getElementById('paginationInfo'),
             prevBtn: document.getElementById('prevBtn'),
-            nextBtn: document.getElementById('nextBtn'),
-            lastUpdatedInfo: null // Will be created dynamically
+            nextBtn: document.getElementById('nextBtn')
         };
 
         // Utility functions
@@ -749,33 +537,15 @@
             return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
         }
 
-        function formatDate(dateString) {
-            if (!dateString) return 'Unknown';
-            try {
-                return new Date(dateString).toLocaleDateString('en-US', { 
-                    month: 'short', 
-                    day: 'numeric',
-                    year: 'numeric'
-                });
-            } catch {
-                return 'Unknown';
-            }
-        }
-
         function getRankClass(rank) {
             if (rank === 1) return 'rank-1';
             if (rank === 2) return 'rank-2';
             if (rank === 3) return 'rank-3';
             if (rank <= 10) return 'rank-top10';
-            if (rank <= 50) return 'rank-top50';
             return 'rank-default';
         }
 
-        function getLevelClass(level) {
-            return `level-${Math.min(level, 5)}`;
-        }
-
-        // Time formatting utilities
+        // Time formatting
         function formatTimeAgo(timestamp) {
             const now = Date.now();
             const diff = now - timestamp;
@@ -795,7 +565,7 @@
             const now = Date.now();
             const diff = nextUpdate - now;
             
-            if (diff <= 0) return 'updating soon...';
+            if (diff <= 0) return 'updating soon';
             
             const minutes = Math.floor(diff / (1000 * 60));
             if (minutes < 1) return 'less than 1 minute';
@@ -810,324 +580,144 @@
             return remainingMinutes > 0 ? `${hours} hours ${remainingMinutes} minutes` : `${hours} hours`;
         }
 
-        // Create or update last updated info
-        function updateLastUpdatedInfo() {
+        // Update time info
+        function updateTimeInfo() {
             if (!lastUpdated) return;
 
-            if (!elements.lastUpdatedInfo) {
-                // Create the info element
-                const infoElement = document.createElement('div');
-                infoElement.className = 'last-updated-info';
-                infoElement.style.cssText = `
-                    display: flex;
-                    align-items: center;
-                    gap: 8px;
-                    padding: 8px 16px;
-                    background: rgba(34, 197, 94, 0.1);
-                    border: 1px solid rgba(34, 197, 94, 0.2);
-                    border-radius: 12px;
-                    font-size: 13px;
-                    color: var(--text-secondary);
-                    margin-bottom: 16px;
-                `;
-                
-                // Insert before the table container
-                const tableContainer = document.querySelector('.table-container');
-                tableContainer.parentNode.insertBefore(infoElement, tableContainer);
-                elements.lastUpdatedInfo = infoElement;
-            }
-
-            // Update the content
             const timeAgo = formatTimeAgo(lastUpdated);
             const timeUntilNext = formatTimeUntilNext(lastUpdated);
             
-            elements.lastUpdatedInfo.innerHTML = `
-                <div style="width: 8px; height: 8px; background: #22c55e; border-radius: 50%; animation: pulse 2s infinite;"></div>
-                <span style="color: #22c55e; font-weight: 600;">Last updated:</span>
-                <span>${timeAgo}</span>
-                <span style="color: var(--text-secondary);">•</span>
-                <span>Next refresh in ${timeUntilNext}</span>
-            `;
+            elements.updateText.textContent = `Last updated: ${timeAgo} • Next refresh in ${timeUntilNext}`;
+            elements.updateInfo.style.display = 'flex';
         }
 
-        // Start update timer
         function startUpdateTimer() {
-            // Clear existing timer
-            if (updateTimer) {
-                clearInterval(updateTimer);
-            }
-
-            // Update immediately
-            updateLastUpdatedInfo();
-
-            // Update every minute
-            updateTimer = setInterval(() => {
-                updateLastUpdatedInfo();
-            }, 60 * 1000);
+            if (updateTimer) clearInterval(updateTimer);
+            
+            updateTimeInfo();
+            updateTimer = setInterval(updateTimeInfo, 60 * 1000);
         }
 
-        // Stop update timer
         function stopUpdateTimer() {
             if (updateTimer) {
                 clearInterval(updateTimer);
                 updateTimer = null;
             }
-        }
-        function animateValue(element, start, end, duration = 2000) {
-            const startTime = performance.now();
-            const range = end - start;
-
-            function update(currentTime) {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                
-                const easeProgress = 1 - Math.pow(1 - progress, 3); // Ease out cubic
-                const current = start + (range * easeProgress);
-                
-                element.textContent = formatNumber(Math.floor(current));
-                
-                if (progress < 1) {
-                    requestAnimationFrame(update);
-                }
-            }
-            
-            requestAnimationFrame(update);
+            elements.updateInfo.style.display = 'none';
         }
 
-        // Show/hide states
-        function showLoading() {
-            elements.loading.classList.add('show');
-            elements.errorState.style.display = 'none';
-            elements.leaderboardSection.style.display = 'none';
-        }
-
-        function showError() {
-            elements.loading.classList.remove('show');
-            elements.errorState.style.display = 'block';
-            elements.leaderboardSection.style.display = 'none';
-        }
-
-        function showLeaderboard() {
-            elements.loading.classList.remove('show');
-            elements.errorState.style.display = 'none';
-            elements.leaderboardSection.style.display = 'block';
-        }
-
-        // Create distribution legend
-        function createDistributionLegend(pointDistribution) {
-            const colors = [
-                '#ef4444', '#f97316', '#eab308', '#22c55e', 
-                '#06b6d4', '#3b82f6', '#8b5cf6', '#ec4899', '#6b7280'
-            ];
-            
-            const entries = Object.entries(pointDistribution);
-            let html = '';
-            
-            entries.forEach(([range, count], index) => {
-                const percentage = totalUsers > 0 ? ((count / totalUsers) * 100).toFixed(1) : '0.0';
-                html += `
-                    <div class="legend-item">
-                        <div style="display: flex; align-items: center;">
-                            <div class="legend-color" style="background: ${colors[index % colors.length]}"></div>
-                            <span class="legend-text">${range} pts</span>
-                        </div>
-                        <div style="display: flex; flex-direction: column; align-items: flex-end;">
-                            <span class="legend-count">${formatNumber(count)}</span>
-                            <span style="font-size: 11px; color: var(--text-secondary);">${percentage}%</span>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            elements.distributionLegend.innerHTML = html;
-        }
-
-        // Create leaderboard row
-        function createLeaderboardRow(user, globalIndex) {
-            const rank = globalIndex + 1; // Global rank (1-100)
-            const season2Total = (user.primuslabs_send || 0) + (user.aquaflux || 0) + 
-                               (user.autostaking || 0) + (user.fiamma_bridge || 0) + (user.brokex || 0);
+        // Create table row
+        function createTableRow(user, globalIndex) {
+            const rank = globalIndex + 1;
             
             return `
-                <tr style="animation: fadeInUp 0.6s ease-out ${(globalIndex % USERS_PER_PAGE) * 0.05}s both;">
-                    <td class="center">
+                <tr>
+                    <td>
                         <div class="rank ${getRankClass(rank)}">${rank}</div>
                     </td>
                     <td>
-                        <div style="display: flex; flex-direction: column; gap: 4px;">
-                            <span class="address">${formatAddress(user.address)}</span>
-                            <div style="display: flex; gap: 8px; align-items: center;">
-                                <span style="font-size: 11px; color: var(--text-secondary);">
-                                    Checks: ${user.total_checks || 1}
-                                </span>
-                                ${user.first_check ? `
-                                    <span style="font-size: 10px; padding: 2px 6px; background: rgba(34,197,94,0.1); 
-                                          color: #22c55e; border-radius: 4px;">
-                                        Early User
-                                    </span>
-                                ` : ''}
-                            </div>
+                        <div class="user-info">
+                            <div class="address">${formatAddress(user.address)}</div>
+                            <div class="user-meta">Checks: ${user.total_checks || 1}</div>
                         </div>
                     </td>
-                    <td class="center">
+                    <td>
                         <div class="points-level">
-                            <span class="points">${formatNumber(user.total_points)}</span>
-                            <span class="level-badge ${getLevelClass(user.current_level)}">
-                                LVL ${user.current_level}
-                            </span>
+                            <div class="points">${formatNumber(user.total_points)}</div>
+                            <div class="level-badge">LVL ${user.current_level}</div>
                         </div>
                     </td>
-                    <td class="center">
-                        <div class="protocol-cell">
-                            <div class="protocol-stats">
-                                <span class="protocol-main">${formatNumber(user.send_count || 0)}</span>
-                                <span class="protocol-sub">transactions</span>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="center">
-                        <div class="protocol-cell">
-                            <div class="protocol-stats">
-                                <span class="protocol-main">${formatNumber((user.swap_count || 0) + (user.lp_count || 0))}</span>
-                                <span class="protocol-sub">${user.swap_count || 0} swaps • ${user.lp_count || 0} LP</span>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="center">
-                        <div class="protocol-cell">
-                            <div class="protocol-stats">
-                                <span class="protocol-main">${formatNumber((user.faroswap_swaps || 0) + (user.faroswap_lp || 0))}</span>
-                                <span class="protocol-sub">${user.faroswap_swaps || 0} swaps • ${user.faroswap_lp || 0} LP</span>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="center">
-                        <div class="protocol-cell">
-                            <div class="protocol-stats">
-                                <span class="protocol-main">${formatNumber((user.mint_domain || 0) + (user.mint_nft || 0))}</span>
-                                <span class="protocol-sub">${user.mint_domain || 0} domains • ${user.mint_nft || 0} NFTs</span>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="center">
-                        <div class="protocol-cell">
-                            <div class="protocol-stats">
-                                <span class="protocol-main">${formatNumber(season2Total)}</span>
-                                <span class="protocol-sub">
-                                    ${user.primuslabs_send || 0} sends • ${user.aquaflux || 0} DeFi • ${user.autostaking || 0} stake
-                                </span>
-                                ${season2Total > 0 ? '<span class="season2-badge">LIVE</span>' : ''}
-                            </div>
-                        </div>
-                    </td>
-                    <td class="center">
-                        <div style="font-size: 12px; color: var(--text-secondary);">
-                            ${formatDate(user.member_since)}
-                        </div>
-                    </td>
+                    <td><span class="activity-number ${(user.send_count || 0) === 0 ? 'activity-zero' : ''}">${user.send_count || 0}</span></td>
+                    <td><span class="activity-number ${(user.primuslabs_send || 0) === 0 ? 'activity-zero' : ''}">${user.primuslabs_send || 0}</span></td>
+                    <td><span class="activity-number ${(user.swap_count || 0) === 0 ? 'activity-zero' : ''}">${user.swap_count || 0}</span></td>
+                    <td><span class="activity-number ${(user.lp_count || 0) === 0 ? 'activity-zero' : ''}">${user.lp_count || 0}</span></td>
+                    <td><span class="activity-number ${(user.faroswap_swaps || 0) === 0 ? 'activity-zero' : ''}">${user.faroswap_swaps || 0}</span></td>
+                    <td><span class="activity-number ${(user.faroswap_lp || 0) === 0 ? 'activity-zero' : ''}">${user.faroswap_lp || 0}</span></td>
+                    <td><span class="activity-number ${(user.mint_domain || 0) === 0 ? 'activity-zero' : ''}">${user.mint_domain || 0}</span></td>
+                    <td><span class="activity-number ${(user.mint_nft || 0) === 0 ? 'activity-zero' : ''}">${user.mint_nft || 0}</span></td>
+                    <td><span class="activity-number ${(user.aquaflux || 0) === 0 ? 'activity-zero' : ''}">${user.aquaflux || 0}</span></td>
+                    <td><span class="activity-number ${(user.autostaking || 0) === 0 ? 'activity-zero' : ''}">${user.autostaking || 0}</span></td>
+                    <td><span class="activity-number ${(user.fiamma_bridge || 0) === 0 ? 'activity-zero' : ''}">${user.fiamma_bridge || 0}</span></td>
+                    <td><span class="activity-number ${(user.brokex || 0) === 0 ? 'activity-zero' : ''}">${user.brokex || 0}</span></td>
                 </tr>
             `;
         }
 
-        // Update statistics
-        function updateStatistics(data) {
-            if (!data.success) return;
-
-            // Animate main stats
-            animateValue(elements.totalUsers, 0, data.total_users || 0);
-            animateValue(elements.totalChecks, 0, data.total_checks || 0);
-            
-            if (data.leaderboard && data.leaderboard.length > 0) {
-                animateValue(elements.topScore, 0, data.leaderboard[0].total_points || 0);
-            }
-
-            // Calculate derived stats
-            const activeUsersCount = data.leaderboard ? data.leaderboard.filter(u => u.total_points > 1000).length : 0;
-            const topPerformersCount = Math.ceil((data.total_users || 0) * 0.1);
-            
-            animateValue(elements.activeUsers, 0, activeUsersCount);
-            animateValue(elements.topPerformers, 0, topPerformersCount);
-
-            // Update distribution
-            if (data.point_distribution) {
-                createDistributionLegend(data.point_distribution);
-            }
-
-            totalUsers = data.total_users || 0;
-        }
-
-        // Render leaderboard with pagination
-        function renderLeaderboard() {
-            console.log(`🔄 Rendering leaderboard. allUsers length: ${allUsers ? allUsers.length : 'undefined'}`);
-            
+        // Render table
+        function renderTable() {
             if (!allUsers || allUsers.length === 0) {
-                console.log('❌ No users data available for rendering');
                 elements.leaderboardBody.innerHTML = `
                     <tr>
-                        <td colspan="9" style="text-align: center; padding: 60px 20px; color: var(--text-secondary);">
-                            <div style="font-size: 48px; margin-bottom: 16px;">📊</div>
-                            <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">No Data Available</div>
-                            <div>Leaderboard data is being updated. Please check back soon.</div>
+                        <td colspan="15" style="text-align: center; padding: 40px; color: #6b7280;">
+                            No data available
                         </td>
                     </tr>
                 `;
                 return;
             }
 
-            // Calculate pagination
             const startIndex = (currentPage - 1) * USERS_PER_PAGE;
             const endIndex = startIndex + USERS_PER_PAGE;
             const currentPageUsers = allUsers.slice(startIndex, endIndex);
 
-            console.log(`📄 Rendering page ${currentPage}: users ${startIndex + 1}-${Math.min(endIndex, allUsers.length)} of ${allUsers.length}`);
-            console.log(`🔍 Current page users:`, currentPageUsers.length);
-
-            // Generate rows with global indices for correct ranks
             const rowsHtml = currentPageUsers.map((user, localIndex) => {
                 const globalIndex = startIndex + localIndex;
-                return createLeaderboardRow(user, globalIndex);
+                return createTableRow(user, globalIndex);
             }).join('');
 
             elements.leaderboardBody.innerHTML = rowsHtml;
-            
-            // Update pagination info
             updatePaginationInfo();
-            
-            // Add fade in animation styles if not already added
-            if (!document.querySelector('#fadeInUpStyles')) {
-                const style = document.createElement('style');
-                style.id = 'fadeInUpStyles';
-                style.textContent = `
-                    @keyframes fadeInUp {
-                        from {
-                            opacity: 0;
-                            transform: translate3d(0, 20px, 0);
-                        }
-                        to {
-                            opacity: 1;
-                            transform: translate3d(0, 0, 0);
-                        }
-                    }
-                `;
-                document.head.appendChild(style);
-            }
         }
 
-        // Update pagination info
+        // Update pagination
         function updatePaginationInfo() {
             const startRank = (currentPage - 1) * USERS_PER_PAGE + 1;
             const endRank = Math.min(currentPage * USERS_PER_PAGE, allUsers.length);
+            elements.paginationInfo.textContent = `Showing ${startRank}-${endRank} of ${allUsers.length}`;
             
-            // Update section title with current page info
-            const sectionTitle = document.querySelector('.section-title');
-            if (sectionTitle) {
-                sectionTitle.innerHTML = `
-                    🏆 Top 100 Users
-                    <span style="font-size: 14px; font-weight: 500; color: var(--text-secondary); margin-left: 12px;">
-                        Showing ranks ${startRank}-${endRank}
-                    </span>
-                `;
-            }
+            // Update buttons
+            document.querySelectorAll('.pagination-btn[data-page]').forEach(btn => {
+                btn.classList.toggle('active', parseInt(btn.dataset.page) === currentPage);
+            });
+            
+            elements.prevBtn.disabled = currentPage === 1;
+            elements.nextBtn.disabled = currentPage === TOTAL_PAGES;
+        }
+
+        // Page navigation
+        function changePage(page) {
+            if (page === currentPage || page < 1 || page > TOTAL_PAGES) return;
+            
+            currentPage = page;
+            renderTable();
+        }
+
+        // Update statistics
+        function updateStatistics(data) {
+            elements.totalUsers.textContent = formatNumber(data.total_users || 0);
+            elements.totalChecks.textContent = formatNumber(data.total_checks || 0);
+            elements.topScore.textContent = formatNumber(data.leaderboard?.[0]?.total_points || 0);
+        }
+
+        // Show/hide states
+        function showLoading() {
+            elements.loading.classList.add('show');
+            elements.errorState.style.display = 'none';
+            elements.tableSection.style.display = 'none';
+            stopUpdateTimer();
+        }
+
+        function showError() {
+            elements.loading.classList.remove('show');
+            elements.errorState.style.display = 'block';
+            elements.tableSection.style.display = 'none';
+            stopUpdateTimer();
+        }
+
+        function showTable() {
+            elements.loading.classList.remove('show');
+            elements.errorState.style.display = 'none';
+            elements.tableSection.style.display = 'block';
         }
 
         // Load leaderboard data
@@ -1138,62 +728,37 @@
             showLoading();
 
             try {
-                const response = await fetch('/api/admin/stats', {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-
+                const response = await fetch('/api/admin/stats');
                 const data = await response.json();
                 
-                if (!data.success) {
-                    throw new Error(data.error || 'Failed to load leaderboard data');
+                if (!response.ok || !data.success) {
+                    throw new Error(data.error || 'Failed to load data');
                 }
 
-                // Store data and timestamp
-                leaderboardData = data;
-                allUsers = data.leaderboard || []; // Store all 100 users
-                lastUpdated = Date.now(); // Record when data was loaded
-
-                console.log(`📊 Loaded ${allUsers.length} users from API`);
-
-                // Update UI
+                allUsers = data.leaderboard || [];
+                lastUpdated = Date.now();
+                
                 updateStatistics(data);
-                renderLeaderboard(); // Now uses allUsers and currentPage
-                startUpdateTimer(); // Start the update info timer
-                showLeaderboard();
+                renderTable();
+                startUpdateTimer();
+                showTable();
 
-                console.log('✅ Leaderboard loaded successfully:', {
-                    users: data.total_users,
-                    checks: data.total_checks,
-                    topScore: data.leaderboard?.[0]?.total_points || 0,
-                    leaderboardLength: allUsers.length
-                });
+                console.log(`✅ Loaded ${allUsers.length} users`);
 
             } catch (error) {
                 console.error('❌ Error loading leaderboard:', error);
-                stopUpdateTimer(); // Stop timer on error
                 showError();
             } finally {
                 isLoading = false;
             }
         }
 
-        // Pagination handlers
-        function setupPagination() {
-            const paginationBtns = document.querySelectorAll('.pagination-btn[data-page]');
-            
-            paginationBtns.forEach(btn => {
+        // Setup event listeners
+        function setupEventListeners() {
+            // Pagination
+            document.querySelectorAll('.pagination-btn[data-page]').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    const page = parseInt(btn.dataset.page);
-                    if (page !== currentPage) {
-                        changePage(page);
-                    }
+                    changePage(parseInt(btn.dataset.page));
                 });
             });
 
@@ -1206,81 +771,25 @@
             });
         }
 
-        function changePage(page) {
-            if (page === currentPage || page < 1 || page > TOTAL_PAGES) return;
-            
-            console.log(`📄 Changing from page ${currentPage} to page ${page}`);
-            
-            currentPage = page;
-            updatePaginationUI();
-            renderLeaderboard(); // Re-render with new page data
-            
-            // Smooth scroll to top of leaderboard
-            elements.leaderboardSection.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start' 
-            });
-        }
-
-        function updatePaginationUI() {
-            // Update active button
-            document.querySelectorAll('.pagination-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.dataset.page === currentPage.toString()) {
-                    btn.classList.add('active');
-                }
-            });
-
-            // Update prev/next buttons
-            elements.prevBtn.disabled = currentPage === 1;
-            elements.nextBtn.disabled = currentPage === TOTAL_PAGES;
-            
-            console.log(`🔄 Updated pagination UI: page ${currentPage}/${TOTAL_PAGES}`);
-        }
-
-        // Auto-refresh functionality - REMOVED
-        // No longer needed since we use 1-hour cache consistently
-
-        // Initialize app
-        async function initializeApp() {
+        // Initialize
+        async function init() {
             console.log('🚀 Initializing Pharos Leaderboard...');
             
-            // Setup event listeners
-            setupPagination();
-            
-            // Load initial data
+            setupEventListeners();
             await loadLeaderboard();
             
-            console.log('✅ Pharos Leaderboard initialized successfully');
+            console.log('✅ Leaderboard initialized');
         }
-        }
 
-        // Error handling for network issues
-        window.addEventListener('online', () => {
-            if (!isLoading && elements.errorState.style.display !== 'none') {
-                console.log('🌐 Network restored, reloading data...');
-                loadLeaderboard();
-            }
-        });
+        // Cleanup
+        window.addEventListener('beforeunload', stopUpdateTimer);
 
-        // Cleanup on page unload
-        window.addEventListener('beforeunload', () => {
-            stopUpdateTimer();
-        });
-
-        // Initialize when DOM is ready
+        // Start
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializeApp);
+            document.addEventListener('DOMContentLoaded', init);
         } else {
-            initializeApp();
+            init();
         }
-
-        // Expose for debugging
-        window.pharosLeaderboard = {
-            loadLeaderboard,
-            data: () => leaderboardData,
-            refresh: () => loadLeaderboard()
-        };
     </script>
 </body>
 </html>
