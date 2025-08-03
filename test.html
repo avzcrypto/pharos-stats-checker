@@ -692,8 +692,11 @@
         let allUsers = []; // All 100 users from API
         let totalUsers = 0;
         let isLoading = false;
+        let lastUpdated = null; // Track when data was last updated
+        let updateTimer = null; // Timer for updating time display
         const USERS_PER_PAGE = 20;
         const TOTAL_PAGES = 5;
+        const CACHE_DURATION = 60 * 60 * 1000; // 1 hour in milliseconds
 
         // DOM elements
         const elements = {
@@ -709,7 +712,8 @@
             distributionLegend: document.getElementById('distributionLegend'),
             pagination: document.getElementById('pagination'),
             prevBtn: document.getElementById('prevBtn'),
-            nextBtn: document.getElementById('nextBtn')
+            nextBtn: document.getElementById('nextBtn'),
+            lastUpdatedInfo: null // Will be created dynamically
         };
 
         // Utility functions
@@ -749,7 +753,104 @@
             return `level-${Math.min(level, 5)}`;
         }
 
-        // Animation helper
+        // Time formatting utilities
+        function formatTimeAgo(timestamp) {
+            const now = Date.now();
+            const diff = now - timestamp;
+            const minutes = Math.floor(diff / (1000 * 60));
+            
+            if (minutes < 1) return 'just now';
+            if (minutes === 1) return '1 minute ago';
+            if (minutes < 60) return `${minutes} minutes ago`;
+            
+            const hours = Math.floor(minutes / 60);
+            if (hours === 1) return '1 hour ago';
+            return `${hours} hours ago`;
+        }
+
+        function formatTimeUntilNext(timestamp) {
+            const nextUpdate = timestamp + CACHE_DURATION;
+            const now = Date.now();
+            const diff = nextUpdate - now;
+            
+            if (diff <= 0) return 'updating soon...';
+            
+            const minutes = Math.floor(diff / (1000 * 60));
+            if (minutes < 1) return 'less than 1 minute';
+            if (minutes === 1) return '1 minute';
+            if (minutes < 60) return `${minutes} minutes`;
+            
+            const hours = Math.floor(minutes / 60);
+            const remainingMinutes = minutes % 60;
+            if (hours === 1) {
+                return remainingMinutes > 0 ? `1 hour ${remainingMinutes} minutes` : '1 hour';
+            }
+            return remainingMinutes > 0 ? `${hours} hours ${remainingMinutes} minutes` : `${hours} hours`;
+        }
+
+        // Create or update last updated info
+        function updateLastUpdatedInfo() {
+            if (!lastUpdated) return;
+
+            if (!elements.lastUpdatedInfo) {
+                // Create the info element
+                const infoElement = document.createElement('div');
+                infoElement.className = 'last-updated-info';
+                infoElement.style.cssText = `
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 8px 16px;
+                    background: rgba(34, 197, 94, 0.1);
+                    border: 1px solid rgba(34, 197, 94, 0.2);
+                    border-radius: 12px;
+                    font-size: 13px;
+                    color: var(--text-secondary);
+                    margin-bottom: 16px;
+                `;
+                
+                // Insert before the table container
+                const tableContainer = document.querySelector('.table-container');
+                tableContainer.parentNode.insertBefore(infoElement, tableContainer);
+                elements.lastUpdatedInfo = infoElement;
+            }
+
+            // Update the content
+            const timeAgo = formatTimeAgo(lastUpdated);
+            const timeUntilNext = formatTimeUntilNext(lastUpdated);
+            
+            elements.lastUpdatedInfo.innerHTML = `
+                <div style="width: 8px; height: 8px; background: #22c55e; border-radius: 50%; animation: pulse 2s infinite;"></div>
+                <span style="color: #22c55e; font-weight: 600;">Last updated:</span>
+                <span>${timeAgo}</span>
+                <span style="color: var(--text-secondary);">•</span>
+                <span>Next refresh in ${timeUntilNext}</span>
+            `;
+        }
+
+        // Start update timer
+        function startUpdateTimer() {
+            // Clear existing timer
+            if (updateTimer) {
+                clearInterval(updateTimer);
+            }
+
+            // Update immediately
+            updateLastUpdatedInfo();
+
+            // Update every minute
+            updateTimer = setInterval(() => {
+                updateLastUpdatedInfo();
+            }, 60 * 1000);
+        }
+
+        // Stop update timer
+        function stopUpdateTimer() {
+            if (updateTimer) {
+                clearInterval(updateTimer);
+                updateTimer = null;
+            }
+        }
         function animateValue(element, start, end, duration = 2000) {
             const startTime = performance.now();
             const range = end - start;
@@ -1028,15 +1129,17 @@
                     throw new Error(data.error || 'Failed to load leaderboard data');
                 }
 
-                // Store data
+                // Store data and timestamp
                 leaderboardData = data;
                 allUsers = data.leaderboard || []; // Store all 100 users
+                lastUpdated = Date.now(); // Record when data was loaded
 
                 console.log(`📊 Loaded ${allUsers.length} users from API`);
 
                 // Update UI
                 updateStatistics(data);
                 renderLeaderboard(); // Now uses allUsers and currentPage
+                startUpdateTimer(); // Start the update info timer
                 showLeaderboard();
 
                 console.log('✅ Leaderboard loaded successfully:', {
@@ -1047,6 +1150,7 @@
 
             } catch (error) {
                 console.error('❌ Error loading leaderboard:', error);
+                stopUpdateTimer(); // Stop timer on error
                 showError();
             } finally {
                 isLoading = false;
@@ -1107,17 +1211,8 @@
             console.log(`🔄 Updated pagination UI: page ${currentPage}/${TOTAL_PAGES}`);
         }
 
-        // Auto-refresh functionality
-        function setupAutoRefresh() {
-            const refreshInterval = 5 * 60 * 1000; // 5 minutes
-            
-            setInterval(() => {
-                if (!isLoading) {
-                    console.log('🔄 Auto-refreshing leaderboard data...');
-                    loadLeaderboard();
-                }
-            }, refreshInterval);
-        }
+        // Auto-refresh functionality - REMOVED
+        // No longer needed since we use 1-hour cache consistently
 
         // Initialize app
         async function initializeApp() {
@@ -1129,10 +1224,8 @@
             // Load initial data
             await loadLeaderboard();
             
-            // Setup auto-refresh
-            setupAutoRefresh();
-            
             console.log('✅ Pharos Leaderboard initialized successfully');
+        }
         }
 
         // Error handling for network issues
@@ -1141,6 +1234,11 @@
                 console.log('🌐 Network restored, reloading data...');
                 loadLeaderboard();
             }
+        });
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            stopUpdateTimer();
         });
 
         // Initialize when DOM is ready
