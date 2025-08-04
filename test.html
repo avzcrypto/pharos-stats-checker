@@ -228,8 +228,6 @@
         /* Table */
         .table-container {
             overflow-x: auto;
-            max-height: 600px;
-            overflow-y: auto;
         }
 
         .leaderboard-table {
@@ -1153,11 +1151,6 @@
                 lineno: event.lineno
             });
         });
-
-        window.manualRefresh = function() {
-            debugLog('Manual refresh triggered');
-            loadLeaderboard();
-        };
     </script>
 </body>
 </html>
