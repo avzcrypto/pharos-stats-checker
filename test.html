@@ -711,19 +711,7 @@
             return 'rank-default';
         }
 
-        // Calculate level distribution from users array
-        function calculateLevelDistribution(users) {
-            const distribution = {};
-            
-            LEVEL_STRUCTURE.forEach(level => {
-                distribution[level.name] = users.filter(user => {
-                    const points = user.total_points || 0;
-                    return points >= level.min && (level.max === Infinity ? true : points <= level.max);
-                }).length;
-            });
-            
-            return distribution;
-        }
+        
 
         // Time formatting
         function formatTimeAgo(timestamp) {
@@ -926,7 +914,7 @@
         function updateLevelDistribution(users) {
             if (!users || users.length === 0) return;
 
-            const levelDistribution = calculateLevelDistribution(users);
+            function updateLevelDistribution(levelDistribution) {
             const totalUsers = users.length;
 
             // Find maximum count for bar width calculation
@@ -978,7 +966,7 @@
                 lastUpdated = Date.now();
                 
                 updateStatistics(data);
-                updateLevelDistribution(allUsers); // Use users array instead of point_distribution
+                updateLevelDistribution(data.level_distribution); // Use users array instead of point_distribution
                 renderTable();
                 startUpdateTimer();
                 showTable();
