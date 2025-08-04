@@ -365,6 +365,97 @@
             border-top: 1px solid #e5e7eb;
         }
 
+        /* Distribution Section */
+        .distribution-section {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .distribution-header {
+            margin-bottom: 20px;
+        }
+
+        .distribution-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        /* Horizontal Tier Bars */
+        .tier-bars-horizontal {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .tier-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .tier-label {
+            min-width: 120px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .bar-container {
+            flex: 1;
+            height: 24px;
+            background: #f3f4f6;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.8s ease;
+        }
+
+        .tier-stats {
+            min-width: 140px;
+            text-align: right;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .tier-count {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        /* Tier Colors - Updated for new tiers */
+        .tier-14000 { background: linear-gradient(90deg, #fbbf24, #f59e0b); } /* Gold */
+        .tier-13000 { background: linear-gradient(90deg, #f59e0b, #d97706); } /* Orange */
+        .tier-12000 { background: linear-gradient(90deg, #ef4444, #dc2626); } /* Red */
+        .tier-11000 { background: linear-gradient(90deg, #ec4899, #db2777); } /* Pink */
+        .tier-10000 { background: linear-gradient(90deg, #8b5cf6, #7c3aed); } /* Purple */
+        .tier-9000 { background: linear-gradient(90deg, #3b82f6, #2563eb); } /* Blue */
+        .tier-8000 { background: linear-gradient(90deg, #06b6d4, #0891b2); } /* Cyan */
+        .tier-7000 { background: linear-gradient(90deg, #10b981, #059669); } /* Emerald */
+        .tier-6000 { background: linear-gradient(90deg, #84cc16, #65a30d); } /* Lime */
+        .tier-below { background: linear-gradient(90deg, #6b7280, #4b5563); } /* Gray */
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 20px;
+            background: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+        }
+
         .pagination-btn {
             padding: 8px 12px;
             border: 1px solid #d1d5db;
@@ -432,6 +523,106 @@
         <div class="update-info" id="updateInfo" style="display: none;">
             <div class="update-dot"></div>
             <span id="updateText">Loading...</span>
+        </div>
+
+        <!-- User Distribution Section -->
+        <div class="distribution-section" id="distributionSection" style="display: none;">
+            <div class="distribution-header">
+                <div class="distribution-title">📊 User Distribution by Points</div>
+            </div>
+            
+            <div class="tier-bars-horizontal" id="tierBars">
+                <div class="tier-bar">
+                    <div class="tier-label">14,000+</div>
+                    <div class="bar-container">
+                        <div class="bar-fill tier-14000" style="width: 0%"></div>
+                    </div>
+                    <div class="tier-stats">
+                        <span class="tier-count">0</span> users (0.0%)
+                    </div>
+                </div>
+                <div class="tier-bar">
+                    <div class="tier-label">13,000-13,999</div>
+                    <div class="bar-container">
+                        <div class="bar-fill tier-13000" style="width: 0%"></div>
+                    </div>
+                    <div class="tier-stats">
+                        <span class="tier-count">0</span> users (0.0%)
+                    </div>
+                </div>
+                <div class="tier-bar">
+                    <div class="tier-label">12,000-12,999</div>
+                    <div class="bar-container">
+                        <div class="bar-fill tier-12000" style="width: 0%"></div>
+                    </div>
+                    <div class="tier-stats">
+                        <span class="tier-count">0</span> users (0.0%)
+                    </div>
+                </div>
+                <div class="tier-bar">
+                    <div class="tier-label">11,000-11,999</div>
+                    <div class="bar-container">
+                        <div class="bar-fill tier-11000" style="width: 0%"></div>
+                    </div>
+                    <div class="tier-stats">
+                        <span class="tier-count">0</span> users (0.0%)
+                    </div>
+                </div>
+                <div class="tier-bar">
+                    <div class="tier-label">10,000-10,999</div>
+                    <div class="bar-container">
+                        <div class="bar-fill tier-10000" style="width: 0%"></div>
+                    </div>
+                    <div class="tier-stats">
+                        <span class="tier-count">0</span> users (0.0%)
+                    </div>
+                </div>
+                <div class="tier-bar">
+                    <div class="tier-label">9,000-9,999</div>
+                    <div class="bar-container">
+                        <div class="bar-fill tier-9000" style="width: 0%"></div>
+                    </div>
+                    <div class="tier-stats">
+                        <span class="tier-count">0</span> users (0.0%)
+                    </div>
+                </div>
+                <div class="tier-bar">
+                    <div class="tier-label">8,000-8,999</div>
+                    <div class="bar-container">
+                        <div class="bar-fill tier-8000" style="width: 0%"></div>
+                    </div>
+                    <div class="tier-stats">
+                        <span class="tier-count">0</span> users (0.0%)
+                    </div>
+                </div>
+                <div class="tier-bar">
+                    <div class="tier-label">7,000-7,999</div>
+                    <div class="bar-container">
+                        <div class="bar-fill tier-7000" style="width: 0%"></div>
+                    </div>
+                    <div class="tier-stats">
+                        <span class="tier-count">0</span> users (0.0%)
+                    </div>
+                </div>
+                <div class="tier-bar">
+                    <div class="tier-label">6,000-6,999</div>
+                    <div class="bar-container">
+                        <div class="bar-fill tier-6000" style="width: 0%"></div>
+                    </div>
+                    <div class="tier-stats">
+                        <span class="tier-count">0</span> users (0.0%)
+                    </div>
+                </div>
+                <div class="tier-bar">
+                    <div class="tier-label">Below 6,000</div>
+                    <div class="bar-container">
+                        <div class="bar-fill tier-below" style="width: 0%"></div>
+                    </div>
+                    <div class="tier-stats">
+                        <span class="tier-count">0</span> users (0.0%)
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Loading State -->
@@ -705,6 +896,7 @@
             elements.loading.classList.add('show');
             elements.errorState.style.display = 'none';
             elements.tableSection.style.display = 'none';
+            document.getElementById('distributionSection').style.display = 'none';
             stopUpdateTimer();
         }
 
@@ -712,6 +904,7 @@
             elements.loading.classList.remove('show');
             elements.errorState.style.display = 'block';
             elements.tableSection.style.display = 'none';
+            document.getElementById('distributionSection').style.display = 'none';
             stopUpdateTimer();
         }
 
@@ -719,6 +912,57 @@
             elements.loading.classList.remove('show');
             elements.errorState.style.display = 'none';
             elements.tableSection.style.display = 'block';
+            document.getElementById('distributionSection').style.display = 'block';
+        }
+
+        // Update distribution bars
+        function updateDistribution(pointDistribution) {
+            if (!pointDistribution) return;
+
+            // Map API data to our new tier structure
+            const tierMapping = {
+                'tier-14000': pointDistribution['14000+'] || 0,
+                'tier-13000': pointDistribution['13000-13999'] || 0,
+                'tier-12000': pointDistribution['12000-12999'] || 0,
+                'tier-11000': pointDistribution['11000-11999'] || 0,
+                'tier-10000': pointDistribution['10000-10999'] || pointDistribution['10000+'] || 0,
+                'tier-9000': pointDistribution['9000-9999'] || 0,
+                'tier-8000': pointDistribution['8000-8999'] || 0,
+                'tier-7000': pointDistribution['7000-7999'] || 0,
+                'tier-6000': pointDistribution['6000-6999'] || 0,
+                'tier-below': pointDistribution['below-6000'] || pointDistribution['below-3000'] || 0
+            };
+
+            // Calculate total users for percentages
+            const totalUsers = Object.values(tierMapping).reduce((sum, count) => sum + count, 0);
+            if (totalUsers === 0) return;
+
+            // Find maximum count for bar width calculation
+            const maxCount = Math.max(...Object.values(tierMapping));
+
+            // Update each tier bar
+            Object.entries(tierMapping).forEach(([tierClass, count]) => {
+                const tierBar = document.querySelector(`.${tierClass}`);
+                const tierCountElement = tierBar?.parentElement.parentElement.querySelector('.tier-count');
+                const tierStatsElement = tierBar?.parentElement.parentElement.querySelector('.tier-stats');
+
+                if (tierBar && tierCountElement && tierStatsElement) {
+                    // Calculate percentage and bar width
+                    const percentage = ((count / totalUsers) * 100).toFixed(1);
+                    const barWidth = maxCount > 0 ? (count / maxCount) * 100 : 0;
+
+                    // Animate count
+                    animateValue(tierCountElement, 0, count, 800);
+                    
+                    // Update bar width with animation
+                    setTimeout(() => {
+                        tierBar.style.width = `${barWidth}%`;
+                    }, 200);
+
+                    // Update stats text
+                    tierStatsElement.innerHTML = `<span class="tier-count">${formatNumber(count)}</span> users (${percentage}%)`;
+                }
+            });
         }
 
         // Load leaderboard data
@@ -740,6 +984,7 @@
                 lastUpdated = Date.now();
                 
                 updateStatistics(data);
+                updateDistribution(data.point_distribution);
                 renderTable();
                 startUpdateTimer();
                 showTable();
