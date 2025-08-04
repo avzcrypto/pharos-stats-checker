@@ -96,6 +96,7 @@
             color: #1d4ed8;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 10px;
             backdrop-filter: blur(10px);
         }
@@ -147,26 +148,22 @@
         }
 
         .level-label {
-            min-width: 160px;
+            min-width: 180px;
             font-size: 14px;
             font-weight: 600;
             color: #374151;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            flex-shrink: 0;
         }
 
         .level-icon {
             width: 32px;
             height: 32px;
             border-radius: 8px;
-            background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            font-weight: 700;
-            color: #666;
+            object-fit: cover;
+            flex-shrink: 0;
         }
 
         .bar-container {
@@ -239,6 +236,58 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 14px;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 20px;
+            background: rgba(249, 250, 251, 0.9);
+            border-top: 1px solid rgba(229, 231, 235, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .pagination-btn {
+            padding: 10px 14px;
+            border: 1px solid rgba(209, 213, 219, 0.8);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #374151;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 40px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            background: rgba(243, 244, 246, 0.9);
+            border-color: #9ca3af;
+            transform: translateY(-1px);
+        }
+
+        .pagination-btn.active {
+            background: linear-gradient(145deg, #3b82f6, #2563eb);
+            border-color: #3b82f6;
+            color: white;
+            box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-info {
+            font-size: 12px;
+            color: #6b7280;
+            margin: 0 16px;
+            font-weight: 500;
         }
 
         /* Table Headers */
@@ -456,27 +505,6 @@
             box-shadow: 0 8px 16px rgba(59, 130, 246, 0.4);
         }
 
-        /* Debug Info */
-        .debug-info {
-            background: rgba(17, 24, 39, 0.9);
-            color: #e5e7eb;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 24px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            display: none;
-            backdrop-filter: blur(20px);
-        }
-
-        .debug-info.show { display: block; }
-
-        .debug-title {
-            color: #60a5fa;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
         /* Responsive */
         @media (max-width: 1024px) {
             .header-content {
@@ -517,7 +545,7 @@
             }
             
             .level-label {
-                min-width: 120px;
+                min-width: 140px;
                 font-size: 12px;
             }
             
@@ -554,15 +582,9 @@
         </div>
 
         <!-- Update Info -->
-        <div class="update-info" id="updateInfo" style="display: none;">
+        <div class="update-info" id="updateInfo">
             <div class="update-dot"></div>
-            <span id="updateText">Loading...</span>
-        </div>
-
-        <!-- Debug Info -->
-        <div class="debug-info" id="debugInfo">
-            <div class="debug-title">🔧 Debug Information</div>
-            <div id="debugContent">Initializing...</div>
+            <span>📊 Leaderboard data updates automatically every hour</span>
         </div>
 
         <!-- User Distribution Section -->
@@ -574,7 +596,7 @@
             <div class="level-bars" id="levelBars">
                 <div class="level-bar" data-level="1">
                     <div class="level-label">
-                        <div class="level-icon">1</div>
+                        <img src="./level1.png" alt="Level 1" class="level-icon">
                         Lv.1 (0-1,000)
                     </div>
                     <div class="bar-container">
@@ -586,7 +608,7 @@
                 </div>
                 <div class="level-bar" data-level="2">
                     <div class="level-label">
-                        <div class="level-icon">2</div>
+                        <img src="./level2.png" alt="Level 2" class="level-icon">
                         Lv.2 (1,001-3,500)
                     </div>
                     <div class="bar-container">
@@ -598,7 +620,7 @@
                 </div>
                 <div class="level-bar" data-level="3">
                     <div class="level-label">
-                        <div class="level-icon">3</div>
+                        <img src="./level3.png" alt="Level 3" class="level-icon">
                         Lv.3 (3,501-6,000)
                     </div>
                     <div class="bar-container">
@@ -610,7 +632,7 @@
                 </div>
                 <div class="level-bar" data-level="4">
                     <div class="level-label">
-                        <div class="level-icon">4</div>
+                        <img src="./level4.png" alt="Level 4" class="level-icon">
                         Lv.4 (6,001-10,000)
                     </div>
                     <div class="bar-container">
@@ -622,7 +644,7 @@
                 </div>
                 <div class="level-bar" data-level="5">
                     <div class="level-label">
-                        <div class="level-icon">5</div>
+                        <img src="./level5.png" alt="Level 5" class="level-icon">
                         Lv.5 (10,001+)
                     </div>
                     <div class="bar-container">
@@ -688,6 +710,18 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+                <button class="pagination-btn" id="prevBtn" disabled>← Prev</button>
+                <span class="pagination-info" id="paginationInfo">Page 1 of 5</span>
+                <button class="pagination-btn" data-page="1" class="active">1</button>
+                <button class="pagination-btn" data-page="2">2</button>
+                <button class="pagination-btn" data-page="3">3</button>
+                <button class="pagination-btn" data-page="4">4</button>
+                <button class="pagination-btn" data-page="5">5</button>
+                <button class="pagination-btn" id="nextBtn">Next →</button>
+            </div>
         </div>
     </div>
 
@@ -695,12 +729,10 @@
         // Global state
         let currentPage = 1;
         let allUsers = [];
-        let lastUpdated = null;
-        let updateTimer = null;
         let isLoading = false;
         
-        const USERS_PER_PAGE = 100; // Show all top 100
-        const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
+        const USERS_PER_PAGE = 20;
+        const TOTAL_PAGES = 5;
 
         // Level structure matching backend
         const LEVEL_STRUCTURE = [
@@ -722,10 +754,10 @@
             totalChecks: document.getElementById('totalChecks'),
             topScore: document.getElementById('topScore'),
             updateInfo: document.getElementById('updateInfo'),
-            updateText: document.getElementById('updateText'),
             distributionSection: document.getElementById('distributionSection'),
-            debugInfo: document.getElementById('debugInfo'),
-            debugContent: document.getElementById('debugContent')
+            paginationInfo: document.getElementById('paginationInfo'),
+            prevBtn: document.getElementById('prevBtn'),
+            nextBtn: document.getElementById('nextBtn')
         };
 
         // Utility functions
@@ -749,87 +781,14 @@
             return 'rank-default';
         }
 
-        // Debug logging
         function debugLog(message, data = null) {
-            const timestamp = new Date().toLocaleTimeString();
-            const logEntry = `[${timestamp}] ${message}`;
-            
-            console.log(logEntry, data || '');
-            
-            // Update debug panel
-            const debugContent = document.getElementById('debugContent');
-            if (debugContent) {
-                const currentContent = debugContent.innerHTML;
-                debugContent.innerHTML = `${logEntry}${data ? ': ' + JSON.stringify(data, null, 2) : ''}\n${currentContent}`;
-            }
-        }
-
-        // Time formatting
-        function formatTimeAgo(timestamp) {
-            const now = Date.now();
-            const diff = now - timestamp;
-            const minutes = Math.floor(diff / (1000 * 60));
-            
-            if (minutes < 1) return 'just now';
-            if (minutes === 1) return '1 minute ago';
-            if (minutes < 60) return `${minutes} minutes ago`;
-            
-            const hours = Math.floor(minutes / 60);
-            if (hours === 1) return '1 hour ago';
-            return `${hours} hours ago`;
-        }
-
-        function formatTimeUntilNext(timestamp) {
-            const nextUpdate = timestamp + CACHE_DURATION;
-            const now = Date.now();
-            const diff = nextUpdate - now;
-            
-            if (diff <= 0) return 'updating soon';
-            
-            const minutes = Math.floor(diff / (1000 * 60));
-            if (minutes < 1) return 'less than 1 minute';
-            if (minutes === 1) return '1 minute';
-            if (minutes < 60) return `${minutes} minutes`;
-            
-            const hours = Math.floor(minutes / 60);
-            const remainingMinutes = minutes % 60;
-            if (hours === 1) {
-                return remainingMinutes > 0 ? `1 hour ${remainingMinutes} minutes` : '1 hour';
-            }
-            return remainingMinutes > 0 ? `${hours} hours ${remainingMinutes} minutes` : `${hours} hours`;
-        }
-
-        // Update time info
-        function updateTimeInfo() {
-            if (!lastUpdated) return;
-
-            const timeAgo = formatTimeAgo(lastUpdated);
-            const timeUntilNext = formatTimeUntilNext(lastUpdated);
-            
-            elements.updateText.textContent = `Last updated: ${timeAgo} • Next refresh in ${timeUntilNext}`;
-            elements.updateInfo.style.display = 'flex';
-        }
-
-        function startUpdateTimer() {
-            if (updateTimer) clearInterval(updateTimer);
-            
-            updateTimeInfo();
-            updateTimer = setInterval(updateTimeInfo, 60 * 1000);
-        }
-
-        function stopUpdateTimer() {
-            if (updateTimer) {
-                clearInterval(updateTimer);
-                updateTimer = null;
-            }
-            elements.updateInfo.style.display = 'none';
+            console.log(`[Leaderboard] ${message}`, data || '');
         }
 
         // Create table row
         function createTableRow(user, globalIndex) {
             const rank = globalIndex + 1;
             
-            // Validate user data
             if (!user || typeof user !== 'object') {
                 debugLog(`Invalid user data at index ${globalIndex}`, user);
                 return '';
@@ -839,7 +798,6 @@
             const totalPoints = parseInt(user.total_points) || 0;
             const currentLevel = parseInt(user.current_level) || 1;
             
-            // Activity counts with validation
             const sendCount = parseInt(user.send_count) || 0;
             const primuslabsSend = parseInt(user.primuslabs_send) || 0;
             const swapCount = parseInt(user.swap_count) || 0;
@@ -885,9 +843,9 @@
             `;
         }
 
-        // Render table
+        // Render table with pagination
         function renderTable() {
-            debugLog(`Rendering table with ${allUsers.length} users`);
+            debugLog(`Rendering table with ${allUsers.length} users, page ${currentPage}`);
             
             if (!allUsers || allUsers.length === 0) {
                 elements.leaderboardBody.innerHTML = `
@@ -900,12 +858,40 @@
                 return;
             }
 
-            const rowsHtml = allUsers.map((user, index) => {
-                return createTableRow(user, index);
+            const startIndex = (currentPage - 1) * USERS_PER_PAGE;
+            const endIndex = startIndex + USERS_PER_PAGE;
+            const currentPageUsers = allUsers.slice(startIndex, endIndex);
+
+            const rowsHtml = currentPageUsers.map((user, localIndex) => {
+                const globalIndex = startIndex + localIndex;
+                return createTableRow(user, globalIndex);
             }).join('');
 
             elements.leaderboardBody.innerHTML = rowsHtml;
-            debugLog(`Table rendered successfully with ${allUsers.length} rows`);
+            updatePaginationInfo();
+            debugLog(`Table rendered: showing ${currentPageUsers.length} users (${startIndex + 1}-${endIndex})`);
+        }
+
+        // Update pagination info
+        function updatePaginationInfo() {
+            const startRank = (currentPage - 1) * USERS_PER_PAGE + 1;
+            const endRank = Math.min(currentPage * USERS_PER_PAGE, allUsers.length);
+            elements.paginationInfo.textContent = `Showing ${startRank}-${endRank} of ${allUsers.length}`;
+            
+            document.querySelectorAll('.pagination-btn[data-page]').forEach(btn => {
+                btn.classList.toggle('active', parseInt(btn.dataset.page) === currentPage);
+            });
+            
+            elements.prevBtn.disabled = currentPage === 1;
+            elements.nextBtn.disabled = currentPage === TOTAL_PAGES || allUsers.length <= currentPage * USERS_PER_PAGE;
+        }
+
+        // Page navigation
+        function changePage(page) {
+            if (page === currentPage || page < 1 || page > TOTAL_PAGES) return;
+            currentPage = page;
+            renderTable();
+            debugLog(`Changed to page ${page}`);
         }
 
         // Animation functions
@@ -947,7 +933,7 @@
             animateValue(elements.topScore, 0, topScore);
         }
 
-        // ИСПРАВЛЕННАЯ функция updateLevelDistribution
+        // Update level distribution
         function updateLevelDistribution(levelDistributionData) {
             debugLog('Updating level distribution', levelDistributionData);
             
@@ -963,13 +949,11 @@
                 return;
             }
 
-            // Find maximum count for bar width calculation
             const counts = Object.values(levelDistributionData).map(count => parseInt(count) || 0);
             const maxCount = Math.max(...counts);
 
             debugLog(`Total users: ${totalUsers}, Max count: ${maxCount}`);
 
-            // Update each level bar
             LEVEL_STRUCTURE.forEach((level, index) => {
                 const count = parseInt(levelDistributionData[level.key]) || 0;
                 const percentage = ((count / totalUsers) * 100).toFixed(1);
@@ -977,7 +961,6 @@
 
                 debugLog(`Level ${level.name}: ${count} users (${percentage}%), bar width: ${barWidth}%`);
 
-                // Find the corresponding DOM elements
                 const levelBar = document.querySelector(`.level-bar[data-level="${index + 1}"]`);
                 if (levelBar) {
                     const barFill = levelBar.querySelector('.bar-fill');
@@ -985,19 +968,15 @@
                     const statsElement = levelBar.querySelector('.level-stats');
 
                     if (barFill && countElement && statsElement) {
-                        // Update bar width with staggered animation
                         setTimeout(() => {
                             barFill.style.width = `${barWidth}%`;
                         }, index * 200);
 
-                        // Update text
                         setTimeout(() => {
                             animateValue(countElement, 0, count, 1000);
                             statsElement.innerHTML = `<span class="level-count">${formatNumber(count)}</span> users (${percentage}%)`;
                         }, index * 200 + 500);
                     }
-                } else {
-                    debugLog(`Level bar not found for level ${index + 1}`);
                 }
             });
         }
@@ -1009,7 +988,6 @@
             elements.errorState.style.display = 'none';
             elements.tableSection.style.display = 'none';
             elements.distributionSection.style.display = 'none';
-            stopUpdateTimer();
         }
 
         function showError(message = 'Unknown error occurred') {
@@ -1019,7 +997,6 @@
             elements.tableSection.style.display = 'none';
             elements.distributionSection.style.display = 'none';
             elements.errorMessage.textContent = message;
-            stopUpdateTimer();
         }
 
         function showTable() {
@@ -1030,7 +1007,7 @@
             elements.distributionSection.style.display = 'block';
         }
 
-        // ИСПРАВЛЕННАЯ функция загрузки лидерборда
+        // Load leaderboard data
         async function loadLeaderboard() {
             if (isLoading) {
                 debugLog('Already loading, skipping request');
@@ -1042,27 +1019,6 @@
             debugLog('Starting leaderboard load');
 
             try {
-                // Test API connectivity first
-                debugLog('Testing API connectivity...');
-                
-                const healthResponse = await fetch('/api/health', {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Cache-Control': 'no-cache'
-                    }
-                });
-                
-                debugLog(`Health check response: ${healthResponse.status}`);
-                
-                if (!healthResponse.ok) {
-                    throw new Error(`Health check failed: ${healthResponse.status}`);
-                }
-                
-                const healthData = await healthResponse.json();
-                debugLog('Health check data', healthData);
-                
-                // Now load actual leaderboard data
                 debugLog('Fetching leaderboard data...');
                 
                 const response = await fetch('/api/admin/stats', {
@@ -1093,32 +1049,26 @@
                     throw new Error(data.error || 'API returned success: false');
                 }
 
-                // Validate data structure
                 if (!data.leaderboard || !Array.isArray(data.leaderboard)) {
                     debugLog('Invalid leaderboard data structure', data);
                     throw new Error('Invalid leaderboard data: missing or invalid leaderboard array');
                 }
 
                 allUsers = data.leaderboard;
-                lastUpdated = Date.now();
                 
                 debugLog(`Successfully loaded ${allUsers.length} users`);
                 
-                // Update UI components
                 updateStatistics(data);
                 
-                // Handle level distribution - check if it exists and is valid
                 if (data.level_distribution && typeof data.level_distribution === 'object') {
                     updateLevelDistribution(data.level_distribution);
                 } else {
                     debugLog('No valid level_distribution found, calculating from users');
-                    // Calculate distribution from user data as fallback
                     const calculated = calculateLevelDistributionFromUsers(allUsers);
                     updateLevelDistribution(calculated);
                 }
                 
                 renderTable();
-                startUpdateTimer();
                 showTable();
 
                 debugLog(`✅ Leaderboard loaded successfully: ${allUsers.length} users`);
@@ -1160,50 +1110,28 @@
             return distribution;
         }
 
-        // Enhanced error handling for fetch requests
-        async function safeFetch(url, options = {}) {
-            debugLog(`Making request to: ${url}`);
-            
-            try {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
-                
-                const response = await fetch(url, {
-                    ...options,
-                    signal: controller.signal
-                });
-                
-                clearTimeout(timeoutId);
-                return response;
-                
-            } catch (error) {
-                debugLog(`Fetch error for ${url}`, error.message);
-                throw error;
-            }
-        }
-
-        // Initialize with comprehensive error handling
+        // Initialize
         async function init() {
             debugLog('🚀 Initializing Pharos Leaderboard...');
             
-            // Show debug panel initially
-            elements.debugInfo.classList.add('show');
-            
             try {
-                // Test if we're in the right environment
-                debugLog('Environment check', {
-                    location: window.location.href,
-                    userAgent: navigator.userAgent.substring(0, 100)
+                // Setup pagination event listeners
+                document.querySelectorAll('.pagination-btn[data-page]').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        changePage(parseInt(btn.dataset.page));
+                    });
                 });
-                
+
+                elements.prevBtn.addEventListener('click', () => {
+                    if (currentPage > 1) changePage(currentPage - 1);
+                });
+
+                elements.nextBtn.addEventListener('click', () => {
+                    if (currentPage < TOTAL_PAGES) changePage(currentPage + 1);
+                });
+
                 await loadLeaderboard();
-                
                 debugLog('✅ Leaderboard initialization completed');
-                
-                // Hide debug panel after successful load
-                setTimeout(() => {
-                    elements.debugInfo.classList.remove('show');
-                }, 5000);
                 
             } catch (error) {
                 debugLog('❌ Initialization failed', error.message);
@@ -1211,32 +1139,13 @@
             }
         }
 
-        // Auto-refresh every 5 minutes
-        function startAutoRefresh() {
-            setInterval(() => {
-                debugLog('Auto-refreshing leaderboard...');
-                loadLeaderboard();
-            }, 5 * 60 * 1000); // 5 minutes
-        }
-
-        // Cleanup
-        window.addEventListener('beforeunload', () => {
-            stopUpdateTimer();
-            debugLog('Page unloading, cleanup completed');
-        });
-
         // Start the application
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => {
-                init();
-                startAutoRefresh();
-            });
+            document.addEventListener('DOMContentLoaded', init);
         } else {
             init();
-            startAutoRefresh();
         }
 
-        // Global error handler
         window.addEventListener('error', (event) => {
             debugLog('Global error caught', {
                 message: event.message,
@@ -1245,7 +1154,6 @@
             });
         });
 
-        // Add manual refresh button functionality
         window.manualRefresh = function() {
             debugLog('Manual refresh triggered');
             loadLeaderboard();
