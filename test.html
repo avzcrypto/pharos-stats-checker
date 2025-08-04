@@ -137,20 +137,20 @@
         .leaderboard-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 15px; /* Увеличено с 13px */
+            font-size: 15px;
         }
 
         /* Table Headers */
         .leaderboard-table thead th {
             background: #f9fafb;
-            padding: 14px 10px; /* Увеличено с 12px 8px */
+            padding: 14px 10px;
             text-align: center;
             font-weight: 600;
             color: #374151;
             border-right: 1px solid #e5e7eb;
             border-bottom: 2px solid #e5e7eb;
             text-transform: uppercase;
-            font-size: 12px; /* Увеличено с 11px */
+            font-size: 12px;
             letter-spacing: 0.5px;
             position: sticky;
             top: 0;
@@ -169,7 +169,7 @@
 
         .header-sub {
             padding: 8px;
-            font-size: 11px; /* Увеличено с 10px */
+            font-size: 11px;
             font-weight: 500;
         }
 
@@ -179,7 +179,7 @@
         }
 
         .leaderboard-table tbody tr:nth-child(even) {
-            background: #f8fafc; /* Голубоватый оттенок */
+            background: #f8fafc;
         }
 
         .leaderboard-table tbody tr {
@@ -188,7 +188,7 @@
         }
 
         .leaderboard-table tbody tr:hover {
-            background: #f1f5f9 !important; /* Более заметный hover поверх зебры */
+            background: #f1f5f9 !important;
         }
 
         .leaderboard-table tbody tr:last-child {
@@ -196,7 +196,7 @@
         }
 
         .leaderboard-table td {
-            padding: 14px 10px; /* Увеличено с 12px 8px */
+            padding: 14px 10px;
             text-align: center;
             border-right: 1px solid #f3f4f6;
             vertical-align: middle;
@@ -228,8 +228,8 @@
         .rank {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
-            font-size: 15px; /* Увеличено с 14px */
-            width: 34px; /* Увеличено с 32px */
+            font-size: 15px;
+            width: 34px;
             height: 34px;
             border-radius: 6px;
             display: flex;
@@ -252,7 +252,7 @@
 
         .address {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 13px; /* Увеличено с 12px */
+            font-size: 13px;
             color: #1f2937;
             font-weight: 600;
         }
@@ -269,16 +269,16 @@
         .points {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
-            font-size: 16px; /* Увеличено с 14px */
+            font-size: 16px;
             color: #111827;
         }
 
         .level-badge {
             background: #10b981;
             color: white;
-            padding: 3px 7px; /* Увеличено с 2px 6px */
+            padding: 3px 7px;
             border-radius: 4px;
-            font-size: 11px; /* Увеличено с 10px */
+            font-size: 11px;
             font-weight: 600;
         }
 
@@ -287,7 +287,7 @@
             font-family: 'JetBrains Mono', monospace;
             font-weight: 600;
             color: #374151;
-            font-size: 14px; /* Увеличено с 13px */
+            font-size: 14px;
         }
 
         .activity-zero {
@@ -354,17 +354,6 @@
             background: #2563eb;
         }
 
-        /* Pagination */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            padding: 20px;
-            background: #f9fafb;
-            border-top: 1px solid #e5e7eb;
-        }
-
         /* Distribution Section */
         .distribution-section {
             background: white;
@@ -385,24 +374,34 @@
             color: #111827;
         }
 
-        /* Horizontal Tier Bars */
-        .tier-bars-horizontal {
+        /* Level Bars */
+        .level-bars {
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
 
-        .tier-bar {
+        .level-bar {
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        .tier-label {
-            min-width: 120px;
+        .level-label {
+            min-width: 140px;
             font-size: 13px;
             font-weight: 600;
             color: #374151;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .level-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            object-fit: cover;
         }
 
         .bar-container {
@@ -417,32 +416,28 @@
         .bar-fill {
             height: 100%;
             border-radius: 6px;
+            transition: width 0.6s ease;
         }
 
-        .tier-stats {
+        .level-stats {
             min-width: 140px;
             text-align: right;
             font-size: 12px;
             color: #6b7280;
         }
 
-        .tier-count {
+        .level-count {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 600;
             color: #111827;
         }
 
-        /* Tier Colors - Updated for new tiers */
-        .tier-14000 { background: linear-gradient(90deg, #fbbf24, #f59e0b); } /* Gold */
-        .tier-13000 { background: linear-gradient(90deg, #f59e0b, #d97706); } /* Orange */
-        .tier-12000 { background: linear-gradient(90deg, #ef4444, #dc2626); } /* Red */
-        .tier-11000 { background: linear-gradient(90deg, #ec4899, #db2777); } /* Pink */
-        .tier-10000 { background: linear-gradient(90deg, #8b5cf6, #7c3aed); } /* Purple */
-        .tier-9000 { background: linear-gradient(90deg, #3b82f6, #2563eb); } /* Blue */
-        .tier-8000 { background: linear-gradient(90deg, #06b6d4, #0891b2); } /* Cyan */
-        .tier-7000 { background: linear-gradient(90deg, #10b981, #059669); } /* Emerald */
-        .tier-6000 { background: linear-gradient(90deg, #84cc16, #65a30d); } /* Lime */
-        .tier-below { background: linear-gradient(90deg, #6b7280, #4b5563); } /* Gray */
+        /* Level Colors */
+        .level-1 { background: linear-gradient(90deg, #6b7280, #4b5563); }
+        .level-2 { background: linear-gradient(90deg, #84cc16, #65a30d); }
+        .level-3 { background: linear-gradient(90deg, #06b6d4, #0891b2); }
+        .level-4 { background: linear-gradient(90deg, #8b5cf6, #7c3aed); }
+        .level-5 { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
 
         /* Pagination */
         .pagination {
@@ -527,98 +522,68 @@
         <!-- User Distribution Section -->
         <div class="distribution-section" id="distributionSection" style="display: none;">
             <div class="distribution-header">
-                <div class="distribution-title">📊 User Distribution by Points</div>
+                <div class="distribution-title">📊 User Distribution by Level</div>
             </div>
             
-            <div class="tier-bars-horizontal" id="tierBars">
-                <div class="tier-bar">
-                    <div class="tier-label">14,000+</div>
-                    <div class="bar-container">
-                        <div class="bar-fill tier-14000" style="width: 0%"></div>
+            <div class="level-bars" id="levelBars">
+                <div class="level-bar">
+                    <div class="level-label">
+                        <img src="./level1.png" alt="Level 1" class="level-icon">
+                        Lv.1 (0-1,000)
                     </div>
-                    <div class="tier-stats">
-                        <span class="tier-count">0</span> users (0.0%)
+                    <div class="bar-container">
+                        <div class="bar-fill level-1" style="width: 0%"></div>
+                    </div>
+                    <div class="level-stats">
+                        <span class="level-count">0</span> users (0.0%)
                     </div>
                 </div>
-                <div class="tier-bar">
-                    <div class="tier-label">13,000-13,999</div>
-                    <div class="bar-container">
-                        <div class="bar-fill tier-13000" style="width: 0%"></div>
+                <div class="level-bar">
+                    <div class="level-label">
+                        <img src="./level2.png" alt="Level 2" class="level-icon">
+                        Lv.2 (1,001-3,500)
                     </div>
-                    <div class="tier-stats">
-                        <span class="tier-count">0</span> users (0.0%)
+                    <div class="bar-container">
+                        <div class="bar-fill level-2" style="width: 0%"></div>
+                    </div>
+                    <div class="level-stats">
+                        <span class="level-count">0</span> users (0.0%)
                     </div>
                 </div>
-                <div class="tier-bar">
-                    <div class="tier-label">12,000-12,999</div>
-                    <div class="bar-container">
-                        <div class="bar-fill tier-12000" style="width: 0%"></div>
+                <div class="level-bar">
+                    <div class="level-label">
+                        <img src="./level3.png" alt="Level 3" class="level-icon">
+                        Lv.3 (3,501-6,000)
                     </div>
-                    <div class="tier-stats">
-                        <span class="tier-count">0</span> users (0.0%)
+                    <div class="bar-container">
+                        <div class="bar-fill level-3" style="width: 0%"></div>
+                    </div>
+                    <div class="level-stats">
+                        <span class="level-count">0</span> users (0.0%)
                     </div>
                 </div>
-                <div class="tier-bar">
-                    <div class="tier-label">11,000-11,999</div>
-                    <div class="bar-container">
-                        <div class="bar-fill tier-11000" style="width: 0%"></div>
+                <div class="level-bar">
+                    <div class="level-label">
+                        <img src="./level4.png" alt="Level 4" class="level-icon">
+                        Lv.4 (6,001-10,000)
                     </div>
-                    <div class="tier-stats">
-                        <span class="tier-count">0</span> users (0.0%)
+                    <div class="bar-container">
+                        <div class="bar-fill level-4" style="width: 0%"></div>
+                    </div>
+                    <div class="level-stats">
+                        <span class="level-count">0</span> users (0.0%)
                     </div>
                 </div>
-                <div class="tier-bar">
-                    <div class="tier-label">10,000-10,999</div>
+                <div class="level-bar">
+                    <div class="level-label">
+                        <img src="./level5.png" alt="Level 5" class="level-icon">
+                        Lv.5 (10,001+)
+                    </div>
                     <div class="bar-container">
-                        <div class="bar-fill tier-10000" style="width: 0%"></div>
+                        <div class="bar-fill level-5" style="width: 0%"></div>
                     </div>
-                    <div class="tier-stats">
-                        <span class="tier-count">0</span> users (0.0%)
-                    </div>
-                </div>
-                <div class="tier-bar">
-                    <div class="tier-label">9,000-9,999</div>
-                    <div class="bar-container">
-                        <div class="bar-fill tier-9000" style="width: 0%"></div>
-                    </div>
-                    <div class="tier-stats">
-                        <span class="tier-count">0</span> users (0.0%)
-                    </div>
-                </div>
-                <div class="tier-bar">
-                    <div class="tier-label">8,000-8,999</div>
-                    <div class="bar-container">
-                        <div class="bar-fill tier-8000" style="width: 0%"></div>
-                    </div>
-                    <div class="tier-stats">
-                        <span class="tier-count">0</span> users (0.0%)
-                    </div>
-                </div>
-                <div class="tier-bar">
-                    <div class="tier-label">7,000-7,999</div>
-                    <div class="bar-container">
-                        <div class="bar-fill tier-7000" style="width: 0%"></div>
-                    </div>
-                    <div class="tier-stats">
-                        <span class="tier-count">0</span> users (0.0%)
-                    </div>
-                </div>
-                <div class="tier-bar">
-                    <div class="tier-label">6,000-6,999</div>
-                    <div class="bar-container">
-                        <div class="bar-fill tier-6000" style="width: 0%"></div>
-                    </div>
-                    <div class="tier-stats">
-                        <span class="tier-count">0</span> users (0.0%)
-                    </div>
-                </div>
-                <div class="tier-bar">
-                    <div class="tier-label">Below 6,000</div>
-                    <div class="bar-container">
-                        <div class="bar-fill tier-below" style="width: 0%"></div>
-                    </div>
-                    <div class="tier-stats">
-                        <span class="tier-count">0</span> users (0.0%)
+                    <div class="level-stats">
+                        <span class="level-count">0</span> users (0.0%)
                     </div>
                 </div>
             </div>
@@ -702,6 +667,15 @@
         const TOTAL_PAGES = 5;
         const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
 
+        // Level structure
+        const LEVEL_STRUCTURE = [
+            { name: "Lv.1", min: 0, max: 1000, icon: "./level1.png" },
+            { name: "Lv.2", min: 1001, max: 3500, icon: "./level2.png" },
+            { name: "Lv.3", min: 3501, max: 6000, icon: "./level3.png" },
+            { name: "Lv.4", min: 6001, max: 10000, icon: "./level4.png" },
+            { name: "Lv.5", min: 10001, max: Infinity, icon: "./level5.png" }
+        ];
+
         // DOM elements
         const elements = {
             loading: document.getElementById('loading'),
@@ -735,6 +709,20 @@
             if (rank === 3) return 'rank-3';
             if (rank <= 10) return 'rank-top10';
             return 'rank-default';
+        }
+
+        // Calculate level distribution from users array
+        function calculateLevelDistribution(users) {
+            const distribution = {};
+            
+            LEVEL_STRUCTURE.forEach(level => {
+                distribution[level.name] = users.filter(user => {
+                    const points = user.total_points || 0;
+                    return points >= level.min && (level.max === Infinity ? true : points <= level.max);
+                }).length;
+            });
+            
+            return distribution;
         }
 
         // Time formatting
@@ -934,45 +922,39 @@
             document.getElementById('distributionSection').style.display = 'block';
         }
 
-        // Update distribution bars
-        function updateDistribution(pointDistribution) {
-            if (!pointDistribution) return;
+        // Update level distribution bars
+        function updateLevelDistribution(users) {
+            if (!users || users.length === 0) return;
 
-            // Map API data to our new tier structure
-            const tierMapping = {
-                'tier-14000': pointDistribution['14000+'] || 0,
-                'tier-13000': pointDistribution['13000-13999'] || 0,
-                'tier-12000': pointDistribution['12000-12999'] || 0,
-                'tier-11000': pointDistribution['11000-11999'] || 0,
-                'tier-10000': pointDistribution['10000-10999'] || pointDistribution['10000+'] || 0,
-                'tier-9000': pointDistribution['9000-9999'] || 0,
-                'tier-8000': pointDistribution['8000-8999'] || 0,
-                'tier-7000': pointDistribution['7000-7999'] || 0,
-                'tier-6000': pointDistribution['6000-6999'] || 0,
-                'tier-below': pointDistribution['below-6000'] || pointDistribution['below-3000'] || 0
-            };
-
-            // Calculate total users for percentages
-            const totalUsers = Object.values(tierMapping).reduce((sum, count) => sum + count, 0);
-            if (totalUsers === 0) return;
+            const levelDistribution = calculateLevelDistribution(users);
+            const totalUsers = users.length;
 
             // Find maximum count for bar width calculation
-            const maxCount = Math.max(...Object.values(tierMapping));
+            const maxCount = Math.max(...Object.values(levelDistribution));
 
-            // Update each tier bar
-            Object.entries(tierMapping).forEach(([tierClass, count]) => {
-                const tierBar = document.querySelector(`.${tierClass}`);
-                const tierCountElement = tierBar?.parentElement.parentElement.querySelector('.tier-count');
-                const tierStatsElement = tierBar?.parentElement.parentElement.querySelector('.tier-stats');
+            // Update each level bar
+            LEVEL_STRUCTURE.forEach((level, index) => {
+                const count = levelDistribution[level.name] || 0;
+                const percentage = ((count / totalUsers) * 100).toFixed(1);
+                const barWidth = maxCount > 0 ? (count / maxCount) * 100 : 0;
 
-                if (tierBar && tierCountElement && tierStatsElement) {
-                    // Calculate percentage and bar width
-                    const percentage = ((count / totalUsers) * 100).toFixed(1);
-                    const barWidth = maxCount > 0 ? (count / maxCount) * 100 : 0;
+                // Find the corresponding DOM elements
+                const levelBars = document.querySelectorAll('.level-bar');
+                if (levelBars[index]) {
+                    const barFill = levelBars[index].querySelector('.bar-fill');
+                    const countElement = levelBars[index].querySelector('.level-count');
+                    const statsElement = levelBars[index].querySelector('.level-stats');
 
-                    // Update immediately without animation
-                    tierBar.style.width = `${barWidth}%`;
-                    tierStatsElement.innerHTML = `<span class="tier-count">${formatNumber(count)}</span> users (${percentage}%)`;
+                    if (barFill && countElement && statsElement) {
+                        // Update bar width with animation
+                        setTimeout(() => {
+                            barFill.style.width = `${barWidth}%`;
+                        }, index * 100); // Stagger animation
+
+                        // Update text
+                        countElement.textContent = formatNumber(count);
+                        statsElement.innerHTML = `<span class="level-count">${formatNumber(count)}</span> users (${percentage}%)`;
+                    }
                 }
             });
         }
@@ -996,7 +978,7 @@
                 lastUpdated = Date.now();
                 
                 updateStatistics(data);
-                updateDistribution(data.point_distribution);
+                updateLevelDistribution(allUsers); // Use users array instead of point_distribution
                 renderTable();
                 startUpdateTimer();
                 showTable();
