@@ -23,7 +23,7 @@
 
         /* Container */
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -128,59 +128,59 @@
             color: #111827;
         }
 
-        /* Level Bars - синхронизация с высотой строк таблицы */
+        /* Level Bars */
         .level-bars {
             display: flex;
             flex-direction: column;
-            gap: 0; /* Убираем gap между строками */
+            gap: 0;
         }
 
         .level-bar {
             display: flex;
             align-items: center;
             gap: 12px;
-            height: 60px; /* Точно такая же высота как у строк таблицы */
-            padding: 14px 10px; /* Тот же padding что у td */
-            border-bottom: 1px solid #f3f4f6; /* Граница как в таблице */
+            height: 50px;
+            padding: 10px 6px;
+            border-bottom: 1px solid #f3f4f6;
         }
 
         .level-bar:nth-child(odd) {
-            background: white; /* Зебра-раскраска как в таблице */
+            background: white;
         }
 
         .level-bar:nth-child(even) {
-            background: #f8fafc; /* Зебра-раскраска как в таблице */
+            background: #f8fafc;
         }
 
         .level-bar:hover {
-            background: #f1f5f9 !important; /* Hover эффект как в таблице */
+            background: #f1f5f9 !important;
             transition: background-color 0.15s ease;
         }
 
         .level-bar:last-child {
-            border-bottom: none; /* Убираем границу у последней строки */
+            border-bottom: none;
         }
 
         .level-label {
-            min-width: 180px; /* Увеличена ширина для баланса */
-            font-size: 14px; /* Увеличен размер шрифта */
+            min-width: 150px;
+            font-size: 13px;
             font-weight: 600;
             color: #374151;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .level-icon {
-            width: 28px; /* Увеличен размер иконки */
-            height: 28px;
-            border-radius: 6px; /* Как у rank бейджей */
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
             object-fit: cover;
         }
 
         .bar-container {
             flex: 1;
-            height: 32px; /* Увеличена высота бара */
+            height: 28px;
             background: #f3f4f6;
             border-radius: 6px;
             overflow: hidden;
@@ -194,9 +194,9 @@
         }
 
         .level-stats {
-            min-width: 160px; /* Увеличена ширина */
+            min-width: 140px;
             text-align: right;
-            font-size: 13px; /* Увеличен размер шрифта */
+            font-size: 12px;
             color: #6b7280;
         }
 
@@ -204,7 +204,7 @@
             font-family: 'JetBrains Mono', monospace;
             font-weight: 600;
             color: #111827;
-            font-size: 14px; /* Размер как у activity-number */
+            font-size: 13px;
         }
 
         /* Level Colors */
@@ -214,14 +214,14 @@
         .level-4 { background: linear-gradient(90deg, #8b5cf6, #7c3aed); }
         .level-5 { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
 
-        /* Main Table Section - исправлено для sticky */
+        /* Main Table Section */
         .table-section {
             background: white;
             border: 1px solid #e5e7eb;
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            position: relative; /* Для sticky контекста */
+            position: relative;
         }
 
         .table-header {
@@ -239,28 +239,28 @@
         /* Table */
         .table-container {
             overflow-x: auto;
-            max-height: 70vh; /* Добавляем максимальную высоту */
-            position: relative; /* Для корректной работы sticky */
+            max-height: 70vh;
+            position: relative;
         }
 
         .leaderboard-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 15px;
-            position: relative; /* Для sticky заголовков */
+            font-size: 13px;
+            position: relative;
         }
 
-        /* Table Headers - Sticky (исправлено) */
+        /* Table Headers - Sticky */
         .leaderboard-table thead th {
             background: #f9fafb;
-            padding: 14px 10px;
+            padding: 10px 6px;
             text-align: center;
             font-weight: 600;
             color: #374151;
             border-right: 1px solid #e5e7eb;
             border-bottom: 2px solid #e5e7eb;
             text-transform: uppercase;
-            font-size: 12px;
+            font-size: 10px;
             letter-spacing: 0.5px;
             position: sticky;
             top: 0;
@@ -272,9 +272,7 @@
             border-right: none;
         }
 
-        /* Убираем старые стили */
-
-        /* Table Body - точно такие же стили для синхронизации */
+        /* Table Body */
         .leaderboard-table tbody tr:nth-child(odd) {
             background: white;
         }
@@ -286,7 +284,7 @@
         .leaderboard-table tbody tr {
             border-bottom: 1px solid #f3f4f6;
             transition: background-color 0.15s ease;
-            height: 60px; /* Точно такая же высота как у level-bar */
+            height: 50px;
         }
 
         .leaderboard-table tbody tr:hover {
@@ -298,7 +296,7 @@
         }
 
         .leaderboard-table td {
-            padding: 14px 10px; /* Точно такой же padding как у level-bar */
+            padding: 10px 6px;
             text-align: center;
             border-right: 1px solid #f3f4f6;
             vertical-align: middle;
@@ -312,10 +310,10 @@
         .rank {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
-            font-size: 15px;
-            width: 34px;
-            height: 34px;
-            border-radius: 6px;
+            font-size: 13px;
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -331,12 +329,12 @@
         /* User Column */
         .user-info {
             text-align: left;
-            min-width: 120px;
+            min-width: 90px;
         }
 
         .address {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
+            font-size: 11px;
             color: #1f2937;
             font-weight: 600;
         }
@@ -346,23 +344,23 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
-            min-width: 100px;
+            gap: 3px;
+            min-width: 80px;
         }
 
         .points {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
-            font-size: 16px;
+            font-size: 14px;
             color: #111827;
         }
 
         .level-badge {
             background: #10b981;
             color: white;
-            padding: 3px 7px;
-            border-radius: 4px;
-            font-size: 11px;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 9px;
             font-weight: 600;
         }
 
@@ -371,7 +369,7 @@
             font-family: 'JetBrains Mono', monospace;
             font-weight: 600;
             color: #374151;
-            font-size: 14px;
+            font-size: 12px;
         }
 
         .activity-zero {
@@ -494,7 +492,7 @@
             }
             
             .table-section {
-                height: 500px; /* Меньше высота на планшетах */
+                height: 500px;
             }
         }
 
@@ -521,22 +519,17 @@
             }
             
             .level-label {
-                min-width: 120px;
-                font-size: 12px;
+                min-width: 100px;
+                font-size: 11px;
             }
             
             .table-section {
-                height: 400px; /* Еще меньше на мобильных */
+                height: 400px;
             }
             
-            /* Мобильные заголовки */
             .leaderboard-table thead th {
-                padding: 10px 6px;
-                font-size: 10px;
-            }
-            
-            .leaderboard-table thead tr:last-child th {
-                top: 40px; /* Меньше отступ на мобильных */
+                padding: 8px 4px;
+                font-size: 9px;
             }
         }
     </style>
@@ -666,27 +659,27 @@
                 <table class="leaderboard-table">
                     <thead>
                         <tr>
-                            <th rowspan="2" style="width: 60px;">Rank</th>
-                            <th rowspan="2" style="width: 140px;">User</th>
-                            <th rowspan="2" style="width: 120px;">Points & Level</th>
+                            <th rowspan="2" style="width: 50px;">Rank</th>
+                            <th rowspan="2" style="width: 100px;">User</th>
+                            <th rowspan="2" style="width: 90px;">Points & Level</th>
                             <th colspan="2" class="header-main">Send</th>
                             <th colspan="2" class="header-main">Zenith</th>
                             <th colspan="2" class="header-main">Faroswap</th>
                             <th colspan="2" class="header-main">Domains & NFT</th>
-                            <th rowspan="2" style="width: 70px;">RWAfi</th>
-                            <th rowspan="2" style="width: 70px;">Stake</th>
-                            <th rowspan="2" style="width: 80px;">BTC Bridge</th>
-                            <th rowspan="2" style="width: 80px;">CFD Trading</th>
+                            <th rowspan="2" style="width: 55px;">RWAfi</th>
+                            <th rowspan="2" style="width: 55px;">Stake</th>
+                            <th rowspan="2" style="width: 60px;">BTC Bridge</th>
+                            <th rowspan="2" style="width: 60px;">CFD Trading</th>
                         </tr>
                         <tr>
-                            <th class="header-sub" style="width: 60px;">Onchain</th>
-                            <th class="header-sub" style="width: 70px;">Primuslabs</th>
-                            <th class="header-sub" style="width: 60px;">Swaps</th>
-                            <th class="header-sub" style="width: 50px;">LP</th>
-                            <th class="header-sub" style="width: 60px;">Swaps</th>
-                            <th class="header-sub" style="width: 50px;">LP</th>
-                            <th class="header-sub" style="width: 60px;">Domains</th>
-                            <th class="header-sub" style="width: 50px;">NFTs</th>
+                            <th class="header-sub" style="width: 50px;">Onchain</th>
+                            <th class="header-sub" style="width: 55px;">Primuslabs</th>
+                            <th class="header-sub" style="width: 50px;">Swaps</th>
+                            <th class="header-sub" style="width: 40px;">LP</th>
+                            <th class="header-sub" style="width: 50px;">Swaps</th>
+                            <th class="header-sub" style="width: 40px;">LP</th>
+                            <th class="header-sub" style="width: 50px;">Domains</th>
+                            <th class="header-sub" style="width: 40px;">NFTs</th>
                         </tr>
                     </thead>
                     <tbody id="leaderboardBody">
@@ -1071,7 +1064,7 @@
             console.log('🚀 Initializing Pharos Leaderboard...');
             
             setupEventListeners();
-            initializeStickyHeaders(); // Инициализируем sticky заголовки
+            initializeStickyHeaders();
             await loadLeaderboard();
             
             console.log('✅ Leaderboard initialized');
