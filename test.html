@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pharos Testnet Leaderboard - Top 100 Rankings</title>
     <meta name="description" content="Live Pharos testnet leaderboard with top 100 users and detailed activity breakdown by protocol.">
-    <link rel="icon" type="image/webp" href="./leaderboard_logo.webp">
+    <link rel="icon" type="image/webp" href="./logo.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,9 +16,10 @@
         
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #fafafa;
+            background: linear-gradient(135deg, #f5f2ed 0%, #e8eaf6 30%, #e3f2fd 60%, #bbdefb 100%);
             color: #1f2937;
             line-height: 1.5;
+            min-height: 100vh;
         }
 
         /* Container */
@@ -30,12 +31,13 @@
 
         /* Header */
         .header {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 24px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            padding: 32px;
             margin-bottom: 24px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
         }
 
         .header-content {
@@ -45,20 +47,22 @@
         }
 
         .header-left h1 {
-            font-size: 28px;
-            font-weight: 800;
+            font-size: 36px;
+            font-weight: 900;
             color: #111827;
-            margin-bottom: 4px;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
         }
 
         .header-left p {
             color: #6b7280;
-            font-size: 14px;
+            font-size: 16px;
+            font-weight: 500;
         }
 
         .header-stats {
             display: flex;
-            gap: 32px;
+            gap: 40px;
         }
 
         .stat-item {
@@ -67,14 +71,14 @@
 
         .stat-value {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 700;
             color: #111827;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
         .stat-label {
-            font-size: 12px;
+            font-size: 13px;
             color: #6b7280;
             text-transform: uppercase;
             font-weight: 600;
@@ -83,122 +87,216 @@
 
         /* Update Info */
         .update-info {
-            background: #f0f9ff;
-            border: 1px solid #bae6fd;
-            border-radius: 6px;
-            padding: 12px 16px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 16px;
+            padding: 16px 20px;
             margin-bottom: 24px;
-            font-size: 13px;
-            color: #0369a1;
+            font-size: 14px;
+            color: #1d4ed8;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            backdrop-filter: blur(10px);
         }
 
         .update-dot {
-            width: 6px;
-            height: 6px;
-            background: #0ea5e9;
+            width: 8px;
+            height: 8px;
+            background: #3b82f6;
             border-radius: 50%;
             animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.1); }
         }
+
+        /* Distribution Section */
+        .distribution-section {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .distribution-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #111827;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .level-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .level-bar {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .level-label {
+            min-width: 160px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .level-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+            color: #666;
+        }
+
+        .bar-container {
+            flex: 1;
+            height: 32px;
+            background: rgba(243, 244, 246, 0.8);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 12px;
+            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .level-stats {
+            min-width: 160px;
+            text-align: right;
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .level-count {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        /* Level Colors */
+        .level-1 { background: linear-gradient(90deg, #6b7280, #4b5563); }
+        .level-2 { background: linear-gradient(90deg, #84cc16, #65a30d); }
+        .level-3 { background: linear-gradient(90deg, #06b6d4, #0891b2); }
+        .level-4 { background: linear-gradient(90deg, #8b5cf6, #7c3aed); }
+        .level-5 { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
 
         /* Main Table Section */
         .table-section {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
         }
 
         .table-header {
-            background: #f9fafb;
-            padding: 16px 24px;
-            border-bottom: 1px solid #e5e7eb;
+            background: rgba(249, 250, 251, 0.9);
+            padding: 24px 32px;
+            border-bottom: 1px solid rgba(229, 231, 235, 0.5);
         }
 
         .table-title {
-            font-size: 18px;
-            font-weight: 700;
+            font-size: 20px;
+            font-weight: 800;
             color: #111827;
         }
 
         /* Table */
         .table-container {
             overflow-x: auto;
+            max-height: 600px;
+            overflow-y: auto;
         }
 
         .leaderboard-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 15px;
+            font-size: 14px;
         }
 
         /* Table Headers */
         .leaderboard-table thead th {
-            background: #f9fafb;
-            padding: 14px 10px;
+            background: rgba(249, 250, 251, 0.95);
+            padding: 16px 12px;
             text-align: center;
             font-weight: 600;
             color: #374151;
-            border-right: 1px solid #e5e7eb;
-            border-bottom: 2px solid #e5e7eb;
+            border-right: 1px solid rgba(229, 231, 235, 0.5);
+            border-bottom: 2px solid rgba(229, 231, 235, 0.8);
             text-transform: uppercase;
-            font-size: 12px;
+            font-size: 11px;
             letter-spacing: 0.5px;
             position: sticky;
             top: 0;
             z-index: 10;
+            backdrop-filter: blur(10px);
         }
 
         .leaderboard-table thead th:last-child {
             border-right: none;
         }
 
-        /* Multi-level headers */
         .header-main {
             border-bottom: 1px solid #d1d5db;
-            padding: 8px;
+            padding: 10px;
         }
 
         .header-sub {
-            padding: 8px;
-            font-size: 11px;
+            padding: 10px;
+            font-size: 10px;
             font-weight: 500;
         }
 
-        /* Table Body - Zebra Effect */
+        /* Table Body */
         .leaderboard-table tbody tr:nth-child(odd) {
-            background: white;
+            background: rgba(255, 255, 255, 0.7);
         }
 
         .leaderboard-table tbody tr:nth-child(even) {
-            background: #f8fafc;
+            background: rgba(248, 250, 252, 0.7);
         }
 
         .leaderboard-table tbody tr {
-            border-bottom: 1px solid #f3f4f6;
-            transition: background-color 0.15s ease;
+            border-bottom: 1px solid rgba(243, 244, 246, 0.5);
+            transition: all 0.2s ease;
         }
 
         .leaderboard-table tbody tr:hover {
-            background: #f1f5f9 !important;
-        }
-
-        .leaderboard-table tbody tr:last-child {
-            border-bottom: none;
+            background: rgba(241, 245, 249, 0.9) !important;
+            transform: scale(1.01);
         }
 
         .leaderboard-table td {
-            padding: 14px 10px;
+            padding: 16px 12px;
             text-align: center;
-            border-right: 1px solid #f3f4f6;
+            border-right: 1px solid rgba(243, 244, 246, 0.5);
             vertical-align: middle;
         }
 
@@ -206,48 +304,31 @@
             border-right: none;
         }
 
-        /* Sub-columns within cells */
-        .sub-columns {
-            display: flex;
-            height: 100%;
-        }
-
-        .sub-column {
-            flex: 1;
-            padding: 0 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .sub-column:not(:last-child) {
-            border-right: 1px solid #e5e7eb;
-        }
-
         /* Rank Column */
         .rank {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
-            font-size: 15px;
-            width: 34px;
-            height: 34px;
-            border-radius: 6px;
+            font-size: 16px;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .rank-1 { background: #fbbf24; color: #92400e; }
-        .rank-2 { background: #d1d5db; color: #374151; }
-        .rank-3 { background: #f59e0b; color: #92400e; }
-        .rank-top10 { background: #dbeafe; color: #1d4ed8; }
-        .rank-default { background: #f3f4f6; color: #6b7280; }
+        .rank-1 { background: linear-gradient(145deg, #fbbf24, #f59e0b); color: #92400e; }
+        .rank-2 { background: linear-gradient(145deg, #d1d5db, #9ca3af); color: #374151; }
+        .rank-3 { background: linear-gradient(145deg, #f59e0b, #d97706); color: #92400e; }
+        .rank-top10 { background: linear-gradient(145deg, #dbeafe, #bfdbfe); color: #1d4ed8; }
+        .rank-default { background: linear-gradient(145deg, #f3f4f6, #e5e7eb); color: #6b7280; }
 
         /* User Column */
         .user-info {
             text-align: left;
-            min-width: 120px;
+            min-width: 140px;
         }
 
         .address {
@@ -262,24 +343,25 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
-            min-width: 100px;
+            gap: 6px;
+            min-width: 120px;
         }
 
         .points {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
-            font-size: 16px;
+            font-size: 18px;
             color: #111827;
         }
 
         .level-badge {
-            background: #10b981;
+            background: linear-gradient(145deg, #10b981, #059669);
             color: white;
-            padding: 3px 7px;
-            border-radius: 4px;
+            padding: 4px 10px;
+            border-radius: 8px;
             font-size: 11px;
             font-weight: 600;
+            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
         }
 
         /* Activity Numbers */
@@ -298,19 +380,28 @@
         .loading {
             display: none;
             text-align: center;
-            padding: 60px 20px;
+            padding: 80px 20px;
         }
 
         .loading.show { display: block; }
 
+        .loading-content {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            display: inline-block;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
         .loading-spinner {
-            width: 32px;
-            height: 32px;
-            border: 3px solid #f3f4f6;
-            border-top: 3px solid #3b82f6;
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(59, 130, 246, 0.2);
+            border-top: 4px solid #3b82f6;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 16px;
+            margin: 0 auto 20px;
         }
 
         @keyframes spin {
@@ -318,172 +409,121 @@
             100% { transform: rotate(360deg); }
         }
 
+        .loading-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: #6b7280;
+        }
+
         .error-state {
-            background: #fef2f2;
-            border: 1px solid #fecaca;
-            border-radius: 6px;
-            padding: 24px;
+            background: rgba(254, 242, 242, 0.9);
+            border: 1px solid rgba(254, 202, 202, 0.5);
+            border-radius: 20px;
+            padding: 40px;
             text-align: center;
             margin: 20px 0;
+            backdrop-filter: blur(20px);
         }
 
         .error-title {
-            font-size: 16px;
-            font-weight: 600;
+            font-size: 20px;
+            font-weight: 700;
             color: #dc2626;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
 
         .error-message {
             color: #6b7280;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
+            font-size: 14px;
         }
 
         .retry-btn {
-            background: #3b82f6;
+            background: linear-gradient(145deg, #3b82f6, #2563eb);
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
         }
 
         .retry-btn:hover {
-            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.4);
         }
 
-        /* Distribution Section */
-        .distribution-section {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .distribution-header {
-            margin-bottom: 20px;
-        }
-
-        .distribution-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #111827;
-        }
-
-        /* Level Bars */
-        .level-bars {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .level-bar {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .level-label {
-            min-width: 140px;
-            font-size: 13px;
-            font-weight: 600;
-            color: #374151;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .level-icon {
-            width: 24px;
-            height: 24px;
-            border-radius: 4px;
-            object-fit: cover;
-        }
-
-        .bar-container {
-            flex: 1;
-            height: 24px;
-            background: #f3f4f6;
-            border-radius: 6px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .bar-fill {
-            height: 100%;
-            border-radius: 6px;
-            transition: width 0.6s ease;
-        }
-
-        .level-stats {
-            min-width: 140px;
-            text-align: right;
-            font-size: 12px;
-            color: #6b7280;
-        }
-
-        .level-count {
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 600;
-            color: #111827;
-        }
-
-        /* Level Colors */
-        .level-1 { background: linear-gradient(90deg, #6b7280, #4b5563); }
-        .level-2 { background: linear-gradient(90deg, #84cc16, #65a30d); }
-        .level-3 { background: linear-gradient(90deg, #06b6d4, #0891b2); }
-        .level-4 { background: linear-gradient(90deg, #8b5cf6, #7c3aed); }
-        .level-5 { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
-
-        /* Pagination */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
+        /* Debug Info */
+        .debug-info {
+            background: rgba(17, 24, 39, 0.9);
+            color: #e5e7eb;
+            border-radius: 16px;
             padding: 20px;
-            background: #f9fafb;
-            border-top: 1px solid #e5e7eb;
-        }
-
-        .pagination-btn {
-            padding: 8px 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            background: white;
-            color: #374151;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            min-width: 36px;
-            text-align: center;
-        }
-
-        .pagination-btn:hover:not(:disabled) {
-            background: #f3f4f6;
-            border-color: #9ca3af;
-        }
-
-        .pagination-btn.active {
-            background: #3b82f6;
-            border-color: #3b82f6;
-            color: white;
-        }
-
-        .pagination-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .pagination-info {
+            margin-bottom: 24px;
+            font-family: 'JetBrains Mono', monospace;
             font-size: 12px;
-            color: #6b7280;
-            margin: 0 16px;
+            display: none;
+            backdrop-filter: blur(20px);
+        }
+
+        .debug-info.show { display: block; }
+
+        .debug-title {
+            color: #60a5fa;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .header-content {
+                flex-direction: column;
+                gap: 24px;
+                text-align: center;
+            }
+            
+            .header-stats {
+                gap: 32px;
+            }
+            
+            .table-container {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .header {
+                padding: 24px;
+            }
+            
+            .header-left h1 {
+                font-size: 28px;
+            }
+            
+            .header-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .level-bars {
+                gap: 12px;
+            }
+            
+            .level-label {
+                min-width: 120px;
+                font-size: 12px;
+            }
+            
+            .level-stats {
+                min-width: 120px;
+            }
         }
     </style>
 </head>
@@ -493,7 +533,7 @@
         <div class="header">
             <div class="header-content">
                 <div class="header-left">
-                    <h1>Pharos Leaderboard</h1>
+                    <h1>🏆 Pharos Leaderboard</h1>
                     <p>Top 100 users ranked by total points</p>
                 </div>
                 <div class="header-stats">
@@ -519,16 +559,22 @@
             <span id="updateText">Loading...</span>
         </div>
 
+        <!-- Debug Info -->
+        <div class="debug-info" id="debugInfo">
+            <div class="debug-title">🔧 Debug Information</div>
+            <div id="debugContent">Initializing...</div>
+        </div>
+
         <!-- User Distribution Section -->
         <div class="distribution-section" id="distributionSection" style="display: none;">
-            <div class="distribution-header">
-                <div class="distribution-title">📊 User Distribution by Level</div>
+            <div class="distribution-title">
+                📊 User Distribution by Level
             </div>
             
             <div class="level-bars" id="levelBars">
-                <div class="level-bar">
+                <div class="level-bar" data-level="1">
                     <div class="level-label">
-                        <img src="./level1.png" alt="Level 1" class="level-icon">
+                        <div class="level-icon">1</div>
                         Lv.1 (0-1,000)
                     </div>
                     <div class="bar-container">
@@ -538,9 +584,9 @@
                         <span class="level-count">0</span> users (0.0%)
                     </div>
                 </div>
-                <div class="level-bar">
+                <div class="level-bar" data-level="2">
                     <div class="level-label">
-                        <img src="./level2.png" alt="Level 2" class="level-icon">
+                        <div class="level-icon">2</div>
                         Lv.2 (1,001-3,500)
                     </div>
                     <div class="bar-container">
@@ -550,9 +596,9 @@
                         <span class="level-count">0</span> users (0.0%)
                     </div>
                 </div>
-                <div class="level-bar">
+                <div class="level-bar" data-level="3">
                     <div class="level-label">
-                        <img src="./level3.png" alt="Level 3" class="level-icon">
+                        <div class="level-icon">3</div>
                         Lv.3 (3,501-6,000)
                     </div>
                     <div class="bar-container">
@@ -562,9 +608,9 @@
                         <span class="level-count">0</span> users (0.0%)
                     </div>
                 </div>
-                <div class="level-bar">
+                <div class="level-bar" data-level="4">
                     <div class="level-label">
-                        <img src="./level4.png" alt="Level 4" class="level-icon">
+                        <div class="level-icon">4</div>
                         Lv.4 (6,001-10,000)
                     </div>
                     <div class="bar-container">
@@ -574,9 +620,9 @@
                         <span class="level-count">0</span> users (0.0%)
                     </div>
                 </div>
-                <div class="level-bar">
+                <div class="level-bar" data-level="5">
                     <div class="level-label">
-                        <img src="./level5.png" alt="Level 5" class="level-icon">
+                        <div class="level-icon">5</div>
                         Lv.5 (10,001+)
                     </div>
                     <div class="bar-container">
@@ -591,66 +637,56 @@
 
         <!-- Loading State -->
         <div class="loading" id="loading">
-            <div class="loading-spinner"></div>
-            <p>Loading leaderboard data...</p>
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <p class="loading-text">Loading leaderboard data...</p>
+            </div>
         </div>
 
         <!-- Error State -->
         <div class="error-state" id="errorState" style="display: none;">
-            <div class="error-title">Connection Error</div>
-            <div class="error-message">Unable to load leaderboard data. Please try again.</div>
-            <button class="retry-btn" onclick="loadLeaderboard()">Retry</button>
+            <div class="error-title">⚠️ Connection Error</div>
+            <div class="error-message" id="errorMessage">Unable to load leaderboard data. Please try again.</div>
+            <button class="retry-btn" onclick="loadLeaderboard()">🔄 Retry</button>
         </div>
 
         <!-- Main Table -->
         <div class="table-section" id="tableSection" style="display: none;">
             <div class="table-header">
-                <div class="table-title">Top 100 Users</div>
+                <div class="table-title">👑 Top 100 Users</div>
             </div>
             
             <div class="table-container">
                 <table class="leaderboard-table">
                     <thead>
                         <tr>
-                            <th rowspan="2" style="width: 60px;">Rank</th>
-                            <th rowspan="2" style="width: 140px;">User</th>
-                            <th rowspan="2" style="width: 120px;">Points & Level</th>
+                            <th rowspan="2" style="width: 80px;">Rank</th>
+                            <th rowspan="2" style="width: 160px;">User</th>
+                            <th rowspan="2" style="width: 140px;">Points & Level</th>
                             <th colspan="2" class="header-main">Send</th>
                             <th colspan="2" class="header-main">Zenith</th>
                             <th colspan="2" class="header-main">Faroswap</th>
-                            <th colspan="2" class="header-main">Domains & NFT</th>
-                            <th rowspan="2" style="width: 70px;">RWAfi</th>
-                            <th rowspan="2" style="width: 70px;">Stake</th>
-                            <th rowspan="2" style="width: 80px;">BTC Bridge</th>
-                            <th rowspan="2" style="width: 80px;">CFD Trading</th>
+                            <th colspan="2" class="header-main">NFT & Domains</th>
+                            <th rowspan="2" style="width: 80px;">RWAfi</th>
+                            <th rowspan="2" style="width: 80px;">Stake</th>
+                            <th rowspan="2" style="width: 90px;">BTC Bridge</th>
+                            <th rowspan="2" style="width: 90px;">CFD Trading</th>
                         </tr>
                         <tr>
-                            <th class="header-sub" style="width: 60px;">Onchain</th>
-                            <th class="header-sub" style="width: 70px;">Primuslabs</th>
-                            <th class="header-sub" style="width: 60px;">Swaps</th>
-                            <th class="header-sub" style="width: 50px;">LP</th>
-                            <th class="header-sub" style="width: 60px;">Swaps</th>
-                            <th class="header-sub" style="width: 50px;">LP</th>
-                            <th class="header-sub" style="width: 60px;">Domains</th>
-                            <th class="header-sub" style="width: 50px;">NFTs</th>
+                            <th class="header-sub" style="width: 70px;">Onchain</th>
+                            <th class="header-sub" style="width: 80px;">Primuslabs</th>
+                            <th class="header-sub" style="width: 70px;">Swaps</th>
+                            <th class="header-sub" style="width: 60px;">LP</th>
+                            <th class="header-sub" style="width: 70px;">Swaps</th>
+                            <th class="header-sub" style="width: 60px;">LP</th>
+                            <th class="header-sub" style="width: 70px;">Domains</th>
+                            <th class="header-sub" style="width: 60px;">NFTs</th>
                         </tr>
                     </thead>
                     <tbody id="leaderboardBody">
                         <!-- Dynamic content -->
                     </tbody>
                 </table>
-            </div>
-
-            <!-- Pagination -->
-            <div class="pagination">
-                <button class="pagination-btn" id="prevBtn" disabled>← Prev</button>
-                <span class="pagination-info" id="paginationInfo">Page 1 of 5</span>
-                <button class="pagination-btn" data-page="1" class="active">1</button>
-                <button class="pagination-btn" data-page="2">2</button>
-                <button class="pagination-btn" data-page="3">3</button>
-                <button class="pagination-btn" data-page="4">4</button>
-                <button class="pagination-btn" data-page="5">5</button>
-                <button class="pagination-btn" id="nextBtn">Next →</button>
             </div>
         </div>
     </div>
@@ -663,23 +699,23 @@
         let updateTimer = null;
         let isLoading = false;
         
-        const USERS_PER_PAGE = 20;
-        const TOTAL_PAGES = 5;
+        const USERS_PER_PAGE = 100; // Show all top 100
         const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
 
-        // Level structure
+        // Level structure matching backend
         const LEVEL_STRUCTURE = [
-            { name: "Lv.1", min: 0, max: 1000, icon: "./level1.png" },
-            { name: "Lv.2", min: 1001, max: 3500, icon: "./level2.png" },
-            { name: "Lv.3", min: 3501, max: 6000, icon: "./level3.png" },
-            { name: "Lv.4", min: 6001, max: 10000, icon: "./level4.png" },
-            { name: "Lv.5", min: 10001, max: Infinity, icon: "./level5.png" }
+            { name: "Lv.1", min: 0, max: 1000, key: "level-1" },
+            { name: "Lv.2", min: 1001, max: 3500, key: "level-2" },
+            { name: "Lv.3", min: 3501, max: 6000, key: "level-3" },
+            { name: "Lv.4", min: 6001, max: 10000, key: "level-4" },
+            { name: "Lv.5", min: 10001, max: Infinity, key: "level-5" }
         ];
 
         // DOM elements
         const elements = {
             loading: document.getElementById('loading'),
             errorState: document.getElementById('errorState'),
+            errorMessage: document.getElementById('errorMessage'),
             tableSection: document.getElementById('tableSection'),
             leaderboardBody: document.getElementById('leaderboardBody'),
             totalUsers: document.getElementById('totalUsers'),
@@ -687,19 +723,21 @@
             topScore: document.getElementById('topScore'),
             updateInfo: document.getElementById('updateInfo'),
             updateText: document.getElementById('updateText'),
-            paginationInfo: document.getElementById('paginationInfo'),
-            prevBtn: document.getElementById('prevBtn'),
-            nextBtn: document.getElementById('nextBtn')
+            distributionSection: document.getElementById('distributionSection'),
+            debugInfo: document.getElementById('debugInfo'),
+            debugContent: document.getElementById('debugContent')
         };
 
         // Utility functions
         function formatNumber(num) {
+            if (typeof num !== 'number' || isNaN(num)) return '0';
             if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
             if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
-            return num.toString();
+            return num.toLocaleString();
         }
 
         function formatAddress(address) {
+            if (!address || typeof address !== 'string') return 'Invalid';
             return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
         }
 
@@ -711,7 +749,20 @@
             return 'rank-default';
         }
 
-        
+        // Debug logging
+        function debugLog(message, data = null) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${message}`;
+            
+            console.log(logEntry, data || '');
+            
+            // Update debug panel
+            const debugContent = document.getElementById('debugContent');
+            if (debugContent) {
+                const currentContent = debugContent.innerHTML;
+                debugContent.innerHTML = `${logEntry}${data ? ': ' + JSON.stringify(data, null, 2) : ''}\n${currentContent}`;
+            }
+        }
 
         // Time formatting
         function formatTimeAgo(timestamp) {
@@ -778,6 +829,30 @@
         function createTableRow(user, globalIndex) {
             const rank = globalIndex + 1;
             
+            // Validate user data
+            if (!user || typeof user !== 'object') {
+                debugLog(`Invalid user data at index ${globalIndex}`, user);
+                return '';
+            }
+            
+            const address = user.address || 'Unknown';
+            const totalPoints = parseInt(user.total_points) || 0;
+            const currentLevel = parseInt(user.current_level) || 1;
+            
+            // Activity counts with validation
+            const sendCount = parseInt(user.send_count) || 0;
+            const primuslabsSend = parseInt(user.primuslabs_send) || 0;
+            const swapCount = parseInt(user.swap_count) || 0;
+            const lpCount = parseInt(user.lp_count) || 0;
+            const faroswapSwaps = parseInt(user.faroswap_swaps) || 0;
+            const faroswapLp = parseInt(user.faroswap_lp) || 0;
+            const mintDomain = parseInt(user.mint_domain) || 0;
+            const mintNft = parseInt(user.mint_nft) || 0;
+            const aquaflux = parseInt(user.aquaflux) || 0;
+            const autostaking = parseInt(user.autostaking) || 0;
+            const fiammaBridge = parseInt(user.fiamma_bridge) || 0;
+            const brokex = parseInt(user.brokex) || 0;
+            
             return `
                 <tr>
                     <td>
@@ -785,82 +860,58 @@
                     </td>
                     <td>
                         <div class="user-info">
-                            <div class="address">${formatAddress(user.address)}</div>
+                            <div class="address">${formatAddress(address)}</div>
                         </div>
                     </td>
                     <td>
                         <div class="points-level">
-                            <div class="points">${formatNumber(user.total_points)}</div>
-                            <div class="level-badge">LVL ${user.current_level}</div>
+                            <div class="points">${formatNumber(totalPoints)}</div>
+                            <div class="level-badge">LVL ${currentLevel}</div>
                         </div>
                     </td>
-                    <td><span class="activity-number ${(user.send_count || 0) === 0 ? 'activity-zero' : ''}">${user.send_count || 0}</span></td>
-                    <td><span class="activity-number ${(user.primuslabs_send || 0) === 0 ? 'activity-zero' : ''}">${user.primuslabs_send || 0}</span></td>
-                    <td><span class="activity-number ${(user.swap_count || 0) === 0 ? 'activity-zero' : ''}">${user.swap_count || 0}</span></td>
-                    <td><span class="activity-number ${(user.lp_count || 0) === 0 ? 'activity-zero' : ''}">${user.lp_count || 0}</span></td>
-                    <td><span class="activity-number ${(user.faroswap_swaps || 0) === 0 ? 'activity-zero' : ''}">${user.faroswap_swaps || 0}</span></td>
-                    <td><span class="activity-number ${(user.faroswap_lp || 0) === 0 ? 'activity-zero' : ''}">${user.faroswap_lp || 0}</span></td>
-                    <td><span class="activity-number ${(user.mint_domain || 0) === 0 ? 'activity-zero' : ''}">${user.mint_domain || 0}</span></td>
-                    <td><span class="activity-number ${(user.mint_nft || 0) === 0 ? 'activity-zero' : ''}">${user.mint_nft || 0}</span></td>
-                    <td><span class="activity-number ${(user.aquaflux || 0) === 0 ? 'activity-zero' : ''}">${user.aquaflux || 0}</span></td>
-                    <td><span class="activity-number ${(user.autostaking || 0) === 0 ? 'activity-zero' : ''}">${user.autostaking || 0}</span></td>
-                    <td><span class="activity-number ${(user.fiamma_bridge || 0) === 0 ? 'activity-zero' : ''}">${user.fiamma_bridge || 0}</span></td>
-                    <td><span class="activity-number ${(user.brokex || 0) === 0 ? 'activity-zero' : ''}">${user.brokex || 0}</span></td>
+                    <td><span class="activity-number ${sendCount === 0 ? 'activity-zero' : ''}">${sendCount}</span></td>
+                    <td><span class="activity-number ${primuslabsSend === 0 ? 'activity-zero' : ''}">${primuslabsSend}</span></td>
+                    <td><span class="activity-number ${swapCount === 0 ? 'activity-zero' : ''}">${swapCount}</span></td>
+                    <td><span class="activity-number ${lpCount === 0 ? 'activity-zero' : ''}">${lpCount}</span></td>
+                    <td><span class="activity-number ${faroswapSwaps === 0 ? 'activity-zero' : ''}">${faroswapSwaps}</span></td>
+                    <td><span class="activity-number ${faroswapLp === 0 ? 'activity-zero' : ''}">${faroswapLp}</span></td>
+                    <td><span class="activity-number ${mintDomain === 0 ? 'activity-zero' : ''}">${mintDomain}</span></td>
+                    <td><span class="activity-number ${mintNft === 0 ? 'activity-zero' : ''}">${mintNft}</span></td>
+                    <td><span class="activity-number ${aquaflux === 0 ? 'activity-zero' : ''}">${aquaflux}</span></td>
+                    <td><span class="activity-number ${autostaking === 0 ? 'activity-zero' : ''}">${autostaking}</span></td>
+                    <td><span class="activity-number ${fiammaBridge === 0 ? 'activity-zero' : ''}">${fiammaBridge}</span></td>
+                    <td><span class="activity-number ${brokex === 0 ? 'activity-zero' : ''}">${brokex}</span></td>
                 </tr>
             `;
         }
 
         // Render table
         function renderTable() {
+            debugLog(`Rendering table with ${allUsers.length} users`);
+            
             if (!allUsers || allUsers.length === 0) {
                 elements.leaderboardBody.innerHTML = `
                     <tr>
                         <td colspan="15" style="text-align: center; padding: 40px; color: #6b7280;">
-                            No data available
+                            ❌ No leaderboard data available
                         </td>
                     </tr>
                 `;
                 return;
             }
 
-            const startIndex = (currentPage - 1) * USERS_PER_PAGE;
-            const endIndex = startIndex + USERS_PER_PAGE;
-            const currentPageUsers = allUsers.slice(startIndex, endIndex);
-
-            const rowsHtml = currentPageUsers.map((user, localIndex) => {
-                const globalIndex = startIndex + localIndex;
-                return createTableRow(user, globalIndex);
+            const rowsHtml = allUsers.map((user, index) => {
+                return createTableRow(user, index);
             }).join('');
 
             elements.leaderboardBody.innerHTML = rowsHtml;
-            updatePaginationInfo();
-        }
-
-        // Update pagination
-        function updatePaginationInfo() {
-            const startRank = (currentPage - 1) * USERS_PER_PAGE + 1;
-            const endRank = Math.min(currentPage * USERS_PER_PAGE, allUsers.length);
-            elements.paginationInfo.textContent = `Showing ${startRank}-${endRank} of ${allUsers.length}`;
-            
-            // Update buttons
-            document.querySelectorAll('.pagination-btn[data-page]').forEach(btn => {
-                btn.classList.toggle('active', parseInt(btn.dataset.page) === currentPage);
-            });
-            
-            elements.prevBtn.disabled = currentPage === 1;
-            elements.nextBtn.disabled = currentPage === TOTAL_PAGES;
-        }
-
-        // Page navigation
-        function changePage(page) {
-            if (page === currentPage || page < 1 || page > TOTAL_PAGES) return;
-            
-            currentPage = page;
-            renderTable();
+            debugLog(`Table rendered successfully with ${allUsers.length} rows`);
         }
 
         // Animation functions
-        function animateValue(element, start, end, duration = 1000) {
+        function animateValue(element, start, end, duration = 1500) {
+            if (!element) return;
+            
             const startTime = performance.now();
             const range = end - start;
 
@@ -879,145 +930,326 @@
             requestAnimationFrame(update);
         }
 
-        // Update statistics
+        // Update statistics with animation
         function updateStatistics(data) {
-            elements.totalUsers.textContent = formatNumber(data.total_users || 0);
-            elements.totalChecks.textContent = formatNumber(data.total_checks || 0);
-            elements.topScore.textContent = formatNumber(data.leaderboard?.[0]?.total_points || 0);
+            debugLog('Updating statistics', {
+                totalUsers: data.total_users,
+                totalChecks: data.total_checks,
+                topScore: data.leaderboard?.[0]?.total_points
+            });
+            
+            const totalUsers = parseInt(data.total_users) || 0;
+            const totalChecks = parseInt(data.total_checks) || 0;
+            const topScore = parseInt(data.leaderboard?.[0]?.total_points) || 0;
+            
+            animateValue(elements.totalUsers, 0, totalUsers);
+            animateValue(elements.totalChecks, 0, totalChecks);
+            animateValue(elements.topScore, 0, topScore);
         }
 
-        // Show/hide states
-        function showLoading() {
-            elements.loading.classList.add('show');
-            elements.errorState.style.display = 'none';
-            elements.tableSection.style.display = 'none';
-            document.getElementById('distributionSection').style.display = 'none';
-            stopUpdateTimer();
-        }
+        // ИСПРАВЛЕННАЯ функция updateLevelDistribution
+        function updateLevelDistribution(levelDistributionData) {
+            debugLog('Updating level distribution', levelDistributionData);
+            
+            if (!levelDistributionData || typeof levelDistributionData !== 'object') {
+                debugLog('Invalid level distribution data');
+                return;
+            }
 
-        function showError() {
-            elements.loading.classList.remove('show');
-            elements.errorState.style.display = 'block';
-            elements.tableSection.style.display = 'none';
-            document.getElementById('distributionSection').style.display = 'none';
-            stopUpdateTimer();
-        }
-
-        function showTable() {
-            elements.loading.classList.remove('show');
-            elements.errorState.style.display = 'none';
-            elements.tableSection.style.display = 'block';
-            document.getElementById('distributionSection').style.display = 'block';
-        }
-
-        // Update level distribution bars
-        function updateLevelDistribution(users) {
-            if (!users || users.length === 0) return;
-
-            function updateLevelDistribution(levelDistribution) {
-            const totalUsers = users.length;
+            const totalUsers = Object.values(levelDistributionData).reduce((sum, count) => sum + (parseInt(count) || 0), 0);
+            
+            if (totalUsers === 0) {
+                debugLog('No users in level distribution');
+                return;
+            }
 
             // Find maximum count for bar width calculation
-            const maxCount = Math.max(...Object.values(levelDistribution));
+            const counts = Object.values(levelDistributionData).map(count => parseInt(count) || 0);
+            const maxCount = Math.max(...counts);
+
+            debugLog(`Total users: ${totalUsers}, Max count: ${maxCount}`);
 
             // Update each level bar
             LEVEL_STRUCTURE.forEach((level, index) => {
-                const count = levelDistribution[level.name] || 0;
+                const count = parseInt(levelDistributionData[level.key]) || 0;
                 const percentage = ((count / totalUsers) * 100).toFixed(1);
                 const barWidth = maxCount > 0 ? (count / maxCount) * 100 : 0;
 
+                debugLog(`Level ${level.name}: ${count} users (${percentage}%), bar width: ${barWidth}%`);
+
                 // Find the corresponding DOM elements
-                const levelBars = document.querySelectorAll('.level-bar');
-                if (levelBars[index]) {
-                    const barFill = levelBars[index].querySelector('.bar-fill');
-                    const countElement = levelBars[index].querySelector('.level-count');
-                    const statsElement = levelBars[index].querySelector('.level-stats');
+                const levelBar = document.querySelector(`.level-bar[data-level="${index + 1}"]`);
+                if (levelBar) {
+                    const barFill = levelBar.querySelector('.bar-fill');
+                    const countElement = levelBar.querySelector('.level-count');
+                    const statsElement = levelBar.querySelector('.level-stats');
 
                     if (barFill && countElement && statsElement) {
-                        // Update bar width with animation
+                        // Update bar width with staggered animation
                         setTimeout(() => {
                             barFill.style.width = `${barWidth}%`;
-                        }, index * 100); // Stagger animation
+                        }, index * 200);
 
                         // Update text
-                        countElement.textContent = formatNumber(count);
-                        statsElement.innerHTML = `<span class="level-count">${formatNumber(count)}</span> users (${percentage}%)`;
+                        setTimeout(() => {
+                            animateValue(countElement, 0, count, 1000);
+                            statsElement.innerHTML = `<span class="level-count">${formatNumber(count)}</span> users (${percentage}%)`;
+                        }, index * 200 + 500);
                     }
+                } else {
+                    debugLog(`Level bar not found for level ${index + 1}`);
                 }
             });
         }
 
-        // Load leaderboard data
+        // Show/hide states
+        function showLoading() {
+            debugLog('Showing loading state');
+            elements.loading.classList.add('show');
+            elements.errorState.style.display = 'none';
+            elements.tableSection.style.display = 'none';
+            elements.distributionSection.style.display = 'none';
+            stopUpdateTimer();
+        }
+
+        function showError(message = 'Unknown error occurred') {
+            debugLog('Showing error state', message);
+            elements.loading.classList.remove('show');
+            elements.errorState.style.display = 'block';
+            elements.tableSection.style.display = 'none';
+            elements.distributionSection.style.display = 'none';
+            elements.errorMessage.textContent = message;
+            stopUpdateTimer();
+        }
+
+        function showTable() {
+            debugLog('Showing table state');
+            elements.loading.classList.remove('show');
+            elements.errorState.style.display = 'none';
+            elements.tableSection.style.display = 'block';
+            elements.distributionSection.style.display = 'block';
+        }
+
+        // ИСПРАВЛЕННАЯ функция загрузки лидерборда
         async function loadLeaderboard() {
-            if (isLoading) return;
+            if (isLoading) {
+                debugLog('Already loading, skipping request');
+                return;
+            }
             
             isLoading = true;
             showLoading();
+            debugLog('Starting leaderboard load');
 
             try {
-                const response = await fetch('/api/admin/stats');
-                const data = await response.json();
+                // Test API connectivity first
+                debugLog('Testing API connectivity...');
                 
-                if (!response.ok || !data.success) {
-                    throw new Error(data.error || 'Failed to load data');
+                const healthResponse = await fetch('/api/health', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Cache-Control': 'no-cache'
+                    }
+                });
+                
+                debugLog(`Health check response: ${healthResponse.status}`);
+                
+                if (!healthResponse.ok) {
+                    throw new Error(`Health check failed: ${healthResponse.status}`);
+                }
+                
+                const healthData = await healthResponse.json();
+                debugLog('Health check data', healthData);
+                
+                // Now load actual leaderboard data
+                debugLog('Fetching leaderboard data...');
+                
+                const response = await fetch('/api/admin/stats', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Cache-Control': 'no-cache'
+                    }
+                });
+                
+                debugLog(`Leaderboard API response status: ${response.status}`);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    debugLog('API Error Response', errorText);
+                    throw new Error(`API returned ${response.status}: ${errorText}`);
+                }
+                
+                const data = await response.json();
+                debugLog('Leaderboard data received', {
+                    success: data.success,
+                    totalUsers: data.total_users,
+                    leaderboardLength: data.leaderboard?.length,
+                    levelDistribution: data.level_distribution
+                });
+                
+                if (!data.success) {
+                    throw new Error(data.error || 'API returned success: false');
                 }
 
-                allUsers = data.leaderboard || [];
+                // Validate data structure
+                if (!data.leaderboard || !Array.isArray(data.leaderboard)) {
+                    debugLog('Invalid leaderboard data structure', data);
+                    throw new Error('Invalid leaderboard data: missing or invalid leaderboard array');
+                }
+
+                allUsers = data.leaderboard;
                 lastUpdated = Date.now();
                 
+                debugLog(`Successfully loaded ${allUsers.length} users`);
+                
+                // Update UI components
                 updateStatistics(data);
-                updateLevelDistribution(data.level_distribution); // Use users array instead of point_distribution
+                
+                // Handle level distribution - check if it exists and is valid
+                if (data.level_distribution && typeof data.level_distribution === 'object') {
+                    updateLevelDistribution(data.level_distribution);
+                } else {
+                    debugLog('No valid level_distribution found, calculating from users');
+                    // Calculate distribution from user data as fallback
+                    const calculated = calculateLevelDistributionFromUsers(allUsers);
+                    updateLevelDistribution(calculated);
+                }
+                
                 renderTable();
                 startUpdateTimer();
                 showTable();
 
-                console.log(`✅ Loaded ${allUsers.length} users`);
+                debugLog(`✅ Leaderboard loaded successfully: ${allUsers.length} users`);
 
             } catch (error) {
-                console.error('❌ Error loading leaderboard:', error);
-                showError();
+                debugLog('❌ Error loading leaderboard', error.message);
+                console.error('Leaderboard load error:', error);
+                showError(`Failed to load leaderboard: ${error.message}`);
             } finally {
                 isLoading = false;
             }
         }
 
-        // Setup event listeners
-        function setupEventListeners() {
-            // Pagination
-            document.querySelectorAll('.pagination-btn[data-page]').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    changePage(parseInt(btn.dataset.page));
-                });
+        // Fallback: Calculate level distribution from users array
+        function calculateLevelDistributionFromUsers(users) {
+            debugLog('Calculating level distribution from users array');
+            
+            const distribution = {
+                'level-1': 0, 'level-2': 0, 'level-3': 0, 'level-4': 0, 'level-5': 0
+            };
+            
+            users.forEach(user => {
+                const points = parseInt(user.total_points) || 0;
+                
+                if (points <= 1000) {
+                    distribution['level-1']++;
+                } else if (points <= 3500) {
+                    distribution['level-2']++;
+                } else if (points <= 6000) {
+                    distribution['level-3']++;
+                } else if (points <= 10000) {
+                    distribution['level-4']++;
+                } else {
+                    distribution['level-5']++;
+                }
             });
-
-            elements.prevBtn.addEventListener('click', () => {
-                if (currentPage > 1) changePage(currentPage - 1);
-            });
-
-            elements.nextBtn.addEventListener('click', () => {
-                if (currentPage < TOTAL_PAGES) changePage(currentPage + 1);
-            });
+            
+            debugLog('Calculated distribution', distribution);
+            return distribution;
         }
 
-        // Initialize
+        // Enhanced error handling for fetch requests
+        async function safeFetch(url, options = {}) {
+            debugLog(`Making request to: ${url}`);
+            
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+                
+                const response = await fetch(url, {
+                    ...options,
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                return response;
+                
+            } catch (error) {
+                debugLog(`Fetch error for ${url}`, error.message);
+                throw error;
+            }
+        }
+
+        // Initialize with comprehensive error handling
         async function init() {
-            console.log('🚀 Initializing Pharos Leaderboard...');
+            debugLog('🚀 Initializing Pharos Leaderboard...');
             
-            setupEventListeners();
-            await loadLeaderboard();
+            // Show debug panel initially
+            elements.debugInfo.classList.add('show');
             
-            console.log('✅ Leaderboard initialized');
+            try {
+                // Test if we're in the right environment
+                debugLog('Environment check', {
+                    location: window.location.href,
+                    userAgent: navigator.userAgent.substring(0, 100)
+                });
+                
+                await loadLeaderboard();
+                
+                debugLog('✅ Leaderboard initialization completed');
+                
+                // Hide debug panel after successful load
+                setTimeout(() => {
+                    elements.debugInfo.classList.remove('show');
+                }, 5000);
+                
+            } catch (error) {
+                debugLog('❌ Initialization failed', error.message);
+                showError(`Initialization failed: ${error.message}`);
+            }
+        }
+
+        // Auto-refresh every 5 minutes
+        function startAutoRefresh() {
+            setInterval(() => {
+                debugLog('Auto-refreshing leaderboard...');
+                loadLeaderboard();
+            }, 5 * 60 * 1000); // 5 minutes
         }
 
         // Cleanup
-        window.addEventListener('beforeunload', stopUpdateTimer);
+        window.addEventListener('beforeunload', () => {
+            stopUpdateTimer();
+            debugLog('Page unloading, cleanup completed');
+        });
 
-        // Start
+        // Start the application
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
+            document.addEventListener('DOMContentLoaded', () => {
+                init();
+                startAutoRefresh();
+            });
         } else {
             init();
+            startAutoRefresh();
         }
+
+        // Global error handler
+        window.addEventListener('error', (event) => {
+            debugLog('Global error caught', {
+                message: event.message,
+                filename: event.filename,
+                lineno: event.lineno
+            });
+        });
+
+        // Add manual refresh button functionality
+        window.manualRefresh = function() {
+            debugLog('Manual refresh triggered');
+            loadLeaderboard();
+        };
     </script>
 </body>
 </html>
