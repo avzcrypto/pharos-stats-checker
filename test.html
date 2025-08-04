@@ -137,20 +137,20 @@
         .leaderboard-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 13px;
+            font-size: 15px; /* Увеличено с 13px */
         }
 
         /* Table Headers */
         .leaderboard-table thead th {
             background: #f9fafb;
-            padding: 12px 8px;
+            padding: 14px 10px; /* Увеличено с 12px 8px */
             text-align: center;
             font-weight: 600;
             color: #374151;
             border-right: 1px solid #e5e7eb;
             border-bottom: 2px solid #e5e7eb;
             text-transform: uppercase;
-            font-size: 11px;
+            font-size: 12px; /* Увеличено с 11px */
             letter-spacing: 0.5px;
             position: sticky;
             top: 0;
@@ -169,18 +169,26 @@
 
         .header-sub {
             padding: 8px;
-            font-size: 10px;
+            font-size: 11px; /* Увеличено с 10px */
             font-weight: 500;
         }
 
-        /* Table Body */
+        /* Table Body - Zebra Effect */
+        .leaderboard-table tbody tr:nth-child(odd) {
+            background: white;
+        }
+
+        .leaderboard-table tbody tr:nth-child(even) {
+            background: #f8fafc; /* Голубоватый оттенок */
+        }
+
         .leaderboard-table tbody tr {
             border-bottom: 1px solid #f3f4f6;
             transition: background-color 0.15s ease;
         }
 
         .leaderboard-table tbody tr:hover {
-            background: #f9fafb;
+            background: #f1f5f9 !important; /* Более заметный hover поверх зебры */
         }
 
         .leaderboard-table tbody tr:last-child {
@@ -188,7 +196,7 @@
         }
 
         .leaderboard-table td {
-            padding: 12px 8px;
+            padding: 14px 10px; /* Увеличено с 12px 8px */
             text-align: center;
             border-right: 1px solid #f3f4f6;
             vertical-align: middle;
@@ -220,9 +228,9 @@
         .rank {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
-            font-size: 14px;
-            width: 32px;
-            height: 32px;
+            font-size: 15px; /* Увеличено с 14px */
+            width: 34px; /* Увеличено с 32px */
+            height: 34px;
             border-radius: 6px;
             display: flex;
             align-items: center;
@@ -244,15 +252,9 @@
 
         .address {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
+            font-size: 13px; /* Увеличено с 12px */
             color: #1f2937;
             font-weight: 600;
-            margin-bottom: 2px;
-        }
-
-        .user-meta {
-            font-size: 10px;
-            color: #6b7280;
         }
 
         /* Points & Level */
@@ -267,16 +269,16 @@
         .points {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 16px; /* Увеличено с 14px */
             color: #111827;
         }
 
         .level-badge {
             background: #10b981;
             color: white;
-            padding: 2px 6px;
+            padding: 3px 7px; /* Увеличено с 2px 6px */
             border-radius: 4px;
-            font-size: 10px;
+            font-size: 11px; /* Увеличено с 10px */
             font-weight: 600;
         }
 
@@ -285,7 +287,7 @@
             font-family: 'JetBrains Mono', monospace;
             font-weight: 600;
             color: #374151;
-            font-size: 13px;
+            font-size: 14px; /* Увеличено с 13px */
         }
 
         .activity-zero {
@@ -618,7 +620,6 @@
                     <td>
                         <div class="user-info">
                             <div class="address">${formatAddress(user.address)}</div>
-                            <div class="user-meta">Checks: ${user.total_checks || 1}</div>
                         </div>
                     </td>
                     <td>
