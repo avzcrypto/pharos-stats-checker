@@ -463,9 +463,9 @@ class RedisManager:
                     'total_checks': 0,
                     'leaderboard': [],
                     'point_distribution': {
-                        '10000+': 0, '9000-9999': 0, '8000-8999': 0, '7000-7999': 0,
-                        '6000-6999': 0, '5000-5999': 0, '4000-4999': 0, '3000-3999': 0,
-                        'below-3000': 0
+                        '14000+': 0, '13000-13999': 0, '12000-12999': 0, '11000-11999': 0,
+    '10000-10999': 0, '9000-9999': 0, '8000-8999': 0, '7000-7999': 0,
+    '6000-6999': 0, 'below-6000': 0
                     },
                     'last_updated': datetime.now().isoformat()
                 }
@@ -521,28 +521,30 @@ class RedisManager:
             }
             
             for wallet_bytes, points in all_wallets:
-                try:
-                    points = int(points)
-                    if points >= 10000:
-                        point_distribution['10000+'] += 1
-                    elif points >= 9000:
-                        point_distribution['9000-9999'] += 1
-                    elif points >= 8000:
-                        point_distribution['8000-8999'] += 1
-                    elif points >= 7000:
-                        point_distribution['7000-7999'] += 1
-                    elif points >= 6000:
-                        point_distribution['6000-6999'] += 1
-                    elif points >= 5000:
-                        point_distribution['5000-5999'] += 1
-                    elif points >= 4000:
-                        point_distribution['4000-4999'] += 1
-                    elif points >= 3000:
-                        point_distribution['3000-3999'] += 1
-                    else:
-                        point_distribution['below-3000'] += 1
-                except (ValueError, TypeError):
-                    continue
+    try:
+        points = int(points)
+        if points >= 14000:
+            point_distribution['14000+'] += 1
+        elif points >= 13000:
+            point_distribution['13000-13999'] += 1
+        elif points >= 12000:
+            point_distribution['12000-12999'] += 1
+        elif points >= 11000:
+            point_distribution['11000-11999'] += 1
+        elif points >= 10000:
+            point_distribution['10000-10999'] += 1
+        elif points >= 9000:
+            point_distribution['9000-9999'] += 1
+        elif points >= 8000:
+            point_distribution['8000-8999'] += 1
+        elif points >= 7000:
+            point_distribution['7000-7999'] += 1
+        elif points >= 6000:
+            point_distribution['6000-6999'] += 1
+        else:
+            point_distribution['below-6000'] += 1
+    except (ValueError, TypeError):
+        continue
             
             total_users = len(all_wallets)
             
