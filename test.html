@@ -640,33 +640,40 @@
                 <div class="table-title">Top 100 Users</div>
             </div>
             
-            <div class="table-container">
-                <table class="leaderboard-table">
+            <!-- Фиксированные заголовки отдельно -->
+            <div class="fixed-table-header">
+                <table class="fixed-header-table">
                     <thead>
                         <tr>
-                            <th rowspan="2" style="width: 60px;">Rank</th>
-                            <th rowspan="2" style="width: 140px;">User</th>
-                            <th rowspan="2" style="width: 120px;">Points & Level</th>
-                            <th colspan="2" class="header-main">Send</th>
-                            <th colspan="2" class="header-main">Zenith</th>
-                            <th colspan="2" class="header-main">Faroswap</th>
-                            <th colspan="2" class="header-main">Domains & NFT</th>
-                            <th rowspan="2" style="width: 70px;">RWAfi</th>
-                            <th rowspan="2" style="width: 70px;">Stake</th>
-                            <th rowspan="2" style="width: 80px;">BTC Bridge</th>
-                            <th rowspan="2" style="width: 80px;">CFD Trading</th>
+                            <th rowspan="2" style="width: 60px;">RANK</th>
+                            <th rowspan="2" style="width: 140px;">USER</th>
+                            <th rowspan="2" style="width: 120px;">POINTS & LEVEL</th>
+                            <th colspan="2" class="header-main-fixed">SEND</th>
+                            <th colspan="2" class="header-main-fixed">ZENITH</th>
+                            <th colspan="2" class="header-main-fixed">FAROSWAP</th>
+                            <th colspan="2" class="header-main-fixed">DOMAINS & NFT</th>
+                            <th rowspan="2" style="width: 70px;">RWAFI</th>
+                            <th rowspan="2" style="width: 70px;">STAKE</th>
+                            <th rowspan="2" style="width: 80px;">BTC BRIDGE</th>
+                            <th rowspan="2" style="width: 80px;">CFD TRADING</th>
                         </tr>
                         <tr>
-                            <th class="header-sub" style="width: 60px;">Onchain</th>
-                            <th class="header-sub" style="width: 70px;">Primuslabs</th>
-                            <th class="header-sub" style="width: 60px;">Swaps</th>
-                            <th class="header-sub" style="width: 50px;">LP</th>
-                            <th class="header-sub" style="width: 60px;">Swaps</th>
-                            <th class="header-sub" style="width: 50px;">LP</th>
-                            <th class="header-sub" style="width: 60px;">Domains</th>
-                            <th class="header-sub" style="width: 50px;">NFTs</th>
+                            <th class="header-sub-fixed" style="width: 60px;">ONCHAIN</th>
+                            <th class="header-sub-fixed" style="width: 70px;">PRIMUSLABS</th>
+                            <th class="header-sub-fixed" style="width: 60px;">SWAPS</th>
+                            <th class="header-sub-fixed" style="width: 50px;">LP</th>
+                            <th class="header-sub-fixed" style="width: 60px;">SWAPS</th>
+                            <th class="header-sub-fixed" style="width: 50px;">LP</th>
+                            <th class="header-sub-fixed" style="width: 60px;">DOMAINS</th>
+                            <th class="header-sub-fixed" style="width: 50px;">NFTS</th>
                         </tr>
                     </thead>
+                </table>
+            </div>
+            
+            <!-- Скроллящаяся таблица БЕЗ заголовков -->
+            <div class="table-container">
+                <table class="leaderboard-table">
                     <tbody id="leaderboardBody">
                         <!-- Dynamic content -->
                     </tbody>
@@ -895,12 +902,21 @@
             }
         }
 
-        // Убираем лишнюю функцию sticky headers
+        // Синхронизация горизонтального скролла заголовков и таблицы
         function initializeStickyHeaders() {
-            // Просто обеспечиваем правильную структуру
             const tableContainer = document.querySelector('.table-container');
-            if (tableContainer) {
-                tableContainer.style.position = 'relative';
+            const headerContainer = document.querySelector('.fixed-table-header');
+            
+            if (tableContainer && headerContainer) {
+                // Синхронизируем горизонтальный скролл
+                tableContainer.addEventListener('scroll', function() {
+                    headerContainer.scrollLeft = this.scrollLeft;
+                });
+                
+                // Также синхронизируем в обратную сторону (если кто-то скроллит заголовки)
+                headerContainer.addEventListener('scroll', function() {
+                    tableContainer.scrollLeft = this.scrollLeft;
+                });
             }
         }
 
