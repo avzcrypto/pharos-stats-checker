@@ -288,9 +288,9 @@
             font-weight: 500;
         }
 
-        /* Table Headers */
+        /* Table Headers - Sticky */
         .leaderboard-table thead th {
-            background: rgba(249, 250, 251, 0.95);
+            background: rgba(249, 250, 251, 0.98);
             padding: 16px 12px;
             text-align: center;
             font-weight: 600;
@@ -302,8 +302,9 @@
             letter-spacing: 0.5px;
             position: sticky;
             top: 0;
-            z-index: 10;
-            backdrop-filter: blur(10px);
+            z-index: 20;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .leaderboard-table thead th:last-child {
@@ -313,12 +314,18 @@
         .header-main {
             border-bottom: 1px solid #d1d5db;
             padding: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 21;
         }
 
         .header-sub {
             padding: 10px;
             font-size: 10px;
             font-weight: 500;
+            position: sticky;
+            top: 44px;
+            z-index: 21;
         }
 
         /* Table Body */
