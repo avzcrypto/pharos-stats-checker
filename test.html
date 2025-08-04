@@ -193,13 +193,14 @@
         .level-4 { background: linear-gradient(90deg, #8b5cf6, #7c3aed); }
         .level-5 { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
 
-        /* Main Table Section */
+        /* Main Table Section - исправлено для sticky */
         .table-section {
             background: white;
             border: 1px solid #e5e7eb;
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: relative; /* Для sticky контекста */
         }
 
         .table-header {
@@ -217,15 +218,18 @@
         /* Table */
         .table-container {
             overflow-x: auto;
+            max-height: 70vh; /* Добавляем максимальную высоту */
+            position: relative; /* Для корректной работы sticky */
         }
 
         .leaderboard-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 15px;
+            position: relative; /* Для sticky заголовков */
         }
 
-        /* Table Headers - Sticky */
+        /* Table Headers - Sticky (исправлено) */
         .leaderboard-table thead th {
             background: #f9fafb;
             padding: 14px 10px;
@@ -247,14 +251,14 @@
             border-right: none;
         }
 
-        /* Multi-level headers */
+        /* Multi-level headers (исправлено для sticky) */
         .header-main {
             border-bottom: 1px solid #d1d5db;
             padding: 8px;
             position: sticky;
             top: 0;
-            z-index: 21;
-            background: #f9fafb;
+            z-index: 22;
+            background: #f9fafb !important;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
@@ -263,9 +267,9 @@
             font-size: 11px;
             font-weight: 500;
             position: sticky;
-            top: 44px;
+            top: 50px; /* Увеличена высота для header-main */
             z-index: 21;
-            background: #f9fafb;
+            background: #f9fafb !important;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
@@ -896,6 +900,31 @@
             }
         }
 
+        // Fix sticky headers if needed
+        function initializeStickyHeaders() {
+            const tableContainer = document.querySelector('.table-container');
+            const table = document.querySelector('.leaderboard-table');
+            
+            if (tableContainer && table) {
+                // Ensure proper sticky context
+                tableContainer.style.position = 'relative';
+                
+                // Alternative: Add scroll event listener for manual sticky effect
+                tableContainer.addEventListener('scroll', function() {
+                    const headers = table.querySelectorAll('thead th');
+                    const scrollTop = this.scrollTop;
+                    
+                    headers.forEach(header => {
+                        if (scrollTop > 0) {
+                            header.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.15)';
+                        } else {
+                            header.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
+                        }
+                    });
+                });
+            }
+        }
+
         // Animation functions
         function animateValue(element, start, end, duration = 1000) {
             const startTime = performance.now();
@@ -1042,6 +1071,7 @@
             console.log('🚀 Initializing Pharos Leaderboard...');
             
             setupEventListeners();
+            initializeStickyHeaders(); // Инициализируем sticky заголовки
             await loadLeaderboard();
             
             console.log('✅ Leaderboard initialized');
