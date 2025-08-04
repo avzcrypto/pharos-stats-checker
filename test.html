@@ -417,7 +417,6 @@
         .bar-fill {
             height: 100%;
             border-radius: 6px;
-            transition: width 0.8s ease;
         }
 
         .tier-stats {
@@ -884,6 +883,26 @@
             renderTable();
         }
 
+        // Animation functions
+        function animateValue(element, start, end, duration = 1000) {
+            const startTime = performance.now();
+            const range = end - start;
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                const current = start + (range * progress);
+                element.textContent = formatNumber(Math.floor(current));
+                
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            
+            requestAnimationFrame(update);
+        }
+
         // Update statistics
         function updateStatistics(data) {
             elements.totalUsers.textContent = formatNumber(data.total_users || 0);
@@ -951,15 +970,8 @@
                     const percentage = ((count / totalUsers) * 100).toFixed(1);
                     const barWidth = maxCount > 0 ? (count / maxCount) * 100 : 0;
 
-                    // Animate count
-                    animateValue(tierCountElement, 0, count, 800);
-                    
-                    // Update bar width with animation
-                    setTimeout(() => {
-                        tierBar.style.width = `${barWidth}%`;
-                    }, 200);
-
-                    // Update stats text
+                    // Update immediately without animation
+                    tierBar.style.width = `${barWidth}%`;
                     tierStatsElement.innerHTML = `<span class="tier-count">${formatNumber(count)}</span> users (${percentage}%)`;
                 }
             });
