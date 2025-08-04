@@ -4,7 +4,7 @@ Pharos Stats Checker API
 
 Author: @avzcrypto
 License: MIT
-Version: 3.1.0 
+Version: 3.1.1 - Updated with Level Distribution System
 """
 
 from http.server import BaseHTTPRequestHandler
@@ -462,10 +462,8 @@ class RedisManager:
                     'total_users': 0,
                     'total_checks': 0,
                     'leaderboard': [],
-                    'point_distribution': {
-                        '10000+': 0, '9000-9999': 0, '8000-8999': 0, '7000-7999': 0,
-                        '6000-6999': 0, '5000-5999': 0, '4000-4999': 0, '3000-3999': 0,
-                        'below-3000': 0
+                    'level_distribution': {
+                        'level-1': 0, 'level-2': 0, 'level-3': 0, 'level-4': 0, 'level-5': 0
                     },
                     'last_updated': datetime.now().isoformat()
                 }
@@ -513,34 +511,25 @@ class RedisManager:
                     print(f"Error processing wallet {i}: {e}")
                     continue
             
-            # Calculate point distribution for ALL users
-            point_distribution = {
-                '10000+': 0, '9000-9999': 0, '8000-8999': 0, '7000-7999': 0,
-                '6000-6999': 0, '5000-5999': 0, '4000-4999': 0, '3000-3999': 0,
-                'below-3000': 0
+            # UPDATED: Calculate level distribution for ALL users (instead of point tiers)
+            level_distribution = {
+                'level-1': 0, 'level-2': 0, 'level-3': 0, 'level-4': 0, 'level-5': 0
             }
             
             for wallet_bytes, points in all_wallets:
                 try:
                     points = int(points)
-                    if points >= 10000:
-                        point_distribution['10000+'] += 1
-                    elif points >= 9000:
-                        point_distribution['9000-9999'] += 1
-                    elif points >= 8000:
-                        point_distribution['8000-8999'] += 1
-                    elif points >= 7000:
-                        point_distribution['7000-7999'] += 1
-                    elif points >= 6000:
-                        point_distribution['6000-6999'] += 1
-                    elif points >= 5000:
-                        point_distribution['5000-5999'] += 1
-                    elif points >= 4000:
-                        point_distribution['4000-4999'] += 1
-                    elif points >= 3000:
-                        point_distribution['3000-3999'] += 1
-                    else:
-                        point_distribution['below-3000'] += 1
+                    # Level distribution based on Pharos level system
+                    if points <= 1000:
+                        level_distribution['level-1'] += 1
+                    elif points <= 3500:
+                        level_distribution['level-2'] += 1
+                    elif points <= 6000:
+                        level_distribution['level-3'] += 1
+                    elif points <= 10000:
+                        level_distribution['level-4'] += 1
+                    else:  # 10001+
+                        level_distribution['level-5'] += 1
                 except (ValueError, TypeError):
                     continue
             
@@ -558,7 +547,7 @@ class RedisManager:
                 'total_users': total_users,
                 'total_checks': total_checks,
                 'leaderboard': leaderboard,
-                'point_distribution': point_distribution,
+                'level_distribution': level_distribution,  # UPDATED: Changed from 'point_distribution'
                 'last_updated': datetime.now().isoformat()
             }
             
@@ -956,7 +945,7 @@ class handler(BaseHTTPRequestHandler):
             response_data = {
                 'status': 'ok',
                 'message': 'Pharos Stats API is operational',
-                'version': '3.1.0',
+                'version': '3.1.1',  # UPDATED: Version bump
                 'timestamp': datetime.now().isoformat(),
                 'system_status': {
                     'redis': redis_status,
@@ -995,7 +984,7 @@ class handler(BaseHTTPRequestHandler):
             stats_data['system_info'] = {
                 'cache_enabled': cache_manager.redis_enabled,
                 'total_api_calls': 'tracked_in_redis',
-                'version': '3.1.0'
+                'version': '3.1.1'  # UPDATED: Version bump
             }
             
             self._send_json_response(stats_data)
@@ -1115,7 +1104,7 @@ class handler(BaseHTTPRequestHandler):
                 'success': True,
                 'cache_statistics': stats,
                 'timestamp': datetime.now().isoformat(),
-                'system_version': '3.1.0'
+                'system_version': '3.1.1'  # UPDATED: Version bump
             }
             self._send_json_response(response)
             
