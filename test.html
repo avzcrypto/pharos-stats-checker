@@ -251,26 +251,24 @@
             border-right: none;
         }
 
-        /* Multi-level headers (исправлено для sticky) */
+        /* Multi-level headers - фиксированные */
         .header-main {
             border-bottom: 1px solid #d1d5db;
             padding: 8px;
+            background: #f9fafb;
             position: sticky;
             top: 0;
-            z-index: 22;
-            background: #f9fafb !important;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 26;
         }
 
         .header-sub {
             padding: 8px;
             font-size: 11px;
             font-weight: 500;
+            background: #f9fafb;
             position: sticky;
-            top: 50px; /* Увеличена высота для header-main */
-            z-index: 21;
-            background: #f9fafb !important;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            top: 44px; /* Под основными заголовками */
+            z-index: 25;
         }
 
         /* Table Body - Zebra Effect */
@@ -883,45 +881,26 @@
             elements.nextBtn.disabled = currentPage === TOTAL_PAGES;
         }
 
-        // Page navigation
+        // Page navigation с скроллом к началу таблицы
         function changePage(page) {
             if (page === currentPage || page < 1 || page > TOTAL_PAGES) return;
             
             currentPage = page;
             renderTable();
             
-            // Scroll to top of table section
-            const tableSection = document.getElementById('tableSection');
-            if (tableSection) {
-                tableSection.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'start' 
-                });
+            // Скролл к началу контейнера таблицы (не всей секции)
+            const tableContainer = document.querySelector('.table-container');
+            if (tableContainer) {
+                tableContainer.scrollTop = 0; // Мгновенный скролл к верху таблицы
             }
         }
 
-        // Fix sticky headers if needed
+        // Убираем лишнюю функцию sticky headers
         function initializeStickyHeaders() {
+            // Просто обеспечиваем правильную структуру
             const tableContainer = document.querySelector('.table-container');
-            const table = document.querySelector('.leaderboard-table');
-            
-            if (tableContainer && table) {
-                // Ensure proper sticky context
+            if (tableContainer) {
                 tableContainer.style.position = 'relative';
-                
-                // Alternative: Add scroll event listener for manual sticky effect
-                tableContainer.addEventListener('scroll', function() {
-                    const headers = table.querySelectorAll('thead th');
-                    const scrollTop = this.scrollTop;
-                    
-                    headers.forEach(header => {
-                        if (scrollTop > 0) {
-                            header.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.15)';
-                        } else {
-                            header.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
-                        }
-                    });
-                });
             }
         }
 
