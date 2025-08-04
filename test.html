@@ -251,25 +251,7 @@
             border-right: none;
         }
 
-        /* Multi-level headers - фиксированные */
-        .header-main {
-            border-bottom: 1px solid #d1d5db;
-            padding: 8px;
-            background: #f9fafb;
-            position: sticky;
-            top: 0;
-            z-index: 26;
-        }
-
-        .header-sub {
-            padding: 8px;
-            font-size: 11px;
-            font-weight: 500;
-            background: #f9fafb;
-            position: sticky;
-            top: 44px; /* Под основными заголовками */
-            z-index: 25;
-        }
+        /* Убираем старые стили для multi-level headers */
 
         /* Table Body - Zebra Effect */
         .leaderboard-table tbody tr:nth-child(odd) {
@@ -488,6 +470,10 @@
                 gap: 20px;
                 text-align: center;
             }
+            
+            .table-section {
+                height: 500px; /* Меньше высота на планшетах */
+            }
         }
 
         @media (max-width: 768px) {
@@ -515,6 +501,20 @@
             .level-label {
                 min-width: 120px;
                 font-size: 12px;
+            }
+            
+            .table-section {
+                height: 400px; /* Еще меньше на мобильных */
+            }
+            
+            /* Мобильные заголовки */
+            .leaderboard-table thead th {
+                padding: 10px 6px;
+                font-size: 10px;
+            }
+            
+            .leaderboard-table thead tr:last-child th {
+                top: 40px; /* Меньше отступ на мобильных */
             }
         }
     </style>
