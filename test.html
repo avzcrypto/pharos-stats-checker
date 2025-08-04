@@ -225,7 +225,7 @@
             font-size: 15px;
         }
 
-        /* Table Headers */
+        /* Table Headers - Sticky */
         .leaderboard-table thead th {
             background: #f9fafb;
             padding: 14px 10px;
@@ -239,7 +239,8 @@
             letter-spacing: 0.5px;
             position: sticky;
             top: 0;
-            z-index: 10;
+            z-index: 20;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .leaderboard-table thead th:last-child {
@@ -250,12 +251,22 @@
         .header-main {
             border-bottom: 1px solid #d1d5db;
             padding: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 21;
+            background: #f9fafb;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .header-sub {
             padding: 8px;
             font-size: 11px;
             font-weight: 500;
+            position: sticky;
+            top: 44px;
+            z-index: 21;
+            background: #f9fafb;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         /* Table Body - Zebra Effect */
@@ -874,6 +885,15 @@
             
             currentPage = page;
             renderTable();
+            
+            // Scroll to top of table section
+            const tableSection = document.getElementById('tableSection');
+            if (tableSection) {
+                tableSection.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            }
         }
 
         // Animation functions
