@@ -16,10 +16,9 @@
         
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #f5f2ed 0%, #e8eaf6 30%, #e3f2fd 60%, #bbdefb 100%);
+            background: #fafafa;
             color: #1f2937;
             line-height: 1.5;
-            min-height: 100vh;
         }
 
         /* Container */
@@ -31,13 +30,12 @@
 
         /* Header */
         .header {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 20px;
-            padding: 32px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 24px;
             margin-bottom: 24px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .header-content {
@@ -47,22 +45,20 @@
         }
 
         .header-left h1 {
-            font-size: 36px;
-            font-weight: 900;
+            font-size: 28px;
+            font-weight: 800;
             color: #111827;
-            margin-bottom: 8px;
-            letter-spacing: -0.02em;
+            margin-bottom: 4px;
         }
 
         .header-left p {
             color: #6b7280;
-            font-size: 16px;
-            font-weight: 500;
+            font-size: 14px;
         }
 
         .header-stats {
             display: flex;
-            gap: 40px;
+            gap: 32px;
         }
 
         .stat-item {
@@ -71,14 +67,14 @@
 
         .stat-value {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
             color: #111827;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .stat-label {
-            font-size: 13px;
+            font-size: 12px;
             color: #6b7280;
             text-transform: uppercase;
             font-weight: 600;
@@ -87,106 +83,100 @@
 
         /* Update Info */
         .update-info {
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 16px;
-            padding: 16px 20px;
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 6px;
+            padding: 12px 16px;
             margin-bottom: 24px;
-            font-size: 14px;
-            color: #1d4ed8;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            backdrop-filter: blur(10px);
-        }
-
-        .update-dot {
-            width: 8px;
-            height: 8px;
-            background: #3b82f6;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(1.1); }
-        }
-
-        /* Distribution Section */
-        .distribution-section {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 20px;
-            padding: 32px;
-            margin-bottom: 24px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-        }
-
-        .distribution-title {
-            font-size: 20px;
-            font-weight: 800;
-            color: #111827;
-            margin-bottom: 24px;
+            font-size: 13px;
+            color: #0369a1;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
+        .update-dot {
+            width: 6px;
+            height: 6px;
+            background: #0ea5e9;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* Distribution Section */
+        .distribution-section {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .distribution-header {
+            margin-bottom: 20px;
+        }
+
+        .distribution-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        /* Level Bars */
         .level-bars {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 12px;
         }
 
         .level-bar {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
         }
 
         .level-label {
-            min-width: 180px;
-            font-size: 14px;
+            min-width: 140px;
+            font-size: 13px;
             font-weight: 600;
             color: #374151;
             display: flex;
             align-items: center;
-            gap: 12px;
-            flex-shrink: 0;
+            gap: 8px;
         }
 
         .level-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
             object-fit: cover;
-            flex-shrink: 0;
         }
 
         .bar-container {
             flex: 1;
-            height: 32px;
-            background: rgba(243, 244, 246, 0.8);
-            border-radius: 12px;
+            height: 24px;
+            background: #f3f4f6;
+            border-radius: 6px;
             overflow: hidden;
             position: relative;
-            backdrop-filter: blur(5px);
         }
 
         .bar-fill {
             height: 100%;
-            border-radius: 12px;
-            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
+            border-radius: 6px;
+            transition: width 0.6s ease;
         }
 
         .level-stats {
-            min-width: 160px;
+            min-width: 140px;
             text-align: right;
-            font-size: 13px;
+            font-size: 12px;
             color: #6b7280;
         }
 
@@ -205,23 +195,22 @@
 
         /* Main Table Section */
         .table-section {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 20px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .table-header {
-            background: rgba(249, 250, 251, 0.9);
-            padding: 24px 32px;
-            border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+            background: #f9fafb;
+            padding: 16px 24px;
+            border-bottom: 1px solid #e5e7eb;
         }
 
         .table-title {
-            font-size: 20px;
-            font-weight: 800;
+            font-size: 18px;
+            font-weight: 700;
             color: #111827;
         }
 
@@ -233,124 +222,68 @@
         .leaderboard-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 14px;
+            font-size: 15px;
         }
 
-        /* Pagination */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            padding: 20px;
-            background: rgba(249, 250, 251, 0.9);
-            border-top: 1px solid rgba(229, 231, 235, 0.5);
-            backdrop-filter: blur(10px);
-        }
-
-        .pagination-btn {
-            padding: 10px 14px;
-            border: 1px solid rgba(209, 213, 219, 0.8);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.9);
-            color: #374151;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            min-width: 40px;
-            text-align: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .pagination-btn:hover:not(:disabled) {
-            background: rgba(243, 244, 246, 0.9);
-            border-color: #9ca3af;
-            transform: translateY(-1px);
-        }
-
-        .pagination-btn.active {
-            background: linear-gradient(145deg, #3b82f6, #2563eb);
-            border-color: #3b82f6;
-            color: white;
-            box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
-        }
-
-        .pagination-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .pagination-info {
-            font-size: 12px;
-            color: #6b7280;
-            margin: 0 16px;
-            font-weight: 500;
-        }
-
-        /* Table Headers - Sticky */
+        /* Table Headers */
         .leaderboard-table thead th {
-            background: rgba(249, 250, 251, 0.98);
-            padding: 16px 12px;
+            background: #f9fafb;
+            padding: 14px 10px;
             text-align: center;
             font-weight: 600;
             color: #374151;
-            border-right: 1px solid rgba(229, 231, 235, 0.5);
-            border-bottom: 2px solid rgba(229, 231, 235, 0.8);
+            border-right: 1px solid #e5e7eb;
+            border-bottom: 2px solid #e5e7eb;
             text-transform: uppercase;
-            font-size: 11px;
+            font-size: 12px;
             letter-spacing: 0.5px;
             position: sticky;
             top: 0;
-            z-index: 20;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 10;
         }
 
         .leaderboard-table thead th:last-child {
             border-right: none;
         }
 
+        /* Multi-level headers */
         .header-main {
             border-bottom: 1px solid #d1d5db;
-            padding: 10px;
-            position: sticky;
-            top: 0;
-            z-index: 21;
+            padding: 8px;
         }
 
         .header-sub {
-            padding: 10px;
-            font-size: 10px;
+            padding: 8px;
+            font-size: 11px;
             font-weight: 500;
-            position: sticky;
-            top: 44px;
-            z-index: 21;
         }
 
-        /* Table Body */
+        /* Table Body - Zebra Effect */
         .leaderboard-table tbody tr:nth-child(odd) {
-            background: rgba(255, 255, 255, 0.7);
+            background: white;
         }
 
         .leaderboard-table tbody tr:nth-child(even) {
-            background: rgba(248, 250, 252, 0.7);
+            background: #f8fafc;
         }
 
         .leaderboard-table tbody tr {
-            border-bottom: 1px solid rgba(243, 244, 246, 0.5);
-            transition: all 0.2s ease;
+            border-bottom: 1px solid #f3f4f6;
+            transition: background-color 0.15s ease;
         }
 
         .leaderboard-table tbody tr:hover {
-            background: rgba(241, 245, 249, 0.9) !important;
-            transform: scale(1.01);
+            background: #f1f5f9 !important;
+        }
+
+        .leaderboard-table tbody tr:last-child {
+            border-bottom: none;
         }
 
         .leaderboard-table td {
-            padding: 16px 12px;
+            padding: 14px 10px;
             text-align: center;
-            border-right: 1px solid rgba(243, 244, 246, 0.5);
+            border-right: 1px solid #f3f4f6;
             vertical-align: middle;
         }
 
@@ -362,27 +295,26 @@
         .rank {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
-            font-size: 16px;
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
+            font-size: 15px;
+            width: 34px;
+            height: 34px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .rank-1 { background: linear-gradient(145deg, #fbbf24, #f59e0b); color: #92400e; }
-        .rank-2 { background: linear-gradient(145deg, #d1d5db, #9ca3af); color: #374151; }
-        .rank-3 { background: linear-gradient(145deg, #f59e0b, #d97706); color: #92400e; }
-        .rank-top10 { background: linear-gradient(145deg, #dbeafe, #bfdbfe); color: #1d4ed8; }
-        .rank-default { background: linear-gradient(145deg, #f3f4f6, #e5e7eb); color: #6b7280; }
+        .rank-1 { background: #fbbf24; color: #92400e; }
+        .rank-2 { background: #d1d5db; color: #374151; }
+        .rank-3 { background: #f59e0b; color: #92400e; }
+        .rank-top10 { background: #dbeafe; color: #1d4ed8; }
+        .rank-default { background: #f3f4f6; color: #6b7280; }
 
         /* User Column */
         .user-info {
             text-align: left;
-            min-width: 140px;
+            min-width: 120px;
         }
 
         .address {
@@ -397,25 +329,24 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
-            min-width: 120px;
+            gap: 4px;
+            min-width: 100px;
         }
 
         .points {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
-            font-size: 18px;
+            font-size: 16px;
             color: #111827;
         }
 
         .level-badge {
-            background: linear-gradient(145deg, #10b981, #059669);
+            background: #10b981;
             color: white;
-            padding: 4px 10px;
-            border-radius: 8px;
+            padding: 3px 7px;
+            border-radius: 4px;
             font-size: 11px;
             font-weight: 600;
-            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
         }
 
         /* Activity Numbers */
@@ -434,28 +365,19 @@
         .loading {
             display: none;
             text-align: center;
-            padding: 80px 20px;
+            padding: 60px 20px;
         }
 
         .loading.show { display: block; }
 
-        .loading-content {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 40px;
-            display: inline-block;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-
         .loading-spinner {
-            width: 48px;
-            height: 48px;
-            border: 4px solid rgba(59, 130, 246, 0.2);
-            border-top: 4px solid #3b82f6;
+            width: 32px;
+            height: 32px;
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #3b82f6;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+            margin: 0 auto 16px;
         }
 
         @keyframes spin {
@@ -463,67 +385,95 @@
             100% { transform: rotate(360deg); }
         }
 
-        .loading-text {
-            font-size: 16px;
-            font-weight: 600;
-            color: #6b7280;
-        }
-
         .error-state {
-            background: rgba(254, 242, 242, 0.9);
-            border: 1px solid rgba(254, 202, 202, 0.5);
-            border-radius: 20px;
-            padding: 40px;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 6px;
+            padding: 24px;
             text-align: center;
             margin: 20px 0;
-            backdrop-filter: blur(20px);
         }
 
         .error-title {
-            font-size: 20px;
-            font-weight: 700;
+            font-size: 16px;
+            font-weight: 600;
             color: #dc2626;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         .error-message {
             color: #6b7280;
-            margin-bottom: 20px;
-            font-size: 14px;
+            margin-bottom: 16px;
         }
 
         .retry-btn {
-            background: linear-gradient(145deg, #3b82f6, #2563eb);
+            background: #3b82f6;
             color: white;
             border: none;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
         }
 
         .retry-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.4);
+            background: #2563eb;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 20px;
+            background: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .pagination-btn {
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            background: white;
+            color: #374151;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            min-width: 36px;
+            text-align: center;
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            background: #f3f4f6;
+            border-color: #9ca3af;
+        }
+
+        .pagination-btn.active {
+            background: #3b82f6;
+            border-color: #3b82f6;
+            color: white;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-info {
+            font-size: 12px;
+            color: #6b7280;
+            margin: 0 16px;
         }
 
         /* Responsive */
         @media (max-width: 1024px) {
             .header-content {
                 flex-direction: column;
-                gap: 24px;
+                gap: 20px;
                 text-align: center;
-            }
-            
-            .header-stats {
-                gap: 32px;
-            }
-            
-            .table-container {
-                font-size: 12px;
             }
         }
 
@@ -533,29 +483,25 @@
             }
             
             .header {
-                padding: 24px;
+                padding: 20px;
             }
             
             .header-left h1 {
-                font-size: 28px;
+                font-size: 24px;
             }
             
             .header-stats {
                 flex-direction: column;
-                gap: 20px;
+                gap: 16px;
             }
             
             .level-bars {
-                gap: 12px;
+                gap: 10px;
             }
             
             .level-label {
-                min-width: 140px;
-                font-size: 12px;
-            }
-            
-            .level-stats {
                 min-width: 120px;
+                font-size: 12px;
             }
         }
     </style>
@@ -566,7 +512,7 @@
         <div class="header">
             <div class="header-content">
                 <div class="header-left">
-                    <h1>🏆 Pharos Leaderboard</h1>
+                    <h1>Pharos Leaderboard</h1>
                     <p>Top 100 users ranked by total points</p>
                 </div>
                 <div class="header-stats">
@@ -587,19 +533,19 @@
         </div>
 
         <!-- Update Info -->
-        <div class="update-info" id="updateInfo">
+        <div class="update-info" id="updateInfo" style="display: none;">
             <div class="update-dot"></div>
-            <span>📊 Leaderboard data updates automatically every hour</span>
+            <span id="updateText">Loading...</span>
         </div>
 
         <!-- User Distribution Section -->
         <div class="distribution-section" id="distributionSection" style="display: none;">
-            <div class="distribution-title">
-                📊 User Distribution by Level
+            <div class="distribution-header">
+                <div class="distribution-title">📊 User Distribution by Level</div>
             </div>
             
             <div class="level-bars" id="levelBars">
-                <div class="level-bar" data-level="1">
+                <div class="level-bar">
                     <div class="level-label">
                         <img src="./level1.png" alt="Level 1" class="level-icon">
                         Lv.1 (0-1,000)
@@ -611,7 +557,7 @@
                         <span class="level-count">0</span> users (0.0%)
                     </div>
                 </div>
-                <div class="level-bar" data-level="2">
+                <div class="level-bar">
                     <div class="level-label">
                         <img src="./level2.png" alt="Level 2" class="level-icon">
                         Lv.2 (1,001-3,500)
@@ -623,7 +569,7 @@
                         <span class="level-count">0</span> users (0.0%)
                     </div>
                 </div>
-                <div class="level-bar" data-level="3">
+                <div class="level-bar">
                     <div class="level-label">
                         <img src="./level3.png" alt="Level 3" class="level-icon">
                         Lv.3 (3,501-6,000)
@@ -635,7 +581,7 @@
                         <span class="level-count">0</span> users (0.0%)
                     </div>
                 </div>
-                <div class="level-bar" data-level="4">
+                <div class="level-bar">
                     <div class="level-label">
                         <img src="./level4.png" alt="Level 4" class="level-icon">
                         Lv.4 (6,001-10,000)
@@ -647,7 +593,7 @@
                         <span class="level-count">0</span> users (0.0%)
                     </div>
                 </div>
-                <div class="level-bar" data-level="5">
+                <div class="level-bar">
                     <div class="level-label">
                         <img src="./level5.png" alt="Level 5" class="level-icon">
                         Lv.5 (10,001+)
@@ -664,50 +610,48 @@
 
         <!-- Loading State -->
         <div class="loading" id="loading">
-            <div class="loading-content">
-                <div class="loading-spinner"></div>
-                <p class="loading-text">Loading leaderboard data...</p>
-            </div>
+            <div class="loading-spinner"></div>
+            <p>Loading leaderboard data...</p>
         </div>
 
         <!-- Error State -->
         <div class="error-state" id="errorState" style="display: none;">
-            <div class="error-title">⚠️ Connection Error</div>
-            <div class="error-message" id="errorMessage">Unable to load leaderboard data. Please try again.</div>
-            <button class="retry-btn" onclick="loadLeaderboard()">🔄 Retry</button>
+            <div class="error-title">Connection Error</div>
+            <div class="error-message">Unable to load leaderboard data. Please try again.</div>
+            <button class="retry-btn" onclick="loadLeaderboard()">Retry</button>
         </div>
 
         <!-- Main Table -->
         <div class="table-section" id="tableSection" style="display: none;">
             <div class="table-header">
-                <div class="table-title">👑 Top 100 Users</div>
+                <div class="table-title">Top 100 Users</div>
             </div>
             
             <div class="table-container">
                 <table class="leaderboard-table">
                     <thead>
                         <tr>
-                            <th rowspan="2" style="width: 80px;">Rank</th>
-                            <th rowspan="2" style="width: 160px;">User</th>
-                            <th rowspan="2" style="width: 140px;">Points & Level</th>
+                            <th rowspan="2" style="width: 60px;">Rank</th>
+                            <th rowspan="2" style="width: 140px;">User</th>
+                            <th rowspan="2" style="width: 120px;">Points & Level</th>
                             <th colspan="2" class="header-main">Send</th>
                             <th colspan="2" class="header-main">Zenith</th>
                             <th colspan="2" class="header-main">Faroswap</th>
-                            <th colspan="2" class="header-main">NFT & Domains</th>
-                            <th rowspan="2" style="width: 80px;">RWAfi</th>
-                            <th rowspan="2" style="width: 80px;">Stake</th>
-                            <th rowspan="2" style="width: 90px;">BTC Bridge</th>
-                            <th rowspan="2" style="width: 90px;">CFD Trading</th>
+                            <th colspan="2" class="header-main">Domains & NFT</th>
+                            <th rowspan="2" style="width: 70px;">RWAfi</th>
+                            <th rowspan="2" style="width: 70px;">Stake</th>
+                            <th rowspan="2" style="width: 80px;">BTC Bridge</th>
+                            <th rowspan="2" style="width: 80px;">CFD Trading</th>
                         </tr>
                         <tr>
-                            <th class="header-sub" style="width: 70px;">Onchain</th>
-                            <th class="header-sub" style="width: 80px;">Primuslabs</th>
-                            <th class="header-sub" style="width: 70px;">Swaps</th>
-                            <th class="header-sub" style="width: 60px;">LP</th>
-                            <th class="header-sub" style="width: 70px;">Swaps</th>
-                            <th class="header-sub" style="width: 60px;">LP</th>
-                            <th class="header-sub" style="width: 70px;">Domains</th>
-                            <th class="header-sub" style="width: 60px;">NFTs</th>
+                            <th class="header-sub" style="width: 60px;">Onchain</th>
+                            <th class="header-sub" style="width: 70px;">Primuslabs</th>
+                            <th class="header-sub" style="width: 60px;">Swaps</th>
+                            <th class="header-sub" style="width: 50px;">LP</th>
+                            <th class="header-sub" style="width: 60px;">Swaps</th>
+                            <th class="header-sub" style="width: 50px;">LP</th>
+                            <th class="header-sub" style="width: 60px;">Domains</th>
+                            <th class="header-sub" style="width: 50px;">NFTs</th>
                         </tr>
                     </thead>
                     <tbody id="leaderboardBody">
@@ -717,7 +661,7 @@
             </div>
 
             <!-- Pagination -->
-            <div class="pagination" id="pagination">
+            <div class="pagination">
                 <button class="pagination-btn" id="prevBtn" disabled>← Prev</button>
                 <span class="pagination-info" id="paginationInfo">Page 1 of 5</span>
                 <button class="pagination-btn" data-page="1" class="active">1</button>
@@ -734,32 +678,34 @@
         // Global state
         let currentPage = 1;
         let allUsers = [];
+        let lastUpdated = null;
+        let updateTimer = null;
         let isLoading = false;
         
         const USERS_PER_PAGE = 20;
         const TOTAL_PAGES = 5;
+        const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
 
-        // Level structure matching backend
+        // Level structure
         const LEVEL_STRUCTURE = [
-            { name: "Lv.1", min: 0, max: 1000, key: "level-1" },
-            { name: "Lv.2", min: 1001, max: 3500, key: "level-2" },
-            { name: "Lv.3", min: 3501, max: 6000, key: "level-3" },
-            { name: "Lv.4", min: 6001, max: 10000, key: "level-4" },
-            { name: "Lv.5", min: 10001, max: Infinity, key: "level-5" }
+            { name: "Lv.1", min: 0, max: 1000, icon: "./level1.png" },
+            { name: "Lv.2", min: 1001, max: 3500, icon: "./level2.png" },
+            { name: "Lv.3", min: 3501, max: 6000, icon: "./level3.png" },
+            { name: "Lv.4", min: 6001, max: 10000, icon: "./level4.png" },
+            { name: "Lv.5", min: 10001, max: Infinity, icon: "./level5.png" }
         ];
 
         // DOM elements
         const elements = {
             loading: document.getElementById('loading'),
             errorState: document.getElementById('errorState'),
-            errorMessage: document.getElementById('errorMessage'),
             tableSection: document.getElementById('tableSection'),
             leaderboardBody: document.getElementById('leaderboardBody'),
             totalUsers: document.getElementById('totalUsers'),
             totalChecks: document.getElementById('totalChecks'),
             topScore: document.getElementById('topScore'),
             updateInfo: document.getElementById('updateInfo'),
-            distributionSection: document.getElementById('distributionSection'),
+            updateText: document.getElementById('updateText'),
             paginationInfo: document.getElementById('paginationInfo'),
             prevBtn: document.getElementById('prevBtn'),
             nextBtn: document.getElementById('nextBtn')
@@ -767,14 +713,12 @@
 
         // Utility functions
         function formatNumber(num) {
-            if (typeof num !== 'number' || isNaN(num)) return '0';
             if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
             if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
-            return num.toLocaleString();
+            return num.toString();
         }
 
         function formatAddress(address) {
-            if (!address || typeof address !== 'string') return 'Invalid';
             return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
         }
 
@@ -786,35 +730,70 @@
             return 'rank-default';
         }
 
-        function debugLog(message, data = null) {
-            console.log(`[Leaderboard] ${message}`, data || '');
+        // Time formatting
+        function formatTimeAgo(timestamp) {
+            const now = Date.now();
+            const diff = now - timestamp;
+            const minutes = Math.floor(diff / (1000 * 60));
+            
+            if (minutes < 1) return 'just now';
+            if (minutes === 1) return '1 minute ago';
+            if (minutes < 60) return `${minutes} minutes ago`;
+            
+            const hours = Math.floor(minutes / 60);
+            if (hours === 1) return '1 hour ago';
+            return `${hours} hours ago`;
+        }
+
+        function formatTimeUntilNext(timestamp) {
+            const nextUpdate = timestamp + CACHE_DURATION;
+            const now = Date.now();
+            const diff = nextUpdate - now;
+            
+            if (diff <= 0) return 'updating soon';
+            
+            const minutes = Math.floor(diff / (1000 * 60));
+            if (minutes < 1) return 'less than 1 minute';
+            if (minutes === 1) return '1 minute';
+            if (minutes < 60) return `${minutes} minutes`;
+            
+            const hours = Math.floor(minutes / 60);
+            const remainingMinutes = minutes % 60;
+            if (hours === 1) {
+                return remainingMinutes > 0 ? `1 hour ${remainingMinutes} minutes` : '1 hour';
+            }
+            return remainingMinutes > 0 ? `${hours} hours ${remainingMinutes} minutes` : `${hours} hours`;
+        }
+
+        // Update time info
+        function updateTimeInfo() {
+            if (!lastUpdated) return;
+
+            const timeAgo = formatTimeAgo(lastUpdated);
+            const timeUntilNext = formatTimeUntilNext(lastUpdated);
+            
+            elements.updateText.textContent = `Last updated: ${timeAgo} • Next refresh in ${timeUntilNext}`;
+            elements.updateInfo.style.display = 'flex';
+        }
+
+        function startUpdateTimer() {
+            if (updateTimer) clearInterval(updateTimer);
+            
+            updateTimeInfo();
+            updateTimer = setInterval(updateTimeInfo, 60 * 1000);
+        }
+
+        function stopUpdateTimer() {
+            if (updateTimer) {
+                clearInterval(updateTimer);
+                updateTimer = null;
+            }
+            elements.updateInfo.style.display = 'none';
         }
 
         // Create table row
         function createTableRow(user, globalIndex) {
             const rank = globalIndex + 1;
-            
-            if (!user || typeof user !== 'object') {
-                debugLog(`Invalid user data at index ${globalIndex}`, user);
-                return '';
-            }
-            
-            const address = user.address || 'Unknown';
-            const totalPoints = parseInt(user.total_points) || 0;
-            const currentLevel = parseInt(user.current_level) || 1;
-            
-            const sendCount = parseInt(user.send_count) || 0;
-            const primuslabsSend = parseInt(user.primuslabs_send) || 0;
-            const swapCount = parseInt(user.swap_count) || 0;
-            const lpCount = parseInt(user.lp_count) || 0;
-            const faroswapSwaps = parseInt(user.faroswap_swaps) || 0;
-            const faroswapLp = parseInt(user.faroswap_lp) || 0;
-            const mintDomain = parseInt(user.mint_domain) || 0;
-            const mintNft = parseInt(user.mint_nft) || 0;
-            const aquaflux = parseInt(user.aquaflux) || 0;
-            const autostaking = parseInt(user.autostaking) || 0;
-            const fiammaBridge = parseInt(user.fiamma_bridge) || 0;
-            const brokex = parseInt(user.brokex) || 0;
             
             return `
                 <tr>
@@ -823,40 +802,38 @@
                     </td>
                     <td>
                         <div class="user-info">
-                            <div class="address">${formatAddress(address)}</div>
+                            <div class="address">${formatAddress(user.address)}</div>
                         </div>
                     </td>
                     <td>
                         <div class="points-level">
-                            <div class="points">${formatNumber(totalPoints)}</div>
-                            <div class="level-badge">LVL ${currentLevel}</div>
+                            <div class="points">${formatNumber(user.total_points)}</div>
+                            <div class="level-badge">LVL ${user.current_level}</div>
                         </div>
                     </td>
-                    <td><span class="activity-number ${sendCount === 0 ? 'activity-zero' : ''}">${sendCount}</span></td>
-                    <td><span class="activity-number ${primuslabsSend === 0 ? 'activity-zero' : ''}">${primuslabsSend}</span></td>
-                    <td><span class="activity-number ${swapCount === 0 ? 'activity-zero' : ''}">${swapCount}</span></td>
-                    <td><span class="activity-number ${lpCount === 0 ? 'activity-zero' : ''}">${lpCount}</span></td>
-                    <td><span class="activity-number ${faroswapSwaps === 0 ? 'activity-zero' : ''}">${faroswapSwaps}</span></td>
-                    <td><span class="activity-number ${faroswapLp === 0 ? 'activity-zero' : ''}">${faroswapLp}</span></td>
-                    <td><span class="activity-number ${mintDomain === 0 ? 'activity-zero' : ''}">${mintDomain}</span></td>
-                    <td><span class="activity-number ${mintNft === 0 ? 'activity-zero' : ''}">${mintNft}</span></td>
-                    <td><span class="activity-number ${aquaflux === 0 ? 'activity-zero' : ''}">${aquaflux}</span></td>
-                    <td><span class="activity-number ${autostaking === 0 ? 'activity-zero' : ''}">${autostaking}</span></td>
-                    <td><span class="activity-number ${fiammaBridge === 0 ? 'activity-zero' : ''}">${fiammaBridge}</span></td>
-                    <td><span class="activity-number ${brokex === 0 ? 'activity-zero' : ''}">${brokex}</span></td>
+                    <td><span class="activity-number ${(user.send_count || 0) === 0 ? 'activity-zero' : ''}">${user.send_count || 0}</span></td>
+                    <td><span class="activity-number ${(user.primuslabs_send || 0) === 0 ? 'activity-zero' : ''}">${user.primuslabs_send || 0}</span></td>
+                    <td><span class="activity-number ${(user.swap_count || 0) === 0 ? 'activity-zero' : ''}">${user.swap_count || 0}</span></td>
+                    <td><span class="activity-number ${(user.lp_count || 0) === 0 ? 'activity-zero' : ''}">${user.lp_count || 0}</span></td>
+                    <td><span class="activity-number ${(user.faroswap_swaps || 0) === 0 ? 'activity-zero' : ''}">${user.faroswap_swaps || 0}</span></td>
+                    <td><span class="activity-number ${(user.faroswap_lp || 0) === 0 ? 'activity-zero' : ''}">${user.faroswap_lp || 0}</span></td>
+                    <td><span class="activity-number ${(user.mint_domain || 0) === 0 ? 'activity-zero' : ''}">${user.mint_domain || 0}</span></td>
+                    <td><span class="activity-number ${(user.mint_nft || 0) === 0 ? 'activity-zero' : ''}">${user.mint_nft || 0}</span></td>
+                    <td><span class="activity-number ${(user.aquaflux || 0) === 0 ? 'activity-zero' : ''}">${user.aquaflux || 0}</span></td>
+                    <td><span class="activity-number ${(user.autostaking || 0) === 0 ? 'activity-zero' : ''}">${user.autostaking || 0}</span></td>
+                    <td><span class="activity-number ${(user.fiamma_bridge || 0) === 0 ? 'activity-zero' : ''}">${user.fiamma_bridge || 0}</span></td>
+                    <td><span class="activity-number ${(user.brokex || 0) === 0 ? 'activity-zero' : ''}">${user.brokex || 0}</span></td>
                 </tr>
             `;
         }
 
-        // Render table with pagination
+        // Render table
         function renderTable() {
-            debugLog(`Rendering table with ${allUsers.length} users, page ${currentPage}`);
-            
             if (!allUsers || allUsers.length === 0) {
                 elements.leaderboardBody.innerHTML = `
                     <tr>
                         <td colspan="15" style="text-align: center; padding: 40px; color: #6b7280;">
-                            ❌ No leaderboard data available
+                            No data available
                         </td>
                     </tr>
                 `;
@@ -874,35 +851,33 @@
 
             elements.leaderboardBody.innerHTML = rowsHtml;
             updatePaginationInfo();
-            debugLog(`Table rendered: showing ${currentPageUsers.length} users (${startIndex + 1}-${endIndex})`);
         }
 
-        // Update pagination info
+        // Update pagination
         function updatePaginationInfo() {
             const startRank = (currentPage - 1) * USERS_PER_PAGE + 1;
             const endRank = Math.min(currentPage * USERS_PER_PAGE, allUsers.length);
             elements.paginationInfo.textContent = `Showing ${startRank}-${endRank} of ${allUsers.length}`;
             
+            // Update buttons
             document.querySelectorAll('.pagination-btn[data-page]').forEach(btn => {
                 btn.classList.toggle('active', parseInt(btn.dataset.page) === currentPage);
             });
             
             elements.prevBtn.disabled = currentPage === 1;
-            elements.nextBtn.disabled = currentPage === TOTAL_PAGES || allUsers.length <= currentPage * USERS_PER_PAGE;
+            elements.nextBtn.disabled = currentPage === TOTAL_PAGES;
         }
 
         // Page navigation
         function changePage(page) {
             if (page === currentPage || page < 1 || page > TOTAL_PAGES) return;
+            
             currentPage = page;
             renderTable();
-            debugLog(`Changed to page ${page}`);
         }
 
         // Animation functions
-        function animateValue(element, start, end, duration = 1500) {
-            if (!element) return;
-            
+        function animateValue(element, start, end, duration = 1000) {
             const startTime = performance.now();
             const range = end - start;
 
@@ -921,243 +896,146 @@
             requestAnimationFrame(update);
         }
 
-        // Update statistics with animation
+        // Update statistics
         function updateStatistics(data) {
-            debugLog('Updating statistics', {
-                totalUsers: data.total_users,
-                totalChecks: data.total_checks,
-                topScore: data.leaderboard?.[0]?.total_points
-            });
-            
-            const totalUsers = parseInt(data.total_users) || 0;
-            const totalChecks = parseInt(data.total_checks) || 0;
-            const topScore = parseInt(data.leaderboard?.[0]?.total_points) || 0;
-            
-            animateValue(elements.totalUsers, 0, totalUsers);
-            animateValue(elements.totalChecks, 0, totalChecks);
-            animateValue(elements.topScore, 0, topScore);
-        }
-
-        // Update level distribution
-        function updateLevelDistribution(levelDistributionData) {
-            debugLog('Updating level distribution', levelDistributionData);
-            
-            if (!levelDistributionData || typeof levelDistributionData !== 'object') {
-                debugLog('Invalid level distribution data');
-                return;
-            }
-
-            const totalUsers = Object.values(levelDistributionData).reduce((sum, count) => sum + (parseInt(count) || 0), 0);
-            
-            if (totalUsers === 0) {
-                debugLog('No users in level distribution');
-                return;
-            }
-
-            const counts = Object.values(levelDistributionData).map(count => parseInt(count) || 0);
-            const maxCount = Math.max(...counts);
-
-            debugLog(`Total users: ${totalUsers}, Max count: ${maxCount}`);
-
-            LEVEL_STRUCTURE.forEach((level, index) => {
-                const count = parseInt(levelDistributionData[level.key]) || 0;
-                const percentage = ((count / totalUsers) * 100).toFixed(1);
-                const barWidth = maxCount > 0 ? (count / maxCount) * 100 : 0;
-
-                debugLog(`Level ${level.name}: ${count} users (${percentage}%), bar width: ${barWidth}%`);
-
-                const levelBar = document.querySelector(`.level-bar[data-level="${index + 1}"]`);
-                if (levelBar) {
-                    const barFill = levelBar.querySelector('.bar-fill');
-                    const countElement = levelBar.querySelector('.level-count');
-                    const statsElement = levelBar.querySelector('.level-stats');
-
-                    if (barFill && countElement && statsElement) {
-                        setTimeout(() => {
-                            barFill.style.width = `${barWidth}%`;
-                        }, index * 200);
-
-                        setTimeout(() => {
-                            animateValue(countElement, 0, count, 1000);
-                            statsElement.innerHTML = `<span class="level-count">${formatNumber(count)}</span> users (${percentage}%)`;
-                        }, index * 200 + 500);
-                    }
-                }
-            });
+            elements.totalUsers.textContent = formatNumber(data.total_users || 0);
+            elements.totalChecks.textContent = formatNumber(data.total_checks || 0);
+            elements.topScore.textContent = formatNumber(data.leaderboard?.[0]?.total_points || 0);
         }
 
         // Show/hide states
         function showLoading() {
-            debugLog('Showing loading state');
             elements.loading.classList.add('show');
             elements.errorState.style.display = 'none';
             elements.tableSection.style.display = 'none';
-            elements.distributionSection.style.display = 'none';
+            document.getElementById('distributionSection').style.display = 'none';
+            stopUpdateTimer();
         }
 
-        function showError(message = 'Unknown error occurred') {
-            debugLog('Showing error state', message);
+        function showError() {
             elements.loading.classList.remove('show');
             elements.errorState.style.display = 'block';
             elements.tableSection.style.display = 'none';
-            elements.distributionSection.style.display = 'none';
-            elements.errorMessage.textContent = message;
+            document.getElementById('distributionSection').style.display = 'none';
+            stopUpdateTimer();
         }
 
         function showTable() {
-            debugLog('Showing table state');
             elements.loading.classList.remove('show');
             elements.errorState.style.display = 'none';
             elements.tableSection.style.display = 'block';
-            elements.distributionSection.style.display = 'block';
+            document.getElementById('distributionSection').style.display = 'block';
+        }
+
+        // Update level distribution bars
+        function updateLevelDistribution(levelDistribution) {
+            if (!levelDistribution || typeof levelDistribution !== 'object') return;
+
+            const totalUsers = Object.values(levelDistribution).reduce((sum, count) => sum + (parseInt(count) || 0), 0);
+            if (totalUsers === 0) return;
+
+            // Find maximum count for bar width calculation
+            const maxCount = Math.max(...Object.values(levelDistribution).map(count => parseInt(count) || 0));
+
+            // Update each level bar
+            LEVEL_STRUCTURE.forEach((level, index) => {
+                const key = `level-${index + 1}`;
+                const count = parseInt(levelDistribution[key]) || 0;
+                const percentage = ((count / totalUsers) * 100).toFixed(1);
+                const barWidth = maxCount > 0 ? (count / maxCount) * 100 : 0;
+
+                // Find the corresponding DOM elements
+                const levelBars = document.querySelectorAll('.level-bar');
+                if (levelBars[index]) {
+                    const barFill = levelBars[index].querySelector('.bar-fill');
+                    const countElement = levelBars[index].querySelector('.level-count');
+                    const statsElement = levelBars[index].querySelector('.level-stats');
+
+                    if (barFill && countElement && statsElement) {
+                        // Update bar width with animation
+                        setTimeout(() => {
+                            barFill.style.width = `${barWidth}%`;
+                        }, index * 100); // Stagger animation
+
+                        // Update text
+                        countElement.textContent = formatNumber(count);
+                        statsElement.innerHTML = `<span class="level-count">${formatNumber(count)}</span> users (${percentage}%)`;
+                    }
+                }
+            });
         }
 
         // Load leaderboard data
         async function loadLeaderboard() {
-            if (isLoading) {
-                debugLog('Already loading, skipping request');
-                return;
-            }
+            if (isLoading) return;
             
             isLoading = true;
             showLoading();
-            debugLog('Starting leaderboard load');
 
             try {
-                debugLog('Fetching leaderboard data...');
-                
-                const response = await fetch('/api/admin/stats', {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Cache-Control': 'no-cache'
-                    }
-                });
-                
-                debugLog(`Leaderboard API response status: ${response.status}`);
-                
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    debugLog('API Error Response', errorText);
-                    throw new Error(`API returned ${response.status}: ${errorText}`);
-                }
-                
+                const response = await fetch('/api/admin/stats');
                 const data = await response.json();
-                debugLog('Leaderboard data received', {
-                    success: data.success,
-                    totalUsers: data.total_users,
-                    leaderboardLength: data.leaderboard?.length,
-                    levelDistribution: data.level_distribution
-                });
                 
-                if (!data.success) {
-                    throw new Error(data.error || 'API returned success: false');
+                if (!response.ok || !data.success) {
+                    throw new Error(data.error || 'Failed to load data');
                 }
 
-                if (!data.leaderboard || !Array.isArray(data.leaderboard)) {
-                    debugLog('Invalid leaderboard data structure', data);
-                    throw new Error('Invalid leaderboard data: missing or invalid leaderboard array');
-                }
-
-                allUsers = data.leaderboard;
-                
-                debugLog(`Successfully loaded ${allUsers.length} users`);
+                allUsers = data.leaderboard || [];
+                lastUpdated = Date.now();
                 
                 updateStatistics(data);
-                
-                if (data.level_distribution && typeof data.level_distribution === 'object') {
-                    updateLevelDistribution(data.level_distribution);
-                } else {
-                    debugLog('No valid level_distribution found, calculating from users');
-                    const calculated = calculateLevelDistributionFromUsers(allUsers);
-                    updateLevelDistribution(calculated);
-                }
-                
+                updateLevelDistribution(data.level_distribution);
                 renderTable();
+                startUpdateTimer();
                 showTable();
 
-                debugLog(`✅ Leaderboard loaded successfully: ${allUsers.length} users`);
+                console.log(`✅ Loaded ${allUsers.length} users`);
 
             } catch (error) {
-                debugLog('❌ Error loading leaderboard', error.message);
-                console.error('Leaderboard load error:', error);
-                showError(`Failed to load leaderboard: ${error.message}`);
+                console.error('❌ Error loading leaderboard:', error);
+                showError();
             } finally {
                 isLoading = false;
             }
         }
 
-        // Fallback: Calculate level distribution from users array
-        function calculateLevelDistributionFromUsers(users) {
-            debugLog('Calculating level distribution from users array');
-            
-            const distribution = {
-                'level-1': 0, 'level-2': 0, 'level-3': 0, 'level-4': 0, 'level-5': 0
-            };
-            
-            users.forEach(user => {
-                const points = parseInt(user.total_points) || 0;
-                
-                if (points <= 1000) {
-                    distribution['level-1']++;
-                } else if (points <= 3500) {
-                    distribution['level-2']++;
-                } else if (points <= 6000) {
-                    distribution['level-3']++;
-                } else if (points <= 10000) {
-                    distribution['level-4']++;
-                } else {
-                    distribution['level-5']++;
-                }
+        // Setup event listeners
+        function setupEventListeners() {
+            // Pagination
+            document.querySelectorAll('.pagination-btn[data-page]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    changePage(parseInt(btn.dataset.page));
+                });
             });
-            
-            debugLog('Calculated distribution', distribution);
-            return distribution;
+
+            elements.prevBtn.addEventListener('click', () => {
+                if (currentPage > 1) changePage(currentPage - 1);
+            });
+
+            elements.nextBtn.addEventListener('click', () => {
+                if (currentPage < TOTAL_PAGES) changePage(currentPage + 1);
+            });
         }
 
         // Initialize
         async function init() {
-            debugLog('🚀 Initializing Pharos Leaderboard...');
+            console.log('🚀 Initializing Pharos Leaderboard...');
             
-            try {
-                // Setup pagination event listeners
-                document.querySelectorAll('.pagination-btn[data-page]').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        changePage(parseInt(btn.dataset.page));
-                    });
-                });
-
-                elements.prevBtn.addEventListener('click', () => {
-                    if (currentPage > 1) changePage(currentPage - 1);
-                });
-
-                elements.nextBtn.addEventListener('click', () => {
-                    if (currentPage < TOTAL_PAGES) changePage(currentPage + 1);
-                });
-
-                await loadLeaderboard();
-                debugLog('✅ Leaderboard initialization completed');
-                
-            } catch (error) {
-                debugLog('❌ Initialization failed', error.message);
-                showError(`Initialization failed: ${error.message}`);
-            }
+            setupEventListeners();
+            await loadLeaderboard();
+            
+            console.log('✅ Leaderboard initialized');
         }
 
-        // Start the application
+        // Cleanup
+        window.addEventListener('beforeunload', stopUpdateTimer);
+
+        // Start
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', init);
         } else {
             init();
         }
-
-        window.addEventListener('error', (event) => {
-            debugLog('Global error caught', {
-                message: event.message,
-                filename: event.filename,
-                lineno: event.lineno
-            });
-        });
     </script>
 </body>
 </html>
