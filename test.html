@@ -118,6 +118,24 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
+        .distribution-content {
+            display: flex;
+            gap: 24px;
+        }
+
+        .levels-area {
+            flex: 2;
+        }
+
+        .sidebar-area {
+            flex: 1;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 300px;
+        }
+
         .distribution-header {
             margin-bottom: 20px;
         }
@@ -593,66 +611,74 @@
                 <div class="distribution-title">📊 User Distribution by Level</div>
             </div>
             
-            <div class="level-bars" id="levelBars">
-                <div class="level-bar">
-                    <div class="level-label">
-                        <img src="./level1.png" alt="Level 1" class="level-icon">
-                        Lv.1 (0-1,000)
-                    </div>
-                    <div class="bar-container">
-                        <div class="bar-fill level-1" style="width: 0%"></div>
-                    </div>
-                    <div class="level-stats">
-                        <span class="level-count">0</span> users (0.0%)
+            <div class="distribution-content">
+                <div class="levels-area">
+                    <div class="level-bars" id="levelBars">
+                        <div class="level-bar">
+                            <div class="level-label">
+                                <img src="./level1.png" alt="Level 1" class="level-icon">
+                                Lv.1 (0-1,000)
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar-fill level-1" style="width: 0%"></div>
+                            </div>
+                            <div class="level-stats">
+                                <span class="level-count">0</span> users (0.0%)
+                            </div>
+                        </div>
+                        <div class="level-bar">
+                            <div class="level-label">
+                                <img src="./level2.png" alt="Level 2" class="level-icon">
+                                Lv.2 (1,001-3,500)
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar-fill level-2" style="width: 0%"></div>
+                            </div>
+                            <div class="level-stats">
+                                <span class="level-count">0</span> users (0.0%)
+                            </div>
+                        </div>
+                        <div class="level-bar">
+                            <div class="level-label">
+                                <img src="./level3.png" alt="Level 3" class="level-icon">
+                                Lv.3 (3,501-6,000)
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar-fill level-3" style="width: 0%"></div>
+                            </div>
+                            <div class="level-stats">
+                                <span class="level-count">0</span> users (0.0%)
+                            </div>
+                        </div>
+                        <div class="level-bar">
+                            <div class="level-label">
+                                <img src="./level4.png" alt="Level 4" class="level-icon">
+                                Lv.4 (6,001-10,000)
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar-fill level-4" style="width: 0%"></div>
+                            </div>
+                            <div class="level-stats">
+                                <span class="level-count">0</span> users (0.0%)
+                            </div>
+                        </div>
+                        <div class="level-bar">
+                            <div class="level-label">
+                                <img src="./level5.png" alt="Level 5" class="level-icon">
+                                Lv.5 (10,001+)
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar-fill level-5" style="width: 0%"></div>
+                            </div>
+                            <div class="level-stats">
+                                <span class="level-count">0</span> users (0.0%)
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="level-bar">
-                    <div class="level-label">
-                        <img src="./level2.png" alt="Level 2" class="level-icon">
-                        Lv.2 (1,001-3,500)
-                    </div>
-                    <div class="bar-container">
-                        <div class="bar-fill level-2" style="width: 0%"></div>
-                    </div>
-                    <div class="level-stats">
-                        <span class="level-count">0</span> users (0.0%)
-                    </div>
-                </div>
-                <div class="level-bar">
-                    <div class="level-label">
-                        <img src="./level3.png" alt="Level 3" class="level-icon">
-                        Lv.3 (3,501-6,000)
-                    </div>
-                    <div class="bar-container">
-                        <div class="bar-fill level-3" style="width: 0%"></div>
-                    </div>
-                    <div class="level-stats">
-                        <span class="level-count">0</span> users (0.0%)
-                    </div>
-                </div>
-                <div class="level-bar">
-                    <div class="level-label">
-                        <img src="./level4.png" alt="Level 4" class="level-icon">
-                        Lv.4 (6,001-10,000)
-                    </div>
-                    <div class="bar-container">
-                        <div class="bar-fill level-4" style="width: 0%"></div>
-                    </div>
-                    <div class="level-stats">
-                        <span class="level-count">0</span> users (0.0%)
-                    </div>
-                </div>
-                <div class="level-bar">
-                    <div class="level-label">
-                        <img src="./level5.png" alt="Level 5" class="level-icon">
-                        Lv.5 (10,001+)
-                    </div>
-                    <div class="bar-container">
-                        <div class="bar-fill level-5" style="width: 0%"></div>
-                    </div>
-                    <div class="level-stats">
-                        <span class="level-count">0</span> users (0.0%)
-                    </div>
+                
+                <div class="sidebar-area">
+                    <!-- Пустой блок для будущего контента -->
                 </div>
             </div>
         </div>
