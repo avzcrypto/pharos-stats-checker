@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pharos Testnet Leaderboard - Top 100 Rankings</title>
+    <title>PharosHub Dashboard - Top 100 Rankings</title>
     <meta name="description" content="Live Pharos testnet leaderboard with top 100 users and detailed activity breakdown by protocol.">
     <link rel="icon" type="image/webp" href="./logo.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,14 +44,27 @@
             align-items: center;
         }
 
-        .header-left h1 {
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header-logo {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .header-text h1 {
             font-size: 28px;
             font-weight: 800;
             color: #111827;
             margin-bottom: 4px;
         }
 
-        .header-left p {
+        .header-text p {
             color: #6b7280;
             font-size: 14px;
         }
@@ -544,7 +557,7 @@
                 padding: 20px;
             }
             
-            .header-left h1 {
+            .header-text h1 {
                 font-size: 24px;
             }
             
@@ -570,6 +583,11 @@
                 padding: 8px 4px;
                 font-size: 9px;
             }
+
+            .header-logo {
+                width: 40px;
+                height: 40px;
+            }
         }
     </style>
 </head>
@@ -579,8 +597,11 @@
         <div class="header">
             <div class="header-content">
                 <div class="header-left">
-                    <h1>Pharos Leaderboard</h1>
-                    <p>Top 100 users ranked by total points</p>
+                    <img src="./leaderboard_logo.webp" alt="PharosHub Logo" class="header-logo">
+                    <div class="header-text">
+                        <h1>PharosHub Dashboard</h1>
+                        <p>Top 100 users ranked by total points</p>
+                    </div>
                 </div>
                 <div class="header-stats">
                     <div class="stat-item">
@@ -641,7 +662,7 @@
                         <div class="level-bar">
                             <div class="level-label">
                                 <img src="./level3.png" alt="Level 3" class="level-icon">
-                                Lv.3 (3,501-6,000)
+                                <                                Lv.3 (3,501-6,000)
                             </div>
                             <div class="bar-container">
                                 <div class="bar-fill level-3" style="width: 0%"></div>
@@ -845,9 +866,8 @@
             if (!lastUpdated) return;
 
             const timeAgo = formatTimeAgo(lastUpdated);
-            const timeUntilNext = formatTimeUntilNext(lastUpdated);
             
-            elements.updateText.textContent = `Last updated: ${timeAgo} • Next refresh in ${timeUntilNext}`;
+            elements.updateText.textContent = `Dashboard automatically refreshes every hour • Last updated: ${timeAgo}`;
             elements.updateInfo.style.display = 'flex';
         }
 
