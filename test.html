@@ -96,13 +96,13 @@
 
         /* Update Info */
         .update-info {
-            background: #f0f9ff;
-            border: 1px solid #bae6fd;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
             border-radius: 6px;
             padding: 12px 16px;
             margin-bottom: 24px;
             font-size: 13px;
-            color: #0369a1;
+            color: #15803d;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -111,7 +111,7 @@
         .update-dot {
             width: 6px;
             height: 6px;
-            background: #0ea5e9;
+            background: #22c55e;
             border-radius: 50%;
             animation: pulse 2s infinite;
         }
@@ -863,11 +863,7 @@
 
         // Update time info
         function updateTimeInfo() {
-            if (!lastUpdated) return;
-
-            const timeAgo = formatTimeAgo(lastUpdated);
-            
-            elements.updateText.textContent = `Dashboard automatically refreshes every hour • Last updated: ${timeAgo}`;
+            elements.updateText.textContent = `Dashboard data refreshes every hour`;
             elements.updateInfo.style.display = 'flex';
         }
 
@@ -875,7 +871,7 @@
             if (updateTimer) clearInterval(updateTimer);
             
             updateTimeInfo();
-            updateTimer = setInterval(updateTimeInfo, 60 * 1000);
+            // Убираем setInterval - текст статичный, обновлять не нужно
         }
 
         function stopUpdateTimer() {
