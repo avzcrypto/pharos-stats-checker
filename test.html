@@ -294,9 +294,18 @@
             font-size: 11px;
             letter-spacing: 0.5px;
             position: sticky;
-            top: 0;
             z-index: 20;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Первый ряд заголовков */
+        .leaderboard-table thead tr:first-child th {
+            top: 0;
+        }
+
+        /* Второй ряд заголовков */
+        .leaderboard-table thead tr:last-child th {
+            top: 42px;
         }
 
         /* Protocol Group Colors - Едва заметные оттенки */
