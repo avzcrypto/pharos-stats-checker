@@ -19,7 +19,9 @@
             background: #fafafa;
             color: #1f2937;
             line-height: 1.5;
-        }
+    </script>
+</body>
+</html>
 
         /* Container */
         .container {
@@ -76,6 +78,23 @@
 
         .stat-item {
             text-align: center;
+            position: relative;
+        }
+
+        /* НОВОЕ: Добавлены разделители между метриками */
+        .stat-item::after {
+            content: '';
+            position: absolute;
+            right: -16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 40px;
+            background: #e5e7eb;
+        }
+
+        .stat-item:last-child::after {
+            display: none;
         }
 
         .stat-value {
@@ -659,6 +678,11 @@
             .header-stats {
                 flex-direction: column;
                 gap: 16px;
+            }
+
+            /* НОВОЕ: Скрыть разделители на мобильных */
+            .stat-item::after {
+                display: none;
             }
             
             .level-bars {
@@ -1259,6 +1283,3 @@
         } else {
             init();
         }
-    </script>
-</body>
-</html>
