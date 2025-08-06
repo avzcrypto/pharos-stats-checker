@@ -134,7 +134,7 @@
         .distribution-content {
             display: flex;
             gap: 24px;
-            align-items: flex-start;
+            align-items: stretch;
         }
 
         .levels-area {
@@ -149,6 +149,7 @@
             padding: 0;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
             gap: 16px;
         }
 
@@ -157,7 +158,8 @@
             background: rgba(59, 130, 246, 0.05);
             border: 1px solid rgba(59, 130, 246, 0.2);
             border-radius: 8px;
-            padding: 12px;
+            padding: 20px;
+            flex: 1
         }
 
         .disclaimer-header {
@@ -197,9 +199,10 @@
         .author-box {
             background: linear-gradient(145deg, #22c55e, #16a34a);
             border-radius: 8px;
-            padding: 12px;
+            padding: 20px;
             color: white;
             text-align: center;
+            flex-shrink: 0;
 
         }
 
