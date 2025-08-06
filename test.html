@@ -19,9 +19,7 @@
             background: #fafafa;
             color: #1f2937;
             line-height: 1.5;
-    </script>
-</body>
-</html>
+        }
 
         /* Container */
         .container {
@@ -78,10 +76,10 @@
 
         .stat-item {
             text-align: center;
-            position: relative;
+            position: relative; /* ДОБАВЛЕНО для разделителей */
         }
 
-        /* НОВОЕ: Добавлены разделители между метриками */
+        /* НОВОЕ: Разделители между метриками */
         .stat-item::after {
             content: '';
             position: absolute;
@@ -400,7 +398,7 @@
         /* Table Headers */
         .leaderboard-table thead th {
             background: #f9fafb;
-            padding: 5px 6px;
+            padding: 10px 6px;
             text-align: center;
             font-weight: 600;
             color: #374151;
@@ -409,8 +407,6 @@
             text-transform: uppercase;
             font-size: 11px;
             letter-spacing: 0.5px;
-            margin: 0;
-            vertical-align: middle;
         }
 
         /* Protocol Group Colors - Непрозрачные цвета для sticky */
@@ -1283,3 +1279,6 @@
         } else {
             init();
         }
+    </script>
+</body>
+</html>
