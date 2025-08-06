@@ -249,7 +249,7 @@
             color: #111827;
         }
 
-        /* Level Bars */
+        /* Level Bars - UPDATED TYPOGRAPHY */
         .level-bars {
             display: flex;
             flex-direction: column;
@@ -282,6 +282,7 @@
             border-bottom: none;
         }
 
+        /* UPDATED: Level Label Typography */
         .level-label {
             min-width: 150px;
             font-size: 13px;
@@ -290,6 +291,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            letter-spacing: -0.025em; /* Как в заголовках таблицы */
         }
 
         .level-icon {
@@ -317,18 +319,21 @@
             align-self: stretch;
         }
 
+        /* UPDATED: Level Stats Typography */
         .level-stats {
             min-width: 140px;
             text-align: right;
-            font-size: 13px;
+            font-size: 12px; /* Мельче для иерархии */
             color: #6b7280;
+            font-family: 'JetBrains Mono', monospace; /* Моноширинный для цифр */
         }
 
+        /* UPDATED: Level Count Typography */
         .level-count {
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace; /* Как в таблице */
+            font-weight: 600; /* Вместо 900 - менее агрессивно */
             color: #111827;
-            font-size: 13px;
+            font-size: 14px; /* Остается крупным, но моноширинным */
         }
 
         /* Level Colors */
@@ -646,6 +651,11 @@
                 text-align: center;
             }
             
+            .distribution-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
             .table-section {
                 height: 500px;
             }
@@ -667,6 +677,10 @@
             .header-stats {
                 flex-direction: column;
                 gap: 16px;
+            }
+            
+            .distribution-content {
+                flex-direction: column;
             }
             
             .level-bars {
@@ -722,173 +736,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Update Info -->
-        <div class="update-info" id="updateInfo" style="display: none;">
-            <div class="update-dot"></div>
-            <span id="updateText">Loading...</span>
-        </div>
-
-        <!-- User Distribution Section -->
-        <div class="distribution-section" id="distributionSection" style="display: none;">
-            <div class="distribution-header">
-                <div class="distribution-title">📊 User Distribution by Level</div>
-            </div>
-            
-            <div class="distribution-content">
-                <div class="levels-area">
-                    <div class="level-bars" id="levelBars">
-                        <div class="level-bar">
-                            <div class="level-label">
-                                <img src="./level1.png" alt="Level 1" class="level-icon">
-                                Lv.1 (0-1,000)
-                            </div>
-                            <div class="bar-container">
-                                <div class="bar-fill level-1" style="width: 0%"></div>
-                            </div>
-                            <div class="level-stats">
-                                <span class="level-count">0</span> users (0.0%)
-                            </div>
-                        </div>
-                        <div class="level-bar">
-                            <div class="level-label">
-                                <img src="./level2.png" alt="Level 2" class="level-icon">
-                                Lv.2 (1,001-3,500)
-                            </div>
-                            <div class="bar-container">
-                                <div class="bar-fill level-2" style="width: 0%"></div>
-                            </div>
-                            <div class="level-stats">
-                                <span class="level-count">0</span> users (0.0%)
-                            </div>
-                        </div>
-                        <div class="level-bar">
-                            <div class="level-label">
-                                <img src="./level3.png" alt="Level 3" class="level-icon">
-                                <                                Lv.3 (3,501-6,000)
-                            </div>
-                            <div class="bar-container">
-                                <div class="bar-fill level-3" style="width: 0%"></div>
-                            </div>
-                            <div class="level-stats">
-                                <span class="level-count">0</span> users (0.0%)
-                            </div>
-                        </div>
-                        <div class="level-bar">
-                            <div class="level-label">
-                                <img src="./level4.png" alt="Level 4" class="level-icon">
-                                Lv.4 (6,001-10,000)
-                            </div>
-                            <div class="bar-container">
-                                <div class="bar-fill level-4" style="width: 0%"></div>
-                            </div>
-                            <div class="level-stats">
-                                <span class="level-count">0</span> users (0.0%)
-                            </div>
-                        </div>
-                        <div class="level-bar">
-                            <div class="level-label">
-                                <img src="./level5.png" alt="Level 5" class="level-icon">
-                                Lv.5 (10,001+)
-                            </div>
-                            <div class="bar-container">
-                                <div class="bar-fill level-5" style="width: 0%"></div>
-                            </div>
-                            <div class="level-stats">
-                                <span class="level-count">0</span> users (0.0%)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="sidebar-area">
-                    <div class="disclaimer-box">
-                        <div class="disclaimer-header">
-                            <span class="disclaimer-icon">ℹ️</span>
-                            <h4 class="disclaimer-title">Data Source</h4>
-                        </div>
-                        <p class="disclaimer-content">
-                            This dashboard displays statistics based on users who have checked their Pharos testnet progress on <strong>pharoshub.xyz</strong>
-                        </p>
-                    </div>
-                    
-                    <div class="author-box">
-                        <div class="author-content">
-                            <div class="author-text">Made with ❤️ by @avzcrypto</div>
-                        </div>
-                        <a href="https://x.com/avzcrypto" target="_blank" class="author-link-btn">
-                            Follow for Updates 🚀
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Loading State -->
-        <div class="loading" id="loading">
-            <div class="loading-spinner"></div>
-            <p>Loading leaderboard data...</p>
-        </div>
-
-        <!-- Error State -->
-        <div class="error-state" id="errorState" style="display: none;">
-            <div class="error-title">Connection Error</div>
-            <div class="error-message">Unable to load leaderboard data. Please try again.</div>
-            <button class="retry-btn" onclick="loadLeaderboard()">Retry</button>
-        </div>
-
-        <!-- Main Table -->
-        <div class="table-section" id="tableSection" style="display: none;">
-            <div class="table-header">
-                <div class="table-title">🏆 Top 100 Users</div>
-            </div>
-            
-            <div class="table-container">
-                <table class="leaderboard-table">
-                    <thead>
-                        <tr>
-                            <th rowspan="2" style="width: 50px;">Rank</th>
-                            <th rowspan="2" style="width: 100px;">User</th>
-                            <th rowspan="2" style="width: 90px;">Points & Level</th>
-                            <th colspan="2" class="header-main header-send">Send</th>
-                            <th colspan="2" class="header-main header-zenith">Zenith</th>
-                            <th colspan="2" class="header-main header-faroswap">Faroswap</th>
-                            <th colspan="2" class="header-main header-domains">Domains & NFT</th>
-                            <th rowspan="2" class="header-season2" style="width: 55px;">RWAfi</th>
-                            <th rowspan="2" class="header-season2" style="width: 55px;">Stake</th>
-                            <th rowspan="2" class="header-season2" style="width: 60px;">BTC Bridge</th>
-                            <th rowspan="2" class="header-season2" style="width: 60px;">CFD Trading</th>
-                        </tr>
-                        <tr>
-                            <th class="header-sub header-send" style="width: 50px;">Onchain</th>
-                            <th class="header-sub header-send" style="width: 55px;">Primuslabs</th>
-                            <th class="header-sub header-zenith" style="width: 50px;">Swaps</th>
-                            <th class="header-sub header-zenith" style="width: 40px;">LP</th>
-                            <th class="header-sub header-faroswap" style="width: 50px;">Swaps</th>
-                            <th class="header-sub header-faroswap" style="width: 40px;">LP</th>
-                            <th class="header-sub header-domains" style="width: 50px;">Domains</th>
-                            <th class="header-sub header-domains" style="width: 40px;">NFTs</th>
-                        </tr>
-                    </thead>
-                    <tbody id="leaderboardBody">
-                        <!-- Dynamic content -->
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Pagination -->
-            <div class="pagination">
-                <button class="pagination-btn" id="prevBtn" disabled>← Prev</button>
-                <span class="pagination-info" id="paginationInfo">Page 1 of 5</span>
-                <button class="pagination-btn" data-page="1" class="active">1</button>
-                <button class="pagination-btn" data-page="2">2</button>
-                <button class="pagination-btn" data-page="3">3</button>
-                <button class="pagination-btn" data-page="4">4</button>
-                <button class="pagination-btn" data-page="5">5</button>
-                <button class="pagination-btn" id="nextBtn">Next →</button>
-            </div>
-        </div>
-    </div>
 
     <script>
         // Global state
@@ -1264,4 +1111,169 @@
         }
     </script>
 </body>
-</html>
+</html>    <!-- Update Info -->
+        <div class="update-info" id="updateInfo" style="display: none;">
+            <div class="update-dot"></div>
+            <span id="updateText">Loading...</span>
+        </div>
+
+        <!-- User Distribution Section -->
+        <div class="distribution-section" id="distributionSection" style="display: none;">
+            <div class="distribution-header">
+                <div class="distribution-title">📊 User Distribution by Level</div>
+            </div>
+            
+            <div class="distribution-content">
+                <div class="levels-area">
+                    <div class="level-bars" id="levelBars">
+                        <div class="level-bar">
+                            <div class="level-label">
+                                <img src="./level1.png" alt="Level 1" class="level-icon">
+                                Lv.1 (0-1,000)
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar-fill level-1" style="width: 0%"></div>
+                            </div>
+                            <div class="level-stats">
+                                <span class="level-count">0</span> users (0.0%)
+                            </div>
+                        </div>
+                        <div class="level-bar">
+                            <div class="level-label">
+                                <img src="./level2.png" alt="Level 2" class="level-icon">
+                                Lv.2 (1,001-3,500)
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar-fill level-2" style="width: 0%"></div>
+                            </div>
+                            <div class="level-stats">
+                                <span class="level-count">0</span> users (0.0%)
+                            </div>
+                        </div>
+                        <div class="level-bar">
+                            <div class="level-label">
+                                <img src="./level3.png" alt="Level 3" class="level-icon">
+                                Lv.3 (3,501-6,000)
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar-fill level-3" style="width: 0%"></div>
+                            </div>
+                            <div class="level-stats">
+                                <span class="level-count">0</span> users (0.0%)
+                            </div>
+                        </div>
+                        <div class="level-bar">
+                            <div class="level-label">
+                                <img src="./level4.png" alt="Level 4" class="level-icon">
+                                Lv.4 (6,001-10,000)
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar-fill level-4" style="width: 0%"></div>
+                            </div>
+                            <div class="level-stats">
+                                <span class="level-count">0</span> users (0.0%)
+                            </div>
+                        </div>
+                        <div class="level-bar">
+                            <div class="level-label">
+                                <img src="./level5.png" alt="Level 5" class="level-icon">
+                                Lv.5 (10,001+)
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar-fill level-5" style="width: 0%"></div>
+                            </div>
+                            <div class="level-stats">
+                                <span class="level-count">0</span> users (0.0%)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sidebar-area">
+                    <div class="disclaimer-box">
+                        <div class="disclaimer-header">
+                            <span class="disclaimer-icon">ℹ️</span>
+                            <h4 class="disclaimer-title">Data Source</h4>
+                        </div>
+                        <p class="disclaimer-content">
+                            This dashboard displays statistics based on users who have checked their Pharos testnet progress on <strong>pharoshub.xyz</strong>
+                        </p>
+                    </div>
+                    
+                    <div class="author-box">
+                        <div class="author-content">
+                            <div class="author-text">Made with ❤️ by @avzcrypto</div>
+                        </div>
+                        <a href="https://x.com/avzcrypto" target="_blank" class="author-link-btn">
+                            Follow for Updates 🚀
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p>Loading leaderboard data...</p>
+        </div>
+
+        <!-- Error State -->
+        <div class="error-state" id="errorState" style="display: none;">
+            <div class="error-title">Connection Error</div>
+            <div class="error-message">Unable to load leaderboard data. Please try again.</div>
+            <button class="retry-btn" onclick="loadLeaderboard()">Retry</button>
+        </div>
+
+        <!-- Main Table -->
+        <div class="table-section" id="tableSection" style="display: none;">
+            <div class="table-header">
+                <div class="table-title">🏆 Top 100 Users</div>
+            </div>
+            
+            <div class="table-container">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="width: 50px;">Rank</th>
+                            <th rowspan="2" style="width: 100px;">User</th>
+                            <th rowspan="2" style="width: 90px;">Points & Level</th>
+                            <th colspan="2" class="header-main header-send">Send</th>
+                            <th colspan="2" class="header-main header-zenith">Zenith</th>
+                            <th colspan="2" class="header-main header-faroswap">Faroswap</th>
+                            <th colspan="2" class="header-main header-domains">Domains & NFT</th>
+                            <th rowspan="2" class="header-season2" style="width: 55px;">RWAfi</th>
+                            <th rowspan="2" class="header-season2" style="width: 55px;">Stake</th>
+                            <th rowspan="2" class="header-season2" style="width: 60px;">BTC Bridge</th>
+                            <th rowspan="2" class="header-season2" style="width: 60px;">CFD Trading</th>
+                        </tr>
+                        <tr>
+                            <th class="header-sub header-send" style="width: 50px;">Onchain</th>
+                            <th class="header-sub header-send" style="width: 55px;">Primuslabs</th>
+                            <th class="header-sub header-zenith" style="width: 50px;">Swaps</th>
+                            <th class="header-sub header-zenith" style="width: 40px;">LP</th>
+                            <th class="header-sub header-faroswap" style="width: 50px;">Swaps</th>
+                            <th class="header-sub header-faroswap" style="width: 40px;">LP</th>
+                            <th class="header-sub header-domains" style="width: 50px;">Domains</th>
+                            <th class="header-sub header-domains" style="width: 40px;">NFTs</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardBody">
+                        <!-- Dynamic content -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="pagination-btn" id="prevBtn" disabled>← Prev</button>
+                <span class="pagination-info" id="paginationInfo">Page 1 of 5</span>
+                <button class="pagination-btn" data-page="1" class="active">1</button>
+                <button class="pagination-btn" data-page="2">2</button>
+                <button class="pagination-btn" data-page="3">3</button>
+                <button class="pagination-btn" data-page="4">4</button>
+                <button class="pagination-btn" data-page="5">5</button>
+                <button class="pagination-btn" id="nextBtn">Next →</button>
+            </div>
+        </div>
+    </div>
