@@ -868,15 +868,17 @@
 
             <!-- Pagination -->
             <div class="pagination">
-                <button class="pagination-btn" id="prevBtn" disabled>← Prev</button>
-                <span class="pagination-info" id="paginationInfo">Page 1 of 5</span>
-                <button class="pagination-btn" data-page="1" class="active">1</button>
-                <button class="pagination-btn" data-page="2">2</button>
-                <button class="pagination-btn" data-page="3">3</button>
-                <button class="pagination-btn" data-page="4">4</button>
-                <button class="pagination-btn" data-page="5">5</button>
-                <button class="pagination-btn" id="nextBtn">Next →</button>
-            </div>
+    <button class="pagination-btn" id="prevBtn" disabled>← Prev</button>
+    <span class="pagination-info" id="paginationInfo">Page 1 of 10</span>
+    <button class="pagination-btn" data-page="1" class="active">1</button>
+    <button class="pagination-btn" data-page="2">2</button>
+    <button class="pagination-btn" data-page="3">3</button>
+    <button class="pagination-btn" data-page="4">4</button>
+    <button class="pagination-btn" data-page="5">5</button>
+    <span>...</span>
+    <button class="pagination-btn" data-page="10">10</button>
+    <button class="pagination-btn" id="nextBtn">Next →</button>
+</div>
         </div>
     </div>
 
@@ -888,8 +890,8 @@
         let updateTimer = null;
         let isLoading = false;
         
-        const USERS_PER_PAGE = 20;
-        const TOTAL_PAGES = 5;
+        const USERS_PER_PAGE = 10;
+        const TOTAL_PAGES = 10;
         const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
 
         // Level structure
@@ -1061,13 +1063,13 @@
             elements.paginationInfo.textContent = `Showing ${startRank}-${endRank} of ${allUsers.length}`;
             
             // Update buttons
-            document.querySelectorAll('.pagination-btn[data-page]').forEach(btn => {
-                btn.classList.toggle('active', parseInt(btn.dataset.page) === currentPage);
-            });
-            
-            elements.prevBtn.disabled = currentPage === 1;
-            elements.nextBtn.disabled = currentPage === TOTAL_PAGES;
-        }
+             document.querySelectorAll('.pagination-btn[data-page]').forEach(btn => {
+        btn.classList.toggle('active', parseInt(btn.dataset.page) === currentPage);
+    });
+    
+    elements.prevBtn.disabled = currentPage === 1;
+    elements.nextBtn.disabled = currentPage === TOTAL_PAGES; 
+}
 
         // Page navigation с скроллом к началу таблицы
         function changePage(page) {
