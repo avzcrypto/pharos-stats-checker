@@ -8,7 +8,7 @@
     <link rel="icon" type="image/webp" href="./logo.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         /* Reset & Base */
@@ -28,14 +28,14 @@
             padding: 20px;
         }
 
-        /* Header */
+        /* Header - PROFESSIONAL UPGRADE */
         .header {
             background: white;
             border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 24px;
+            border-radius: 12px;
+            padding: 32px;
             margin-bottom: 24px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .header-content {
@@ -47,47 +47,58 @@
         .header-left {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 24px;
         }
 
         .header-logo {
-            width: 80px;
-            height: 80px;
+            width: 88px;
+            height: 88px;
             object-fit: contain;
             flex-shrink: 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
+        /* PROFESSIONAL TYPOGRAPHY HIERARCHY */
         .header-text h1 {
-            font-size: 34px;
-            font-weight: 800;
-            color: #111827;
-            margin-bottom: 4px;
+            font-size: 42px;
+            font-weight: 900;
+            color: #0f172a;
+            margin-bottom: 6px;
+            letter-spacing: -0.025em;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #0f172a 0%, #374151 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .header-text p {
-            color: #6b7280;
-            font-size: 16px;
+            color: #64748b;
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 1.4;
         }
 
         .header-stats {
             display: flex;
-            gap: 32px;
+            gap: 40px;
         }
 
         .stat-item {
             text-align: center;
-            position: relative; /* ДОБАВЛЕНО для разделителей */
+            position: relative;
         }
 
-        /* НОВОЕ: Разделители между метриками */
+        /* Разделители между метриками */
         .stat-item::after {
             content: '';
             position: absolute;
-            right: -16px;
+            right: -20px;
             top: 50%;
             transform: translateY(-50%);
             width: 1px;
-            height: 40px;
+            height: 50px;
             background: #e5e7eb;
         }
 
@@ -97,37 +108,41 @@
 
         .stat-value {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 700;
-            color: #111827;
-            margin-bottom: 4px;
+            color: #0f172a;
+            margin-bottom: 6px;
+            letter-spacing: -0.02em;
+            line-height: 1;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
 
         .stat-label {
-            font-size: 14px;
-            color: #6b7280;
+            font-size: 12px;
+            color: #64748b;
             text-transform: uppercase;
             font-weight: 600;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.05em;
         }
 
         /* Update Info */
         .update-info {
             background: #f0fdf4;
             border: 1px solid #bbf7d0;
-            border-radius: 6px;
-            padding: 12px 16px;
+            border-radius: 8px;
+            padding: 16px 20px;
             margin-bottom: 24px;
-            font-size: 13px;
+            font-size: 14px;
             color: #15803d;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            font-weight: 500;
         }
 
         .update-dot {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             background: #22c55e;
             border-radius: 50%;
             animation: pulse 2s infinite;
@@ -138,19 +153,19 @@
             50% { opacity: 0.4; }
         }
 
-        /* Distribution Section */
+        /* Distribution Section - PROFESSIONAL UPGRADE */
         .distribution-section {
             background: white;
             border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 24px;
+            border-radius: 12px;
+            padding: 32px;
             margin-bottom: 24px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .distribution-content {
             display: flex;
-            gap: 24px;
+            gap: 32px;
             align-items: stretch;
         }
 
@@ -167,45 +182,46 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            gap: 16px;
+            gap: 20px;
         }
 
         /* Disclaimer Box */
         .disclaimer-box {
             background: rgba(59, 130, 246, 0.05);
             border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 8px;
-            padding: 20px;
+            border-radius: 10px;
+            padding: 24px;
             flex: 1
         }
 
         .disclaimer-header {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 10px;
+            margin-bottom: 14px;
         }
 
         .disclaimer-icon {
-            font-size: 16px;
+            font-size: 18px;
         }
 
         .disclaimer-title {
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 700;
             color: #1e40af;
             margin: 0;
         }
 
         .disclaimer-content {
-            font-size: 13px;
+            font-size: 14px;
             color: #374151;
             line-height: 1.5;
             margin: 0 0 8px 0;
+            font-weight: 500;
         }
 
         .disclaimer-note {
-            font-size: 12px;
+            font-size: 13px;
             color: #6b7280;
             line-height: 1.4;
             margin: 0;
@@ -215,28 +231,28 @@
         /* Author Box */
         .author-box {
             background: linear-gradient(145deg, #22c55e, #16a34a);
-            border-radius: 8px;
-            padding: 20px;
+            border-radius: 10px;
+            padding: 24px;
             color: white;
             text-align: center;
             flex-shrink: 0;
-
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
         }
 
         .author-content {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 12px;
+            gap: 12px;
+            margin-bottom: 14px;
         }
 
         .author-emoji {
-            font-size: 18px;
+            font-size: 20px;
         }
 
         .author-text {
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 700;
             color: white;
         }
@@ -246,9 +262,9 @@
             background: rgba(255, 255, 255, 0.2);
             color: white;
             text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 12px;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 13px;
             font-weight: 600;
             transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.3);
@@ -256,20 +272,21 @@
 
         .author-link-btn:hover {
             background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-1px);
+            transform: translateY(-2px);
         }
 
         .distribution-header {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .distribution-title {
-            font-size: 18px;
+            font-size: 24px;
             font-weight: 700;
-            color: #111827;
+            color: #0f172a;
+            letter-spacing: -0.01em;
         }
 
-        /* Level Bars */
+        /* Level Bars - PROFESSIONAL UPGRADE */
         .level-bars {
             display: flex;
             flex-direction: column;
@@ -279,10 +296,11 @@
         .level-bar {
             display: flex;
             align-items: center;
-            gap: 12px;
-            height: 55px;
-            padding: 12px 6px;
+            gap: 16px;
+            height: 60px;
+            padding: 16px 8px;
             border-bottom: 1px solid #f3f4f6;
+            transition: all 0.2s ease;
         }
 
         .level-bar:nth-child(odd) {
@@ -290,12 +308,13 @@
         }
 
         .level-bar:nth-child(even) {
-            background: white;
+            background: #fbfcfd;
         }
 
         .level-bar:hover {
             background: #f1f5f9 !important;
-            transition: background-color 0.15s ease;
+            transform: translateX(4px);
+            transition: all 0.2s ease;
         }
 
         .level-bar:last-child {
@@ -303,83 +322,87 @@
         }
 
         .level-label {
-            min-width: 180px;
-            font-size: 13px;
+            min-width: 200px;
+            font-size: 15px;
             font-weight: 600;
-            color: #374151;
+            color: #1e293b;
             display: flex;
             align-items: center;
-            gap: 10px;
-            letter-spacing: -0.025em;  
+            gap: 14px;
+            letter-spacing: -0.01em;
         }
 
         .level-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 4px;
+            width: 44px;
+            height: 44px;
+            border-radius: 6px;
             object-fit: cover;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .bar-container {
             flex: 1;
-            height: 28px;
-            background: #f3f4f6;
-            border-radius: 4px;
+            height: 32px;
+            background: #f1f5f9;
+            border-radius: 6px;
             overflow: hidden;
             position: relative;
             display: flex;
             align-items: center;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
         }
 
         .bar-fill {
             height: 100%;
-            border-radius: 4px;
-            transition: width 0.6s ease;
+            border-radius: 6px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             align-self: stretch;
         }
 
         .level-stats {
-            min-width: 140px;
+            min-width: 160px;
             text-align: right;
-            font-size: 12px;
-            color: #6b7280;
+            font-size: 13px;
+            color: #64748b;
             font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
         }
 
         .level-count {
             font-family: 'JetBrains Mono', monospace;
-            font-weight: 600;
-            color: #111827;
-            font-size: 14px;
+            font-weight: 700;
+            color: #0f172a;
+            font-size: 15px;
         }
 
-        /* Level Colors */
-        .level-1 { background: linear-gradient(90deg, #6b7280, #4b5563); }
-        .level-2 { background: linear-gradient(90deg, #84cc16, #65a30d); }
-        .level-3 { background: linear-gradient(90deg, #06b6d4, #0891b2); }
-        .level-4 { background: linear-gradient(90deg, #8b5cf6, #7c3aed); }
-        .level-5 { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+        /* Level Colors - Enhanced gradients */
+        .level-1 { background: linear-gradient(90deg, #6b7280, #4b5563); box-shadow: 0 1px 3px rgba(107, 114, 128, 0.3); }
+        .level-2 { background: linear-gradient(90deg, #84cc16, #65a30d); box-shadow: 0 1px 3px rgba(132, 204, 22, 0.3); }
+        .level-3 { background: linear-gradient(90deg, #06b6d4, #0891b2); box-shadow: 0 1px 3px rgba(6, 182, 212, 0.3); }
+        .level-4 { background: linear-gradient(90deg, #8b5cf6, #7c3aed); box-shadow: 0 1px 3px rgba(139, 92, 246, 0.3); }
+        .level-5 { background: linear-gradient(90deg, #fbbf24, #f59e0b); box-shadow: 0 1px 3px rgba(251, 191, 36, 0.3); }
 
-        /* Main Table Section */
+        /* Main Table Section - PROFESSIONAL UPGRADE */
         .table-section {
             background: white;
             border: 1px solid #e5e7eb;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
             position: relative;
         }
 
         .table-header {
-            background: #f9fafb;
-            padding: 16px 24px;
+            background: linear-gradient(135deg, #f9fafb, #f1f5f9);
+            padding: 20px 28px;
             border-bottom: 1px solid #e5e7eb;
         }
 
         .table-title {
-            font-size: 18px;
+            font-size: 22px;
             font-weight: 700;
-            color: #111827;
+            color: #0f172a;
+            letter-spacing: -0.01em;
         }
 
         /* Table */
@@ -395,62 +418,64 @@
             position: relative;
         }
 
-        /* Table Headers */
+        /* Table Headers - PROFESSIONAL UPGRADE */
         .leaderboard-table thead th {
             background: #f9fafb;
-            padding: 10px 6px;
+            padding: 12px 8px;
             text-align: center;
             font-weight: 600;
             color: #374151;
             border-right: 1px solid #e5e7eb;
-            border-bottom: 2px solid #e5e7eb;;
+            border-bottom: 2px solid #e5e7eb;
             text-transform: uppercase;
             font-size: 11px;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.05em;
+            line-height: 1.3;
         }
 
-        /* Protocol Group Colors - Непрозрачные цвета для sticky */
+        /* Protocol Group Colors - Enhanced */
         .header-send { 
-            background: #fef3c7 !important; 
+            background: linear-gradient(135deg, #fef3c7, #fde68a) !important; 
         }
         
         .header-zenith { 
-            background: #dbeafe !important; 
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe) !important; 
         }
         
         .header-faroswap { 
-            background: #d1fae5 !important; 
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0) !important; 
         }
         
         .header-domains { 
-            background: #ede9fe !important; 
+            background: linear-gradient(135deg, #ede9fe, #ddd6fe) !important; 
         }
         
         .header-season2 { 
-            background: #fce7f3 !important; 
+            background: linear-gradient(135deg, #fce7f3, #fbcfe8) !important; 
         }
 
         .leaderboard-table thead th:last-child {
             border-right: none;
         }
 
-        /* Table Body */
+        /* Table Body - PROFESSIONAL UPGRADE */
         .leaderboard-table tbody tr:nth-child(odd) {
             background: white;
         }
 
         .leaderboard-table tbody tr:nth-child(even) {
-            background: #f8fafc;
+            background: #fbfcfd;
         }
 
         .leaderboard-table tbody tr {
             border-bottom: 1px solid #f3f4f6;
-            transition: background-color 0.15s ease;
-            height: 50px;
+            transition: all 0.2s ease;
+            height: 54px;
         }
 
         .leaderboard-table tbody tr:hover {
             background: #f1f5f9 !important;
+            transform: translateX(2px);
         }
 
         .leaderboard-table tbody tr:last-child {
@@ -458,7 +483,7 @@
         }
 
         .leaderboard-table td {
-            padding: 10px 6px;
+            padding: 12px 8px;
             text-align: center;
             border-right: 1px solid #f3f4f6;
             vertical-align: middle;
@@ -468,93 +493,108 @@
             border-right: none;
         }
 
-        /* Rank Column */
+        /* Rank Column - PROFESSIONAL UPGRADE */
         .rank {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
-            font-size: 13px;
-            width: 30px;
-            height: 30px;
-            border-radius: 4px;
+            font-size: 14px;
+            width: 34px;
+            height: 34px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto;
+            transition: transform 0.2s ease;
         }
 
-        .rank-1 { background: #fbbf24; color: #92400e; }
-        .rank-2 { background: #d1d5db; color: #374151; }
-        .rank-3 { background: #f59e0b; color: #92400e; }
-        .rank-top10 { background: #dbeafe; color: #1d4ed8; }
-        .rank-default { background: #f3f4f6; color: #6b7280; }
+        .rank:hover {
+            transform: scale(1.05);
+        }
+
+        .rank-1 { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #92400e; box-shadow: 0 2px 6px rgba(251, 191, 36, 0.3); }
+        .rank-2 { background: linear-gradient(135deg, #d1d5db, #9ca3af); color: #374151; box-shadow: 0 2px 6px rgba(156, 163, 175, 0.3); }
+        .rank-3 { background: linear-gradient(135deg, #f59e0b, #d97706); color: #92400e; box-shadow: 0 2px 6px rgba(245, 158, 11, 0.3); }
+        .rank-top10 { background: linear-gradient(135deg, #dbeafe, #93c5fd); color: #1d4ed8; box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3); }
+        .rank-default { background: linear-gradient(135deg, #f3f4f6, #e5e7eb); color: #6b7280; }
 
         /* User Column */
         .user-info {
             text-align: left;
-            min-width: 90px;
+            min-width: 100px;
         }
 
         .address {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            color: #1f2937;
+            font-size: 13px;
+            color: #1e293b;
             font-weight: 600;
         }
 
-        /* Points & Level */
+        /* Points & Level - PROFESSIONAL UPGRADE */
         .points-level {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 3px;
-            min-width: 80px;
+            gap: 4px;
+            min-width: 90px;
         }
 
         .points {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
-            font-size: 14px;
-            color: #111827;
+            font-size: 16px;
+            color: #0f172a;
+            letter-spacing: -0.01em;
         }
 
         .level-badge {
-            background: #10b981;
+            background: linear-gradient(135deg, #10b981, #059669);
             color: white;
-            padding: 2px 5px;
-            border-radius: 3px;
+            padding: 3px 7px;
+            border-radius: 4px;
             font-size: 12px;
             font-weight: 600;
+            box-shadow: 0 1px 3px rgba(16, 185, 129, 0.3);
         }
 
-        /* Activity Numbers */
+        /* Activity Numbers - PROFESSIONAL UPGRADE */
         .activity-number {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 600;
-            color: #374151;
-            font-size: 13px;
+            color: #1e293b;
+            font-size: 14px;
+            letter-spacing: -0.005em;
         }
 
         .activity-zero {
             color: #9ca3af;
+            font-weight: 500;
         }
 
         /* Loading & Error States */
         .loading {
             display: none;
             text-align: center;
-            padding: 60px 20px;
+            padding: 80px 20px;
         }
 
         .loading.show { display: block; }
 
         .loading-spinner {
-            width: 32px;
-            height: 32px;
-            border: 3px solid #f3f4f6;
-            border-top: 3px solid #3b82f6;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f4f6;
+            border-top: 4px solid #3b82f6;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 16px;
+            margin: 0 auto 20px;
+        }
+
+        .loading p {
+            font-size: 16px;
+            font-weight: 500;
+            color: #64748b;
         }
 
         @keyframes spin {
@@ -565,73 +605,80 @@
         .error-state {
             background: #fef2f2;
             border: 1px solid #fecaca;
-            border-radius: 6px;
-            padding: 24px;
+            border-radius: 10px;
+            padding: 32px;
             text-align: center;
             margin: 20px 0;
         }
 
         .error-title {
-            font-size: 16px;
+            font-size: 19px;
             font-weight: 600;
             color: #dc2626;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .error-message {
             color: #6b7280;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
+            font-size: 15px;
+            font-weight: 500;
         }
 
         .retry-btn {
             background: #3b82f6;
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
+            transition: all 0.2s ease;
         }
 
         .retry-btn:hover {
             background: #2563eb;
+            transform: translateY(-1px);
         }
 
-        /* Pagination */
+        /* Pagination - PROFESSIONAL UPGRADE */
         .pagination {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 8px;
-            padding: 20px;
-            background: #f9fafb;
+            gap: 10px;
+            padding: 24px;
+            background: linear-gradient(135deg, #f9fafb, #f1f5f9);
             border-top: 1px solid #e5e7eb;
         }
 
         .pagination-btn {
-            padding: 8px 12px;
+            padding: 10px 14px;
             border: 1px solid #d1d5db;
-            border-radius: 6px;
+            border-radius: 8px;
             background: white;
             color: #374151;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.15s ease;
-            min-width: 36px;
+            transition: all 0.2s ease;
+            min-width: 40px;
             text-align: center;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
 
         .pagination-btn:hover:not(:disabled) {
             background: #f3f4f6;
             border-color: #9ca3af;
+            transform: translateY(-1px);
         }
 
         .pagination-btn.active {
-            background: #3b82f6;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
             border-color: #3b82f6;
             color: white;
+            box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
         }
 
         .pagination-btn:disabled {
@@ -640,21 +687,27 @@
         }
 
         .pagination-info {
-            font-size: 12px;
-            color: #6b7280;
-            margin: 0 16px;
+            font-size: 13px;
+            color: #64748b;
+            margin: 0 20px;
+            font-weight: 500;
         }
 
         /* Responsive */
         @media (max-width: 1024px) {
             .header-content {
                 flex-direction: column;
-                gap: 20px;
+                gap: 24px;
                 text-align: center;
             }
             
             .table-section {
                 height: 500px;
+            }
+            
+            .distribution-content {
+                flex-direction: column;
+                gap: 24px;
             }
         }
 
@@ -664,30 +717,33 @@
             }
             
             .header {
-                padding: 20px;
+                padding: 24px;
             }
             
             .header-text h1 {
-                font-size: 24px;
+                font-size: 28px;
+            }
+            
+            .header-text p {
+                font-size: 16px;
             }
             
             .header-stats {
                 flex-direction: column;
-                gap: 16px;
+                gap: 20px;
             }
 
-            /* НОВОЕ: Скрыть разделители на мобильных */
             .stat-item::after {
                 display: none;
             }
             
             .level-bars {
-                gap: 10px;
+                gap: 12px;
             }
             
             .level-label {
-                min-width: 100px;
-                font-size: 11px;
+                min-width: 120px;
+                font-size: 12px;
             }
             
             .table-section {
@@ -695,13 +751,13 @@
             }
             
             .leaderboard-table thead th {
-                padding: 8px 4px;
-                font-size: 9px;
+                padding: 10px 6px;
+                font-size: 10px;
             }
 
             .header-logo {
-                width: 56px;
-                height: 56px;
+                width: 64px;
+                height: 64px;
             }
         }
     </style>
@@ -890,20 +946,20 @@
 
             <!-- Pagination -->
             <div class="pagination">
-    <button class="pagination-btn" id="prevBtn" disabled>← Prev</button>
-    <span class="pagination-info" id="paginationInfo">Page 1 of 10</span>
-    <button class="pagination-btn" data-page="1" class="active">1</button>
-    <button class="pagination-btn" data-page="2">2</button>
-    <button class="pagination-btn" data-page="3">3</button>
-    <button class="pagination-btn" data-page="4">4</button>
-    <button class="pagination-btn" data-page="5">5</button>
-    <button class="pagination-btn" data-page="6">6</button>
-    <button class="pagination-btn" data-page="7">7</button>
-    <button class="pagination-btn" data-page="8">8</button>
-    <button class="pagination-btn" data-page="9">9</button>
-    <button class="pagination-btn" data-page="10">10</button>
-    <button class="pagination-btn" id="nextBtn">Next →</button>
-</div>
+                <button class="pagination-btn" id="prevBtn" disabled>← Prev</button>
+                <span class="pagination-info" id="paginationInfo">Page 1 of 10</span>
+                <button class="pagination-btn" data-page="1" class="active">1</button>
+                <button class="pagination-btn" data-page="2">2</button>
+                <button class="pagination-btn" data-page="3">3</button>
+                <button class="pagination-btn" data-page="4">4</button>
+                <button class="pagination-btn" data-page="5">5</button>
+                <button class="pagination-btn" data-page="6">6</button>
+                <button class="pagination-btn" data-page="7">7</button>
+                <button class="pagination-btn" data-page="8">8</button>
+                <button class="pagination-btn" data-page="9">9</button>
+                <button class="pagination-btn" data-page="10">10</button>
+                <button class="pagination-btn" id="nextBtn">Next →</button>
+            </div>
         </div>
     </div>
 
@@ -963,41 +1019,6 @@
             return 'rank-default';
         }
 
-        // Time formatting
-        function formatTimeAgo(timestamp) {
-            const now = Date.now();
-            const diff = now - timestamp;
-            const minutes = Math.floor(diff / (1000 * 60));
-            
-            if (minutes < 1) return 'just now';
-            if (minutes === 1) return '1 minute ago';
-            if (minutes < 60) return `${minutes} minutes ago`;
-            
-            const hours = Math.floor(minutes / 60);
-            if (hours === 1) return '1 hour ago';
-            return `${hours} hours ago`;
-        }
-
-        function formatTimeUntilNext(timestamp) {
-            const nextUpdate = timestamp + CACHE_DURATION;
-            const now = Date.now();
-            const diff = nextUpdate - now;
-            
-            if (diff <= 0) return 'updating soon';
-            
-            const minutes = Math.floor(diff / (1000 * 60));
-            if (minutes < 1) return 'less than 1 minute';
-            if (minutes === 1) return '1 minute';
-            if (minutes < 60) return `${minutes} minutes`;
-            
-            const hours = Math.floor(minutes / 60);
-            const remainingMinutes = minutes % 60;
-            if (hours === 1) {
-                return remainingMinutes > 0 ? `1 hour ${remainingMinutes} minutes` : '1 hour';
-            }
-            return remainingMinutes > 0 ? `${hours} hours ${remainingMinutes} minutes` : `${hours} hours`;
-        }
-
         // Update time info
         function updateTimeInfo() {
             elements.updateText.textContent = `Dashboard data refreshes every hour`;
@@ -1006,9 +1027,7 @@
 
         function startUpdateTimer() {
             if (updateTimer) clearInterval(updateTimer);
-            
             updateTimeInfo();
-            // Убираем setInterval - текст статичный, обновлять не нужно
         }
 
         function stopUpdateTimer() {
@@ -1088,33 +1107,25 @@
             elements.paginationInfo.textContent = `Showing ${startRank}-${endRank} of ${allUsers.length}`;
             
             // Update buttons
-             document.querySelectorAll('.pagination-btn[data-page]').forEach(btn => {
-        btn.classList.toggle('active', parseInt(btn.dataset.page) === currentPage);
-    });
-    
-    elements.prevBtn.disabled = currentPage === 1;
-    elements.nextBtn.disabled = currentPage === TOTAL_PAGES; 
-}
+            document.querySelectorAll('.pagination-btn[data-page]').forEach(btn => {
+                btn.classList.toggle('active', parseInt(btn.dataset.page) === currentPage);
+            });
+            
+            elements.prevBtn.disabled = currentPage === 1;
+            elements.nextBtn.disabled = currentPage === TOTAL_PAGES; 
+        }
 
-        // Page navigation с скроллом к началу таблицы
+        // Page navigation
         function changePage(page) {
             if (page === currentPage || page < 1 || page > TOTAL_PAGES) return;
             
             currentPage = page;
             renderTable();
             
-            // Скролл к началу контейнера таблицы (не всей секции)
+            // Скролл к началу контейнера таблицы
             const tableContainer = document.querySelector('.table-container');
             if (tableContainer) {
-                tableContainer.scrollTop = 0; // Мгновенный скролл к верху таблицы
-            }
-        }
-
-        // Простая инициализация
-        function initializeStickyHeaders() {
-            const tableContainer = document.querySelector('.table-container');
-            if (tableContainer) {
-                tableContainer.style.position = 'relative';
+                tableContainer.scrollTop = 0;
             }
         }
 
@@ -1264,7 +1275,6 @@
             console.log('🚀 Initializing Pharos Leaderboard...');
             
             setupEventListeners();
-            initializeStickyHeaders();
             await loadLeaderboard();
             
             console.log('✅ Leaderboard initialized');
