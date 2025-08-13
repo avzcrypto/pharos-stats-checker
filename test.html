@@ -312,9 +312,6 @@
             position: relative;
             overflow: hidden;
             width: 100%;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
         }
 
         .author-block-final:hover {
@@ -356,14 +353,19 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-weight: 900;
-            font-size: 22px;
+            overflow: hidden;
             box-shadow: 
                 0 10px 25px rgba(34, 197, 94, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
             transition: all 0.4s ease;
             position: relative;
+        }
+
+        .author-avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
         }
 
         .author-icon-final::after {
@@ -813,7 +815,6 @@
                 gap: 24px;
                 text-align: center;
                 padding: 28px 24px;
-                max-width: none;
                 margin: 24px 0;
             }
             
@@ -938,7 +939,9 @@
                 <a href="https://x.com/avzcrypto" target="_blank" class="author-block-final" id="resultsAuthorLink">
                     <div class="gradient-line"></div>
                     <div class="author-left-final">
-                        <div class="author-icon-final">@</div>
+                        <div class="author-icon-final">
+                            <img src="./twitter.jpg" alt="@avzcrypto" class="author-avatar-img">
+                        </div>
                         <div class="author-text-final">
                             <div class="author-name-final">
                                 Created by @avzcrypto
@@ -1115,7 +1118,9 @@
             <a href="https://x.com/avzcrypto" target="_blank" class="author-block-final" id="authorLink">
                 <div class="gradient-line"></div>
                 <div class="author-left-final">
-                    <div class="author-icon-final">@</div>
+                    <div class="author-icon-final">
+                        <img src="./twitter.jpg" alt="@avzcrypto" class="author-avatar-img">
+                    </div>
                     <div class="author-text-final">
                         <div class="author-name-final">
                             Created by @avzcrypto
