@@ -265,7 +265,6 @@
             letter-spacing: 0.025em;
         }
 
-        /* Стили для контекста ранга */
         .rank-context {
             font-size: 12px;
             color: var(--pharos-gray-500);
@@ -289,119 +288,180 @@
             transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* НОВЫЙ БЛОК АВТОРСТВА - ЗАМЕНЯЕТ СТАРЫЕ */
+        /* ===== НОВЫЙ ФИНАЛЬНЫЙ БЛОК АВТОРСТВА ===== */
         .author-footer {
             margin: 32px 0;
             text-align: center;
         }
 
-        .author-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 24px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 20px;
+        .author-block-final {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(16, 185, 129, 0.08));
+            backdrop-filter: blur(30px);
+            border-radius: 24px;
             padding: 28px 32px;
-            text-decoration: none;
+            border: 2px solid rgba(34, 197, 94, 0.25);
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 
-                0 10px 40px rgba(59, 130, 246, 0.15),
-                0 1px 0 rgba(255, 255, 255, 0.8) inset;
+                0 15px 40px rgba(34, 197, 94, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 30px 0;
             position: relative;
             overflow: hidden;
+            width: 100%;
             max-width: 600px;
-            margin: 0 auto;
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .author-link::before {
-            content: '';
+        .author-block-final:hover {
+            transform: translateY(-6px);
+            box-shadow: 
+                0 25px 60px rgba(34, 197, 94, 0.22),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
+            border-color: rgba(34, 197, 94, 0.4);
+        }
+
+        .gradient-line {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--pharos-blue-500), var(--pharos-blue-600));
+            height: 4px;
+            background: linear-gradient(90deg, #22c55e 0%, #3b82f6 25%, #8b5cf6 50%, #f59e0b 75%, #22c55e 100%);
+            background-size: 300% 100%;
+            animation: gradient-flow 4s ease-in-out infinite;
         }
 
-        .author-link:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 
-                0 20px 50px rgba(59, 130, 246, 0.25),
-                0 1px 0 rgba(255, 255, 255, 0.9) inset;
+        @keyframes gradient-flow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
-        .author-link:active {
-            transform: translateY(-2px) scale(1.01);
-        }
-
-        .author-avatar {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            border: 2px solid rgba(59, 130, 246, 0.2);
-            box-shadow: 0 6px 18px rgba(59, 130, 246, 0.2);
-            overflow: hidden;
-            flex-shrink: 0;
-            transition: all 0.3s ease;
-        }
-
-        .author-link:hover .author-avatar {
-            border-color: rgba(59, 130, 246, 0.4);
-            transform: scale(1.05);
-        }
-
-        .author-content {
-            text-align: center;
+        .author-left-final {
+            display: flex;
+            align-items: center;
+            gap: 20px;
             flex: 1;
-            min-width: 0;
         }
 
-        .author-name {
+        .author-icon-final {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 900;
             font-size: 22px;
-            font-weight: 700;
+            box-shadow: 
+                0 10px 25px rgba(34, 197, 94, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .author-icon-final::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #22c55e, #3b82f6, #22c55e);
+            background-size: 200% 200%;
+            border-radius: 18px;
+            opacity: 0;
+            z-index: -1;
+            animation: icon-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes icon-glow {
+            0%, 100% { opacity: 0; background-position: 0% 50%; }
+            50% { opacity: 0.3; background-position: 100% 50%; }
+        }
+
+        .author-block-final:hover .author-icon-final {
+            transform: scale(1.08) rotate(-3deg);
+            box-shadow: 
+                0 15px 35px rgba(34, 197, 94, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        .author-text-final {
+            flex: 1;
+        }
+
+        .author-name-final {
+            font-size: 18px;
+            font-weight: 800;
             color: var(--pharos-gray-900);
             margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: -0.025em;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
-        .author-handle {
-            font-size: 15px;
-            color: var(--pharos-gray-500);
-            margin-bottom: 12px;
-            font-weight: 500;
-        }
-
-        .author-cta {
-            background: linear-gradient(135deg, var(--pharos-blue-500), var(--pharos-blue-600));
-            color: white;
-            padding: 10px 20px;
-            border-radius: 10px;
+        .author-subtitle-final {
             font-size: 14px;
+            color: #15803d;
             font-weight: 700;
+            margin-bottom: 2px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .cta-neomorphic {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            box-shadow: 
+                0 8px 25px rgba(34, 197, 94, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+            padding: 16px 28px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 15px;
+            color: white;
             border: none;
-            box-shadow: 
-                0 4px 12px rgba(59, 130, 246, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            display: inline-block;
-            transition: all 0.3s ease;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            letter-spacing: 0.025em;
         }
 
-        .author-link:hover .author-cta {
-            background: linear-gradient(135deg, var(--pharos-blue-600), var(--pharos-blue-700));
+        .cta-neomorphic:hover {
+            transform: translateY(-4px) scale(1.02);
             box-shadow: 
-                0 6px 20px rgba(59, 130, 246, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
-            transform: translateY(-1px);
+                0 15px 40px rgba(34, 197, 94, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.15);
         }
 
-        .author-img {
-            width: 64px;
-            height: 64px;
-            object-fit: cover;
+        .cta-neomorphic::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .cta-neomorphic:hover::before {
+            left: 100%;
         }
 
         /* Season Headers */
@@ -426,7 +486,6 @@
                 0 2px 4px rgba(0, 0, 0, 0.02);
         }
 
-        /* Season 2 Live Streaming Style */
         .season2-live .season-title {
             background: linear-gradient(90deg, 
                 rgba(255, 255, 255, 0.9) 0%,
@@ -447,7 +506,6 @@
             100% { background-position: 200% 0; }
         }
 
-        /* Live Badge */
         .live-badge {
             display: inline-flex;
             align-items: center;
@@ -497,7 +555,6 @@
             object-fit: cover;
         }
 
-        /* Task cards */
         .task-card {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
@@ -566,14 +623,12 @@
             transform: scale(1.05);
         }
 
-        /* Protocol grids */
         .protocol-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 16px;
         }
 
-        /* Cache Disclaimer Styles */
         .cache-disclaimer {
             display: flex;
             align-items: flex-start;
@@ -617,7 +672,6 @@
             font-weight: 700;
         }
 
-        /* Loading и Error состояния */
         .loading {
             display: none;
             text-align: center;
@@ -731,7 +785,6 @@
                 font-size: 28px;
             }
 
-            /* Cache disclaimer mobile adaptation */
             .cache-disclaimer {
                 padding: 12px;
                 gap: 10px;
@@ -751,38 +804,45 @@
                 font-size: 12px;
             }
 
-            /* Author footer - мобильная адаптация */
             .author-footer {
                 margin: 24px 0;
             }
 
-            .author-link {
+            .author-block-final {
                 flex-direction: column;
+                gap: 24px;
                 text-align: center;
-                gap: 16px;
-                padding: 24px;
+                padding: 28px 24px;
                 max-width: none;
+                margin: 24px 0;
             }
-
-            .author-content {
+            
+            .author-left-final {
+                justify-content: center;
+                flex-direction: column;
+                gap: 16px;
+            }
+            
+            .author-text-final {
                 text-align: center;
             }
-
-            .author-name {
-                font-size: 20px;
+            
+            .cta-neomorphic {
+                width: 100%;
+                justify-content: center;
+                max-width: 200px;
             }
-
-            .author-handle {
-                font-size: 14px;
+            
+            .author-name-final {
+                font-size: 16px;
+                justify-content: center;
             }
-
-            .author-cta {
+            
+            .author-subtitle-final {
                 font-size: 13px;
-                padding: 8px 16px;
             }
         }
 
-        /* Анимации */
         @keyframes fadeInUp {
             0% {
                 opacity: 0;
@@ -866,7 +926,6 @@
                         <div class="level-progress-bar" id="levelProgress" style="width: 65%"></div>
                     </div>
                 </div>
-                <!-- ТРЕТЬЯ КАРТОЧКА С РАНГОМ -->
                 <div class="stat-card">
                     <div class="stat-value" id="currentRank">#1,234</div>
                     <div class="stat-label">Current Rank</div>
@@ -876,12 +935,20 @@
 
             <!-- НОВЫЙ БЛОК АВТОРСТВА НА СТРАНИЦЕ РЕЗУЛЬТАТОВ -->
             <div class="author-footer animate__fadeInUp animate-delay-2">
-                <a href="https://x.com/avzcrypto" target="_blank" class="author-link" id="resultsAuthorLink">
-                    <img src="./twitter.jpg" alt="@avzcrypto" class="author-avatar author-img">
-                    <div class="author-content">
-                        <div class="author-name">@avzcrypto</div>
-                        <div class="author-handle">Tool Creator & Developer</div>
-                        <div class="author-cta">🚀 Follow for Alpha Updates & Insights</div>
+                <a href="https://x.com/avzcrypto" target="_blank" class="author-block-final" id="resultsAuthorLink">
+                    <div class="gradient-line"></div>
+                    <div class="author-left-final">
+                        <div class="author-icon-final">@</div>
+                        <div class="author-text-final">
+                            <div class="author-name-final">
+                                Created by @avzcrypto
+                            </div>
+                            <div class="author-subtitle-final">Follow for alpha updates & insights</div>
+                        </div>
+                    </div>
+                    <div class="cta-neomorphic">
+                        <span>Follow Me</span>
+                        <span>🚀</span>
                     </div>
                 </a>
             </div>
@@ -1045,12 +1112,20 @@
 
         <!-- НОВЫЙ БЛОК АВТОРСТВА ДЛЯ ГЛАВНОЙ СТРАНИЦЫ -->
         <div class="author-footer" id="mainPageFooter">
-            <a href="https://x.com/avzcrypto" target="_blank" class="author-link" id="authorLink">
-                <img src="./twitter.jpg" alt="@avzcrypto" class="author-avatar author-img">
-                <div class="author-content">
-                    <div class="author-name">@avzcrypto</div>
-                    <div class="author-handle">Tool Creator & Developer</div>
-                    <div class="author-cta">🚀 Follow for Alpha Updates & Insights</div>
+            <a href="https://x.com/avzcrypto" target="_blank" class="author-block-final" id="authorLink">
+                <div class="gradient-line"></div>
+                <div class="author-left-final">
+                    <div class="author-icon-final">@</div>
+                    <div class="author-text-final">
+                        <div class="author-name-final">
+                            Created by @avzcrypto
+                        </div>
+                        <div class="author-subtitle-final">Follow for alpha updates & insights</div>
+                    </div>
+                </div>
+                <div class="cta-neomorphic">
+                    <span>Follow Me</span>
+                    <span>🚀</span>
                 </div>
             </a>
         </div>
@@ -1116,11 +1191,21 @@
             });
         }
 
-        function trackAuthorClick() {
-            gtag('event', 'author_follow_click', {
+        function trackBoostGuideClick() {
+            gtag('event', 'boost_guide_click', {
                 event_category: 'engagement',
-                event_label: 'social_link',
-                link_url: 'https://x.com/avzcrypto'
+                event_label: 'cta_click',
+                link_url: 'https://x.com/avzcrypto/status/1940798987709395362'
+            });
+        }
+
+        // ОБНОВЛЕННАЯ ФУНКЦИЯ АНАЛИТИКИ ДЛЯ НЕЙРОМОРФНОЙ КНОПКИ
+        function trackAuthorClick() {
+            gtag('event', 'author_follow_click_neomorphic', {
+                event_category: 'engagement',
+                event_label: 'neomorphic_cta_button',
+                link_url: 'https://x.com/avzcrypto',
+                button_style: 'neomorphic_follow_me'
             });
         }
 
@@ -1379,9 +1464,9 @@
             hideError();
         });
 
-        // Track CTA clicks
-        document.getElementById('resultsAuthorLink').addEventListener('click', trackAuthorClick);
-        document.getElementById('authorLink').addEventListener('click', trackAuthorClick);
+        // ОБНОВЛЕННЫЕ ОБРАБОТЧИКИ ДЛЯ НЕЙРОМОРФНЫХ КНОПОК
+        document.getElementById('resultsAuthorLink')?.addEventListener('click', trackAuthorClick);
+        document.getElementById('authorLink')?.addEventListener('click', trackAuthorClick);
 
         // Auto-focus input and track page view
         walletInput.focus();
