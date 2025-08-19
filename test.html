@@ -851,25 +851,7 @@
                 </div>
             </div>
 
-            <!-- НОВЫЙ БЛОК АВТОРСТВА НА СТРАНИЦЕ РЕЗУЛЬТАТОВ -->
-            <div class="author-footer animate__fadeInUp animate-delay-2">
-                <a href="https://x.com/avzcrypto" target="_blank" class="author-block" id="resultsAuthorLink" style="flex-direction: row; text-align: left; padding: 20px 24px;">
-                    <div class="gradient-line"></div>
-                    <div style="display: flex; align-items: center; gap: 16px; flex: 1;">
-                        <div class="author-icon-final" style="margin-bottom: 0; width: 48px; height: 48px;">
-                            <img src="./twitter.jpg" alt="@avzcrypto" class="author-avatar-img">
-                        </div>
-                        <div>
-                            <div class="author-name-final" style="margin-bottom: 2px; font-size: 16px;">Created by @avzcrypto</div>
-                            <div class="author-subtitle-final" style="margin-bottom: 0; font-size: 13px;">Follow for Alpha Updates & Insights</div>
-                        </div>
-                    </div>
-                    <div class="cta-neomorphic" style="width: auto; padding: 12px 20px;">
-                        <span>Follow Me</span>
-                        <span>🚀</span>
-                    </div>
-                </a>
-            </div>
+
 
             <!-- SEASON 1 HEADER -->
             <div class="season-header animate__fadeInUp animate-delay-3">
@@ -1121,6 +1103,7 @@
             loading.classList.remove('show');
             results.classList.remove('show');
             
+            // Показываем макет при ошибке, логотип всегда виден
             document.getElementById('mainLayout').style.display = 'grid';
             
             trackError(message);
@@ -1137,6 +1120,7 @@
             checkButton.disabled = true;
             checkButton.textContent = 'Checking...';
             
+            // Скрываем только горизонтальный макет при загрузке, логотип оставляем
             document.getElementById('mainLayout').style.display = 'none';
         }
 
@@ -1145,6 +1129,7 @@
             checkButton.disabled = false;
             checkButton.textContent = 'Check Statistics';
             
+            // Показываем горизонтальный макет обратно, логотип всегда виден
             document.getElementById('mainLayout').style.display = 'grid';
         }
 
@@ -1304,6 +1289,7 @@
             }, 500);
 
             results.classList.add('show');
+            // Скрываем только макет при показе результатов, логотип оставляем видимым
             document.getElementById('mainLayout').style.display = 'none';
             
             const animatedElements = results.querySelectorAll('.animate__fadeInUp');
@@ -1325,7 +1311,6 @@
             hideError();
         });
 
-        document.getElementById('resultsAuthorLink')?.addEventListener('click', trackAuthorClick);
         document.getElementById('authorLink')?.addEventListener('click', trackAuthorClick);
 
         walletInput.focus();
