@@ -65,83 +65,64 @@
             justify-content: center;
         }
 
-        /* Логотип по центру */
-        .logo-section {
-            text-align: center;
+        /* Header section */
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
             margin-bottom: 40px;
+            gap: 40px;
         }
 
-        .main-logo {
+        .header-left {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .top-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 24px;
+            margin-bottom: 16px;
+        }
+
+        .logo-img {
+            width: 160px;
+            height: 160px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .main-title {
+            font-size: 46px;
+            font-weight: 900;
+            color: var(--pharos-gray-900);
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin: 5px 0 0 0;
+        }
+
+        .main-subtitle {
+            color: var(--pharos-gray-500);
+            font-size: 17px;
+            font-weight: 500;
+            line-height: 1.4;
+            margin: 0;
             width: 100%;
-            height: auto;
-            margin: 0 auto;
-            display: block;
         }
 
-        /* НОВОЕ: Горизонтальный макет 2:1 */
-        .horizontal-layout {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-            align-items: stretch;
-            margin-bottom: 40px;
-        }
-
-        .search-block {
+        .header-right {
+            flex: 0 0 400px;
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
             box-shadow: 
                 0 20px 40px rgba(0, 0, 0, 0.08),
                 0 10px 20px rgba(0, 0, 0, 0.04);
-        }
-
-        .author-block {
-            background: linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(16, 185, 129, 0.08));
-            backdrop-filter: blur(30px);
-            border-radius: 20px;
-            padding: 24px;
-            border: 2px solid rgba(34, 197, 94, 0.25);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 
-                0 15px 40px rgba(34, 197, 94, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.9);
-        }
-
-        .author-block:hover {
-            transform: translateY(-6px);
-            box-shadow: 
-                0 25px 60px rgba(34, 197, 94, 0.22),
-                inset 0 1px 0 rgba(255, 255, 255, 1);
-            border-color: rgba(34, 197, 94, 0.4);
-        }
-
-        .gradient-line {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #22c55e 0%, #3b82f6 25%, #8b5cf6 50%, #f59e0b 75%, #22c55e 100%);
-            background-size: 300% 100%;
-            animation: gradient-flow 4s ease-in-out infinite;
-        }
-
-        @keyframes gradient-flow {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
         .form-title {
@@ -226,124 +207,6 @@
             box-shadow: none;
         }
 
-        /* Author block content */
-        .author-icon-final {
-            width: 64px;
-            height: 64px;
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            box-shadow: 
-                0 10px 25px rgba(34, 197, 94, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            transition: all 0.4s ease;
-            position: relative;
-            margin-bottom: 16px;
-        }
-
-        .author-avatar-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 16px;
-        }
-
-        .author-icon-final::after {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #22c55e, #3b82f6, #22c55e);
-            background-size: 200% 200%;
-            border-radius: 18px;
-            opacity: 0;
-            z-index: -1;
-            animation: icon-glow 3s ease-in-out infinite;
-        }
-
-        @keyframes icon-glow {
-            0%, 100% { opacity: 0; background-position: 0% 50%; }
-            50% { opacity: 0.3; background-position: 100% 50%; }
-        }
-
-        .author-block:hover .author-icon-final {
-            transform: scale(1.08) rotate(-3deg);
-            box-shadow: 
-                0 15px 35px rgba(34, 197, 94, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
-        }
-
-        .author-name-final {
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--pharos-gray-900);
-            margin-bottom: 6px;
-            letter-spacing: -0.025em;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        .author-subtitle-final {
-            font-size: 14px;
-            color: #15803d;
-            font-weight: 700;
-            margin-bottom: 16px;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        .cta-neomorphic {
-            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-            box-shadow: 
-                0 8px 25px rgba(34, 197, 94, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-            padding: 12px 24px;
-            border-radius: 14px;
-            font-weight: 800;
-            font-size: 14px;
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            text-decoration: none;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            letter-spacing: 0.025em;
-            width: 100%;
-        }
-
-        .cta-neomorphic:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 
-                0 15px 40px rgba(34, 197, 94, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-        }
-
-        .cta-neomorphic::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .cta-neomorphic:hover::before {
-            left: 100%;
-        }
-
         /* Results section */
         .results-section {
             display: none;
@@ -423,6 +286,191 @@
             background: linear-gradient(90deg, var(--pharos-orange-500), var(--pharos-orange-600));
             border-radius: 3px;
             transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ===== НОВЫЙ БЛОК АВТОРСТВА - ИСПРАВЛЕНО ===== */
+        .author-footer {
+            margin: 24px 0;
+            text-align: center;
+        }
+
+        .author-block-final {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(16, 185, 129, 0.08));
+            backdrop-filter: blur(30px);
+            border-radius: 24px;
+            padding: 28px 32px;
+            border: 2px solid rgba(34, 197, 94, 0.25);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 15px 40px rgba(34, 197, 94, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            text-decoration: none !important;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .author-block-final * {
+            text-decoration: none !important;
+        }
+
+        .author-block-final:hover {
+            transform: translateY(-6px);
+            box-shadow: 
+                0 25px 60px rgba(34, 197, 94, 0.22),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
+            border-color: rgba(34, 197, 94, 0.4);
+        }
+
+        .gradient-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #22c55e 0%, #3b82f6 25%, #8b5cf6 50%, #f59e0b 75%, #22c55e 100%);
+            background-size: 300% 100%;
+            animation: gradient-flow 4s ease-in-out infinite;
+        }
+
+        @keyframes gradient-flow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .author-left-final {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+        }
+
+        .author-icon-final {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 
+                0 10px 25px rgba(34, 197, 94, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .author-avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+
+        .author-icon-final::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #22c55e, #3b82f6, #22c55e);
+            background-size: 200% 200%;
+            border-radius: 18px;
+            opacity: 0;
+            z-index: -1;
+            animation: icon-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes icon-glow {
+            0%, 100% { opacity: 0; background-position: 0% 50%; }
+            50% { opacity: 0.3; background-position: 100% 50%; }
+        }
+
+        .author-block-final:hover .author-icon-final {
+            transform: scale(1.08) rotate(-3deg);
+            box-shadow: 
+                0 15px 35px rgba(34, 197, 94, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        .author-text-final {
+            flex: 1;
+            text-align: left;
+        }
+
+        .author-name-final {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--pharos-gray-900);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: -0.025em;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            justify-content: flex-start;
+        }
+
+        .author-subtitle-final {
+            font-size: 16px;
+            color: #15803d;
+            font-weight: 700;
+            margin-bottom: 2px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            text-align: left;
+        }
+
+        .cta-neomorphic {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            box-shadow: 
+                0 8px 25px rgba(34, 197, 94, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+            padding: 16px 28px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 15px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none !important;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            letter-spacing: 0.025em;
+        }
+
+        .cta-neomorphic:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 
+                0 15px 40px rgba(34, 197, 94, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+        }
+
+        .cta-neomorphic::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .cta-neomorphic:hover::before {
+            left: 100%;
         }
 
         /* Season Headers */
@@ -682,14 +730,35 @@
         }
 
         /* Адаптивность */
+        @media (max-width: 1024px) {
+            .header-section {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .header-right {
+                flex: none;
+                width: 100%;
+            }
+
+            .main-title {
+                font-size: 46px !important;
+                text-align: left;
+            }
+
+            .top-row {
+                align-items: center;
+                justify-content: flex-start;
+            }
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 20px 16px;
             }
 
-            .horizontal-layout {
-                grid-template-columns: 1fr;
-                gap: 16px;
+            .main-title {
+                font-size: 28px;
             }
 
             .top-stats {
@@ -743,6 +812,39 @@
             .disclaimer-text {
                 font-size: 12px;
             }
+
+            .author-footer {
+                margin: 4px 0;
+            }
+
+            .author-block-final {
+                flex-direction: column;
+                gap: 24px;
+                text-align: center;
+                padding: 20px 16px;
+                margin: 4px 0;
+            }
+            
+            .author-left-final {
+                justify-content: center;
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+            
+            .author-text-final {
+                text-align: center;
+            }
+            
+            .author-name-final {
+                font-size: 16px;
+                justify-content: center;
+            }
+            
+            .author-subtitle-final {
+                font-size: 13px;
+                text-align: center;
+            }
         }
 
         @keyframes fadeInUp {
@@ -777,14 +879,16 @@
 </head>
 <body>
     <div class="container">
-        <!-- Логотип по центру -->
-        <div class="logo-section">
-            <img src="./newlogo.png" alt="PharosHub Logo" class="main-logo">
-        </div>
-        
-        <!-- НОВОЕ: Горизонтальный макет 2:1 -->
-        <div class="horizontal-layout" id="mainLayout">
-            <div class="search-block">
+        <div class="header-section">
+            <div class="header-left">
+                <div class="top-row">
+                    <img src="./logo.webp" alt="Pharos Logo" class="logo-img">
+                    <h1 class="main-title">Pharos<br>Stats<br>Checker</h1>
+                </div>
+                <p class="main-subtitle">Check stats and track your Pharos testnet progress</p>
+            </div>
+            
+            <div class="header-right">
                 <h2 class="form-title">Enter your wallet address</h2>
                 
                 <div class="input-section">
@@ -805,19 +909,6 @@
 
                 <div class="error" id="error"></div>
             </div>
-
-            <a href="https://x.com/avzcrypto" target="_blank" class="author-block" id="authorLink">
-                <div class="gradient-line"></div>
-                <div class="author-icon-final">
-                    <img src="./twitter.jpg" alt="@avzcrypto" class="author-avatar-img">
-                </div>
-                <div class="author-name-final">Created by @avzcrypto</div>
-                <div class="author-subtitle-final">Follow For Alpha Updates & Insights</div>
-                <div class="cta-neomorphic">
-                    <span>Follow Me</span>
-                    <span>🚀</span>
-                </div>
-            </a>
         </div>
 
         <div class="loading" id="loading">
@@ -848,18 +939,20 @@
 
             <!-- НОВЫЙ БЛОК АВТОРСТВА НА СТРАНИЦЕ РЕЗУЛЬТАТОВ -->
             <div class="author-footer animate__fadeInUp animate-delay-2">
-                <a href="https://x.com/avzcrypto" target="_blank" class="author-block" id="resultsAuthorLink" style="flex-direction: row; text-align: left; padding: 20px 24px;">
+                <a href="https://x.com/avzcrypto" target="_blank" class="author-block-final" id="resultsAuthorLink">
                     <div class="gradient-line"></div>
-                    <div style="display: flex; align-items: center; gap: 16px; flex: 1;">
-                        <div class="author-icon-final" style="margin-bottom: 0; width: 48px; height: 48px;">
+                    <div class="author-left-final">
+                        <div class="author-icon-final">
                             <img src="./twitter.jpg" alt="@avzcrypto" class="author-avatar-img">
                         </div>
-                        <div>
-                            <div class="author-name-final" style="margin-bottom: 2px; font-size: 16px;">Created by @avzcrypto</div>
-                            <div class="author-subtitle-final" style="margin-bottom: 0; font-size: 13px;">Follow for Alpha Updates & Insights</div>
+                        <div class="author-text-final">
+                            <div class="author-name-final">
+                                Created by @avzcrypto
+                            </div>
+                            <div class="author-subtitle-final">Follow for Alpha Updates & Insights</div>
                         </div>
                     </div>
-                    <div class="cta-neomorphic" style="width: auto; padding: 12px 20px;">
+                    <div class="cta-neomorphic">
                         <span>Follow Me</span>
                         <span>🚀</span>
                     </div>
@@ -867,11 +960,11 @@
             </div>
 
             <!-- SEASON 1 HEADER -->
-            <div class="season-header animate__fadeInUp animate-delay-3">
+            <div class="season-header animate__fadeInUp animate-delay-2">
                 <h3 class="season-title">🏆 SEASON 1 ACTIVITIES</h3>
             </div>
 
-            <div class="tasks-section animate__fadeInUp animate-delay-4">
+            <div class="tasks-section animate__fadeInUp animate-delay-3">
                 <div class="task-card">
                     <div class="task-left">
                         <img src="./send.png" alt="Send" class="task-icon">
@@ -881,7 +974,7 @@
                 </div>
             </div>
 
-            <div class="tasks-section animate__fadeInUp animate-delay-5">
+            <div class="tasks-section animate__fadeInUp animate-delay-4">
                 <h3 class="section-title">
                     <img src="./zenith.png" alt="Zenith" class="protocol-icon-img">
                     Zenith Protocol
@@ -904,7 +997,7 @@
                 </div>
             </div>
 
-            <div class="tasks-section animate__fadeInUp animate-delay-6">
+            <div class="tasks-section animate__fadeInUp animate-delay-5">
                 <h3 class="section-title">
                     <img src="./faroswap.png" alt="Faroswap" class="protocol-icon-img">
                     Faroswap Protocol
@@ -927,7 +1020,7 @@
                 </div>
             </div>
 
-            <div class="tasks-section animate__fadeInUp animate-delay-7">
+            <div class="tasks-section animate__fadeInUp animate-delay-6">
                 <h3 class="section-title">
                     <img src="./nft.jpg" alt="NFT" class="protocol-icon-img">
                     NFT & Domains
@@ -951,7 +1044,7 @@
             </div>
 
             <!-- SEASON 2 HEADER -->
-            <div class="season-header season2-live animate__fadeInUp animate-delay-8">
+            <div class="season-header season2-live animate__fadeInUp animate-delay-7">
                 <div class="season-title">
                     🚀 SEASON 2 ACTIVITIES
                     <span class="live-badge">
@@ -962,7 +1055,7 @@
             </div>
 
             <!-- SEASON 2 TASKS -->
-            <div class="tasks-section animate__fadeInUp animate-delay-9">
+            <div class="tasks-section animate__fadeInUp animate-delay-8">
                 <div class="task-card">
                     <div class="task-left">
                         <img src="./primus.png" alt="Primuslabs" class="task-icon">
@@ -972,7 +1065,7 @@
                 </div>
             </div>
 
-            <div class="tasks-section animate__fadeInUp animate-delay-10">
+            <div class="tasks-section animate__fadeInUp animate-delay-9">
                 <div class="protocol-grid">
                     <div class="task-card">
                         <div class="task-left">
@@ -991,7 +1084,7 @@
                 </div>
             </div>
 
-            <div class="tasks-section animate__fadeInUp animate-delay-11">
+            <div class="tasks-section animate__fadeInUp animate-delay-10">
                 <div class="protocol-grid">
                     <div class="task-card">
                         <div class="task-left">
@@ -1011,7 +1104,7 @@
             </div>
 
             <!-- Cache Disclaimer -->
-            <div class="cache-disclaimer animate__fadeInUp animate-delay-12">
+            <div class="cache-disclaimer animate__fadeInUp animate-delay-11">
                 <div class="disclaimer-icon">⏱️</div>
                 <div class="disclaimer-content">
                     <div class="disclaimer-title">Data Updates</div>
@@ -1021,6 +1114,28 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- НОВЫЙ БЛОК АВТОРСТВА ДЛЯ ГЛАВНОЙ СТРАНИЦЫ -->
+        <div class="author-footer" id="mainPageFooter">
+            <a href="https://x.com/avzcrypto" target="_blank" class="author-block-final" id="authorLink">
+                <div class="gradient-line"></div>
+                <div class="author-left-final">
+                    <div class="author-icon-final">
+                        <img src="./twitter.jpg" alt="@avzcrypto" class="author-avatar-img">
+                    </div>
+                    <div class="author-text-final">
+                        <div class="author-name-final">
+                            Created by @avzcrypto
+                        </div>
+                        <div class="author-subtitle-final">Follow For Alpha Updates & Insights</div>
+                    </div>
+                </div>
+                <div class="cta-neomorphic">
+                    <span>Follow Me</span>
+                    <span>🚀</span>
+                </div>
+            </a>
         </div>
     </div>
 
@@ -1084,12 +1199,21 @@
             });
         }
 
-        function trackAuthorClick() {
-            gtag('event', 'author_follow_click_horizontal', {
+        function trackBoostGuideClick() {
+            gtag('event', 'boost_guide_click', {
                 event_category: 'engagement',
-                event_label: 'horizontal_layout_cta',
+                event_label: 'cta_click',
+                link_url: 'https://x.com/avzcrypto/status/1940798987709395362'
+            });
+        }
+
+        // ОБНОВЛЕННАЯ ФУНКЦИЯ АНАЛИТИКИ ДЛЯ НЕЙРОМОРФНОЙ КНОПКИ
+        function trackAuthorClick() {
+            gtag('event', 'author_follow_click_neomorphic', {
+                event_category: 'engagement',
+                event_label: 'neomorphic_cta_button',
                 link_url: 'https://x.com/avzcrypto',
-                button_style: 'horizontal_follow_me'
+                button_style: 'neomorphic_follow_me'
             });
         }
 
@@ -1116,8 +1240,10 @@
             loading.classList.remove('show');
             results.classList.remove('show');
             
-            document.getElementById('mainLayout').style.display = 'grid';
+            // Показываем footer на главной при ошибке
+            document.getElementById('mainPageFooter').style.display = 'block';
             
+            // Track error
             trackError(message);
         }
 
@@ -1132,7 +1258,9 @@
             checkButton.disabled = true;
             checkButton.textContent = 'Checking...';
             
-            document.getElementById('mainLayout').style.display = 'none';
+            // Скрываем header section и footer при загрузке
+            document.querySelector('.header-section').style.display = 'none';
+            document.getElementById('mainPageFooter').style.display = 'none';
         }
 
         function hideLoading() {
@@ -1140,7 +1268,13 @@
             checkButton.disabled = false;
             checkButton.textContent = 'Check Statistics';
             
-            document.getElementById('mainLayout').style.display = 'grid';
+            // Показываем header section обратно
+            document.querySelector('.header-section').style.display = 'flex';
+        }
+
+        function updateLevelProgress(current, total) {
+            const percentage = total > 0 ? (current / total) * 100 : 0;
+            levelProgress.style.width = `${Math.min(percentage, 100)}%`;
         }
 
         function animateValue(element, start, end, duration = 1000) {
@@ -1162,6 +1296,7 @@
             requestAnimationFrame(update);
         }
 
+        // Анимация для ранга с префиксом #
         function animateRank(element, start, end, duration = 1000) {
             const startTime = performance.now();
             const range = end - start;
@@ -1194,7 +1329,9 @@
                 return;
             }
 
+            // Track wallet search attempt
             trackWalletSearch(address);
+
             showLoading();
 
             try {
@@ -1218,7 +1355,9 @@
                     throw new Error(data.error || 'Failed to fetch wallet statistics');
                 }
 
+                // Track successful stats loading
                 trackStatsLoaded(data);
+                
                 displayResults(data);
 
             } catch (err) {
@@ -1232,6 +1371,7 @@
         function displayResults(data) {
             hideError();
 
+            // Calculate level progress and points needed - МАКСИМУМ 5 УРОВЕНЬ
             const levels = {
                 1: 0, 2: 1001, 3: 3501, 4: 6001, 5: 10001
             };
@@ -1241,19 +1381,24 @@
             const nextLevel = Math.min(data.current_level + 1, maxLevel);
             const nextLevelPoints = levels[nextLevel] || 20001;
             
+            // Если уже 5 уровень - показываем MAX LVL
             const isMaxLevel = data.current_level >= maxLevel;
             const pointsNeeded = isMaxLevel ? 0 : nextLevelPoints - data.total_points;
             const progressInLevel = data.total_points - currentLevelPoints;
             const pointsForLevel = nextLevelPoints - currentLevelPoints;
 
+            // Animate numbers - ОГРАНИЧИВАЕМ УРОВЕНЬ ДО 5
             animateValue(totalPoints, 0, data.total_points);
-            animateValue(currentLevel, 1, Math.min(data.current_level, maxLevel));
+            animateValue(currentLevel, 1, Math.min(data.current_level, maxLevel)); // Показываем максимум 5 уровень
             
+            // АНИМАЦИЯ РАНГА
             if (data.exact_rank) {
                 animateRank(currentRank, 1, data.exact_rank);
+                // Количество пользователей из API
                 animateValue(totalUsers, 1, data.total_users_count || 270000);
             } else {
                 currentRank.textContent = 'Unranked';
+                // Количество пользователей даже для unranked
                 animateValue(totalUsers, 1, data.total_users_count || 270000);
             }
             
@@ -1265,16 +1410,19 @@
             animateValue(mintDomain, 0, data.mint_domain || 0);
             animateValue(mintNFT, 0, data.mint_nft || 0);
 
+            // Animate Season 2 tasks
             animateValue(primuslabsSend, 0, data.primuslabs_send || 0);
             animateValue(rwafi, 0, data.aquaflux || 0);
             animateValue(stake, 0, data.autostaking || 0);
             animateValue(bitcoinBridge, 0, data.fiamma_bridge || 0);
             animateValue(cfdTrading, 0, data.brokex || 0);
 
+            // Update level progress and points needed info
             setTimeout(() => {
                 const percentage = isMaxLevel ? 100 : (pointsForLevel > 0 ? (progressInLevel / pointsForLevel) * 100 : 100);
                 levelProgress.style.width = `${Math.min(percentage, 100)}%`;
                 
+                // Add points needed text under current level
                 const levelCard = currentLevel.closest('.stat-card');
                 let pointsNeededText = levelCard.querySelector('.points-needed');
                 
@@ -1298,9 +1446,13 @@
                 }
             }, 500);
 
+            // Show results with animation
             results.classList.add('show');
-            document.getElementById('mainLayout').style.display = 'none';
             
+            // Скрываем footer с главной при показе результатов
+            document.getElementById('mainPageFooter').style.display = 'none';
+            
+            // Trigger animations for result sections
             const animatedElements = results.querySelectorAll('.animate__fadeInUp');
             animatedElements.forEach((el, index) => {
                 el.style.animationDelay = `${(index + 1) * 0.1}s`;
@@ -1320,11 +1472,16 @@
             hideError();
         });
 
+        // ОБНОВЛЕННЫЕ ОБРАБОТЧИКИ ДЛЯ НЕЙРОМОРФНЫХ КНОПОК
         document.getElementById('resultsAuthorLink')?.addEventListener('click', trackAuthorClick);
         document.getElementById('authorLink')?.addEventListener('click', trackAuthorClick);
 
+        // Auto-focus input and track page view
         walletInput.focus();
         trackPageView();
+        
+        // Показываем footer на главной при загрузке
+        document.getElementById('mainPageFooter').style.display = 'block';
     </script>
 </body>
 </html>
