@@ -65,56 +65,23 @@
             justify-content: center;
         }
 
-        /* Header section */
-        .header-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
+        /* НОВОЕ: Логотип по центру */
+        .logo-section {
+            text-align: center;
             margin-bottom: 40px;
-            gap: 40px;
         }
 
-        .header-left {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        .main-logo {
+            width: 500px;
+            max-width: 90vw;
+            height: auto;
+            margin: 0 auto;
+            display: block;
         }
 
-        .top-row {
-            display: flex;
-            align-items: flex-start;
-            gap: 24px;
-            margin-bottom: 16px;
-        }
-
-        .logo-img {
-            width: 160px;
-            height: 160px;
-            object-fit: contain;
-            flex-shrink: 0;
-        }
-
-        .main-title {
-            font-size: 46px;
-            font-weight: 900;
-            color: var(--pharos-gray-900);
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-            margin: 5px 0 0 0;
-        }
-
-        .main-subtitle {
-            color: var(--pharos-gray-500);
-            font-size: 17px;
-            font-weight: 500;
-            line-height: 1.4;
-            margin: 0;
-            width: 100%;
-        }
-
+        /* ИЗМЕНЕННОЕ: Форма поиска на всю ширину страницы */
         .header-right {
-            flex: 0 0 400px;
+            width: 100%;
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
             border-radius: 20px;
@@ -123,6 +90,7 @@
                 0 20px 40px rgba(0, 0, 0, 0.08),
                 0 10px 20px rgba(0, 0, 0, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.5);
+            margin-bottom: 40px;
         }
 
         .form-title {
@@ -726,35 +694,13 @@
         }
 
         /* Адаптивность */
-        @media (max-width: 1024px) {
-            .header-section {
-                flex-direction: column;
-                gap: 30px;
-            }
-
-            .header-right {
-                flex: none;
-                width: 100%;
-            }
-
-            .main-title {
-                font-size: 46px !important;
-                text-align: left;
-            }
-
-            .top-row {
-                align-items: center;
-                justify-content: flex-start;
-            }
-        }
-
         @media (max-width: 768px) {
             .container {
                 padding: 20px 16px;
             }
 
-            .main-title {
-                font-size: 28px;
+            .main-logo {
+                width: 350px;
             }
 
             .top-stats {
@@ -843,6 +789,12 @@
             }
         }
 
+        @media (max-width: 480px) {
+            .main-logo {
+                width: 280px;
+            }
+        }
+
         @keyframes fadeInUp {
             0% {
                 opacity: 0;
@@ -875,36 +827,32 @@
 </head>
 <body>
     <div class="container">
-        <div class="header-section">
-            <div class="header-left">
-                <div class="top-row">
-                    <img src="./logo.webp" alt="Pharos Logo" class="logo-img">
-                    <h1 class="main-title">Pharos<br>Stats<br>Checker</h1>
-                </div>
-                <p class="main-subtitle">Check stats and track your Pharos testnet progress</p>
-            </div>
+        <!-- НОВОЕ: Логотип по центру -->
+        <div class="logo-section">
+            <img src="./newlogo.png" alt="PharosHub Logo" class="main-logo">
+        </div>
+        
+        <!-- ИЗМЕНЕННОЕ: Форма поиска на всю ширину -->
+        <div class="header-right">
+            <h2 class="form-title">Enter your wallet address</h2>
             
-            <div class="header-right">
-                <h2 class="form-title">Enter your wallet address</h2>
-                
-                <div class="input-section">
-                    <div class="input-group">
-                        <input
-                            type="text"
-                            class="wallet-input"
-                            id="walletAddress"
-                            placeholder="0x..."
-                            spellcheck="false"
-                        >
-                    </div>
+            <div class="input-section">
+                <div class="input-group">
+                    <input
+                        type="text"
+                        class="wallet-input"
+                        id="walletAddress"
+                        placeholder="0x..."
+                        spellcheck="false"
+                    >
                 </div>
-
-                <button class="check-button" id="checkButton">
-                    Check Statistics
-                </button>
-
-                <div class="error" id="error"></div>
             </div>
+
+            <button class="check-button" id="checkButton">
+                Check Statistics
+            </button>
+
+            <div class="error" id="error"></div>
         </div>
 
         <div class="loading" id="loading">
@@ -945,7 +893,7 @@
                             <div class="author-name-final">
                                 Created by @avzcrypto
                             </div>
-                            <div class="author-subtitle-final">Follow for alpha updates & insights</div>
+                            <div class="author-subtitle-final">Follow for Alpha Updates & Insights</div>
                         </div>
                     </div>
                     <div class="cta-neomorphic">
@@ -1124,7 +1072,7 @@
                         <div class="author-name-final">
                             Created by @avzcrypto
                         </div>
-                        <div class="author-subtitle-final">Follow for alpha updates & insights</div>
+                        <div class="author-subtitle-final">Follow For Alpha Updates & Insights</div>
                     </div>
                 </div>
                 <div class="cta-neomorphic">
@@ -1203,7 +1151,6 @@
             });
         }
 
-        // ОБНОВЛЕННАЯ ФУНКЦИЯ АНАЛИТИКИ ДЛЯ НЕЙРОМОРФНОЙ КНОПКИ
         function trackAuthorClick() {
             gtag('event', 'author_follow_click_neomorphic', {
                 event_category: 'engagement',
@@ -1236,10 +1183,8 @@
             loading.classList.remove('show');
             results.classList.remove('show');
             
-            // Показываем footer на главной при ошибке
             document.getElementById('mainPageFooter').style.display = 'block';
             
-            // Track error
             trackError(message);
         }
 
@@ -1254,8 +1199,7 @@
             checkButton.disabled = true;
             checkButton.textContent = 'Checking...';
             
-            // Скрываем header section и footer при загрузке
-            document.querySelector('.header-section').style.display = 'none';
+            document.querySelector('.header-right').style.display = 'none';
             document.getElementById('mainPageFooter').style.display = 'none';
         }
 
@@ -1264,8 +1208,7 @@
             checkButton.disabled = false;
             checkButton.textContent = 'Check Statistics';
             
-            // Показываем header section обратно
-            document.querySelector('.header-section').style.display = 'flex';
+            document.querySelector('.header-right').style.display = 'block';
         }
 
         function updateLevelProgress(current, total) {
@@ -1292,7 +1235,6 @@
             requestAnimationFrame(update);
         }
 
-        // Анимация для ранга с префиксом #
         function animateRank(element, start, end, duration = 1000) {
             const startTime = performance.now();
             const range = end - start;
@@ -1325,9 +1267,7 @@
                 return;
             }
 
-            // Track wallet search attempt
             trackWalletSearch(address);
-
             showLoading();
 
             try {
@@ -1351,9 +1291,7 @@
                     throw new Error(data.error || 'Failed to fetch wallet statistics');
                 }
 
-                // Track successful stats loading
                 trackStatsLoaded(data);
-                
                 displayResults(data);
 
             } catch (err) {
@@ -1367,7 +1305,6 @@
         function displayResults(data) {
             hideError();
 
-            // Calculate level progress and points needed - МАКСИМУМ 5 УРОВЕНЬ
             const levels = {
                 1: 0, 2: 1001, 3: 3501, 4: 6001, 5: 10001
             };
@@ -1377,24 +1314,19 @@
             const nextLevel = Math.min(data.current_level + 1, maxLevel);
             const nextLevelPoints = levels[nextLevel] || 20001;
             
-            // Если уже 5 уровень - показываем MAX LVL
             const isMaxLevel = data.current_level >= maxLevel;
             const pointsNeeded = isMaxLevel ? 0 : nextLevelPoints - data.total_points;
             const progressInLevel = data.total_points - currentLevelPoints;
             const pointsForLevel = nextLevelPoints - currentLevelPoints;
 
-            // Animate numbers - ОГРАНИЧИВАЕМ УРОВЕНЬ ДО 5
             animateValue(totalPoints, 0, data.total_points);
-            animateValue(currentLevel, 1, Math.min(data.current_level, maxLevel)); // Показываем максимум 5 уровень
+            animateValue(currentLevel, 1, Math.min(data.current_level, maxLevel));
             
-            // АНИМАЦИЯ РАНГА
             if (data.exact_rank) {
                 animateRank(currentRank, 1, data.exact_rank);
-                // Количество пользователей из API
                 animateValue(totalUsers, 1, data.total_users_count || 270000);
             } else {
                 currentRank.textContent = 'Unranked';
-                // Количество пользователей даже для unranked
                 animateValue(totalUsers, 1, data.total_users_count || 270000);
             }
             
@@ -1406,19 +1338,16 @@
             animateValue(mintDomain, 0, data.mint_domain || 0);
             animateValue(mintNFT, 0, data.mint_nft || 0);
 
-            // Animate Season 2 tasks
             animateValue(primuslabsSend, 0, data.primuslabs_send || 0);
             animateValue(rwafi, 0, data.aquaflux || 0);
             animateValue(stake, 0, data.autostaking || 0);
             animateValue(bitcoinBridge, 0, data.fiamma_bridge || 0);
             animateValue(cfdTrading, 0, data.brokex || 0);
 
-            // Update level progress and points needed info
             setTimeout(() => {
                 const percentage = isMaxLevel ? 100 : (pointsForLevel > 0 ? (progressInLevel / pointsForLevel) * 100 : 100);
                 levelProgress.style.width = `${Math.min(percentage, 100)}%`;
                 
-                // Add points needed text under current level
                 const levelCard = currentLevel.closest('.stat-card');
                 let pointsNeededText = levelCard.querySelector('.points-needed');
                 
@@ -1442,13 +1371,9 @@
                 }
             }, 500);
 
-            // Show results with animation
             results.classList.add('show');
-            
-            // Скрываем footer с главной при показе результатов
             document.getElementById('mainPageFooter').style.display = 'none';
             
-            // Trigger animations for result sections
             const animatedElements = results.querySelectorAll('.animate__fadeInUp');
             animatedElements.forEach((el, index) => {
                 el.style.animationDelay = `${(index + 1) * 0.1}s`;
@@ -1468,15 +1393,12 @@
             hideError();
         });
 
-        // ОБНОВЛЕННЫЕ ОБРАБОТЧИКИ ДЛЯ НЕЙРОМОРФНЫХ КНОПОК
         document.getElementById('resultsAuthorLink')?.addEventListener('click', trackAuthorClick);
         document.getElementById('authorLink')?.addEventListener('click', trackAuthorClick);
 
-        // Auto-focus input and track page view
         walletInput.focus();
         trackPageView();
         
-        // Показываем footer на главной при загрузке
         document.getElementById('mainPageFooter').style.display = 'block';
     </script>
 </body>
