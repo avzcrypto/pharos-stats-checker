@@ -65,10 +65,19 @@
             justify-content: center;
         }
 
+        /* Центрированный вертикальный макет */
+        .main-layout {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            width: 100%;
+        }
+
         /* Логотип по центру */
         .logo-section {
             text-align: center;
-            margin-bottom: 40px;
+            width: 100%;
         }
 
         .main-logo {
@@ -78,75 +87,9 @@
             display: block;
         }
 
-        /* НОВОЕ: Горизонтальный макет 2:1 */
-        .horizontal-layout {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-            align-items: stretch;
-            margin-bottom: 40px;
-        }
-
-        .search-block {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.08),
-                0 10px 20px rgba(0, 0, 0, 0.04);
-        }
-
-        .author-block {
-            background: linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(16, 185, 129, 0.08));
-            backdrop-filter: blur(30px);
-            border-radius: 20px;
-            padding: 24px;
-            border: 2px solid rgba(34, 197, 94, 0.25);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 
-                0 15px 40px rgba(34, 197, 94, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.9);
-            text-decoration: none !important;
-        }
-
-        .author-block * {
-            text-decoration: none !important;
-        }
-
-        .author-block:hover {
-            transform: translateY(-6px);
-            box-shadow: 
-                0 25px 60px rgba(34, 197, 94, 0.22),
-                inset 0 1px 0 rgba(255, 255, 255, 1);
-            border-color: rgba(34, 197, 94, 0.4);
-        }
-
-        .gradient-line {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #22c55e 0%, #3b82f6 25%, #8b5cf6 50%, #f59e0b 75%, #22c55e 100%);
-            background-size: 300% 100%;
-            animation: gradient-flow 4s ease-in-out infinite;
-        }
-
-        @keyframes gradient-flow {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+        /* Форма поиска на всю ширину */
+        .search-section {
+            width: 100%;
         }
 
         .form-title {
@@ -180,13 +123,12 @@
 
         .wallet-input {
             flex: 1;
-            padding: 12px;
+            padding: 16px;
             border: none;
             outline: none;
-            font-size: 14px;
+            font-size: 16px;
             font-family: 'Inter', 'SF Mono', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
             color: var(--pharos-gray-900);
-            width: 100%;
             background: transparent;
             font-weight: 500;
         }
@@ -196,42 +138,91 @@
             font-weight: 400;
         }
 
-        /* Check button */
+        /* Кнопка справа в инпуте */
         .check-button {
-            width: 100%;
-            padding: 12px;
+            padding: 16px 24px;
             background: rgb(0, 7, 185);
             color: white;
             border: none;
-            border-radius: 12px;
             font-size: 16px;
             font-weight: 600;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 
-                0 8px 16px rgba(0, 7, 185, 0.3),
-                0 4px 8px rgba(0, 7, 185, 0.2);
             position: relative;
             overflow: hidden;
             letter-spacing: 0.025em;
+            white-space: nowrap;
         }
 
         .check-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 
-                0 12px 24px rgba(0, 7, 185, 0.4),
-                0 6px 12px rgba(0, 7, 185, 0.3);
+            background: rgb(0, 5, 160);
         }
 
         .check-button:disabled {
-            background: linear-gradient(135deg, #9ca3af, #6b7280);
+            background: #9ca3af;
             cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
         }
 
-        /* Author block content */
+        /* ===== БЛОК АВТОРСТВА КАК В INDEX.HTML ===== */
+        .author-footer {
+            margin: 32px 0;
+            text-align: center;
+        }
+
+        .author-block-final {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(16, 185, 129, 0.08));
+            backdrop-filter: blur(30px);
+            border-radius: 24px;
+            padding: 28px 32px;
+            border: 2px solid rgba(34, 197, 94, 0.25);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 15px 40px rgba(34, 197, 94, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .author-block-final:hover {
+            transform: translateY(-6px);
+            box-shadow: 
+                0 25px 60px rgba(34, 197, 94, 0.22),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
+            border-color: rgba(34, 197, 94, 0.4);
+        }
+
+        .gradient-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #22c55e 0%, #3b82f6 25%, #8b5cf6 50%, #f59e0b 75%, #22c55e 100%);
+            background-size: 300% 100%;
+            animation: gradient-flow 4s ease-in-out infinite;
+        }
+
+        @keyframes gradient-flow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .author-left-final {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+        }
+
         .author-icon-final {
             width: 64px;
             height: 64px;
@@ -246,7 +237,6 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
             transition: all 0.4s ease;
             position: relative;
-            margin-bottom: 16px;
         }
 
         .author-avatar-img {
@@ -276,28 +266,38 @@
             50% { opacity: 0.3; background-position: 100% 50%; }
         }
 
-        .author-block:hover .author-icon-final {
+        .author-block-final:hover .author-icon-final {
             transform: scale(1.08) rotate(-3deg);
             box-shadow: 
                 0 15px 35px rgba(34, 197, 94, 0.5),
                 inset 0 1px 0 rgba(255, 255, 255, 0.3);
         }
 
+        .author-text-final {
+            flex: 1;
+            text-align: left;
+        }
+
         .author-name-final {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 800;
             color: var(--pharos-gray-900);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
             letter-spacing: -0.025em;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            justify-content: flex-start;
         }
 
         .author-subtitle-final {
-            font-size: 14px;
+            font-size: 16px;
             color: #15803d;
             font-weight: 700;
-            margin-bottom: 16px;
+            margin-bottom: 2px;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            text-align: left;
         }
 
         .cta-neomorphic {
@@ -306,10 +306,10 @@
                 0 8px 25px rgba(34, 197, 94, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2),
                 inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-            padding: 12px 24px;
+            padding: 16px 28px;
             border-radius: 14px;
             font-weight: 800;
-            font-size: 14px;
+            font-size: 15px;
             color: white;
             border: none;
             cursor: pointer;
@@ -318,12 +318,10 @@
             overflow: hidden;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 6px;
-            text-decoration: none !important;
+            gap: 8px;
+            text-decoration: none;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             letter-spacing: 0.025em;
-            width: 100%;
         }
 
         .cta-neomorphic:hover {
@@ -352,6 +350,9 @@
         /* Results section */
         .results-section {
             display: none;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         .results-section.show {
@@ -692,9 +693,8 @@
                 padding: 20px 16px;
             }
 
-            .horizontal-layout {
-                grid-template-columns: 1fr;
-                gap: 16px;
+            .main-layout {
+                gap: 24px;
             }
 
             .top-stats {
@@ -748,6 +748,35 @@
             .disclaimer-text {
                 font-size: 12px;
             }
+
+            .author-block-final {
+                flex-direction: column;
+                gap: 24px;
+                text-align: center;
+                padding: 20px 16px;
+                margin: 4px 0;
+            }
+            
+            .author-left-final {
+                justify-content: center;
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+            
+            .author-text-final {
+                text-align: center;
+            }
+            
+            .author-name-final {
+                font-size: 16px;
+                justify-content: center;
+            }
+            
+            .author-subtitle-final {
+                font-size: 13px;
+                text-align: center;
+            }
         }
 
         @keyframes fadeInUp {
@@ -782,14 +811,15 @@
 </head>
 <body>
     <div class="container">
-        <!-- Логотип по центру -->
-        <div class="logo-section">
-            <img src="./newlogo.png" alt="PharosHub Logo" class="main-logo">
-        </div>
-        
-        <!-- НОВОЕ: Горизонтальный макет 2:1 -->
-        <div class="horizontal-layout" id="mainLayout">
-            <div class="search-block">
+        <!-- Центрированный вертикальный макет -->
+        <div class="main-layout" id="mainLayout">
+            <!-- Логотип по центру -->
+            <div class="logo-section">
+                <img src="./newlogo.png" alt="PharosHub Logo" class="main-logo">
+            </div>
+            
+            <!-- Форма поиска на всю ширину -->
+            <div class="search-section">
                 <h2 class="form-title">Enter your wallet address</h2>
                 
                 <div class="input-section">
@@ -801,28 +831,36 @@
                             placeholder="0x..."
                             spellcheck="false"
                         >
+                        <button class="check-button" id="checkButton">
+                            Check Statistics
+                        </button>
                     </div>
                 </div>
-
-                <button class="check-button" id="checkButton">
-                    Check Statistics
-                </button>
 
                 <div class="error" id="error"></div>
             </div>
 
-            <a href="https://x.com/avzcrypto" target="_blank" class="author-block" id="authorLink">
-                <div class="gradient-line"></div>
-                <div class="author-icon-final">
-                    <img src="./twitter.jpg" alt="@avzcrypto" class="author-avatar-img">
-                </div>
-                <div class="author-name-final">Created by @avzcrypto</div>
-                <div class="author-subtitle-final">Follow For Alpha Updates & Insights</div>
-                <div class="cta-neomorphic">
-                    <span>Follow Me</span>
-                    <span>🚀</span>
-                </div>
-            </a>
+            <!-- Блок авторства как в index.html -->
+            <div class="author-footer">
+                <a href="https://x.com/avzcrypto" target="_blank" class="author-block-final" id="authorLink">
+                    <div class="gradient-line"></div>
+                    <div class="author-left-final">
+                        <div class="author-icon-final">
+                            <img src="./twitter.jpg" alt="@avzcrypto" class="author-avatar-img">
+                        </div>
+                        <div class="author-text-final">
+                            <div class="author-name-final">
+                                Created by @avzcrypto
+                            </div>
+                            <div class="author-subtitle-final">Follow For Alpha Updates & Insights</div>
+                        </div>
+                    </div>
+                    <div class="cta-neomorphic">
+                        <span>Follow Me</span>
+                        <span>🚀</span>
+                    </div>
+                </a>
+            </div>
         </div>
 
         <div class="loading" id="loading">
@@ -850,8 +888,6 @@
                     <div class="rank-context">of <span id="totalUsers">270,456</span> users on PharosHub</div>
                 </div>
             </div>
-
-
 
             <!-- SEASON 1 HEADER -->
             <div class="season-header animate__fadeInUp animate-delay-3">
@@ -1072,11 +1108,11 @@
         }
 
         function trackAuthorClick() {
-            gtag('event', 'author_follow_click_horizontal', {
+            gtag('event', 'author_follow_click_vertical', {
                 event_category: 'engagement',
-                event_label: 'horizontal_layout_cta',
+                event_label: 'vertical_layout_cta',
                 link_url: 'https://x.com/avzcrypto',
-                button_style: 'horizontal_follow_me'
+                button_style: 'vertical_follow_me'
             });
         }
 
@@ -1103,8 +1139,8 @@
             loading.classList.remove('show');
             results.classList.remove('show');
             
-            // Показываем макет при ошибке, логотип всегда виден
-            document.getElementById('mainLayout').style.display = 'grid';
+            // Показываем главный макет при ошибке
+            document.getElementById('mainLayout').style.display = 'flex';
             
             trackError(message);
         }
@@ -1120,7 +1156,7 @@
             checkButton.disabled = true;
             checkButton.textContent = 'Checking...';
             
-            // Скрываем только горизонтальный макет при загрузке, логотип оставляем
+            // Скрываем главный макет при загрузке
             document.getElementById('mainLayout').style.display = 'none';
         }
 
@@ -1129,8 +1165,8 @@
             checkButton.disabled = false;
             checkButton.textContent = 'Check Statistics';
             
-            // Показываем горизонтальный макет обратно, логотип всегда виден
-            document.getElementById('mainLayout').style.display = 'grid';
+            // Показываем главный макет обратно
+            document.getElementById('mainLayout').style.display = 'flex';
         }
 
         function animateValue(element, start, end, duration = 1000) {
@@ -1289,7 +1325,7 @@
             }, 500);
 
             results.classList.add('show');
-            // Скрываем только макет при показе результатов, логотип оставляем видимым
+            // Скрываем главный макет при показе результатов
             document.getElementById('mainLayout').style.display = 'none';
             
             const animatedElements = results.querySelectorAll('.animate__fadeInUp');
