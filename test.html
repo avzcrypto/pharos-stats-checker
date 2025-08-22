@@ -843,7 +843,7 @@
         </div>
 
         <!-- Блок авторства как в index.html - ВЫНЕСЕН ИЗ main-layout -->
-        <div class="author-footer">
+        <div class="author-footer" id="mainPageFooter">
             <a href="https://x.com/avzcrypto" target="_blank" class="author-block-final" id="authorLink">
                 <div class="gradient-line"></div>
                 <div class="author-left-final">
@@ -890,7 +890,7 @@
                 </div>
             </div>
 
-            <!-- БЛОК АВТОРСТВА НА СТРАНИЦЕ РЕЗУЛЬТАТОВ - УБРАН ПЕРВЫЙ ДУБЛИКАТ -->
+            <!-- БЛОК АВТОРСТВА НА СТРАНИЦЕ РЕЗУЛЬТАТОВ (ЕДИНСТВЕННЫЙ) -->
             <div class="author-footer animate__fadeInUp animate-delay-2">
                 <a href="https://x.com/avzcrypto" target="_blank" class="author-block-final" id="resultsAuthorLink">
                     <div class="gradient-line"></div>
@@ -1164,6 +1164,8 @@
             
             // Показываем главный макет при ошибке
             document.getElementById('mainLayout').style.display = 'flex';
+            // Показываем footer на главной при ошибке
+            document.getElementById('mainPageFooter').style.display = 'block';
             
             trackError(message);
         }
@@ -1181,6 +1183,8 @@
             
             // Скрываем главный макет при загрузке
             document.getElementById('mainLayout').style.display = 'none';
+            // Скрываем footer главной при загрузке
+            document.getElementById('mainPageFooter').style.display = 'none';
         }
 
         function hideLoading() {
@@ -1190,6 +1194,8 @@
             
             // Показываем главный макет обратно
             document.getElementById('mainLayout').style.display = 'flex';
+            // Показываем footer главной обратно
+            document.getElementById('mainPageFooter').style.display = 'block';
         }
 
         function animateValue(element, start, end, duration = 1000) {
@@ -1350,6 +1356,8 @@
             results.classList.add('show');
             // Скрываем главный макет при показе результатов
             document.getElementById('mainLayout').style.display = 'none';
+            // Скрываем footer с главной при показе результатов
+            document.getElementById('mainPageFooter').style.display = 'none';
             
             const animatedElements = results.querySelectorAll('.animate__fadeInUp');
             animatedElements.forEach((el, index) => {
@@ -1375,6 +1383,9 @@
 
         walletInput.focus();
         trackPageView();
+        
+        // Показываем footer на главной при загрузке
+        document.getElementById('mainPageFooter').style.display = 'block';
     </script>
 </body>
 </html>
