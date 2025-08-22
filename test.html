@@ -70,7 +70,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 40px;
             width: 100%;
         }
 
@@ -188,6 +188,8 @@
             position: relative;
             overflow: hidden;
             width: 100%;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .author-block-final:hover {
@@ -838,27 +840,28 @@
                 <div class="error" id="error"></div>
             </div>
 
-            <!-- Блок авторства как в index.html -->
-            <div class="author-footer">
-                <a href="https://x.com/avzcrypto" target="_blank" class="author-block-final" id="authorLink">
-                    <div class="gradient-line"></div>
-                    <div class="author-left-final">
-                        <div class="author-icon-final">
-                            <img src="./twitter.jpg" alt="@avzcrypto" class="author-avatar-img">
-                        </div>
-                        <div class="author-text-final">
-                            <div class="author-name-final">
-                                Created by @avzcrypto
-                            </div>
-                            <div class="author-subtitle-final">Follow For Alpha Updates & Insights</div>
-                        </div>
+        </div>
+
+        <!-- Блок авторства как в index.html - ВЫНЕСЕН ИЗ main-layout -->
+        <div class="author-footer">
+            <a href="https://x.com/avzcrypto" target="_blank" class="author-block-final" id="authorLink">
+                <div class="gradient-line"></div>
+                <div class="author-left-final">
+                    <div class="author-icon-final">
+                        <img src="./twitter.jpg" alt="@avzcrypto" class="author-avatar-img">
                     </div>
-                    <div class="cta-neomorphic">
-                        <span>Follow Me</span>
-                        <span>🚀</span>
+                    <div class="author-text-final">
+                        <div class="author-name-final">
+                            Created by @avzcrypto
+                        </div>
+                        <div class="author-subtitle-final">Follow For Alpha Updates & Insights</div>
                     </div>
-                </a>
-            </div>
+                </div>
+                <div class="cta-neomorphic">
+                    <span>Follow Me</span>
+                    <span>🚀</span>
+                </div>
+            </a>
         </div>
 
         <div class="loading" id="loading">
