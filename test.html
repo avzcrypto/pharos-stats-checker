@@ -107,23 +107,22 @@
 
         .input-group {
             display: flex;
-            border: 2px solid rgba(59, 130, 246, 0.2);
-            border-radius: 12px;
+            border: 3px solid rgb(0, 7, 185);
+            border-radius: 16px;
             overflow: hidden;
             background: white;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 8px 24px rgba(0, 7, 185, 0.2);
         }
 
         .input-group:focus-within {
-            border-color: var(--pharos-blue-500);
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(0, 7, 185, 0.3);
         }
 
         .wallet-input {
             flex: 1;
-            padding: 16px;
+            padding: 18px 20px;
             border: none;
             outline: none;
             font-size: 16px;
@@ -138,14 +137,13 @@
             font-weight: 400;
         }
 
-        /* Кнопка справа в инпуте */
         .check-button {
-            padding: 16px 24px;
+            padding: 18px 28px;
             background: rgb(0, 7, 185);
             color: white;
             border: none;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -820,15 +818,13 @@
             
             <!-- Форма поиска на всю ширину -->
             <div class="search-section">
-                <h2 class="form-title">Enter your wallet address</h2>
-                
                 <div class="input-section">
                     <div class="input-group">
                         <input
                             type="text"
                             class="wallet-input"
                             id="walletAddress"
-                            placeholder="0x..."
+                            placeholder="Enter your wallet address (0x...)"
                             spellcheck="false"
                         >
                         <button class="check-button" id="checkButton">
@@ -840,6 +836,28 @@
                 <div class="error" id="error"></div>
             </div>
 
+        </div>
+
+        <!-- НОВЫЙ БЛОК АВТОРСТВА ДЛЯ ГЛАВНОЙ СТРАНИЦЫ -->
+        <div class="author-footer" id="mainPageFooter">
+            <a href="https://x.com/avzcrypto" target="_blank" class="author-block-final" id="authorLink">
+                <div class="gradient-line"></div>
+                <div class="author-left-final">
+                    <div class="author-icon-final">
+                        <img src="./twitter.jpg" alt="@avzcrypto" class="author-avatar-img">
+                    </div>
+                    <div class="author-text-final">
+                        <div class="author-name-final">
+                            Created by @avzcrypto
+                        </div>
+                        <div class="author-subtitle-final">Follow For Alpha Updates & Insights</div>
+                    </div>
+                </div>
+                <div class="cta-neomorphic">
+                    <span>Follow Me</span>
+                    <span>🚀</span>
+                </div>
+            </a>
         </div>
 
         <div class="loading" id="loading">
@@ -869,8 +887,8 @@
             </div>
 
             <!-- БЛОК АВТОРСТВА НА СТРАНИЦЕ РЕЗУЛЬТАТОВ -->
-            <div class="author-footer animate__fadeInUp animate-delay-2" id="mainPageFooter">
-                <a href="https://x.com/avzcrypto" target="_blank" class="author-block-final" id="authorLink">
+            <div class="author-footer animate__fadeInUp animate-delay-2">
+                <a href="https://x.com/avzcrypto" target="_blank" class="author-block-final" id="resultsAuthorLink">
                     <div class="gradient-line"></div>
                     <div class="author-left-final">
                         <div class="author-icon-final">
@@ -1142,8 +1160,8 @@
             
             // Показываем главный макет при ошибке
             document.getElementById('mainLayout').style.display = 'flex';
-            // Скрываем footer при ошибке (он в results)
-            document.getElementById('mainPageFooter').style.display = 'none';
+            // Показываем footer на главной при ошибке
+            document.getElementById('mainPageFooter').style.display = 'block';
             
             trackError(message);
         }
@@ -1159,9 +1177,8 @@
             checkButton.disabled = true;
             checkButton.textContent = 'Checking...';
             
-            // Скрываем главный макет при загрузке
+            // Скрываем главный макет и footer при загрузке
             document.getElementById('mainLayout').style.display = 'none';
-            // Скрываем footer при загрузке
             document.getElementById('mainPageFooter').style.display = 'none';
         }
 
@@ -1170,9 +1187,9 @@
             checkButton.disabled = false;
             checkButton.textContent = 'Check Statistics';
             
-            // Показываем главный макет обратно
+            // Показываем главный макет и footer обратно
             document.getElementById('mainLayout').style.display = 'flex';
-            // Footer останется скрытым, покажется только в results
+            document.getElementById('mainPageFooter').style.display = 'block';
         }
 
         function animateValue(element, start, end, duration = 1000) {
@@ -1331,9 +1348,9 @@
             }, 500);
 
             results.classList.add('show');
-            // Скрываем главный макет при показе результатов
+            // Скрываем главный макет и footer при показе результатов
             document.getElementById('mainLayout').style.display = 'none';
-            // Footer показывается автоматически вместе с results
+            document.getElementById('mainPageFooter').style.display = 'none';
             
             const animatedElements = results.querySelectorAll('.animate__fadeInUp');
             animatedElements.forEach((el, index) => {
@@ -1355,11 +1372,13 @@
         });
 
         document.getElementById('authorLink')?.addEventListener('click', trackAuthorClick);
+        document.getElementById('resultsAuthorLink')?.addEventListener('click', trackAuthorClick);
 
         walletInput.focus();
         trackPageView();
         
-        // Footer изначально скрыт, появится только в results
+        // Показываем footer на главной при загрузке
+        document.getElementById('mainPageFooter').style.display = 'block';
     </script>
 </body>
 </html>
