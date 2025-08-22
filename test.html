@@ -842,28 +842,6 @@
 
         </div>
 
-        <!-- Блок авторства как в index.html - ВЫНЕСЕН ИЗ main-layout -->
-        <div class="author-footer" id="mainPageFooter">
-            <a href="https://x.com/avzcrypto" target="_blank" class="author-block-final" id="authorLink">
-                <div class="gradient-line"></div>
-                <div class="author-left-final">
-                    <div class="author-icon-final">
-                        <img src="./twitter.jpg" alt="@avzcrypto" class="author-avatar-img">
-                    </div>
-                    <div class="author-text-final">
-                        <div class="author-name-final">
-                            Created by @avzcrypto
-                        </div>
-                        <div class="author-subtitle-final">Follow For Alpha Updates & Insights</div>
-                    </div>
-                </div>
-                <div class="cta-neomorphic">
-                    <span>Follow Me</span>
-                    <span>🚀</span>
-                </div>
-            </a>
-        </div>
-
         <div class="loading" id="loading">
             <img src="./loading.webp" alt="Loading" class="loading-emoji">
             <p class="loading-text">Loading...</p>
@@ -888,6 +866,28 @@
                     <div class="stat-label">Current Rank</div>
                     <div class="rank-context">of <span id="totalUsers">270,456</span> users on PharosHub</div>
                 </div>
+            </div>
+
+            <!-- БЛОК АВТОРСТВА НА СТРАНИЦЕ РЕЗУЛЬТАТОВ -->
+            <div class="author-footer animate__fadeInUp animate-delay-2" id="mainPageFooter">
+                <a href="https://x.com/avzcrypto" target="_blank" class="author-block-final" id="authorLink">
+                    <div class="gradient-line"></div>
+                    <div class="author-left-final">
+                        <div class="author-icon-final">
+                            <img src="./twitter.jpg" alt="@avzcrypto" class="author-avatar-img">
+                        </div>
+                        <div class="author-text-final">
+                            <div class="author-name-final">
+                                Created by @avzcrypto
+                            </div>
+                            <div class="author-subtitle-final">Follow For Alpha Updates & Insights</div>
+                        </div>
+                    </div>
+                    <div class="cta-neomorphic">
+                        <span>Follow Me</span>
+                        <span>🚀</span>
+                    </div>
+                </a>
             </div>
 
             <!-- SEASON 1 HEADER -->
@@ -1142,8 +1142,8 @@
             
             // Показываем главный макет при ошибке
             document.getElementById('mainLayout').style.display = 'flex';
-            // Показываем footer на главной при ошибке
-            document.getElementById('mainPageFooter').style.display = 'block';
+            // Скрываем footer при ошибке (он в results)
+            document.getElementById('mainPageFooter').style.display = 'none';
             
             trackError(message);
         }
@@ -1161,7 +1161,7 @@
             
             // Скрываем главный макет при загрузке
             document.getElementById('mainLayout').style.display = 'none';
-            // Скрываем footer главной при загрузке
+            // Скрываем footer при загрузке
             document.getElementById('mainPageFooter').style.display = 'none';
         }
 
@@ -1172,8 +1172,7 @@
             
             // Показываем главный макет обратно
             document.getElementById('mainLayout').style.display = 'flex';
-            // Показываем footer главной обратно
-            document.getElementById('mainPageFooter').style.display = 'block';
+            // Footer останется скрытым, покажется только в results
         }
 
         function animateValue(element, start, end, duration = 1000) {
@@ -1334,8 +1333,7 @@
             results.classList.add('show');
             // Скрываем главный макет при показе результатов
             document.getElementById('mainLayout').style.display = 'none';
-            // Показываем footer в результатах
-            document.getElementById('mainPageFooter').style.display = 'block';
+            // Footer показывается автоматически вместе с results
             
             const animatedElements = results.querySelectorAll('.animate__fadeInUp');
             animatedElements.forEach((el, index) => {
@@ -1361,8 +1359,7 @@
         walletInput.focus();
         trackPageView();
         
-        // Показываем footer на главной при загрузке
-        document.getElementById('mainPageFooter').style.display = 'block';
+        // Footer изначально скрыт, появится только в results
     </script>
 </body>
 </html>
