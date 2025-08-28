@@ -65,31 +65,64 @@
             justify-content: center;
         }
 
-        /* Центрированный вертикальный макет */
-        .main-layout {
+        /* Header section */
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 40px;
+            gap: 40px;
+        }
+
+        .header-left {
+            flex: 1;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 40px;
+            justify-content: center;
+        }
+
+        .top-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 24px;
+            margin-bottom: 16px;
+        }
+
+        .logo-img {
+            width: 160px;
+            height: 160px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .main-title {
+            font-size: 46px;
+            font-weight: 900;
+            color: var(--pharos-gray-900);
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin: 5px 0 0 0;
+        }
+
+        .main-subtitle {
+            color: var(--pharos-gray-500);
+            font-size: 17px;
+            font-weight: 500;
+            line-height: 1.4;
+            margin: 0;
             width: 100%;
         }
 
-        /* Логотип по центру */
-        .logo-section {
-            text-align: center;
-            width: 100%;
-        }
-
-        .main-logo {
-            width: 100%;
-            height: auto;
-            margin: 0 auto;
-            display: block;
-        }
-
-        /* Форма поиска на всю ширину */
-        .search-section {
-            width: 100%;
+        .header-right {
+            flex: 0 0 400px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.08),
+                0 10px 20px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
         .form-title {
@@ -107,27 +140,29 @@
 
         .input-group {
             display: flex;
-            border: 3px solid rgb(0, 7, 185);
-            border-radius: 16px;
+            border: 2px solid rgba(59, 130, 246, 0.2);
+            border-radius: 12px;
             overflow: hidden;
             background: white;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 24px rgba(0, 7, 185, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
 
         .input-group:focus-within {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(0, 7, 185, 0.3);
+            border-color: var(--pharos-blue-500);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            transform: translateY(-1px);
         }
 
         .wallet-input {
             flex: 1;
-            padding: 18px 20px;
+            padding: 12px;
             border: none;
             outline: none;
-            font-size: 16px;
+            font-size: 14px;
             font-family: 'Inter', 'SF Mono', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
             color: var(--pharos-gray-900);
+            width: 100%;
             background: transparent;
             font-weight: 500;
         }
@@ -137,34 +172,210 @@
             font-weight: 400;
         }
 
+        /* Check button */
         .check-button {
-            padding: 18px 28px;
+            width: 100%;
+            padding: 12px;
             background: rgb(0, 7, 185);
             color: white;
             border: none;
+            border-radius: 12px;
             font-size: 16px;
-            font-weight: 700;
+            font-weight: 600;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 8px 16px rgba(0, 7, 185, 0.3),
+                0 4px 8px rgba(0, 7, 185, 0.2);
             position: relative;
             overflow: hidden;
             letter-spacing: 0.025em;
-            white-space: nowrap;
         }
 
         .check-button:hover {
-            background: rgb(0, 5, 160);
+            transform: translateY(-2px);
+            box-shadow: 
+                0 12px 24px rgba(0, 7, 185, 0.4),
+                0 6px 12px rgba(0, 7, 185, 0.3);
         }
 
         .check-button:disabled {
-            background: #9ca3af;
+            background: linear-gradient(135deg, #9ca3af, #6b7280);
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Results section */
+        .results-section {
+            display: none;
+        }
+
+        .results-section.show {
+            display: block;
+        }
+
+        /* Top Stats - 3 КОЛОНКИ */
+        .top-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 10px 20px rgba(0, 0, 0, 0.08),
+                0 4px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.12),
+                0 8px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 900;
+            color: var(--pharos-blue-800);
+            margin-bottom: 8px;
+            font-family: 'Inter', 'SF Mono', monospace;
+            letter-spacing: -1.5px;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--pharos-gray-500);
+            font-weight: 600;
+            letter-spacing: 0.025em;
+        }
+
+        .rank-context {
+            font-size: 12px;
+            color: var(--pharos-gray-500);
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        .level-progress {
+            width: 100%;
+            height: 6px;
+            background: rgba(203, 213, 225, 0.3);
+            border-radius: 3px;
+            margin-top: 12px;
+            overflow: hidden;
+        }
+
+        .level-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--pharos-orange-500), var(--pharos-orange-600));
+            border-radius: 3px;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ===== ПЕРЕКЛЮЧАТЕЛЬ СЕЗОНОВ ===== */
+        .season-switcher-container {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .season-switcher {
+            display: flex;
+            list-style: none;
+            box-sizing: border-box;
+            height: 34px;
+            border-radius: 8px;
+            background-color: rgb(240, 242, 245);
+            margin: 0 auto;
+            width: fit-content;
+        }
+
+        .season-tab {
+            cursor: pointer;
+            position: relative;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 100px;
+            height: 100%;
+            font-family: Inter18pt-Medium, 'Inter', sans-serif;
+            font-size: 14px;
+            color: rgb(34, 34, 34);
+            font-weight: 500;
+            background-color: rgb(255, 255, 255);
+            transition: all 0.2s ease;
+            gap: 8px;
+            padding: 0 16px;
+        }
+
+        .season-tab:first-child {
+            border-radius: 8px 0px 0px 8px;
+        }
+
+        .season-tab:last-child {
+            border-radius: 0px 8px 8px 0px;
+        }
+
+        .season-tab:hover,
+        .season-tab.select {
+            background-color: rgb(0, 7, 185);
+            color: rgb(255, 255, 255);
+        }
+
+        .live-badge {
+            width: 50px;
+            height: 20px;
+            box-sizing: border-box;
+            margin-left: 10px;
+            border-radius: 10px;
+            background-image: linear-gradient(to right, rgb(54, 220, 109), rgb(255, 195, 3));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: -10px;
+            left: -25px;
+        }
+
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            background-color: white;
+            border-radius: 50%;
+            margin-right: 4px;
+            animation: livePulse 2s infinite;
+        }
+
+        .live-text {
+            font-size: 12px;
+            font-weight: 500;
+            color: white;
+        }
+
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         /* ===== БЛОК АВТОРСТВА КАК В INDEX.HTML ===== */
         .author-footer {
-            margin: 32px 0;
+            margin: 24px 0;
             text-align: center;
         }
 
@@ -186,8 +397,6 @@
             position: relative;
             overflow: hidden;
             width: 100%;
-            margin-left: auto;
-            margin-right: auto;
         }
 
         .author-block-final:hover {
@@ -345,90 +554,6 @@
             left: 100%;
         }
 
-        /* Results section */
-        .results-section {
-            display: none;
-            width: 100%;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .results-section.show {
-            display: block;
-        }
-
-        /* Top Stats - 3 КОЛОНКИ */
-        .top-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 24px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            min-height: 120px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 
-                0 10px 20px rgba(0, 0, 0, 0.08),
-                0 4px 8px rgba(0, 0, 0, 0.04);
-        }
-
-        .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.12),
-                0 8px 16px rgba(0, 0, 0, 0.08);
-        }
-
-        .stat-value {
-            font-size: 36px;
-            font-weight: 900;
-            color: var(--pharos-blue-800);
-            margin-bottom: 8px;
-            font-family: 'Inter', 'SF Mono', monospace;
-            letter-spacing: -1.5px;
-            line-height: 1;
-        }
-
-        .stat-label {
-            font-size: 14px;
-            color: var(--pharos-gray-500);
-            font-weight: 600;
-            letter-spacing: 0.025em;
-        }
-
-        .rank-context {
-            font-size: 12px;
-            color: var(--pharos-gray-500);
-            font-weight: 500;
-            margin-top: 4px;
-        }
-
-        .level-progress {
-            width: 100%;
-            height: 6px;
-            background: rgba(203, 213, 225, 0.3);
-            border-radius: 3px;
-            margin-top: 12px;
-            overflow: hidden;
-        }
-
-        .level-progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--pharos-orange-500), var(--pharos-orange-600));
-            border-radius: 3px;
-            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
         /* Season Headers */
         .season-header {
             margin-top: 32px;
@@ -471,7 +596,7 @@
             100% { background-position: 200% 0; }
         }
 
-        .live-badge {
+        .live-badge-header {
             display: inline-flex;
             align-items: center;
             background: #22c55e;
@@ -483,7 +608,7 @@
             margin-left: 8px;
         }
 
-        .live-dot {
+        .live-dot-header {
             width: 6px;
             height: 6px;
             background: white;
@@ -686,13 +811,35 @@
         }
 
         /* Адаптивность */
+        @media (max-width: 1024px) {
+            .header-section {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .header-right {
+                flex: none;
+                width: 100%;
+            }
+
+            .main-title {
+                font-size: 46px !important;
+                text-align: left;
+            }
+
+            .top-row {
+                align-items: center;
+                justify-content: flex-start;
+            }
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 20px 16px;
             }
 
-            .main-layout {
-                gap: 24px;
+            .main-title {
+                font-size: 28px;
             }
 
             .top-stats {
@@ -745,6 +892,10 @@
 
             .disclaimer-text {
                 font-size: 12px;
+            }
+
+            .author-footer {
+                margin: 4px 0;
             }
 
             .author-block-final {
@@ -809,55 +960,36 @@
 </head>
 <body>
     <div class="container">
-        <!-- Центрированный вертикальный макет -->
-        <div class="main-layout" id="mainLayout">
-            <!-- Логотип по центру -->
-            <div class="logo-section">
-                <img src="./newlogo.png" alt="PharosHub Logo" class="main-logo">
+        <div class="header-section">
+            <div class="header-left">
+                <div class="top-row">
+                    <img src="./logo.webp" alt="Pharos Logo" class="logo-img">
+                    <h1 class="main-title">Pharos<br>Stats<br>Checker</h1>
+                </div>
+                <p class="main-subtitle">Check stats and track your Pharos testnet progress</p>
             </div>
             
-            <!-- Форма поиска на всю ширину -->
-            <div class="search-section">
+            <div class="header-right">
+                <h2 class="form-title">Enter your wallet address</h2>
+                
                 <div class="input-section">
                     <div class="input-group">
                         <input
                             type="text"
                             class="wallet-input"
                             id="walletAddress"
-                            placeholder="Enter your wallet address (0x...)"
+                            placeholder="0x..."
                             spellcheck="false"
                         >
-                        <button class="check-button" id="checkButton">
-                            Check Statistics
-                        </button>
                     </div>
                 </div>
+
+                <button class="check-button" id="checkButton">
+                    Check Statistics
+                </button>
 
                 <div class="error" id="error"></div>
             </div>
-
-        </div>
-
-        <!-- НОВЫЙ БЛОК АВТОРСТВА ДЛЯ ГЛАВНОЙ СТРАНИЦЫ -->
-        <div class="author-footer" id="mainPageFooter">
-            <a href="https://x.com/avzcrypto" target="_blank" class="author-block-final" id="authorLink">
-                <div class="gradient-line"></div>
-                <div class="author-left-final">
-                    <div class="author-icon-final">
-                        <img src="./twitter.jpg" alt="@avzcrypto" class="author-avatar-img">
-                    </div>
-                    <div class="author-text-final">
-                        <div class="author-name-final">
-                            Created by @avzcrypto
-                        </div>
-                        <div class="author-subtitle-final">Follow For Alpha Updates & Insights</div>
-                    </div>
-                </div>
-                <div class="cta-neomorphic">
-                    <span>Follow Me</span>
-                    <span>🚀</span>
-                </div>
-            </a>
         </div>
 
         <div class="loading" id="loading">
@@ -886,7 +1018,7 @@
                 </div>
             </div>
 
-            <!-- БЛОК АВТОРСТВА НА СТРАНИЦЕ РЕЗУЛЬТАТОВ -->
+            <!-- НОВЫЙ БЛОК АВТОРСТВА НА СТРАНИЦЕ РЕЗУЛЬТАТОВ -->
             <div class="author-footer animate__fadeInUp animate-delay-2">
                 <a href="https://x.com/avzcrypto" target="_blank" class="author-block-final" id="resultsAuthorLink">
                     <div class="gradient-line"></div>
@@ -898,7 +1030,7 @@
                             <div class="author-name-final">
                                 Created by @avzcrypto
                             </div>
-                            <div class="author-subtitle-final">Follow For Alpha Updates & Insights</div>
+                            <div class="author-subtitle-final">Follow for Alpha Updates & Insights</div>
                         </div>
                     </div>
                     <div class="cta-neomorphic">
@@ -908,152 +1040,221 @@
                 </a>
             </div>
 
-            <!-- SEASON 1 HEADER -->
-            <div class="season-header animate__fadeInUp animate-delay-3">
-                <h3 class="season-title">🏆 SEASON 1 ACTIVITIES</h3>
-            </div>
-
-            <div class="tasks-section animate__fadeInUp animate-delay-4">
-                <div class="task-card">
-                    <div class="task-left">
-                        <img src="./send.png" alt="Send" class="task-icon">
-                        <div class="task-name">Send To Friends</div>
-                    </div>
-                    <div class="task-count" id="sendCount">156</div>
-                </div>
-            </div>
-
-            <div class="tasks-section animate__fadeInUp animate-delay-5">
-                <h3 class="section-title">
-                    <img src="./zenith.png" alt="Zenith" class="protocol-icon-img">
-                    Zenith Protocol
-                </h3>
-                <div class="protocol-grid">
-                    <div class="task-card">
-                        <div class="task-left">
-                            <img src="./swap.png" alt="Swap" class="task-icon">
-                            <div class="task-name">Swaps</div>
+            <!-- ПЕРЕКЛЮЧАТЕЛЬ СЕЗОНОВ -->
+            <div class="season-switcher-container animate__fadeInUp animate-delay-3">
+                <div class="season-switcher">
+                    <div class="season-tab" data-season="season2">
+                        Season 2
+                        <div class="live-badge">
+                            <div class="live-dot"></div>
+                            <span class="live-text">Live</span>
                         </div>
-                        <div class="task-count" id="zenithSwaps">43</div>
                     </div>
-                    <div class="task-card">
-                        <div class="task-left">
-                            <img src="./lp.png" alt="LP" class="task-icon">
-                            <div class="task-name">Provide Liquidity</div>
-                        </div>
-                        <div class="task-count" id="zenithLP">28</div>
+                    <div class="season-tab select" data-season="season1">
+                        Season 1
                     </div>
                 </div>
             </div>
 
-            <div class="tasks-section animate__fadeInUp animate-delay-6">
-                <h3 class="section-title">
-                    <img src="./faroswap.png" alt="Faroswap" class="protocol-icon-img">
-                    Faroswap Protocol
-                </h3>
-                <div class="protocol-grid">
+            <!-- SEASON 1 CONTENT -->
+            <div id="season1-content">
+                <div class="season-header animate__fadeInUp animate-delay-4">
+                    <h3 class="season-title">🏆 SEASON 1 ACTIVITIES</h3>
+                </div>
+
+                <div class="tasks-section animate__fadeInUp animate-delay-5">
                     <div class="task-card">
                         <div class="task-left">
-                            <img src="./swap.png" alt="Swap" class="task-icon">
-                            <div class="task-name">Swaps</div>
+                            <img src="./send.png" alt="Send" class="task-icon">
+                            <div class="task-name">Send To Friends</div>
                         </div>
-                        <div class="task-count" id="faroswapSwaps">15</div>
+                        <div class="task-count" id="sendCount">156</div>
                     </div>
-                    <div class="task-card">
-                        <div class="task-left">
-                            <img src="./lp.png" alt="LP" class="task-icon">
-                            <div class="task-name">Provide Liquidity</div>
+                </div>
+
+                <div class="tasks-section animate__fadeInUp animate-delay-6">
+                    <h3 class="section-title">
+                        <img src="./zenith.png" alt="Zenith" class="protocol-icon-img">
+                        Zenith Protocol
+                    </h3>
+                    <div class="protocol-grid">
+                        <div class="task-card">
+                            <div class="task-left">
+                                <img src="./swap.png" alt="Swap" class="task-icon">
+                                <div class="task-name">Swaps</div>
+                            </div>
+                            <div class="task-count" id="zenithSwaps">43</div>
                         </div>
-                        <div class="task-count" id="faroswapLP">9</div>
+                        <div class="task-card">
+                            <div class="task-left">
+                                <img src="./lp.png" alt="LP" class="task-icon">
+                                <div class="task-name">Provide Liquidity</div>
+                            </div>
+                            <div class="task-count" id="zenithLP">28</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tasks-section animate__fadeInUp animate-delay-7">
+                    <h3 class="section-title">
+                        <img src="./faroswap.png" alt="Faroswap" class="protocol-icon-img">
+                        Faroswap Protocol
+                    </h3>
+                    <div class="protocol-grid">
+                        <div class="task-card">
+                            <div class="task-left">
+                                <img src="./swap.png" alt="Swap" class="task-icon">
+                                <div class="task-name">Swaps</div>
+                            </div>
+                            <div class="task-count" id="faroswapSwaps">15</div>
+                        </div>
+                        <div class="task-card">
+                            <div class="task-left">
+                                <img src="./lp.png" alt="LP" class="task-icon">
+                                <div class="task-name">Provide Liquidity</div>
+                            </div>
+                            <div class="task-count" id="faroswapLP">9</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tasks-section animate__fadeInUp animate-delay-8">
+                    <h3 class="section-title">
+                        <img src="./nft.jpg" alt="NFT" class="protocol-icon-img">
+                        NFT & Domains
+                    </h3>
+                    <div class="protocol-grid">
+                        <div class="task-card">
+                            <div class="task-left">
+                                <img src="./domain.png" alt="Domain" class="task-icon">
+                                <div class="task-name">Domains</div>
+                            </div>
+                            <div class="task-count" id="mintDomain">2</div>
+                        </div>
+                        <div class="task-card">
+                            <div class="task-left">
+                                <img src="./nft.jpg" alt="NFT" class="task-icon">
+                                <div class="task-name">Collect NFTs</div>
+                            </div>
+                            <div class="task-count" id="mintNFT">1</div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="tasks-section animate__fadeInUp animate-delay-7">
-                <h3 class="section-title">
-                    <img src="./nft.jpg" alt="NFT" class="protocol-icon-img">
-                    NFT & Domains
-                </h3>
-                <div class="protocol-grid">
-                    <div class="task-card">
-                        <div class="task-left">
-                            <img src="./domain.png" alt="Domain" class="task-icon">
-                            <div class="task-name">Domains</div>
-                        </div>
-                        <div class="task-count" id="mintDomain">2</div>
-                    </div>
-                    <div class="task-card">
-                        <div class="task-left">
-                            <img src="./nft.jpg" alt="NFT" class="task-icon">
-                            <div class="task-name">Collect NFTs</div>
-                        </div>
-                        <div class="task-count" id="mintNFT">1</div>
+            <!-- SEASON 2 CONTENT -->
+            <div id="season2-content" style="display: none;">
+                <div class="season-header season2-live animate__fadeInUp animate-delay-4">
+                    <div class="season-title">
+                        🚀 SEASON 2 ACTIVITIES
+                        <span class="live-badge-header">
+                            <span class="live-dot-header"></span>
+                            Live
+                        </span>
                     </div>
                 </div>
-            </div>
 
-            <!-- SEASON 2 HEADER -->
-            <div class="season-header season2-live animate__fadeInUp animate-delay-8">
-                <div class="season-title">
-                    🚀 SEASON 2 ACTIVITIES
-                    <span class="live-badge">
-                        <span class="live-dot"></span>
-                        Live
-                    </span>
-                </div>
-            </div>
-
-            <!-- SEASON 2 TASKS -->
-            <div class="tasks-section animate__fadeInUp animate-delay-9">
-                <div class="task-card">
-                    <div class="task-left">
-                        <img src="./primus.png" alt="Primuslabs" class="task-icon">
-                        <div class="task-name">Primuslabs Send</div>
-                    </div>
-                    <div class="task-count" id="primuslabsSend">0</div>
-                </div>
-            </div>
-
-            <div class="tasks-section animate__fadeInUp animate-delay-10">
-                <div class="protocol-grid">
+                <!-- EXISTING SEASON 2 TASKS -->
+                <div class="tasks-section animate__fadeInUp animate-delay-5">
                     <div class="task-card">
                         <div class="task-left">
-                            <img src="./rwafi.png" alt="RWAfi" class="task-icon">
-                            <div class="task-name">RWAfi</div>
+                            <img src="./primus.png" alt="Primuslabs" class="task-icon">
+                            <div class="task-name">Primuslabs Send</div>
                         </div>
-                        <div class="task-count" id="rwafi">0</div>
-                    </div>
-                    <div class="task-card">
-                        <div class="task-left">
-                            <img src="./staking.png" alt="Stake" class="task-icon">
-                            <div class="task-name">Stake</div>
-                        </div>
-                        <div class="task-count" id="stake">0</div>
+                        <div class="task-count" id="primuslabsSend">0</div>
                     </div>
                 </div>
-            </div>
 
-            <div class="tasks-section animate__fadeInUp animate-delay-11">
-                <div class="protocol-grid">
-                    <div class="task-card">
-                        <div class="task-left">
-                            <img src="./btc.png" alt="Bitcoin Bridge" class="task-icon">
-                            <div class="task-name">Bitcoin Bridge</div>
+                <div class="tasks-section animate__fadeInUp animate-delay-6">
+                    <div class="protocol-grid">
+                        <div class="task-card">
+                            <div class="task-left">
+                                <img src="./rwafi.png" alt="RWAfi" class="task-icon">
+                                <div class="task-name">RWAfi</div>
+                            </div>
+                            <div class="task-count" id="rwafi">0</div>
                         </div>
-                        <div class="task-count" id="bitcoinBridge">0</div>
+                        <div class="task-card">
+                            <div class="task-left">
+                                <img src="./staking.png" alt="Stake" class="task-icon">
+                                <div class="task-name">Stake</div>
+                            </div>
+                            <div class="task-count" id="stake">0</div>
+                        </div>
                     </div>
+                </div>
+
+                <div class="tasks-section animate__fadeInUp animate-delay-7">
+                    <div class="protocol-grid">
+                        <div class="task-card">
+                            <div class="task-left">
+                                <img src="./btc.png" alt="Bitcoin Bridge" class="task-icon">
+                                <div class="task-name">Bitcoin Bridge</div>
+                            </div>
+                            <div class="task-count" id="bitcoinBridge">0</div>
+                        </div>
+                        <div class="task-card">
+                            <div class="task-left">
+                                <img src="./cfd.png" alt="CFD Trading" class="task-icon">
+                                <div class="task-name">CFD Trading</div>
+                            </div>
+                            <div class="task-count" id="cfdTrading">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NEW SEASON 2 TASKS -->
+                <div class="tasks-section animate__fadeInUp animate-delay-8">
+                    <div class="protocol-grid">
+                        <div class="task-card">
+                            <div class="task-left">
+                                <img src="./bitverse.png" alt="Bitverse" class="task-icon">
+                                <div class="task-name">Bitverse</div>
+                            </div>
+                            <div class="task-count" id="bitverse">0</div>
+                        </div>
+                        <div class="task-card">
+                            <div class="task-left">
+                                <img src="./spout.png" alt="Spout" class="task-icon">
+                                <div class="task-name">Spout</div>
+                            </div>
+                            <div class="task-count" id="spout">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tasks-section animate__fadeInUp animate-delay-9">
+                    <div class="protocol-grid">
+                        <div class="task-card">
+                            <div class="task-left">
+                                <img src="./lend.png" alt="Lend & Borrow" class="task-icon">
+                                <div class="task-name">Lend & Borrow</div>
+                            </div>
+                            <div class="task-count" id="lendBorrow">0</div>
+                        </div>
+                        <div class="task-card">
+                            <div class="task-left">
+                                <img src="./r2swap.png" alt="R2 Swap" class="task-icon">
+                                <div class="task-name">R2 Swap</div>
+                            </div>
+                            <div class="task-count" id="r2Swap">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tasks-section animate__fadeInUp animate-delay-10">
                     <div class="task-card">
                         <div class="task-left">
-                            <img src="./cfd.png" alt="CFD Trading" class="task-icon">
-                            <div class="task-name">CFD Trading</div>
+                            <img src="./r2earn.png" alt="R2 Earn" class="task-icon">
+                            <div class="task-name">R2 Earn</div>
                         </div>
-                        <div class="task-count" id="cfdTrading">0</div>
+                        <div class="task-count" id="r2Earn">0</div>
                     </div>
                 </div>
             </div>
 
             <!-- Cache Disclaimer -->
-            <div class="cache-disclaimer animate__fadeInUp animate-delay-12">
+            <div class="cache-disclaimer animate__fadeInUp animate-delay-11">
                 <div class="disclaimer-icon">⏱️</div>
                 <div class="disclaimer-content">
                     <div class="disclaimer-title">Data Updates</div>
@@ -1063,6 +1264,28 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- НОВЫЙ БЛОК АВТОРСТВА ДЛЯ ГЛАВНОЙ СТРАНИЦЫ -->
+        <div class="author-footer" id="mainPageFooter">
+            <a href="https://x.com/avzcrypto" target="_blank" class="author-block-final" id="authorLink">
+                <div class="gradient-line"></div>
+                <div class="author-left-final">
+                    <div class="author-icon-final">
+                        <img src="./twitter.jpg" alt="@avzcrypto" class="author-avatar-img">
+                    </div>
+                    <div class="author-text-final">
+                        <div class="author-name-final">
+                            Created by @avzcrypto
+                        </div>
+                        <div class="author-subtitle-final">Follow For Alpha Updates & Insights</div>
+                    </div>
+                </div>
+                <div class="cta-neomorphic">
+                    <span>Follow Me</span>
+                    <span>🚀</span>
+                </div>
+            </a>
         </div>
     </div>
 
@@ -1094,6 +1317,13 @@
         const stake = document.getElementById('stake');
         const bitcoinBridge = document.getElementById('bitcoinBridge');
         const cfdTrading = document.getElementById('cfdTrading');
+        
+        // New Season 2 Elements
+        const bitverse = document.getElementById('bitverse');
+        const spout = document.getElementById('spout');
+        const lendBorrow = document.getElementById('lendBorrow');
+        const r2Swap = document.getElementById('r2Swap');
+        const r2Earn = document.getElementById('r2Earn');
 
         // Analytics Tracking Functions
         function trackPageView() {
@@ -1127,11 +1357,19 @@
         }
 
         function trackAuthorClick() {
-            gtag('event', 'author_follow_click_vertical', {
+            gtag('event', 'author_follow_click_neomorphic', {
                 event_category: 'engagement',
-                event_label: 'vertical_layout_cta',
+                event_label: 'neomorphic_cta_button',
                 link_url: 'https://x.com/avzcrypto',
-                button_style: 'vertical_follow_me'
+                button_style: 'neomorphic_follow_me'
+            });
+        }
+
+        function trackSeasonSwitch(season) {
+            gtag('event', 'season_switch', {
+                event_category: 'engagement',
+                event_label: 'season_switcher',
+                season: season
             });
         }
 
@@ -1141,6 +1379,28 @@
                 event_label: 'wallet_check_failed',
                 error_message: errorMessage
             });
+        }
+
+        // Season Switcher Functions
+        function switchSeason(season) {
+            // Track season switch
+            trackSeasonSwitch(season);
+
+            // Update active tab
+            document.querySelectorAll('.season-tab').forEach(tab => {
+                tab.classList.remove('select');
+            });
+            
+            document.querySelector(`[data-season="${season}"]`).classList.add('select');
+
+            // Show/hide content
+            if (season === 'season1') {
+                document.getElementById('season1-content').style.display = 'block';
+                document.getElementById('season2-content').style.display = 'none';
+            } else {
+                document.getElementById('season1-content').style.display = 'none';
+                document.getElementById('season2-content').style.display = 'block';
+            }
         }
 
         // Utility Functions
@@ -1158,11 +1418,10 @@
             loading.classList.remove('show');
             results.classList.remove('show');
             
-            // Показываем главный макет при ошибке
-            document.getElementById('mainLayout').style.display = 'flex';
             // Показываем footer на главной при ошибке
             document.getElementById('mainPageFooter').style.display = 'block';
             
+            // Track error
             trackError(message);
         }
 
@@ -1177,8 +1436,8 @@
             checkButton.disabled = true;
             checkButton.textContent = 'Checking...';
             
-            // Скрываем главный макет и footer при загрузке
-            document.getElementById('mainLayout').style.display = 'none';
+            // Скрываем header section и footer при загрузке
+            document.querySelector('.header-section').style.display = 'none';
             document.getElementById('mainPageFooter').style.display = 'none';
         }
 
@@ -1187,9 +1446,13 @@
             checkButton.disabled = false;
             checkButton.textContent = 'Check Statistics';
             
-            // Показываем главный макет и footer обратно
-            document.getElementById('mainLayout').style.display = 'flex';
-            document.getElementById('mainPageFooter').style.display = 'block';
+            // Показываем header section обратно
+            document.querySelector('.header-section').style.display = 'flex';
+        }
+
+        function updateLevelProgress(current, total) {
+            const percentage = total > 0 ? (current / total) * 100 : 0;
+            levelProgress.style.width = `${Math.min(percentage, 100)}%`;
         }
 
         function animateValue(element, start, end, duration = 1000) {
@@ -1211,6 +1474,7 @@
             requestAnimationFrame(update);
         }
 
+        // Анимация для ранга с префиксом #
         function animateRank(element, start, end, duration = 1000) {
             const startTime = performance.now();
             const range = end - start;
@@ -1243,7 +1507,9 @@
                 return;
             }
 
+            // Track wallet search attempt
             trackWalletSearch(address);
+
             showLoading();
 
             try {
@@ -1267,7 +1533,9 @@
                     throw new Error(data.error || 'Failed to fetch wallet statistics');
                 }
 
+                // Track successful stats loading
                 trackStatsLoaded(data);
+                
                 displayResults(data);
 
             } catch (err) {
@@ -1281,6 +1549,7 @@
         function displayResults(data) {
             hideError();
 
+            // Calculate level progress and points needed - МАКСИМУМ 5 УРОВЕНЬ
             const levels = {
                 1: 0, 2: 1001, 3: 3501, 4: 6001, 5: 10001
             };
@@ -1290,22 +1559,28 @@
             const nextLevel = Math.min(data.current_level + 1, maxLevel);
             const nextLevelPoints = levels[nextLevel] || 20001;
             
+            // Если уже 5 уровень - показываем MAX LVL
             const isMaxLevel = data.current_level >= maxLevel;
             const pointsNeeded = isMaxLevel ? 0 : nextLevelPoints - data.total_points;
             const progressInLevel = data.total_points - currentLevelPoints;
             const pointsForLevel = nextLevelPoints - currentLevelPoints;
 
+            // Animate numbers - ОГРАНИЧИВАЕМ УРОВЕНЬ ДО 5
             animateValue(totalPoints, 0, data.total_points);
-            animateValue(currentLevel, 1, Math.min(data.current_level, maxLevel));
+            animateValue(currentLevel, 1, Math.min(data.current_level, maxLevel)); // Показываем максимум 5 уровень
             
+            // АНИМАЦИЯ РАНГА
             if (data.exact_rank) {
                 animateRank(currentRank, 1, data.exact_rank);
+                // Количество пользователей из API
                 animateValue(totalUsers, 1, data.total_users_count || 270000);
             } else {
                 currentRank.textContent = 'Unranked';
+                // Количество пользователей даже для unranked
                 animateValue(totalUsers, 1, data.total_users_count || 270000);
             }
             
+            // Season 1 tasks
             animateValue(sendCount, 0, data.send_count);
             animateValue(zenithSwaps, 0, data.zenith_swaps || data.swap_count || 0);
             animateValue(zenithLP, 0, data.zenith_lp || data.lp_count || 0);
@@ -1314,16 +1589,26 @@
             animateValue(mintDomain, 0, data.mint_domain || 0);
             animateValue(mintNFT, 0, data.mint_nft || 0);
 
+            // Season 2 existing tasks
             animateValue(primuslabsSend, 0, data.primuslabs_send || 0);
             animateValue(rwafi, 0, data.aquaflux || 0);
             animateValue(stake, 0, data.autostaking || 0);
             animateValue(bitcoinBridge, 0, data.fiamma_bridge || 0);
             animateValue(cfdTrading, 0, data.brokex || 0);
 
+            // Season 2 new tasks
+            animateValue(bitverse, 0, data.bitverse || 0);
+            animateValue(spout, 0, data.spout || 0);
+            animateValue(lendBorrow, 0, data.lend_borrow || 0);
+            animateValue(r2Swap, 0, data.r2_swap || 0);
+            animateValue(r2Earn, 0, data.r2_earn || 0);
+
+            // Update level progress and points needed info
             setTimeout(() => {
                 const percentage = isMaxLevel ? 100 : (pointsForLevel > 0 ? (progressInLevel / pointsForLevel) * 100 : 100);
                 levelProgress.style.width = `${Math.min(percentage, 100)}%`;
                 
+                // Add points needed text under current level
                 const levelCard = currentLevel.closest('.stat-card');
                 let pointsNeededText = levelCard.querySelector('.points-needed');
                 
@@ -1347,11 +1632,13 @@
                 }
             }, 500);
 
+            // Show results with animation
             results.classList.add('show');
-            // Скрываем главный макет и footer при показе результатов
-            document.getElementById('mainLayout').style.display = 'none';
+            
+            // Скрываем footer с главной при показе результатов
             document.getElementById('mainPageFooter').style.display = 'none';
             
+            // Trigger animations for result sections
             const animatedElements = results.querySelectorAll('.animate__fadeInUp');
             animatedElements.forEach((el, index) => {
                 el.style.animationDelay = `${(index + 1) * 0.1}s`;
@@ -1371,9 +1658,19 @@
             hideError();
         });
 
-        document.getElementById('authorLink')?.addEventListener('click', trackAuthorClick);
-        document.getElementById('resultsAuthorLink')?.addEventListener('click', trackAuthorClick);
+        // Season switcher event listeners
+        document.querySelectorAll('.season-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const season = tab.getAttribute('data-season');
+                switchSeason(season);
+            });
+        });
 
+        // Author link tracking
+        document.getElementById('resultsAuthorLink')?.addEventListener('click', trackAuthorClick);
+        document.getElementById('authorLink')?.addEventListener('click', trackAuthorClick);
+
+        // Auto-focus input and track page view
         walletInput.focus();
         trackPageView();
         
