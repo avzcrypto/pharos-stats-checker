@@ -26,7 +26,7 @@
         a,body,footer,h1,header,html,img,li,nav,ol,span,ul{margin:0;padding:0}
         *{-webkit-tap-highlight-color:transparent;box-sizing:border-box}
         
-        /* Новый фон */
+        /* background */
         body {
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
@@ -37,7 +37,7 @@
             overflow-x: hidden;
         }
 
-        /* палитра Pharos */
+        /*  Pharos collors */
         :root {
             --pharos-blue-500: #3b82f6;
             --pharos-blue-600: #2563eb;
@@ -216,7 +216,7 @@
             display: block;
         }
 
-        /* Top Stats - 3 КОЛОНКИ */
+        /* Top Stats */
         .top-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -288,7 +288,7 @@
             transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* ===== ПЕРЕКЛЮЧАТЕЛЬ СЕЗОНОВ ===== */
+        /* ===== Switch Season ===== */
         .season-switcher-container {
             margin: 30px 0;
             text-align: center;
@@ -372,7 +372,7 @@
             50% { opacity: 0.5; }
         }
 
-        /* ===== БЛОК АВТОРСТВА КАК В INDEX.HTML ===== */
+        /* ===== author ===== */
         .author-footer {
             margin: 24px 0;
             text-align: center;
@@ -728,7 +728,7 @@
             gap: 16px;
         }
 
-        /* Прогресс бар контейнер */
+        /* Progress bar container */
         .task-progress-container {
             display: flex;
             flex-direction: column;
@@ -737,7 +737,7 @@
             width: 100%;
         }
 
-        /* Прогресс бар - точно как у level-progress */
+        /* Progress bar */
         .task-progress {
             width: 100%;
             height: 6px;
@@ -754,7 +754,7 @@
             transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Завершенный прогресс - зеленый */
+        /* progress complete - green */
         .progress-completed {
             height: 100%;
             background: linear-gradient(90deg, var(--pharos-green-500), var(--pharos-green-600));
@@ -762,7 +762,7 @@
             transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Информация под прогресс баром */
+        /* task progress info */
         .task-progress-info {
             display: flex;
             justify-content: space-between;
@@ -782,7 +782,7 @@
             font-family: 'Inter', 'SF Mono', monospace;
         }
 
-        /* Максимум достигнут - зеленый цвет */
+        /* max indicator - green */
         .max-indicator {
             color: var(--pharos-green-500);
             font-weight: 700;
@@ -884,7 +884,7 @@
             display: block;
         }
 
-        /* Адаптивность */
+        /* Adaptive */
         @media (max-width: 1024px) {
             .header-section {
                 flex-direction: column;
@@ -1072,7 +1072,7 @@
         </div>
 
         <div class="results-section" id="results">
-            <!-- ТРИ КАРТОЧКИ -->
+            <!-- STATS ALL -->
             <div class="top-stats animate__fadeInUp animate-delay-1">
                 <div class="stat-card">
                     <div class="stat-value" id="totalPoints">15,647</div>
@@ -1092,7 +1092,7 @@
                 </div>
             </div>
 
-            <!-- НОВЫЙ БЛОК АВТОРСТВА НА СТРАНИЦЕ РЕЗУЛЬТАТОВ -->
+            <!-- author - result page -->
             <div class="author-footer animate__fadeInUp animate-delay-2">
                 <a href="https://x.com/avzcrypto" target="_blank" class="author-block-final" id="resultsAuthorLink">
                     <div class="gradient-line"></div>
@@ -1114,7 +1114,7 @@
                 </a>
             </div>
 
-            <!-- ПЕРЕКЛЮЧАТЕЛЬ СЕЗОНОВ -->
+            <!-- Switch Season -->
             <div class="season-switcher-container">
                 <div class="season-switcher">
                     <div class="season-tab select" data-season="season2">
@@ -1355,7 +1355,7 @@
             </div>
         </div>
 
-        <!-- НОВЫЙ БЛОК АВТОРСТВА ДЛЯ ГЛАВНОЙ СТРАНИЦЫ -->
+        <!-- author - main page -->
         <div class="author-footer" id="mainPageFooter">
             <a href="https://x.com/avzcrypto" target="_blank" class="author-block-final" id="authorLink">
                 <div class="gradient-line"></div>
@@ -1379,18 +1379,18 @@
     </div>
 
     <script>
-        // Конфигурация максимальных значений для тасков
+        // Task limits config
         const TASK_LIMITS = {
-            // Season 1 Tasks - все 91 кроме исключений
+            // Season 1 Tasks 
             'send_count': 91,
             'swap_count': 91,           // Zenith Swaps
             'lp_count': 91,             // Zenith LP  
             'faroswap_swaps': 91,
             'faroswap_lp': 91,
             'mint_domain': 91,
-            'mint_nft': 1,              // ИСКЛЮЧЕНИЕ: только 1 раз
+            'mint_nft': 1, 
 
-            // Season 2 Tasks - все 91 кроме исключений
+            // Season 2 Tasks 
             'primuslabs_send': 91,
             'autostaking': 91,          // Stake
             'lend_borrow': 91,
@@ -1399,7 +1399,7 @@
             'spout': 91,
             'bitverse': 91,
             'brokex': 91,               // CFD Trading
-            'aquaflux': 1               // ИСКЛЮЧЕНИЕ: только 1 раз
+            'aquaflux': 1    
         };
 
         // DOM Elements
@@ -1436,7 +1436,7 @@
         const r2Swap = document.getElementById('r2Swap');
         const r2Earn = document.getElementById('r2Earn');
 
-        // Функция для получения прогресса таска
+        // Get progress task function
         function getTaskProgress(taskKey, currentValue) {
             const maxValue = TASK_LIMITS[taskKey] || 91;
             const progress = Math.min((currentValue / maxValue) * 100, 100);
