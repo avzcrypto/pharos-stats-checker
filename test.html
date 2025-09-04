@@ -219,8 +219,8 @@
         /* Top Stats */
         .top-stats {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
             margin-bottom: 30px;
         }
 
@@ -228,7 +228,7 @@
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
             border-radius: 20px;
-            padding: 24px;
+            padding: 20px;
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.5);
             min-height: 120px;
@@ -1001,6 +1001,29 @@
                 text-align: center;
             }
         }
+/* Member Since блок стили */
+        .stat-value-date {
+            font-size: 20px;
+            font-weight: 900;
+            color: var(--pharos-blue-800);
+            margin-bottom: 8px;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.3px;
+            line-height: 1.1;
+        }
+
+        .days-active {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05));
+            color: var(--pharos-blue-600);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 8px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            letter-spacing: 0.025em;
+            text-transform: uppercase;
+        }
 
         @keyframes fadeInUp {
             0% {
@@ -1090,6 +1113,11 @@
                     <div class="stat-label">Current Rank</div>
                     <div class="rank-context">of <span id="totalUsers">270,456</span> users on PharosHub</div>
                 </div>
+<div class="stat-card">
+    <div class="stat-value-date" id="memberSince">Mar 15, 2024</div>
+    <div class="stat-label">Member Since</div>
+    <div class="days-active" id="daysActive">287 days active</div>
+</div>
             </div>
 
             <!-- author - result page -->
@@ -1437,6 +1465,28 @@
         const r2Earn = document.getElementById('r2Earn');
 
         // Get progress task function
+// Функции для Member Since
+        function calculateDaysSince(memberSinceDate) {
+            if (!memberSinceDate) return 0;
+            
+            const joinDate = new Date(memberSinceDate);
+            const today = new Date();
+            const diffTime = Math.abs(today - joinDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            return diffDays;
+        }
+
+        function formatMemberDate(dateString) {
+            if (!dateString) return 'Recently';
+            
+            const date = new Date(dateString);
+            const options = { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            };
+            return date.toLocaleDateString('en-US', options);
+        }
         function getTaskProgress(taskKey, currentValue) {
             const maxValue = TASK_LIMITS[taskKey] || 91;
             const progress = Math.min((currentValue / maxValue) * 100, 100);
@@ -1767,6 +1817,17 @@
             updateTaskWithProgress('spout', spout, data.spout || 0);
             updateTaskWithProgress('bitverse', bitverse, data.bitverse || 0);
             updateTaskWithProgress('brokex', cfdTrading, data.brokex || 0);
+// Обновляем Member Since блок
+            const memberSinceElement = document.getElementById('memberSince');
+            const daysActiveElement = document.getElementById('daysActive');
+            
+            if (memberSinceElement && daysActiveElement) {
+                const formattedDate = formatMemberDate(data.member_since);
+                const daysSince = calculateDaysSince(data.member_since);
+                
+                memberSinceElement.textContent = formattedDate;
+                daysActiveElement.textContent = `${daysSince} days active`;
+            }
 
             // Update level progress and points needed info
             setTimeout(() => {
