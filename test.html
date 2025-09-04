@@ -1884,27 +1884,31 @@ Check yours at pharoshub.xyz 👇
             requestAnimationFrame(update);
         }
 
-        // Task Progress Functions
-        function updateTaskProgress(taskCard, count, limit) {
-            if (!taskCard) return;
-            
-            const isCompleted = count >= limit;
-            const percentage = Math.min((count / limit) * 100, 100);
-            
-            // Create progress container if it doesn't exist
-            let progressContainer = taskCard.querySelector('.task-progress-container');
-            if (!progressContainer) {
-                progressContainer = document.createElement('div');
-                progressContainer.className = 'task-progress-container';
+        // Task Progress Functions - УДАЛЕНО: возвращаем оригинальную логику
+        function updateTasksDisplay(userData, season = 'season2') {
+            if (season === 'season1') {
+                // Season 1 Tasks с прогресс барами
+                updateTaskWithProgress('send_count', sendCount, userData.send_count || 0);
+                updateTaskWithProgress('swap_count', zenithSwaps, userData.swap_count || 0);
+                updateTaskWithProgress('lp_count', zenithLP, userData.lp_count || 0);
+                updateTaskWithProgress('faroswap_swaps', faroswapSwaps, userData.faroswap_swaps || 0);
+                updateTaskWithProgress('faroswap_lp', faroswapLP, userData.faroswap_lp || 0);
+                updateTaskWithProgress('mint_domain', mintDomain, userData.mint_domain || 0);
+                updateTaskWithProgress('mint_nft', mintNFT, userData.mint_nft || 0);
                 
-                const progressInfo = document.createElement('div');
-                progressInfo.className = 'task-progress-info';
-                
-                const progressLabel = document.createElement('div');
-                progressLabel.className = 'progress-label';
-                
-                const progressValue = document.createElement('div');
-                progressValue.className = 'progress-value';
+            } else if (season === 'season2') {
+                // Season 2 Tasks с прогресс барами
+                updateTaskWithProgress('primuslabs_send', primuslabsSend, userData.primuslabs_send || 0);
+                updateTaskWithProgress('autostaking', stake, userData.autostaking || 0);
+                updateTaskWithProgress('lend_borrow', lendBorrow, userData.lend_borrow || 0);
+                updateTaskWithProgress('aquaflux', rwafi, userData.aquaflux || 0);
+                updateTaskWithProgress('r2_swap', r2Swap, userData.r2_swap || 0);
+                updateTaskWithProgress('r2_earn', r2Earn, userData.r2_earn || 0);
+                updateTaskWithProgress('spout', spout, userData.spout || 0);
+                updateTaskWithProgress('bitverse', bitverse, userData.bitverse || 0);
+                updateTaskWithProgress('brokex', cfdTrading, userData.brokex || 0);
+            }
+        }
                 
                 progressInfo.appendChild(progressLabel);
                 progressInfo.appendChild(progressValue);
