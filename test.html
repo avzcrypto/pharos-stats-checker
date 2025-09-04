@@ -3,10 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PharosHub - Final Hero Layout</title>
+    <title>Pharos Stats Checker - Track Testnet Points & Leaderboard Rank</title>
+    <meta name="description" content="🚀 Check your Pharos testnet rank instantly! Track points, level progress & compete on leaderboard. Free tool to maximize your airdrop potential.">
+    <meta name="author" content="avzcrypto">
+    <link rel="canonical" href="https://pharoshub.xyz/">
+    <link rel="icon" type="image/webp" href="./logo.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9R37J7CL3J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-9R37J7CL3J');
+    </script>
     
     <style>
         /* Reset и базовые стили */
@@ -24,7 +37,7 @@
             overflow-x: hidden;
         }
 
-        /*  Pharos colors */
+        /*  Pharos collors */
         :root {
             --pharos-blue-500: #3b82f6;
             --pharos-blue-600: #2563eb;
@@ -250,7 +263,7 @@
             align-items: center;
         }
 
-        /* Hero Points Section */
+        /* Hero Points Section - БОРДЕР СПРАВА */
         .hero-points {
             display: flex;
             flex-direction: column;
@@ -277,7 +290,7 @@
             font-weight: 600;
         }
 
-        /* Hero Level Section */
+        /* Hero Level Section - БОРДЕР СПРАВА */
         .hero-level {
             text-align: center;
             border-right: 2px solid rgba(249, 115, 22, 0.2);
@@ -315,7 +328,7 @@
             transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Hero Share Section */
+        /* Hero Share Section - БЕЗ БОРДЕРА */
         .hero-share {
             text-align: center;
         }
@@ -443,55 +456,99 @@
             letter-spacing: 0.025em;
         }
 
-        .loading {
-            display: none;
+        /* Top Stats */
+        .top-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        /* ===== Switch Season ===== */
+        .season-switcher-container {
+            margin: 30px 0;
             text-align: center;
-            padding: 40px 20px;
         }
 
-        .loading.show {
-            display: block;
+        .season-switcher {
+            display: flex;
+            list-style: none;
+            box-sizing: border-box;
+            height: 42px;
+            border-radius: 10px;
+            background-color: rgb(240, 242, 245);
+            margin: 0 auto;
+            width: fit-content;
         }
 
-        .loading-emoji {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 20px;
-            animation: bounce 2s infinite ease-in-out;
-        }
-
-        .loading-text {
-            color: var(--pharos-gray-500);
-            font-size: 18px;
+        .season-tab {
+            cursor: pointer;
+            position: relative;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 130px;
+            height: 100%;
+            font-family: Inter18pt-Medium, 'Inter', sans-serif;
+            font-size: 16px;
+            color: rgb(34, 34, 34);
             font-weight: 600;
+            background-color: rgb(255, 255, 255);
+            gap: 10px;
+            padding: 0 20px;
         }
 
-        @keyframes bounce {
-            0%, 100% { 
-                transform: translateY(0px);
-            }
-            50% { 
-                transform: translateY(-10px);
-            }
+        .season-tab:first-child {
+            border-radius: 10px 0px 0px 10px;
         }
 
-        .error {
-            background: rgba(255, 255, 255, 0.9);
-            color: #dc2626;
-            padding: 16px;
-            border-radius: 16px;
-            margin-top: 16px;
-            display: none;
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            font-weight: 600;
-            backdrop-filter: blur(20px);
+        .season-tab:last-child {
+            border-radius: 0px 10px 10px 0px;
         }
 
-        .error.show {
-            display: block;
+        .season-tab:hover,
+        .season-tab.select {
+            background-color: rgb(0, 7, 185);
+            color: rgb(255, 255, 255);
         }
 
-        /* Author footer */
+        .live-badge {
+            width: 60px;
+            height: 24px;
+            box-sizing: border-box;
+            margin-left: 12px;
+            border-radius: 12px;
+            background-image: linear-gradient(to right, rgb(54, 220, 109), rgb(255, 195, 3));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: -12px;
+            left: -30px;
+        }
+
+        .live-dot {
+            width: 7px;
+            height: 7px;
+            background-color: white;
+            border-radius: 50%;
+            margin-right: 5px;
+            animation: livePulse 2s infinite;
+        }
+
+        .live-text {
+            font-size: 13px;
+            font-weight: 500;
+            color: white;
+        }
+
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* ===== author ===== */
         .author-footer {
             margin: 24px 0;
             text-align: center;
@@ -571,6 +628,33 @@
             border-radius: 16px;
         }
 
+        .author-icon-final::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #22c55e, #3b82f6, #22c55e);
+            background-size: 200% 200%;
+            border-radius: 18px;
+            opacity: 0;
+            z-index: -1;
+            animation: icon-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes icon-glow {
+            0%, 100% { opacity: 0; background-position: 0% 50%; }
+            50% { opacity: 0.3; background-position: 100% 50%; }
+        }
+
+        .author-block-final:hover .author-icon-final {
+            transform: scale(1.08) rotate(-3deg);
+            box-shadow: 
+                0 15px 35px rgba(34, 197, 94, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
         .author-text-final {
             flex: 1;
             text-align: left;
@@ -628,6 +712,352 @@
                 0 15px 40px rgba(34, 197, 94, 0.5),
                 inset 0 1px 0 rgba(255, 255, 255, 0.3),
                 inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+        }
+
+        .cta-neomorphic::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .cta-neomorphic:hover::before {
+            left: 100%;
+        }
+
+        /* Season Headers */
+        .season-header {
+            margin-top: 32px;
+            margin-bottom: 16px;
+        }
+
+        .season-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--pharos-gray-900);
+            letter-spacing: -0.025em;
+            text-align: center;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 4px 8px rgba(0, 0, 0, 0.04),
+                0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        .season2-live .season-title {
+            background: linear-gradient(90deg, 
+                rgba(255, 255, 255, 0.9) 0%,
+                rgba(34, 197, 94, 0.1) 25%,
+                rgba(34, 197, 94, 0.2) 50%,
+                rgba(34, 197, 94, 0.1) 75%,
+                rgba(255, 255, 255, 0.9) 100%);
+            border: 2px solid #22c55e;
+            animation: streaming 3s linear infinite;
+            background-size: 200% 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes streaming {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .live-badge-header {
+            display: inline-flex;
+            align-items: center;
+            background: #22c55e;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+
+        .live-dot-header {
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            margin-right: 4px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Tasks sections */
+        .tasks-section {
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--pharos-gray-900);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            letter-spacing: -0.025em;
+        }
+
+        .protocol-icon-img {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            margin-right: 12px;
+            object-fit: cover;
+        }
+
+        .task-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 
+                0 8px 16px rgba(0, 0, 0, 0.06),
+                0 4px 8px rgba(0, 0, 0, 0.04);
+            min-height: 80px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 12px;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .task-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.1),
+                0 8px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .task-main {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        .task-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .task-icon {
+            width: 60px;
+            height: 60px;
+            flex-shrink: 0;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            object-fit: cover;
+        }
+
+        .task-card:hover .task-icon {
+            transform: scale(1.05) rotate(-2deg);
+        }
+
+        .task-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--pharos-gray-900);
+            letter-spacing: -0.025em;
+        }
+
+        .task-count {
+            background: transparent;
+            color: var(--pharos-gray-900);
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 24px;
+            font-weight: 900;
+            min-width: 70px;
+            text-align: center;
+            font-family: 'Inter', 'SF Mono', monospace;
+            letter-spacing: -1px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .task-card:hover .task-count {
+            transform: scale(1.05);
+        }
+
+        .protocol-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        /* Progress bar container */
+        .task-progress-container {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 12px;
+            width: 100%;
+        }
+
+        /* Progress bar */
+        .task-progress {
+            width: 100%;
+            height: 6px;
+            background: rgba(203, 213, 225, 0.3);
+            border-radius: 3px;
+            margin-top: 12px;
+            overflow: hidden;
+        }
+
+        .task-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--pharos-orange-500), var(--pharos-orange-600));
+            border-radius: 3px;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* progress complete - green */
+        .progress-completed {
+            height: 100%;
+            background: linear-gradient(90deg, var(--pharos-green-500), var(--pharos-green-600));
+            border-radius: 3px;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* task progress info */
+        .task-progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-label {
+            font-size: 12px;
+            color: var(--pharos-gray-500);
+            font-weight: 500;
+        }
+
+        .progress-value {
+            font-size: 12px;
+            color: var(--pharos-gray-500);
+            font-weight: 600;
+            font-family: 'Inter', 'SF Mono', monospace;
+        }
+
+        /* max indicator - green */
+        .max-indicator {
+            color: var(--pharos-green-500);
+            font-weight: 700;
+        }
+
+        .progress-completed-label {
+            color: var(--pharos-green-500);
+            font-weight: 600;
+        }
+
+        .cache-disclaimer {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: rgba(249, 115, 22, 0.1);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 32px;
+            margin-bottom: 32px;
+            backdrop-filter: blur(10px);
+        }
+
+        .disclaimer-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .disclaimer-content {
+            flex: 1;
+        }
+
+        .disclaimer-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--pharos-orange-600);
+            margin-bottom: 4px;
+            letter-spacing: 0.025em;
+        }
+
+        .disclaimer-text {
+            font-size: 13px;
+            color: var(--pharos-gray-700);
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .disclaimer-text strong {
+            color: var(--pharos-orange-600);
+            font-weight: 700;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .loading-emoji {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        .loading-text {
+            color: var(--pharos-gray-500);
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        @keyframes bounce {
+            0%, 100% { 
+                transform: translateY(0px);
+            }
+            50% { 
+                transform: translateY(-10px);
+            }
+        }
+
+        .error {
+            background: rgba(255, 255, 255, 0.9);
+            color: #dc2626;
+            padding: 16px;
+            border-radius: 16px;
+            margin-top: 16px;
+            display: none;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            font-weight: 600;
+            backdrop-filter: blur(20px);
+        }
+
+        .error.show {
+            display: block;
         }
 
         /* Adaptive */
@@ -690,8 +1120,56 @@
                 font-size: 42px;
             }
 
-            .detail-stats {
+            .top-stats {
                 grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .protocol-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .task-left {
+                gap: 12px;
+            }
+
+            .task-icon {
+                width: 48px;
+                height: 48px;
+            }
+
+            .task-count {
+                font-size: 20px;
+                padding: 8px 16px;
+                min-width: 60px;
+            }
+
+            .task-name {
+                font-size: 14px;
+            }
+
+            .stat-value {
+                font-size: 28px;
+            }
+
+            .cache-disclaimer {
+                padding: 12px;
+                gap: 10px;
+                margin-top: 24px;
+                margin-bottom: 24px;
+            }
+
+            .disclaimer-icon {
+                font-size: 18px;
+            }
+
+            .disclaimer-title {
+                font-size: 13px;
+            }
+
+            .disclaimer-text {
+                font-size: 12px;
             }
 
             .author-footer {
@@ -726,6 +1204,10 @@
                 font-size: 13px;
                 text-align: center;
             }
+
+            .detail-stats {
+                grid-template-columns: 1fr;
+            }
         }
 
         @keyframes fadeInUp {
@@ -746,6 +1228,16 @@
         .animate-delay-1 { animation-delay: 0.1s; }
         .animate-delay-2 { animation-delay: 0.2s; }
         .animate-delay-3 { animation-delay: 0.3s; }
+        .animate-delay-4 { animation-delay: 0.4s; }
+        .animate-delay-5 { animation-delay: 0.5s; }
+        .animate-delay-6 { animation-delay: 0.6s; }
+        .animate-delay-7 { animation-delay: 0.7s; }
+        .animate-delay-8 { animation-delay: 0.8s; }
+        .animate-delay-9 { animation-delay: 0.9s; }
+        .animate-delay-10 { animation-delay: 1.0s; }
+        .animate-delay-11 { animation-delay: 1.1s; }
+        .animate-delay-12 { animation-delay: 1.2s; }
+        .animate-delay-13 { animation-delay: 1.3s; }
     </style>
 </head>
 <body>
@@ -823,7 +1315,6 @@
                         <div class="rank-context">of <span id="detailTotalUsers">457,987</span> users on PharosHub</div>
                     </div>
                     <div class="stat-card">
-                        <!-- ПОМЕНЯЛИ МЕСТАМИ: Дни сверху, дата снизу -->
                         <div class="member-since-value" id="memberSinceValue">108 days active</div>
                         <div class="stat-label">Member Since</div>
                         <div class="member-since-date" id="memberSinceDate">May 20, 2024</div>
@@ -852,6 +1343,246 @@
                     </div>
                 </a>
             </div>
+
+            <!-- Switch Season -->
+            <div class="season-switcher-container">
+                <div class="season-switcher">
+                    <div class="season-tab select" data-season="season2">
+                        Season 2
+                        <div class="live-badge">
+                            <div class="live-dot"></div>
+                            <span class="live-text">Live</span>
+                        </div>
+                    </div>
+                    <div class="season-tab" data-season="season1">
+                        Season 1
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEASON 1 CONTENT -->
+            <div id="season1-content">
+                <div class="tasks-section">
+                    <div class="task-card">
+                        <div class="task-main">
+                            <div class="task-left">
+                                <img src="./send.png" alt="Send" class="task-icon">
+                                <div class="task-name">Send To Friends</div>
+                            </div>
+                            <div class="task-count" id="sendCount">156</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tasks-section">
+                    <h3 class="section-title">
+                        <img src="./zenith.png" alt="Zenith" class="protocol-icon-img">
+                        Zenith Protocol
+                    </h3>
+                    <div class="protocol-grid">
+                        <div class="task-card">
+                            <div class="task-main">
+                                <div class="task-left">
+                                    <img src="./swap.png" alt="Swap" class="task-icon">
+                                    <div class="task-name">Swaps</div>
+                                </div>
+                                <div class="task-count" id="zenithSwaps">43</div>
+                            </div>
+                        </div>
+                        <div class="task-card">
+                            <div class="task-main">
+                                <div class="task-left">
+                                    <img src="./lp.png" alt="LP" class="task-icon">
+                                    <div class="task-name">Provide Liquidity</div>
+                                </div>
+                                <div class="task-count" id="zenithLP">28</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tasks-section">
+                    <h3 class="section-title">
+                        <img src="./faroswap.png" alt="Faroswap" class="protocol-icon-img">
+                        Faroswap Protocol
+                    </h3>
+                    <div class="protocol-grid">
+                        <div class="task-card">
+                            <div class="task-main">
+                                <div class="task-left">
+                                    <img src="./swap.png" alt="Swap" class="task-icon">
+                                    <div class="task-name">Swaps</div>
+                                </div>
+                                <div class="task-count" id="faroswapSwaps">15</div>
+                            </div>
+                        </div>
+                        <div class="task-card">
+                            <div class="task-main">
+                                <div class="task-left">
+                                    <img src="./lp.png" alt="LP" class="task-icon">
+                                    <div class="task-name">Provide Liquidity</div>
+                                </div>
+                                <div class="task-count" id="faroswapLP">9</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tasks-section">
+                    <h3 class="section-title">
+                        <img src="./nft.jpg" alt="NFT" class="protocol-icon-img">
+                        NFT & Domains
+                    </h3>
+                    <div class="protocol-grid">
+                        <div class="task-card">
+                            <div class="task-main">
+                                <div class="task-left">
+                                    <img src="./domain.png" alt="Domain" class="task-icon">
+                                    <div class="task-name">Domains</div>
+                                </div>
+                                <div class="task-count" id="mintDomain">2</div>
+                            </div>
+                        </div>
+                        <div class="task-card">
+                            <div class="task-main">
+                                <div class="task-left">
+                                    <img src="./nft.jpg" alt="NFT" class="task-icon">
+                                    <div class="task-name">Collect NFTs</div>
+                                </div>
+                                <div class="task-count" id="mintNFT">1</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEASON 2 CONTENT -->
+            <div id="season2-content" style="display: none;">
+                <!-- PRIMUSLABS SEND -->
+                <div class="tasks-section">
+                    <div class="task-card">
+                        <div class="task-main">
+                            <div class="task-left">
+                                <img src="./primus.png" alt="Primuslabs" class="task-icon">
+                                <div class="task-name">Primuslabs Send</div>
+                            </div>
+                            <div class="task-count" id="primuslabsSend">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STAKE + LEND & BORROW -->
+                <div class="tasks-section">
+                    <div class="protocol-grid">
+                        <div class="task-card">
+                            <div class="task-main">
+                                <div class="task-left">
+                                    <img src="./staking.png" alt="Stake" class="task-icon">
+                                    <div class="task-name">Stake</div>
+                                </div>
+                                <div class="task-count" id="stake">0</div>
+                            </div>
+                        </div>
+                        <div class="task-card">
+                            <div class="task-main">
+                                <div class="task-left">
+                                    <img src="./lending-new.png" alt="Lend & Borrow" class="task-icon">
+                                    <div class="task-name">Lend & Borrow</div>
+                                </div>
+                                <div class="task-count" id="lendBorrow">0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RWAfi CATEGORY -->
+                <div class="tasks-section">
+                    <h3 class="section-title">
+                        <img src="./rwafi.png" alt="RWAfi" class="protocol-icon-img">
+                        RWAfi
+                    </h3>
+                    <div class="protocol-grid">
+                        <div class="task-card">
+                            <div class="task-main">
+                                <div class="task-left">
+                                    <img src="./r2.png" alt="R2 Swap" class="task-icon">
+                                    <div class="task-name">R2 Swap</div>
+                                </div>
+                                <div class="task-count" id="r2Swap">0</div>
+                            </div>
+                        </div>
+                        <div class="task-card">
+                            <div class="task-main">
+                                <div class="task-left">
+                                    <img src="./r2.png" alt="R2 Earn" class="task-icon">
+                                    <div class="task-name">R2 Earn</div>
+                                </div>
+                                <div class="task-count" id="r2Earn">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="protocol-grid">
+                        <div class="task-card">
+                            <div class="task-main">
+                                <div class="task-left">
+                                    <img src="./spout.jpg" alt="Spout" class="task-icon">
+                                    <div class="task-name">Spout</div>
+                                </div>
+                                <div class="task-count" id="spout">0</div>
+                            </div>
+                        </div>
+                        <div class="task-card">
+                            <div class="task-main">
+                                <div class="task-left">
+                                    <img src="./aqua.png" alt="AquaFlux" class="task-icon">
+                                    <div class="task-name">AquaFlux</div>
+                                </div>
+                                <div class="task-count" id="rwafi">0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TRADING CATEGORY -->
+                <div class="tasks-section">
+                    <h3 class="section-title">
+                        <img src="./cfd.png" alt="Trading" class="protocol-icon-img">
+                        Trading
+                    </h3>
+                    <div class="protocol-grid">
+                        <div class="task-card">
+                            <div class="task-main">
+                                <div class="task-left">
+                                    <img src="./bitverse.png" alt="Bitverse" class="task-icon">
+                                    <div class="task-name">Bitverse</div>
+                                </div>
+                                <div class="task-count" id="bitverse">0</div>
+                            </div>
+                        </div>
+                        <div class="task-card">
+                            <div class="task-main">
+                                <div class="task-left">
+                                    <img src="./brokex.png" alt="Brokex" class="task-icon">
+                                    <div class="task-name">Brokex</div>
+                                </div>
+                                <div class="task-count" id="cfdTrading">0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cache Disclaimer -->
+            <div class="cache-disclaimer">
+                <div class="disclaimer-icon">⏱️</div>
+                <div class="disclaimer-content">
+                    <div class="disclaimer-title">Data Updates</div>
+                    <div class="disclaimer-text">
+                        Statistics are refreshed every <strong>1 hour</strong>. 
+                        Recent activities may take up to 60 minutes to appear in your results.
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- author - main page -->
@@ -878,6 +1609,139 @@
     </div>
 
     <script>
+        // Task limits config
+        const TASK_LIMITS = {
+            // Season 1 Tasks 
+            'send_count': 91,
+            'swap_count': 91,           // Zenith Swaps
+            'lp_count': 91,             // Zenith LP  
+            'faroswap_swaps': 91,
+            'faroswap_lp': 91,
+            'mint_domain': 91,
+            'mint_nft': 1, 
+
+            // Season 2 Tasks 
+            'primuslabs_send': 91,
+            'autostaking': 91,          // Stake
+            'lend_borrow': 91,
+            'r2_swap': 91,
+            'r2_earn': 91,
+            'spout': 91,
+            'bitverse': 91,
+            'brokex': 91,               // CFD Trading
+            'aquaflux': 1    
+        };
+
+        // DOM Elements
+        const walletInput = document.getElementById('walletAddress');
+        const checkButton = document.getElementById('checkButton');
+        const loading = document.getElementById('loading');
+        const error = document.getElementById('error');
+        const results = document.getElementById('results');
+
+        // Result Elements - Hero
+        const heroPoints = document.getElementById('heroPoints');
+        const heroLevel = document.getElementById('heroLevel');
+        const heroLevelProgress = document.getElementById('heroLevelProgress');
+        const heroShareBtn = document.getElementById('heroShareBtn');
+
+        // Result Elements - Details
+        const detailRank = document.getElementById('detailRank');
+        const detailTotalUsers = document.getElementById('detailTotalUsers');
+        const memberSinceValue = document.getElementById('memberSinceValue');
+        const memberSinceDate = document.getElementById('memberSinceDate');
+
+        // Task Elements - Season 1
+        const sendCount = document.getElementById('sendCount');
+        const zenithSwaps = document.getElementById('zenithSwaps');
+        const zenithLP = document.getElementById('zenithLP');
+        const faroswapSwaps = document.getElementById('faroswapSwaps');
+        const faroswapLP = document.getElementById('faroswapLP');
+        const mintDomain = document.getElementById('mintDomain');
+        const mintNFT = document.getElementById('mintNFT');
+
+        // Task Elements - Season 2
+        const primuslabsSend = document.getElementById('primuslabsSend');
+        const stake = document.getElementById('stake');
+        const lendBorrow = document.getElementById('lendBorrow');
+        const r2Swap = document.getElementById('r2Swap');
+        const r2Earn = document.getElementById('r2Earn');
+        const spout = document.getElementById('spout');
+        const rwafi = document.getElementById('rwafi');
+        const bitverse = document.getElementById('bitverse');
+        const cfdTrading = document.getElementById('cfdTrading');
+
+        // Season switcher
+        const seasonTabs = document.querySelectorAll('.season-tab');
+        const season1Content = document.getElementById('season1-content');
+        const season2Content = document.getElementById('season2-content');
+
+        // Global user data
+        let currentUserData = null;
+
+        // Analytics Tracking Functions
+        function trackPageView() {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'page_view', {
+                    page_title: 'Pharos Stats Checker',
+                    page_location: window.location.href
+                });
+            }
+        }
+
+        function trackWalletSearch(address) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'wallet_search', {
+                    event_category: 'engagement',
+                    event_label: 'wallet_check',
+                    wallet_address: address.substring(0, 6) + '...' + address.substring(address.length - 4)
+                });
+            }
+        }
+
+        function trackStatsLoaded(data) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'stats_loaded', {
+                    event_category: 'engagement',
+                    event_label: 'successful_check',
+                    total_points: data.total_points,
+                    user_level: data.current_level,
+                    user_rank: data.exact_rank
+                });
+            }
+        }
+
+        function trackSeasonSwitch(season) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'season_switch', {
+                    event_category: 'engagement',
+                    event_label: season,
+                    season_selected: season
+                });
+            }
+        }
+
+        function trackAuthorClick() {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'author_follow_click_neomorphic', {
+                    event_category: 'engagement',
+                    event_label: 'neomorphic_cta_button',
+                    link_url: 'https://x.com/avzcrypto',
+                    button_style: 'neomorphic_follow_me'
+                });
+            }
+        }
+
+        function trackError(errorMessage) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'error_occurred', {
+                    event_category: 'error',
+                    event_label: 'wallet_check_failed',
+                    error_message: errorMessage
+                });
+            }
+        }
+
         // Функции для Member Since
         function calculateDaysSince(memberSinceDate) {
             if (!memberSinceDate) return 0;
@@ -931,68 +1795,6 @@ Check yours at pharoshub.xyz 👇
                 event_label: 'stats_shared',
                 user_level: userData.current_level,
                 user_rank: userData.exact_rank
-            });
-        }
-
-        // DOM Elements
-        const walletInput = document.getElementById('walletAddress');
-        const checkButton = document.getElementById('checkButton');
-        const loading = document.getElementById('loading');
-        const error = document.getElementById('error');
-        const results = document.getElementById('results');
-
-        // Result Elements - Hero
-        const heroPoints = document.getElementById('heroPoints');
-        const heroLevel = document.getElementById('heroLevel');
-        const heroLevelProgress = document.getElementById('heroLevelProgress');
-        const heroShareBtn = document.getElementById('heroShareBtn');
-
-        // Result Elements - Details
-        const detailRank = document.getElementById('detailRank');
-        const detailTotalUsers = document.getElementById('detailTotalUsers');
-        const memberSinceValue = document.getElementById('memberSinceValue');
-        const memberSinceDate = document.getElementById('memberSinceDate');
-
-        // Analytics Tracking Functions
-        function trackPageView() {
-            gtag('event', 'page_view', {
-                page_title: 'Pharos Stats Checker',
-                page_location: window.location.href
-            });
-        }
-
-        function trackWalletSearch(address) {
-            gtag('event', 'wallet_search', {
-                event_category: 'engagement',
-                event_label: 'wallet_check',
-                wallet_address: address.substring(0, 6) + '...' + address.substring(address.length - 4)
-            });
-        }
-
-        function trackStatsLoaded(data) {
-            gtag('event', 'stats_loaded', {
-                event_category: 'engagement',
-                event_label: 'successful_check',
-                total_points: data.total_points,
-                user_level: data.current_level,
-                user_rank: data.exact_rank
-            });
-        }
-
-        function trackAuthorClick() {
-            gtag('event', 'author_follow_click_neomorphic', {
-                event_category: 'engagement',
-                event_label: 'neomorphic_cta_button',
-                link_url: 'https://x.com/avzcrypto',
-                button_style: 'neomorphic_follow_me'
-            });
-        }
-
-        function trackError(errorMessage) {
-            gtag('event', 'error_occurred', {
-                event_category: 'error',
-                event_label: 'wallet_check_failed',
-                error_message: errorMessage
             });
         }
 
@@ -1082,6 +1884,185 @@ Check yours at pharoshub.xyz 👇
             requestAnimationFrame(update);
         }
 
+        // Task Progress Functions
+        function updateTaskProgress(taskCard, count, limit) {
+            if (!taskCard) return;
+            
+            const isCompleted = count >= limit;
+            const percentage = Math.min((count / limit) * 100, 100);
+            
+            // Create progress container if it doesn't exist
+            let progressContainer = taskCard.querySelector('.task-progress-container');
+            if (!progressContainer) {
+                progressContainer = document.createElement('div');
+                progressContainer.className = 'task-progress-container';
+                
+                const progressInfo = document.createElement('div');
+                progressInfo.className = 'task-progress-info';
+                
+                const progressLabel = document.createElement('div');
+                progressLabel.className = 'progress-label';
+                
+                const progressValue = document.createElement('div');
+                progressValue.className = 'progress-value';
+                
+                progressInfo.appendChild(progressLabel);
+                progressInfo.appendChild(progressValue);
+                
+                const progress = document.createElement('div');
+                progress.className = 'task-progress';
+                
+                const progressBar = document.createElement('div');
+                progressBar.className = isCompleted ? 'progress-completed' : 'task-progress-bar';
+                
+                progress.appendChild(progressBar);
+                
+                progressContainer.appendChild(progressInfo);
+                progressContainer.appendChild(progress);
+                
+                taskCard.appendChild(progressContainer);
+            }
+            
+            const progressLabel = progressContainer.querySelector('.progress-label');
+            const progressValue = progressContainer.querySelector('.progress-value');
+            const progressBar = progressContainer.querySelector('.task-progress-bar, .progress-completed');
+            
+            // Update label and value
+            if (isCompleted) {
+                progressLabel.textContent = 'Completed';
+                progressLabel.className = 'progress-label progress-completed-label';
+                progressValue.textContent = `${formatNumber(count)}/${formatNumber(limit)}`;
+                progressValue.className = 'progress-value max-indicator';
+                progressBar.className = 'progress-completed';
+            } else {
+                progressLabel.textContent = 'Progress';
+                progressLabel.className = 'progress-label';
+                progressValue.textContent = `${formatNumber(count)}/${formatNumber(limit)}`;
+                progressValue.className = 'progress-value';
+                progressBar.className = 'task-progress-bar';
+            }
+            
+            // Animate progress bar
+            setTimeout(() => {
+                progressBar.style.width = `${percentage}%`;
+            }, 300);
+        }
+
+        // Season Switcher Functions
+        function switchSeason(season) {
+            // Update tabs
+            seasonTabs.forEach(tab => {
+                tab.classList.remove('select');
+                if (tab.dataset.season === season) {
+                    tab.classList.add('select');
+                }
+            });
+
+            // Show/hide content
+            if (season === 'season1') {
+                season1Content.style.display = 'block';
+                season2Content.style.display = 'none';
+            } else if (season === 'season2') {
+                season1Content.style.display = 'none';
+                season2Content.style.display = 'block';
+            }
+
+            // Track season switch
+            trackSeasonSwitch(season);
+            
+            // Update tasks if user data exists
+            if (currentUserData) {
+                updateTasksDisplay(currentUserData, season);
+            }
+        }
+
+        function updateTasksDisplay(userData, season = 'season2') {
+            if (season === 'season1') {
+                // Season 1 Tasks
+                if (sendCount) {
+                    animateValue(sendCount, 0, userData.send_count || 0);
+                    setTimeout(() => updateTaskProgress(sendCount.closest('.task-card'), userData.send_count || 0, TASK_LIMITS.send_count), 500);
+                }
+                
+                if (zenithSwaps) {
+                    animateValue(zenithSwaps, 0, userData.swap_count || 0);
+                    setTimeout(() => updateTaskProgress(zenithSwaps.closest('.task-card'), userData.swap_count || 0, TASK_LIMITS.swap_count), 600);
+                }
+                
+                if (zenithLP) {
+                    animateValue(zenithLP, 0, userData.lp_count || 0);
+                    setTimeout(() => updateTaskProgress(zenithLP.closest('.task-card'), userData.lp_count || 0, TASK_LIMITS.lp_count), 700);
+                }
+                
+                if (faroswapSwaps) {
+                    animateValue(faroswapSwaps, 0, userData.faroswap_swaps || 0);
+                    setTimeout(() => updateTaskProgress(faroswapSwaps.closest('.task-card'), userData.faroswap_swaps || 0, TASK_LIMITS.faroswap_swaps), 800);
+                }
+                
+                if (faroswapLP) {
+                    animateValue(faroswapLP, 0, userData.faroswap_lp || 0);
+                    setTimeout(() => updateTaskProgress(faroswapLP.closest('.task-card'), userData.faroswap_lp || 0, TASK_LIMITS.faroswap_lp), 900);
+                }
+                
+                if (mintDomain) {
+                    animateValue(mintDomain, 0, userData.mint_domain || 0);
+                    setTimeout(() => updateTaskProgress(mintDomain.closest('.task-card'), userData.mint_domain || 0, TASK_LIMITS.mint_domain), 1000);
+                }
+                
+                if (mintNFT) {
+                    animateValue(mintNFT, 0, userData.mint_nft || 0);
+                    setTimeout(() => updateTaskProgress(mintNFT.closest('.task-card'), userData.mint_nft || 0, TASK_LIMITS.mint_nft), 1100);
+                }
+                
+            } else if (season === 'season2') {
+                // Season 2 Tasks
+                if (primuslabsSend) {
+                    animateValue(primuslabsSend, 0, userData.primuslabs_send || 0);
+                    setTimeout(() => updateTaskProgress(primuslabsSend.closest('.task-card'), userData.primuslabs_send || 0, TASK_LIMITS.primuslabs_send), 500);
+                }
+                
+                if (stake) {
+                    animateValue(stake, 0, userData.autostaking || 0);
+                    setTimeout(() => updateTaskProgress(stake.closest('.task-card'), userData.autostaking || 0, TASK_LIMITS.autostaking), 600);
+                }
+                
+                if (lendBorrow) {
+                    animateValue(lendBorrow, 0, userData.lend_borrow || 0);
+                    setTimeout(() => updateTaskProgress(lendBorrow.closest('.task-card'), userData.lend_borrow || 0, TASK_LIMITS.lend_borrow), 700);
+                }
+                
+                if (r2Swap) {
+                    animateValue(r2Swap, 0, userData.r2_swap || 0);
+                    setTimeout(() => updateTaskProgress(r2Swap.closest('.task-card'), userData.r2_swap || 0, TASK_LIMITS.r2_swap), 800);
+                }
+                
+                if (r2Earn) {
+                    animateValue(r2Earn, 0, userData.r2_earn || 0);
+                    setTimeout(() => updateTaskProgress(r2Earn.closest('.task-card'), userData.r2_earn || 0, TASK_LIMITS.r2_earn), 900);
+                }
+                
+                if (spout) {
+                    animateValue(spout, 0, userData.spout || 0);
+                    setTimeout(() => updateTaskProgress(spout.closest('.task-card'), userData.spout || 0, TASK_LIMITS.spout), 1000);
+                }
+                
+                if (rwafi) {
+                    animateValue(rwafi, 0, userData.aquaflux || 0);
+                    setTimeout(() => updateTaskProgress(rwafi.closest('.task-card'), userData.aquaflux || 0, TASK_LIMITS.aquaflux), 1100);
+                }
+                
+                if (bitverse) {
+                    animateValue(bitverse, 0, userData.bitverse || 0);
+                    setTimeout(() => updateTaskProgress(bitverse.closest('.task-card'), userData.bitverse || 0, TASK_LIMITS.bitverse), 1200);
+                }
+                
+                if (cfdTrading) {
+                    animateValue(cfdTrading, 0, userData.brokex || 0);
+                    setTimeout(() => updateTaskProgress(cfdTrading.closest('.task-card'), userData.brokex || 0, TASK_LIMITS.brokex), 1300);
+                }
+            }
+        }
+
         async function checkWalletStats() {
             const address = walletInput.value.trim();
 
@@ -1123,6 +2104,9 @@ Check yours at pharoshub.xyz 👇
 
                 // Track successful stats loading
                 trackStatsLoaded(data);
+                
+                // Store user data globally
+                currentUserData = data;
                 
                 displayResults(data);
 
@@ -1182,6 +2166,10 @@ Check yours at pharoshub.xyz 👇
                 heroLevelProgress.style.width = `${Math.min(percentage, 100)}%`;
             }, 500);
 
+            // Update tasks for current season
+            const currentSeason = document.querySelector('.season-tab.select').dataset.season;
+            updateTasksDisplay(data, currentSeason);
+
             // Show results with animation
             results.classList.add('show');
             
@@ -1202,6 +2190,14 @@ Check yours at pharoshub.xyz 👇
             hideError();
         });
 
+        // Season switcher event listeners
+        seasonTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const season = tab.dataset.season;
+                switchSeason(season);
+            });
+        });
+
         // Author link tracking
         document.getElementById('resultsAuthorLink')?.addEventListener('click', trackAuthorClick);
         document.getElementById('authorLink')?.addEventListener('click', trackAuthorClick);
@@ -1212,6 +2208,9 @@ Check yours at pharoshub.xyz 👇
         
         // Показываем footer на главной при загрузке
         document.getElementById('mainPageFooter').style.display = 'block';
+        
+        // Initialize with Season 2 selected by default
+        switchSeason('season2');
     </script>
 </body>
 </html>
